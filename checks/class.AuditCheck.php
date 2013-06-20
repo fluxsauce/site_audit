@@ -53,6 +53,18 @@ abstract class AuditCheck {
   public $info;
 
   /**
+   * Indicate that no other checks should be run after this check.
+   * @var boolean
+   */
+  public $abort = FALSE;
+
+  /**
+   * Indicates that HTML will be returned, don't escape.
+   * @var boolean
+   */
+  public $html = FALSE;
+
+  /**
    * Constructor.
    */
   public function __construct() {
