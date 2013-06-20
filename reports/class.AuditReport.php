@@ -100,8 +100,14 @@ abstract class AuditReport {
       foreach ($this->checks as $check) {
         if ($check->score != AuditCheck::AUDIT_CHECK_SCORE_PASS || drush_get_context('DRUSH_VERBOSE')) {
           if (drush_get_context('DRUSH_VERBOSE')) {
-            drush_print(dt('!description', array(
+            drush_print(dt('!label: !description', array(
+              '!label' => $check->label,
               '!description' => $check->description,
+            )));
+          }
+          else {
+            drush_print(dt('!label', array(
+              '!label' => $check->label,
             )));
           }
           if ($this->percent == AuditCheck::AUDIT_CHECK_SCORE_INFO) {

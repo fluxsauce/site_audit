@@ -24,6 +24,9 @@ function site_audit_drush_command() {
     'html' => array(
       'description' => dt('If set, render as HTML report.'),
     ),
+  );
+
+  $vendor_options = array(
     'vendor' => array(
       'description' => dt('If used, will adjust recommendations based on a Vendor\'s specific needs. Currently supported: pantheon'),
       'example-value' => dt('pantheon'),
@@ -35,7 +38,7 @@ function site_audit_drush_command() {
     'description' => dt('Audit Drupal\'s caching settings.'),
     'aliases' => array('ac'),
     'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
-    'options' => $options,
+    'options' => array_merge($options, $vendor_options),
   );
 
   $items['audit_database'] = array(
@@ -56,6 +59,13 @@ function site_audit_drush_command() {
     )),
   );
 
+  $items['audit_extensions'] = array(
+    'description' => dt('Audit extensions (modules and themes).'),
+    'aliases' => array('ae'),
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
+    'options' => array_merge($options, $vendor_options),
+  );
+
   return $items;
 }
 
@@ -72,6 +82,10 @@ function site_audit_drush_help($section) {
       return dt('Audit the database associated with a Drupal site.');
       break;
     }
+    case 'drush:audit_extensions':{
+      return dt('Audit modules and themes (extensions) for a given Drupal site.');
+      break;
+    }
     case 'meta:site_audit:title':{
       return dt('Tools for auditing a Drupal site, providing actionable suggestions when possible.');
       break;
@@ -83,24 +97,37 @@ function site_audit_drush_help($section) {
  * Check Drupal's caching settings and make recommendations as necessary.
  */
 function drush_site_audit_audit_cache() {
-  $cache = new AuditReportCache();
+  $check = new AuditReportCache();
   if (drush_get_option('html')) {
-    echo $cache->toHtml();
+    echo $check->toHtml();
   }
   else {
-    $cache->toDrush();
+    $check->toDrush();
   }
 }
 
 /**
- * Check Drupal's caching settings and make recommendations as necessary.
+ * Audit the database associated with a Drupal site.
  */
 function drush_site_audit_audit_database() {
-  $cache = new AuditReportDatabase();
+  $check = new AuditReportDatabase();
   if (drush_get_option('html')) {
-    echo $cache->toHtml();
+    echo $check->toHtml();
   }
   else {
-    $cache->toDrush();
+    $check->toDrush();
+  }
+}
+
+/**
+ * Audit modules and themes (extensions) for a given Drupal site.
+ */
+function drush_site_audit_audit_extensions() {
+  $check = new AuditReportExtensions();
+  if (drush_get_option('html')) {
+    echo $check->toHtml();
+  }
+  else {
+    $check->toDrush();
   }
 }

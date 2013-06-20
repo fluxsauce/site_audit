@@ -7,7 +7,7 @@ abstract class AuditCheck {
   const AUDIT_CHECK_SCORE_INFO = -1;
 
   const AUDIT_CHECK_COLOR_PASS = 'green';
-  const AUDIT_CHECK_COLOR_WARN = 'yellow';
+  const AUDIT_CHECK_COLOR_WARN = '#d0cc35';
   const AUDIT_CHECK_COLOR_FAIL = 'red';
   const AUDIT_CHECK_COLOR_INFO = 'cyan';
 
