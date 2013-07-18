@@ -64,10 +64,13 @@ abstract class AuditCheck {
    */
   public $html = FALSE;
 
+  public $registry;
+
   /**
    * Constructor.
    */
-  public function __construct() {
+  public function __construct($registry) {
+    $this->registry = $registry;
     $this->label = $this->getLabel();
     $this->description = $this->getDescription();
     $this->score = $this->getScore();

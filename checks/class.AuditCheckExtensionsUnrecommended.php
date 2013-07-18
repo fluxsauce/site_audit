@@ -96,15 +96,16 @@ class AuditCheckExtensionsUnrecommended extends AuditCheck {
       $pantheon_unrecommended_modules = array(
         'memcache' => dt('Pantheon does provide memcache support; redis is provided as a service to all customers; see http://helpdesk.getpantheon.com/customer/portal/articles/401317-redis'),
         'memcache_storage' => dt('Pantheon does provide memcache support; redis is provided as a service to all customers; see http://helpdesk.getpantheon.com/customer/portal/articles/401317-redis'),
+        'drupal_less' => dt('Before deployment, compile and commit CSS '),
         // Backup & Migrate and related modules.
-        'backup_migrate' => dt('This module makes your Drupal site work harder and degrades site performance; instead, use Pantheon\'s Backup through the site dashboard, which won\'t affect site performance.'),
-        'backup_migrate_files' => dt('This module makes your Drupal site work harder and degrades site performance; instead, use Pantheon\'s Backup through the site dashboard, which won\'t affect site performance.'),
-        'backup_migrate_prune' => dt('This module makes your Drupal site work harder and degrades site performance; instead, use Pantheon\'s Backup through the site dashboard, which won\'t affect site performance.'),
-        'backup_migrate_sftp' => dt('This module makes your Drupal site work harder and degrades site performance; instead, use Pantheon\'s Backup through the site dashboard, which won\'t affect site performance.'),
-        'backup_migrate_dropbox' => dt('This module makes your Drupal site work harder and degrades site performance; instead, use Pantheon\'s Backup through the site dashboard, which won\'t affect site performance.'),
-        'backup_migrate_cloudfiles' => dt('This module makes your Drupal site work harder and degrades site performance; instead, use Pantheon\'s Backup through the site dashboard, which won\'t affect site performance.'),
-        'hpcloud' => dt('This module makes your Drupal site work harder and degrades site performance; instead, use Pantheon\'s Backup through the site dashboard, which won\'t affect site performance.'),
-        'nodesquirrel' => dt('This module makes your Drupal site work harder and degrades site performance; instead, use Pantheon\'s Backup through the site dashboard, which won\'t affect site performance.'),
+        'backup_migrate' => dt('Backup & Migrate makes your Drupal site work harder and degrades site performance; instead, use Pantheon\'s Backup through the site dashboard, which won\'t affect site performance.'),
+        'backup_migrate_files' => dt('Part of Backup & Migrate; use Pantheon\'s Backup instead.'),
+        'backup_migrate_prune' => dt('Part of Backup & Migrate; use Pantheon\'s Backup instead.'),
+        'backup_migrate_sftp' => dt('Part of Backup & Migrate; use Pantheon\'s Backup instead.'),
+        'backup_migrate_dropbox' => dt('Part of Backup & Migrate; use Pantheon\'s Backup instead.'),
+        'backup_migrate_cloudfiles' => dt('Part of Backup & Migrate; use Pantheon\'s Backup instead.'),
+        'hpcloud' => dt('Part of Backup & Migrate; use Pantheon\'s Backup instead.'),
+        'nodesquirrel' => dt('Part of Backup & Migrate; use Pantheon\'s Backup instead.'),
       );
       $unrecommended_modules = array_merge($unrecommended_modules, $pantheon_unrecommended_modules);
     }

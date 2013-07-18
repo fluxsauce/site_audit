@@ -77,6 +77,13 @@ function site_audit_drush_command() {
     'options' => array_merge($options, $vendor_options),
   );
 
+  $items['audit_watchdog'] = array(
+    'description' => dt('Audit the database logs.'),
+    'aliases' => array('aw'),
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
+    'options' => array_merge($options, $vendor_options),
+  );
+
   return $items;
 }
 
@@ -99,6 +106,10 @@ function site_audit_drush_help($section) {
     }
     case 'drush:audit_extensions':{
       return dt('Audit modules and themes (extensions) for a given Drupal site.');
+      break;
+    }
+    case 'drush:audit_watchdog':{
+      return dt('Audit the Drupal database logs for a given Drupal site.');
       break;
     }
     case 'meta:site_audit:title':{
@@ -152,6 +163,19 @@ function drush_site_audit_audit_extensions() {
  */
 function drush_site_audit_audit_codebase() {
   $check = new AuditReportCodebase();
+  if (drush_get_option('html')) {
+    echo $check->toHtml();
+  }
+  else {
+    $check->toDrush();
+  }
+}
+
+/**
+ * Audit the database logs of a Drupal site.
+ */
+function drush_site_audit_audit_watchdog() {
+  $check = new AuditReportWatchdog();
   if (drush_get_option('html')) {
     echo $check->toHtml();
   }

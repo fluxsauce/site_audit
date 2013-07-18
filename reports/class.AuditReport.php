@@ -43,6 +43,8 @@ abstract class AuditReport {
    */
   protected $_has_fail = FALSE;
 
+  protected $registry = array();
+
   /**
    * Constructor; loads and executes checks based on the name of this report.
    */
@@ -53,7 +55,7 @@ abstract class AuditReport {
     $base_class_name = 'AuditCheck' . substr(get_class($this), 11);
     foreach ($this->check_names as $name) {
       $class_name = $base_class_name . ucfirst(strtolower($name));
-      $check = new $class_name;
+      $check = new $class_name($this->registry);
       // Calculate score.
       if ($check->score != AuditCheck::AUDIT_CHECK_SCORE_INFO) {
         // Mark if there's a major failure.
@@ -65,7 +67,13 @@ abstract class AuditReport {
         // Maximum.
         $this->_score_max += AuditCheck::AUDIT_CHECK_SCORE_PASS;
       }
+      // Combine registry.
+      $this->registry = array_merge($this->registry, $check->registry);
+      // Cleanup.
+      unset($check->registry);
+      // Store all checks.
       $this->_checks[$class_name] = $check;
+      // Abort the loop if the check says to bail.
       if ($check->abort) {
         break;
       }
