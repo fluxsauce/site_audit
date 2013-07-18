@@ -3,13 +3,17 @@
  * @file
  * Drupal site auditing commands.
  */
+
 spl_autoload_register('site_audit_autoloader');
 
+/**
+ * Define site_audit autoloader.
+ */
 function site_audit_autoloader($class) {
   if (substr($class, 0, 10) == 'AuditCheck') {
     require_once 'checks/class.' . $class . '.php';
   }
-  else if (substr($class, 0, 11) == 'AuditReport') {
+  elseif (substr($class, 0, 11) == 'AuditReport') {
     require_once 'reports/class.' . $class . '.php';
   }
 }
@@ -66,6 +70,13 @@ function site_audit_drush_command() {
     'options' => array_merge($options, $vendor_options),
   );
 
+  $items['audit_codebase'] = array(
+    'description' => dt('Audit the codebase.'),
+    'aliases' => array('acb'),
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUSH,
+    'options' => array_merge($options, $vendor_options),
+  );
+
   return $items;
 }
 
@@ -76,6 +87,10 @@ function site_audit_drush_help($section) {
   switch ($section) {
     case 'drush:audit_cache':{
       return dt('Audit Drupal\'s caching settings.');
+      break;
+    }
+    case 'drush:audit_codebase':{
+      return dt('Audit the codebase of a Drupal site.');
       break;
     }
     case 'drush:audit_database':{
@@ -124,6 +139,19 @@ function drush_site_audit_audit_database() {
  */
 function drush_site_audit_audit_extensions() {
   $check = new AuditReportExtensions();
+  if (drush_get_option('html')) {
+    echo $check->toHtml();
+  }
+  else {
+    $check->toDrush();
+  }
+}
+
+/**
+ * Audit the executable codebase of a Drupal site.
+ */
+function drush_site_audit_audit_codebase() {
+  $check = new AuditReportCodebase();
   if (drush_get_option('html')) {
     echo $check->toHtml();
   }

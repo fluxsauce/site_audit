@@ -43,7 +43,7 @@ class AuditCheckExtensionsUnrecommended extends AuditCheck {
   public function getResultWarning() {}
 
   public function getAction() {
-    return dt('Disable and completely remove unrecommended modules for increased performance, stability and security in the Live (production) environment.');
+    return dt('Disable and completely remove unrecommended modules for increased performance, stability and security in the any environment.');
   }
 
   public function getDescription() {
@@ -83,6 +83,7 @@ class AuditCheckExtensionsUnrecommended extends AuditCheck {
    */
   public function getExtensions() {
     $unrecommended_modules = array(
+      'apc' => dt('APC is not an efficient mechanism for a Drupal caching backend and takes away space for opcode. Use redis or another caching mechanism for caching.'),
       'honeypot' => dt('honeypot can prevent Varnish caching, which degrades site performance; see http://drupal.org/node/1982848'),
       'fast_404' => dt('Can conflict with Varnish caching; use Drupal\'s 404_fast_html instead'),
       'views_php' => dt('Unfinished and incomplete, Views PHP permits executable code to be stored in the database with no revisioning; a typo introduced in the Views UI can bring down an entire production site with no accountability. See http://api.drupal.org/api/views for details on how to implement your own custom Views functionality.'),
@@ -91,6 +92,7 @@ class AuditCheckExtensionsUnrecommended extends AuditCheck {
       'misery' => dt('Joke module, degrades site performance.'),
     );
     if (drush_get_option('vendor') == 'pantheon') {
+      // Unsupported or redundant.
       $pantheon_unrecommended_modules = array(
         'memcache' => dt('Pantheon does provide memcache support; redis is provided as a service to all customers; see http://helpdesk.getpantheon.com/customer/portal/articles/401317-redis'),
         'memcache_storage' => dt('Pantheon does provide memcache support; redis is provided as a service to all customers; see http://helpdesk.getpantheon.com/customer/portal/articles/401317-redis'),

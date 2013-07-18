@@ -112,15 +112,15 @@ abstract class AuditCheck {
         break;
       }
       case AuditCheck::AUDIT_CHECK_SCORE_WARN:{
-        return dt('Warn');
+        return dt('Recommended');
         break;
       }
       case AuditCheck::AUDIT_CHECK_SCORE_INFO:{
-        return dt('Info');
+        return dt('Information');
         break;
       }
       default:{
-        return dt('Fail');
+        return dt('Blocking');
         break;
       }
     }
