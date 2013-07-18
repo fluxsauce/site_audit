@@ -84,6 +84,13 @@ function site_audit_drush_command() {
     'options' => array_merge($options, $vendor_options),
   );
 
+  $items['audit_best_practices'] = array(
+    'description' => dt('Audit best practices used.'),
+    'aliases' => array('abp'),
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
+    'options' => array_merge($options, $vendor_options),
+  );
+
   return $items;
 }
 
@@ -101,15 +108,19 @@ function site_audit_drush_help($section) {
       break;
     }
     case 'drush:audit_database':{
-      return dt('Audit the database associated with a Drupal site.');
+      return dt('Audit the database structure and contents.');
       break;
     }
     case 'drush:audit_extensions':{
-      return dt('Audit modules and themes (extensions) for a given Drupal site.');
+      return dt('Audit modules and themes (extensions).');
       break;
     }
     case 'drush:audit_watchdog':{
-      return dt('Audit the Drupal database logs for a given Drupal site.');
+      return dt('Audit Drupal\'s database logs.');
+      break;
+    }
+    case 'drush:audit_best_practices':{
+      return dt('Audit site for best practices.');
       break;
     }
     case 'meta:site_audit:title':{
@@ -176,6 +187,19 @@ function drush_site_audit_audit_codebase() {
  */
 function drush_site_audit_audit_watchdog() {
   $check = new AuditReportWatchdog();
+  if (drush_get_option('html')) {
+    echo $check->toHtml();
+  }
+  else {
+    $check->toDrush();
+  }
+}
+
+/**
+ * Audit the database logs of a Drupal site.
+ */
+function drush_site_audit_audit_best_practices() {
+  $check = new AuditReportBestPractices();
   if (drush_get_option('html')) {
     echo $check->toHtml();
   }
