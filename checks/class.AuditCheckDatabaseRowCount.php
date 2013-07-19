@@ -18,8 +18,7 @@ class AuditCheckDatabaseRowCount extends AuditCheck {
         '@min_rows' => drush_get_option('min_rows', AuditCheckDatabaseRowCount::AUDIT_CHECK_DB_ROW_MIN_DEFAULT),
       ));
     }
-    if (drush_get_option('html')) {
-      $this->html = TRUE;
+    if ($this->html) {
       $ret_val = '<table>';
       $ret_val .= '<thead><tr><th>Table Name</th><th>Rows</th></tr></thead>';
       $ret_val .= '<tbody>';

@@ -98,6 +98,47 @@ function site_audit_drush_command() {
     'options' => array_merge($options, $vendor_options),
   );
 
+  $items['audit_database'] = array(
+    'description' => dt('Report information about a site environment\'s database.'),
+    'aliases' => array('ad'),
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
+    'options' => array_merge($options, array(
+      'min_rows' => array(
+        'description' => dt('Minimum number of rows to check for. Defaults to 1000.'),
+        'example-value' => dt('1000'),
+        'value' => 'required',
+      ),
+      'expected_collation' => array(
+        'description' => dt('Check that all tables are of an expected collation. Defaults to utf8_general_ci.'),
+        'example-value' => dt('utf8_general_ci'),
+        'value' => 'required',
+      ),
+    )),
+  );
+
+  $items['audit_google_insights'] = array(
+    'description' => dt('Analyze a site using Google PageSpeed Insights.'),
+    'aliases' => array('agi'),
+    // Minimal bootstrap.
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUSH,
+    'arguments' => array(
+      'key' => dt('Google Code API Key - see https://developers.google.com/speed/docs/insights/v1/getting_started#auth'),
+      'url' => dt('The URL that you wish to test.'),
+    ),
+    'options' => array_merge($options, array(
+      'impact' => array(
+        'description' => dt('Only show results with an impact greater than what\'s specified. 3 is considered high impact.'),
+        'example-value' => dt('3'),
+        'value' => 'required',
+      ),
+      'limit' => array(
+        'description' => dt('Limit the number of records shown for each item.'),
+        'example-value' => dt('3'),
+        'value' => 'required',
+      ),
+    )),
+  );
+
   return $items;
 }
 
@@ -232,19 +273,51 @@ function drush_site_audit_audit_views() {
   }
 }
 
+/**
+ * Validate parameters.
+ *
+ * @param string $key
+ *   Google API key.
+ * @param string $url
+ *   URL to check.
+ */
+function drush_site_audit_audit_google_insights_validate($key = '', $url = '') {
+  // Not going to write something that will validate the key itself, just check
+  // to see if it exists.
+  if (!$key) {
+    drush_set_error('SITE_AUDIT_GOOGLE_INSIGHTS_NO_KEY', dt('An API key is required; see https://developers.google.com/speed/docs/insights/v1/getting_started#auth'));
+  }
+  if (filter_var($url, FILTER_VALIDATE_URL) === FALSE) {
+    drush_set_error('SITE_AUDIT_GOOGLE_INSIGHTS_NO_URL', dt('A valid URL is required.'));
+  }
+  $impact = drush_get_option('impact');
+  if ($impact) {
+    if ($impact < 0 || !is_numeric($impact)) {
+      drush_set_error('SITE_AUDIT_GOOGLE_INSIGHTS_BAD_IMPACT_FILTER', dt('Impact filter must be a number greater than 0.'));
+    }
+  }
+  $limit = drush_get_option('limit');
+  if ($limit) {
+    if ($limit < 0 || !is_numeric($limit) || ($limit != (int) $limit)) {
+      drush_set_error('SITE_AUDIT_GOOGLE_INSIGHTS_BAD_LIMIT', dt('Limit must be an integer greater than 0.'));
+    }
+  }
+}
 
 /**
- * Make a Views caching setting readable.
- * @param array $cache_array
- * @return string
+ * Render a Google PageSpeed Insight report.
+ *
+ * @param string $key
+ *   Google API key.
+ * @param string $url
+ *   URL to check.
  */
-function pantheon_views_cache_to_human($cache_array) {
-  if (!is_array($cache_array)) {
-    return (string) $cache_array;
+function drush_site_audit_audit_google_insights($key, $url) {
+  $check = new AuditReportInsights($key, $url);
+  if (drush_get_option('html')) {
+    echo $check->toHtml();
   }
-  $cache_text = array();
-  foreach ($cache_array as $key => $value) {
-    $cache_text[] = "$key: $value";
+  else {
+    $check->toDrush();
   }
-  return implode(', ', $cache_text);
 }

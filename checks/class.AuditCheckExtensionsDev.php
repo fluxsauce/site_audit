@@ -20,8 +20,7 @@ class AuditCheckExtensionsDev extends AuditCheck {
       '@list' => implode(', ', array_keys($this->_extensions)),
     ));
     if (drush_get_context('DRUSH_VERBOSE')) {
-      if (drush_get_option('html')) {
-        $this->html = TRUE;
+      if ($this->html) {
         $ret_val = '<p>' . $ret_val . '</p>';
         $ret_val .= '<table>';
         $ret_val .= '<thead><tr><th>Name</th><th>Reason</th></thead>';

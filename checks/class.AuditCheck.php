@@ -76,6 +76,9 @@ abstract class AuditCheck {
     $this->score = $this->getScore();
     $this->result = $this->getResult();
     $this->action = $this->getAction();
+    if (drush_get_option('html')) {
+      $this->html = TRUE;
+    }
   }
 
   /**

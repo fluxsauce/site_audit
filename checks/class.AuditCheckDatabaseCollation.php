@@ -11,8 +11,7 @@ class AuditCheckDatabaseCollation extends AuditCheck {
   public function getResultFail() {}
 
   public function getResultInfo() {
-    if (drush_get_option('html')) {
-      $this->html = TRUE;
+    if ($this->html) {
       $ret_val = '<table>';
       $ret_val .= '<thead><tr><th>Table Name</th><th>Collation</th></tr></thead>';
       $ret_val .= '<tbody>';

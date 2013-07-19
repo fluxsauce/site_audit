@@ -22,8 +22,7 @@ class AuditCheckExtensionsDuplicate extends AuditCheck {
 
   public function getResultWarning() {
     $ret_val = dt('The following duplicate extensions were detected:');
-    if (drush_get_option('html')) {
-      $this->html = TRUE;
+    if ($this->html) {
       $ret_val = '<p>' . $ret_val . '</p>';
       $ret_val .= '<table>';
       $ret_val .= '<thead><tr><th>Name</th><th>Paths</th></thead>';

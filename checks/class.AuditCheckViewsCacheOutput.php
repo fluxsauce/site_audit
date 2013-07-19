@@ -33,8 +33,7 @@ class AuditCheckViewsCacheOutput extends AuditCheck {
           dt('Next to Caching, click to edit.'),
           dt('Rendered output: (something other than Never cache)'),
         );
-        if (drush_get_option('html')) {
-          $this->html = TRUE;
+        if ($this->html = TRUE) {
           $ret_val .= '<ol><li>' . implode('</li><li>', $steps) . '</li></ol>';
         }
         else {

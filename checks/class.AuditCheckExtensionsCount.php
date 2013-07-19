@@ -31,8 +31,7 @@ class AuditCheckExtensionsCount extends AuditCheck {
       $output[] = '    - ' . dt('Consolidate functionality if possible, or custom develop a solution specific to your needs.');
       $output[] = '    - ' . dt('Avoid using modules that serve only one small purpose that is not mission critical.');
       $output[] = dt('A lightweight site is a fast and happy site!');
-      if (drush_get_option('html')) {
-        $this->html = TRUE;
+      if ($this->html) {
         return implode('<br/>', $output);
       }
       return implode(PHP_EOL, $output);
