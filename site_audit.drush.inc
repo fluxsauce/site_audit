@@ -91,6 +91,13 @@ function site_audit_drush_command() {
     'options' => array_merge($options, $vendor_options),
   );
 
+  $items['audit_views'] = array(
+    'description' => dt('Audit Views.'),
+    'aliases' => array('av'),
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
+    'options' => array_merge($options, $vendor_options),
+  );
+
   return $items;
 }
 
@@ -121,6 +128,10 @@ function site_audit_drush_help($section) {
     }
     case 'drush:audit_best_practices':{
       return dt('Audit site for best practices.');
+      break;
+    }
+    case 'drush:audit_views':{
+      return dt('Audit Views displays.');
       break;
     }
     case 'meta:site_audit:title':{
@@ -206,4 +217,34 @@ function drush_site_audit_audit_best_practices() {
   else {
     $check->toDrush();
   }
+}
+
+/**
+ * Audit Views.
+ */
+function drush_site_audit_audit_views() {
+  $check = new AuditReportViews();
+  if (drush_get_option('html')) {
+    echo $check->toHtml();
+  }
+  else {
+    $check->toDrush();
+  }
+}
+
+
+/**
+ * Make a Views caching setting readable.
+ * @param array $cache_array
+ * @return string
+ */
+function pantheon_views_cache_to_human($cache_array) {
+  if (!is_array($cache_array)) {
+    return (string) $cache_array;
+  }
+  $cache_text = array();
+  foreach ($cache_array as $key => $value) {
+    $cache_text[] = "$key: $value";
+  }
+  return implode(', ', $cache_text);
 }
