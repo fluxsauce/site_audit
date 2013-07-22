@@ -119,7 +119,7 @@ abstract class AuditCheck {
    * Get a human readable label for a score.
    *
    * @return string
-   *   Pass, Recommended and so forth.
+   *   Pass, Recommendation and so forth.
    */
   public function getScoreLabel() {
     switch ($this->score) {
@@ -127,7 +127,7 @@ abstract class AuditCheck {
         return dt('Pass');
 
       case AuditCheck::AUDIT_CHECK_SCORE_WARN:
-        return dt('Recommended');
+        return dt('Recommendation');
 
       case AuditCheck::AUDIT_CHECK_SCORE_INFO:
         return dt('Information');

@@ -33,7 +33,7 @@ class AuditCheckCacheLifetime extends AuditCheck {
    * Implements \AuditCheck\getResultPass().
    */
   public function getResultPass() {
-    return dt('Minimum cache lifetime is set to <none>.');
+    return dt('Minimum cache lifetime is set to none.');
   }
 
   /**
@@ -51,7 +51,7 @@ class AuditCheckCacheLifetime extends AuditCheck {
    */
   public function getAction() {
     if (!in_array($this->score, array(AuditCheck::AUDIT_CHECK_SCORE_PASS))) {
-      return dt('Go to /admin/config/development/performance and set "Minimum cache lifetime" to <none>.');
+      return dt('Go to /admin/config/development/performance and set "Minimum cache lifetime" to none.');
     }
   }
 
