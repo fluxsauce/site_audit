@@ -2,7 +2,6 @@
 
 class AuditCheckDatabaseCollation extends AuditCheck {
   const AUDIT_CHECK_DB_COLLATION_DEFAULT = 'utf8_general_ci';
-  protected $_collation_tables;
 
   public function getLabel() {
     return dt('Collations');
@@ -15,7 +14,7 @@ class AuditCheckDatabaseCollation extends AuditCheck {
       $ret_val = '<table>';
       $ret_val .= '<thead><tr><th>Table Name</th><th>Collation</th></tr></thead>';
       $ret_val .= '<tbody>';
-      foreach ($this->_collation_tables as $name => $collation) {
+      foreach ($this->registry['collation_tables'] as $name => $collation) {
         $ret_val .= '<tr>';
         $ret_val .= '<td>' . $name . '</td>';
         $ret_val .= '<td>' . $collation . '</td>';
@@ -26,7 +25,7 @@ class AuditCheckDatabaseCollation extends AuditCheck {
     else {
       $ret_val  = 'Table Name: Collation' . PHP_EOL;
       $ret_val .= '---------------------' . PHP_EOL;
-      foreach ($this->_collation_tables as $name => $collation) {
+      foreach ($this->registry['collation_tables'] as $name => $collation) {
         $ret_val .= "$name: $collation" . PHP_EOL;
       }
     }
@@ -67,7 +66,7 @@ class AuditCheckDatabaseCollation extends AuditCheck {
     }
     $warn = FALSE;
     foreach ($result as $row) {
-      $this->_collation_tables[$row->name] = $row->collation;
+      $this->registry['collation_tables'][$row->name] = $row->collation;
       // Special case for old imports.
       if ($row->collation == 'latin1_swedish_ci') {
         $warn = TRUE;

@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Contains \AuditReport.
+ */
 
 abstract class AuditReport {
   /**
@@ -11,38 +15,42 @@ abstract class AuditReport {
    * Names of the checks that will be included in this report.
    * @var array
    */
-  public $check_names;
+  public $checkNames;
 
   /**
    * Individual check objects.
    * @var array
    */
-  protected $_checks;
+  protected $checks;
 
   /**
    * Percentage pass.
    * @var int
    */
-  protected $_percent;
+  protected $percent;
 
   /**
    * Maximum score.
    * @var int
    */
-  protected $_score_max = 0;
+  protected $scoreMax = 0;
 
   /**
    * Total score.
    * @var int
    */
-  protected $_score_total = 0;
+  protected $scoreTotal = 0;
 
   /**
    * Flag to indicate whether any of the checks are a complete FAIL.
    * @var boolean
    */
-  protected $_has_fail = FALSE;
+  protected $hasFail = FALSE;
 
+  /**
+   * Container that's passed between each AuditCheck, better than a global.
+   * @var array
+   */
   protected $registry = array();
 
   /**
@@ -50,39 +58,39 @@ abstract class AuditReport {
    */
   public function __construct() {
     $this->label = $this->getLabel();
-    $this->check_names = $this->getCheckNames();
+    $this->checkNames = $this->getCheckNames();
 
     $base_class_name = 'AuditCheck' . substr(get_class($this), 11);
-    foreach ($this->check_names as $name) {
+    foreach ($this->checkNames as $name) {
       $class_name = $base_class_name . ucfirst(strtolower($name));
       $check = new $class_name($this->registry);
       // Calculate score.
       if ($check->score != AuditCheck::AUDIT_CHECK_SCORE_INFO) {
         // Mark if there's a major failure.
         if ($check->score == AuditCheck::AUDIT_CHECK_SCORE_FAIL) {
-          $this->_has_fail = TRUE;
+          $this->hasFail = TRUE;
         }
         // Total.
-        $this->_score_total += $check->score;
+        $this->scoreTotal += $check->score;
         // Maximum.
-        $this->_score_max += AuditCheck::AUDIT_CHECK_SCORE_PASS;
+        $this->scoreMax += AuditCheck::AUDIT_CHECK_SCORE_PASS;
       }
       // Combine registry.
       $this->registry = array_merge($this->registry, $check->registry);
       // Cleanup.
       unset($check->registry);
       // Store all checks.
-      $this->_checks[$class_name] = $check;
+      $this->checks[$class_name] = $check;
       // Abort the loop if the check says to bail.
       if ($check->abort) {
         break;
       }
     }
-    if ($this->_score_max != 0) {
-      $this->_percent = round(($this->_score_total / $this->_score_max) * 100);
+    if ($this->scoreMax != 0) {
+      $this->percent = round(($this->scoreTotal / $this->scoreMax) * 100);
     }
     else {
-      $this->_percent = AuditCheck::AUDIT_CHECK_SCORE_INFO;
+      $this->percent = AuditCheck::AUDIT_CHECK_SCORE_INFO;
     }
   }
 
@@ -189,6 +197,7 @@ abstract class AuditReport {
    *
    * @param string $name
    * @return mixed
+   *    The contents of the guessed property name.
    */
   public function __get($name) {
     // Attempt to return a protected property by name.
@@ -210,13 +219,15 @@ abstract class AuditReport {
   /**
    * Get the label for the report of what is being checked.
    * @return string
+   *   Human readable label.
    */
   abstract public function getLabel();
 
   /**
-   * Get the names of all the checks within the report. Abstract instead of using
-   * pattern matching so order can be manually specified.
+   * Get the names of all the checks within the report. Abstract instead of
+   * using pattern matching so order can be manually specified.
    * @return array
+   *   Machine readable names.
    */
   abstract public function getCheckNames();
 }

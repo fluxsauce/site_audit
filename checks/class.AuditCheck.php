@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Contains \AuditCheck.
+ */
 
 abstract class AuditCheck {
   const AUDIT_CHECK_SCORE_PASS = 2;
@@ -64,10 +68,17 @@ abstract class AuditCheck {
    */
   public $html = FALSE;
 
+  /**
+   * Use for passing data between checks within a report.
+   * @var array
+   */
   public $registry;
 
   /**
    * Constructor.
+   *
+   * @param array $registry
+   *   Aggregates data from each individual check.
    */
   public function __construct($registry) {
     $this->registry = $registry;
@@ -83,143 +94,147 @@ abstract class AuditCheck {
 
   /**
    * Determine the result message based on the score.
-   * @param int $score
+   *
    * @return string
+   *   Human readable message for a given status.
    */
   public function getResult() {
     switch ($this->score) {
-      case AuditCheck::AUDIT_CHECK_SCORE_PASS:{
+      case AuditCheck::AUDIT_CHECK_SCORE_PASS:
         return $this->getResultPass();
-        break;
-      }
-      case AuditCheck::AUDIT_CHECK_SCORE_WARN:{
+
+      case AuditCheck::AUDIT_CHECK_SCORE_WARN:
         return $this->getResultWarning();
-        break;
-      }
-      case AuditCheck::AUDIT_CHECK_SCORE_INFO:{
+
+      case AuditCheck::AUDIT_CHECK_SCORE_INFO:
         return $this->getResultInfo();
-        break;
-      }
-      default:{
+
+      default:
         return $this->getResultFail();
-        break;
-      }
+
     }
   }
 
   /**
    * Get a human readable label for a score.
+   *
    * @return string
+   *   Pass, Recommended and so forth.
    */
   public function getScoreLabel() {
     switch ($this->score) {
-      case AuditCheck::AUDIT_CHECK_SCORE_PASS:{
+      case AuditCheck::AUDIT_CHECK_SCORE_PASS:
         return dt('Pass');
-        break;
-      }
-      case AuditCheck::AUDIT_CHECK_SCORE_WARN:{
+
+      case AuditCheck::AUDIT_CHECK_SCORE_WARN:
         return dt('Recommended');
-        break;
-      }
-      case AuditCheck::AUDIT_CHECK_SCORE_INFO:{
+
+      case AuditCheck::AUDIT_CHECK_SCORE_INFO:
         return dt('Information');
-        break;
-      }
-      default:{
+
+      default:
         return dt('Blocking');
-        break;
-      }
+
     }
   }
 
   /**
    * Get the HTML color associated with a score.
    * @return string
+   *   Pretty colors. Will eventually be classes.
    */
   public function getScoreColor() {
     switch ($this->score) {
-      case AuditCheck::AUDIT_CHECK_SCORE_PASS:{
+      case AuditCheck::AUDIT_CHECK_SCORE_PASS:
         return AuditCheck::AUDIT_CHECK_COLOR_PASS;
-        break;
-      }
-      case AuditCheck::AUDIT_CHECK_SCORE_WARN:{
+
+      case AuditCheck::AUDIT_CHECK_SCORE_WARN:
         return AuditCheck::AUDIT_CHECK_COLOR_WARN;
-        break;
-      }
-      case AuditCheck::AUDIT_CHECK_SCORE_INFO:{
+
+      case AuditCheck::AUDIT_CHECK_SCORE_INFO:
         return AuditCheck::AUDIT_CHECK_COLOR_INFO;
-        break;
-      }
-      default:{
+
+      default:
         return AuditCheck::AUDIT_CHECK_COLOR_FAIL;
-        break;
-      }
+
     }
   }
 
   /**
    * Get the Drush message level associated with a score.
    * @return string
+   *   Converts the score (integer) to Drush levels.
    */
   public function getScoreDrushLevel() {
     switch ($this->score) {
-      case AuditCheck::AUDIT_CHECK_SCORE_PASS:{
+      case AuditCheck::AUDIT_CHECK_SCORE_PASS:
         return AuditCheck::AUDIT_CHECK_DRUSH_PASS;
-        break;
-      }
-      case AuditCheck::AUDIT_CHECK_SCORE_WARN:{
+
+      case AuditCheck::AUDIT_CHECK_SCORE_WARN:
         return AuditCheck::AUDIT_CHECK_DRUSH_WARN;
-        break;
-      }
-      case AuditCheck::AUDIT_CHECK_SCORE_INFO:{
+
+      case AuditCheck::AUDIT_CHECK_SCORE_INFO:
         return AuditCheck::AUDIT_CHECK_DRUSH_INFO;
-        break;
-      }
-      default:{
+
+      default:
         return AuditCheck::AUDIT_CHECK_DRUSH_FAIL;
-        break;
-      }
+
     }
   }
 
   /**
    * Get the label for the check that describes, high level what is happening.
+   * @return string
+   *   Get the label for the check that describes, high level what is happening.
    */
   abstract public function getLabel();
 
   /**
    * Get a more verbose description of what is being checked.
+   * @return string
+   *   A sentence describing the check; shown in verbose mode.
    */
   abstract public function getDescription();
 
   /**
-   * Get a description of what happened in a failed check.
+   * Get the description of what happened in a failed check.
+   * @return string
+   *   Something is explicitly wrong and requires action.
    */
   abstract public function getResultFail();
 
   /**
    * Get the result of a purely informational check.
+   * @return string
+   *   Purely informational response.
    */
   abstract public function getResultInfo();
 
   /**
    * Get a description of what happened in a passed check.
+   * @return string
+   *   Success; good job.
    */
   abstract public function getResultPass();
 
   /**
    * Get a description of what happened in a warning check.
+   * @return string
+   *   Something is wrong, but not horribly so.
    */
   abstract public function getResultWarning();
 
   /**
-   * Get a description of action items for a user to perform if the check
-   * did not pass.
+   * Get action items for a user to perform if the check did not pass.
+   * @return string
+   *   Get a description of what happened in a warning check.
    */
   abstract public function getAction();
 
   /**
    * Get a quantifiable number for check.
+   * @return int
+   *   Constants indicating pass, fail and so forth.
    */
   abstract public function getScore();
 }
