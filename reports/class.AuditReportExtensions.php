@@ -21,6 +21,7 @@ class AuditReportExtensions extends AuditReport {
       'dev',
       'unrecommended',
       'duplicate',
+      'missing',
     );
   }
 }
