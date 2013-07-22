@@ -1,9 +1,9 @@
 = Overview =
 
 Site Audit is a collection of standardized Drush commands for analyzing a
-Drupal site for best practices. Originally designed to provide an actionable
-report prior to load testing and launch, each report can be read using Drush
-or written as HTML to a file.
+site for compliance with Drupal best practices. Originally designed to provide
+an actionable report prior to load testing and launch, each report can be read
+using Drush or written as HTML to a file.
 
 = Installation =
 
