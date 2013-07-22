@@ -51,9 +51,9 @@ class AuditCheckCodebaseSizeAll extends AuditCheck {
   public function getAction() {}
 
   /**
-   * Implements \AuditCheck\getScore().
+   * Implements \AuditCheck\calculateScore().
    */
-  public function getScore() {
+  public function calculateScore() {
     $drupal_root = drush_get_context('DRUSH_SELECTED_DRUPAL_ROOT');
     exec('du -s -k -x ' . $drupal_root, $result);
     $kb_size_everything = trim($result[0]);

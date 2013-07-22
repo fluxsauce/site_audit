@@ -21,58 +21,22 @@ abstract class AuditCheck {
   const AUDIT_CHECK_DRUSH_INFO = 'notice';
 
   /**
-   * Label to describe, high level what the check is doing.
-   * @var string
-   */
-  public $label;
-
-  /**
-   * More verbose description of what is being checked.
-   * @var string
-   */
-  public $description;
-
-  /**
-   * What should be done, if anything. Only shown if check did not pass.
-   * @var string
-   */
-  public $action;
-
-  /**
    * Quantifiable number associated with result on a scale of 0 to 2.
    * @var int
    */
-  public $score;
-
-  /**
-   * Human readable message associated with the result of the check.
-   * @var string
-   */
-  public $result;
-
-  /**
-   * Human readable message associated with the result of the check.
-   * @var string
-   */
-  public $info;
+  protected $score;
 
   /**
    * Indicate that no other checks should be run after this check.
    * @var boolean
    */
-  public $abort = FALSE;
-
-  /**
-   * Indicates that HTML will be returned, don't escape.
-   * @var boolean
-   */
-  public $html = FALSE;
+  protected $abort = FALSE;
 
   /**
    * Use for passing data between checks within a report.
    * @var array
    */
-  public $registry;
+  protected $registry;
 
   /**
    * Constructor.
@@ -82,14 +46,6 @@ abstract class AuditCheck {
    */
   public function __construct($registry) {
     $this->registry = $registry;
-    $this->label = $this->getLabel();
-    $this->description = $this->getDescription();
-    $this->score = $this->getScore();
-    $this->result = $this->getResult();
-    $this->action = $this->getAction();
-    if (drush_get_option('html')) {
-      $this->html = TRUE;
-    }
   }
 
   /**
@@ -232,9 +188,40 @@ abstract class AuditCheck {
   abstract public function getAction();
 
   /**
-   * Get a quantifiable number for check.
+   * Calculate the score.
    * @return int
    *   Constants indicating pass, fail and so forth.
    */
-  abstract public function getScore();
+  abstract public function calculateScore();
+
+  /**
+   * Get a quantifiable number representing a check result; lazy initialization.
+   * @return int
+   *   Constants indicating pass, fail and so forth.
+   */
+  public function getScore() {
+    if (!isset($this->score)) {
+      $this->score = $this->calculateScore();
+    }
+    return $this->score;
+  }
+
+  /**
+   * Get the check registry.
+   * @return array
+   *   Contains values calculated from this check and any prior checks.
+   */
+  public function getRegistry() {
+    return $this->registry;
+  }
+
+  /**
+   * Determine whether the check failed so badly that the report must stop.
+   *
+   * @return bool
+   *   Whether to stop the abort after this check.
+   */
+  public function shouldAbort() {
+    return $this->abort;
+  }
 }

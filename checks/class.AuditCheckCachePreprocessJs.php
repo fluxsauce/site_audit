@@ -53,9 +53,9 @@ class AuditCheckCachePreprocessJs extends AuditCheck {
   }
 
   /**
-   * Implements \AuditCheck\getScore().
+   * Implements \AuditCheck\calculateScore().
    */
-  public function getScore() {
+  public function calculateScore() {
     global $conf;
     if ($conf['preprocess_js']) {
       return AuditCheck::AUDIT_CHECK_SCORE_PASS;

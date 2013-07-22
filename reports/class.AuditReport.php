@@ -6,18 +6,6 @@
 
 abstract class AuditReport {
   /**
-   * Public facing label for a group of checks.
-   * @var string
-   */
-  public $label;
-
-  /**
-   * Names of the checks that will be included in this report.
-   * @var array
-   */
-  public $checkNames;
-
-  /**
    * Individual check objects.
    * @var array
    */
@@ -57,32 +45,27 @@ abstract class AuditReport {
    * Constructor; loads and executes checks based on the name of this report.
    */
   public function __construct() {
-    $this->label = $this->getLabel();
-    $this->checkNames = $this->getCheckNames();
-
     $base_class_name = 'AuditCheck' . substr(get_class($this), 11);
-    foreach ($this->checkNames as $name) {
+    foreach ($this->getCheckNames() as $name) {
       $class_name = $base_class_name . ucfirst(strtolower($name));
       $check = new $class_name($this->registry);
       // Calculate score.
-      if ($check->score != AuditCheck::AUDIT_CHECK_SCORE_INFO) {
+      if ($check->getScore() != AuditCheck::AUDIT_CHECK_SCORE_INFO) {
         // Mark if there's a major failure.
-        if ($check->score == AuditCheck::AUDIT_CHECK_SCORE_FAIL) {
+        if ($check->getScore() == AuditCheck::AUDIT_CHECK_SCORE_FAIL) {
           $this->hasFail = TRUE;
         }
         // Total.
-        $this->scoreTotal += $check->score;
+        $this->scoreTotal += $check->getScore();
         // Maximum.
         $this->scoreMax += AuditCheck::AUDIT_CHECK_SCORE_PASS;
       }
       // Combine registry.
-      $this->registry = array_merge($this->registry, $check->registry);
-      // Cleanup.
-      unset($check->registry);
+      $this->registry = array_merge($this->registry, $check->getRegistry());
       // Store all checks.
       $this->checks[$class_name] = $check;
       // Abort the loop if the check says to bail.
-      if ($check->abort) {
+      if ($check->shouldAbort()) {
         break;
       }
     }
@@ -103,12 +86,12 @@ abstract class AuditReport {
   public function toDrush() {
     if ($this->percent == AuditCheck::AUDIT_CHECK_SCORE_INFO) {
       drush_print(dt('!label: Info', array(
-        '!label' => $this->label,
+        '!label' => $this->getLabel(),
       )));
     }
     else {
       drush_print(dt('!label: @percent%', array(
-        '!label' => $this->label,
+        '!label' => $this->getLabel(),
         '@percent' => $this->percent,
       )));
     }
@@ -117,28 +100,28 @@ abstract class AuditReport {
     }
     if ($this->percent != 100 || drush_get_context('DRUSH_VERBOSE')) {
       foreach ($this->checks as $check) {
-        if ($check->score != AuditCheck::AUDIT_CHECK_SCORE_PASS || drush_get_context('DRUSH_VERBOSE')) {
+        if ($check->getScore() != AuditCheck::AUDIT_CHECK_SCORE_PASS || drush_get_context('DRUSH_VERBOSE')) {
           if (drush_get_context('DRUSH_VERBOSE')) {
             drush_print(dt('!label: !description', array(
-              '!label' => $check->label,
-              '!description' => $check->description,
+              '!label' => $check->getLabel(),
+              '!description' => $check->getDescription(),
             )));
           }
           else {
             drush_print(dt('!label', array(
-              '!label' => $check->label,
+              '!label' => $check->getLabel(),
             )));
           }
           if ($this->percent == AuditCheck::AUDIT_CHECK_SCORE_INFO) {
-            drush_print(dt('  !result', array('!result' => $check->result)));
+            drush_print(dt('  !result', array('!result' => $check->getResult())));
           }
           else {
             drush_log(dt('  !result', array(
-              '!result' => $check->result,
+              '!result' => $check->getResult(),
             )), $check->getScoreDrushLevel());
           }
-          if ($check->action) {
-            drush_print(dt('    !action', array('!action' => $check->action)));
+          if ($check->getAction()) {
+            drush_print(dt('    !action', array('!action' => $check->getAction())));
           }
         }
       }
@@ -152,7 +135,7 @@ abstract class AuditReport {
    *   Report as rendered HTML.
    */
   public function toHtml() {
-    $ret_val = '<h2>' . $this->label;
+    $ret_val = '<h2>' . $this->getLabel();
     if ($this->percent != AuditCheck::AUDIT_CHECK_SCORE_INFO) {
       $ret_val .= ': ' . $this->percent . '%';
     }
@@ -162,32 +145,22 @@ abstract class AuditReport {
     }
     if ($this->percent != 100 || drush_get_context('DRUSH_VERBOSE')) {
       foreach ($this->checks as $check) {
-        if ($check->score != AuditCheck::AUDIT_CHECK_SCORE_PASS || drush_get_context('DRUSH_VERBOSE') || $this->percent == AuditCheck::AUDIT_CHECK_SCORE_INFO) {
-          $ret_val .= '<h3>' . $check->label;
+        if ($check->getScore() != AuditCheck::AUDIT_CHECK_SCORE_PASS || drush_get_context('DRUSH_VERBOSE') || $this->percent == AuditCheck::AUDIT_CHECK_SCORE_INFO) {
+          $ret_val .= '<h3>' . $check->getLabel();
           $ret_val .= ': ';
           $ret_val .= '<span style="color:' . $check->getScoreColor() . '">';
           $ret_val .= $check->getScoreLabel();
           $ret_val .= '</span>';
           $ret_val .= '</h3>';
           if (drush_get_context('DRUSH_VERBOSE')) {
-            $ret_val .= '<blockquote>' . $check->description . '</blockquote>';
+            $ret_val .= '<blockquote>' . $check->getDescription() . '</blockquote>';
           }
           $ret_val .= '<p>';
-          if ($check->html) {
-            $ret_val .= $check->result;
-          }
-          else {
-            $ret_val .= htmlspecialchars($check->result);
-          }
+          $ret_val .= $check->getResult();
           $ret_val .= '</p>';
-          if ($check->action) {
+          if ($check->getAction()) {
             $ret_val .= '<p>';
-            if ($check->html) {
-              $ret_val .= $check->action;
-            }
-            else {
-              $ret_val .= htmlspecialchars($check->action);
-            }
+            $ret_val .= $check->getAction();
             $ret_val .= '</p>';
           }
         }
@@ -195,32 +168,6 @@ abstract class AuditReport {
     }
     $ret_val .= "\n";
     return $ret_val;
-  }
-
-  /**
-   * Magic get.
-   *
-   * @param string $name
-   *   Parameter name.
-   *
-   * @return mixed
-   *   The contents of the guessed property name.
-   */
-  public function __get($name) {
-    // Attempt to return a protected property by name.
-    $protected_property_name = '_' . $name;
-    if (property_exists($this, $protected_property_name)) {
-      return $this->$protected_property_name;
-    }
-
-    // Unable to access property; trigger error.
-    $trace = debug_backtrace();
-    trigger_error(
-      'Undefined property via __get(): ' . $name .
-      ' in ' . $trace[0]['file'] .
-      ' on line ' . $trace[0]['line'],
-      E_USER_NOTICE);
-    return NULL;
   }
 
   /**

@@ -59,9 +59,9 @@ class AuditCheckViewsCount extends AuditCheck {
   }
 
   /**
-   * Implements \AuditCheck\getScore().
+   * Implements \AuditCheck\calculateScore().
    */
-  public function getScore() {
+  public function calculateScore() {
     $this->registry['views'] = array();
 
     foreach (views_get_all_views() as $view) {

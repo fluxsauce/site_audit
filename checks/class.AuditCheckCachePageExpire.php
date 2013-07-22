@@ -61,9 +61,9 @@ class AuditCheckCachePageExpire extends AuditCheck {
   }
 
   /**
-   * Implements \AuditCheck\getScore().
+   * Implements \AuditCheck\calculateScore().
    */
-  public function getScore() {
+  public function calculateScore() {
     global $conf;
     if ($conf['page_cache_maximum_age'] >= 900) {
       return AuditCheck::AUDIT_CHECK_SCORE_PASS;

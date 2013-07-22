@@ -51,9 +51,9 @@ class AuditCheckDatabaseSize extends AuditCheck {
   public function getAction() {}
 
   /**
-   * Implements \AuditCheck\getScore().
+   * Implements \AuditCheck\calculateScore().
    */
-  public function getScore() {
+  public function calculateScore() {
     $db_spec = _drush_sql_get_db_spec();
     $sql_query  = 'SELECT SUM(TABLES.data_length + TABLES.index_length) ';
     $sql_query .= 'FROM information_schema.TABLES ';

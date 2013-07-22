@@ -53,9 +53,9 @@ class AuditCheckBestPracticesFast404 extends AuditCheck {
   }
 
   /**
-   * Implements \AuditCheck\getScore().
+   * Implements \AuditCheck\calculateScore().
    */
-  public function getScore() {
+  public function calculateScore() {
     global $conf;
     if ($conf['404_fast_html']) {
       return AuditCheck::AUDIT_CHECK_SCORE_PASS;

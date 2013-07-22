@@ -76,9 +76,9 @@ class AuditCheckViewsCacheResults extends AuditCheck {
   }
 
   /**
-   * Implements \AuditCheck\getScore().
+   * Implements \AuditCheck\calculateScore().
    */
-  public function getScore() {
+  public function calculateScore() {
     $this->registry['results_lifespan'] = array();
     foreach ($this->registry['views'] as $view) {
       foreach ($view->display as $display_name => $display) {

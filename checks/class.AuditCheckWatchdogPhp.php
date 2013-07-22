@@ -59,9 +59,9 @@ class AuditCheckWatchdogPhp extends AuditCheck {
   }
 
   /**
-   * Implements \AuditCheck\getScore().
+   * Implements \AuditCheck\calculateScore().
    */
-  public function getScore() {
+  public function calculateScore() {
     $where = core_watchdog_query('php', NULL, NULL);
     $this->registry['php_counts'] = array();
     $this->registry['php_count_total'] = 0;

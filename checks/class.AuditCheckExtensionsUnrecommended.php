@@ -73,9 +73,9 @@ class AuditCheckExtensionsUnrecommended extends AuditCheck {
   }
 
   /**
-   * Implements \AuditCheck\getScore().
+   * Implements \AuditCheck\calculateScore().
    */
-  public function getScore() {
+  public function calculateScore() {
     $this->registry['extensions_unrec'] = array();
     $extension_info = drush_get_extensions(FALSE);
     uasort($extension_info, '_drush_pm_sort_extensions');

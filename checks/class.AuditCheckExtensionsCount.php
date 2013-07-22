@@ -66,9 +66,9 @@ class AuditCheckExtensionsCount extends AuditCheck {
   }
 
   /**
-   * Implements \AuditCheck\getScore().
+   * Implements \AuditCheck\calculateScore().
    */
-  public function getScore() {
+  public function calculateScore() {
     $this->registry['extension_count'] = 0;
     $extension_info = drush_get_extensions(FALSE);
 

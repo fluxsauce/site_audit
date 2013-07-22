@@ -193,9 +193,9 @@ class AuditCheckInsightsAnalyze extends AuditCheck {
   public function getAction() {}
 
   /**
-   * Implements \AuditCheck\getScore().
+   * Implements \AuditCheck\calculateScore().
    */
-  public function getScore() {
+  public function calculateScore() {
     $pso_url = 'https://www.googleapis.com/pagespeedonline/v1/runPagespeed';
     $pso_url .= '?url=' . $this->registry['url'];
     $pso_url .= '&key=' . $this->registry['key'];

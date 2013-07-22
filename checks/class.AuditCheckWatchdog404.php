@@ -58,9 +58,9 @@ class AuditCheckWatchdog404 extends AuditCheck {
   }
 
   /**
-   * Implements \AuditCheck\getScore().
+   * Implements \AuditCheck\calculateScore().
    */
-  public function getScore() {
+  public function calculateScore() {
     $sql_query  = 'SELECT COUNT(wid) ';
     $sql_query .= 'FROM {watchdog} ';
     $sql_query .= 'WHERE type=:type';

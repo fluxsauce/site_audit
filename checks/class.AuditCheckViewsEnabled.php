@@ -51,9 +51,9 @@ class AuditCheckViewsEnabled extends AuditCheck {
   public function getAction() {}
 
   /**
-   * Implements \AuditCheck\getScore().
+   * Implements \AuditCheck\calculateScore().
    */
-  public function getScore() {
+  public function calculateScore() {
     if (!module_exists('views')) {
       $this->abort = TRUE;
       return AuditCheck::AUDIT_CHECK_SCORE_INFO;

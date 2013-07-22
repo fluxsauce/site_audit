@@ -62,9 +62,9 @@ class AuditCheckWatchdogAge extends AuditCheck {
   public function getAction() {}
 
   /**
-   * Implements \AuditCheck\getScore().
+   * Implements \AuditCheck\calculateScore().
    */
-  public function getScore() {
+  public function calculateScore() {
     // Age of oldest entry.
     $sql_query  = 'SELECT timestamp ';
     $sql_query .= 'FROM {watchdog} ';

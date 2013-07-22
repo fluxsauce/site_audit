@@ -79,9 +79,9 @@ class AuditCheckExtensionsDuplicate extends AuditCheck {
   }
 
   /**
-   * Implements \AuditCheck\getScore().
+   * Implements \AuditCheck\calculateScore().
    */
-  public function getScore() {
+  public function calculateScore() {
     $this->registry['extensions_dupe'] = array();
     $warn = FALSE;
     $drupal_root = drush_get_context('DRUSH_SELECTED_DRUPAL_ROOT');

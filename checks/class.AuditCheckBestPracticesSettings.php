@@ -56,9 +56,9 @@ class AuditCheckBestPracticesSettings extends AuditCheck {
   }
 
   /**
-   * Implements \AuditCheck\getScore().
+   * Implements \AuditCheck\calculateScore().
    */
-  public function getScore() {
+  public function calculateScore() {
     $drupal_root = drush_get_context('DRUSH_SELECTED_DRUPAL_ROOT');
     if (file_exists($drupal_root . '/sites/default/settings.php')) {
       if (is_link($drupal_root . '/sites/default/settings.php')) {

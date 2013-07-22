@@ -79,9 +79,9 @@ class AuditCheckDatabaseRowCount extends AuditCheck {
   public function getAction() {}
 
   /**
-   * Implements \AuditCheck\getScore().
+   * Implements \AuditCheck\calculateScore().
    */
-  public function getScore() {
+  public function calculateScore() {
     $warning = FALSE;
     $db_spec = _drush_sql_get_db_spec();
     $sql_query  = 'SELECT TABLE_NAME AS table_name, TABLE_ROWS AS rows ';

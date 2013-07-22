@@ -52,9 +52,9 @@ class AuditCheckWatchdogCount extends AuditCheck {
   public function getAction() {}
 
   /**
-   * Implements \AuditCheck\getScore().
+   * Implements \AuditCheck\calculateScore().
    */
-  public function getScore() {
+  public function calculateScore() {
     $sql_query  = 'SELECT COUNT(wid) ';
     $sql_query .= 'FROM {watchdog} ';
     $this->registry['count_entries'] = db_query($sql_query)->fetchField();

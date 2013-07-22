@@ -55,9 +55,9 @@ class AuditCheckCacheBlock extends AuditCheck {
   }
 
   /**
-   * Implements \AuditCheck\getScore().
+   * Implements \AuditCheck\calculateScore().
    */
-  public function getScore() {
+  public function calculateScore() {
     global $conf;
     if ($conf['block_cache']) {
       return AuditCheck::AUDIT_CHECK_SCORE_PASS;

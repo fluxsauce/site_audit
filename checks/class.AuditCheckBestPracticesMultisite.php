@@ -55,9 +55,9 @@ class AuditCheckBestPracticesMultisite extends AuditCheck {
   }
 
   /**
-   * Implements \AuditCheck\getScore().
+   * Implements \AuditCheck\calculateScore().
    */
-  public function getScore() {
+  public function calculateScore() {
     $drupal_root = drush_get_context('DRUSH_SELECTED_DRUPAL_ROOT');
     $handle = opendir($drupal_root . '/sites/');
     $this->registry['multisites'] = array();

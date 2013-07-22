@@ -76,9 +76,9 @@ class AuditCheckDatabaseCollation extends AuditCheck {
   public function getAction() {}
 
   /**
-   * Implements \AuditCheck\getScore().
+   * Implements \AuditCheck\calculateScore().
    */
-  public function getScore() {
+  public function calculateScore() {
     $db_spec = _drush_sql_get_db_spec();
     $sql_query  = 'SELECT TABLE_NAME AS name ';
     $sql_query .= ', TABLE_COLLATION AS collation ';

@@ -73,9 +73,9 @@ class AuditCheckCachePageCompression extends AuditCheck {
   }
 
   /**
-   * Implements \AuditCheck\getScore().
+   * Implements \AuditCheck\calculateScore().
    */
-  public function getScore() {
+  public function calculateScore() {
     global $conf;
     if (drush_get_option('vendor') == 'pantheon') {
       if (!$conf['page_compression']) {
