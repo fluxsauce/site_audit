@@ -96,6 +96,9 @@ abstract class AuditReport {
 
   /**
    * Render response using Drush.
+   *
+   * @return string
+   *   Report using Drush native output functions.
    */
   public function toDrush() {
     if ($this->percent == AuditCheck::AUDIT_CHECK_SCORE_INFO) {
@@ -144,7 +147,9 @@ abstract class AuditReport {
 
   /**
    * Render response as HTML; does not include head, body, etc.
+   *
    * @return string
+   *   Report as rendered HTML.
    */
   public function toHtml() {
     $ret_val = '<h2>' . $this->label;
@@ -196,8 +201,10 @@ abstract class AuditReport {
    * Magic get.
    *
    * @param string $name
+   *   Parameter name.
+   *
    * @return mixed
-   *    The contents of the guessed property name.
+   *   The contents of the guessed property name.
    */
   public function __get($name) {
     // Attempt to return a protected property by name.
@@ -218,14 +225,18 @@ abstract class AuditReport {
 
   /**
    * Get the label for the report of what is being checked.
+   *
    * @return string
    *   Human readable label.
    */
   abstract public function getLabel();
 
   /**
-   * Get the names of all the checks within the report. Abstract instead of
-   * using pattern matching so order can be manually specified.
+   * Get the names of all the checks within the report.
+   *
+   * Abstract instead of using pattern matching so order can be manually
+   * specified.
+   *
    * @return array
    *   Machine readable names.
    */

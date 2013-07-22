@@ -31,8 +31,6 @@ class AuditCheckBestPracticesFast404 extends AuditCheck {
 
   /**
    * Implements \AuditCheck\getResultPass().
-   * @return string
-   *   Get a description of what happened in a passed check.
    */
   public function getResultPass() {
     return dt('Fast 404 pages are enabled.');
