@@ -1,23 +1,47 @@
 <?php
+/**
+ * @file
+ * Contains \AuditCheckExtensionsDev.
+ */
 
 class AuditCheckExtensionsDev extends AuditCheck {
-  protected $_extensions = array();
-
+  /**
+   * Implements \AuditCheck\getLabel().
+   */
   public function getLabel() {
     return dt('Development');
   }
 
+  /**
+   * Implements \AuditCheck\getDescription().
+   */
+  public function getDescription() {
+    return dt('Check for enabled development modules.');
+  }
+
+  /**
+   * Implements \AuditCheck\getResultFail().
+   */
   public function getResultFail() {}
 
+  /**
+   * Implements \AuditCheck\getResultInfo().
+   */
   public function getResultInfo() {}
 
+  /**
+   * Implements \AuditCheck\getResultPass().
+   */
   public function getResultPass() {
     return dt('No enabled development extensions were detected; no action required.');
   }
 
+  /**
+   * Implements \AuditCheck\getResultWarning().
+   */
   public function getResultWarning() {
     $ret_val = dt('The following development modules(s) are currently enabled: @list', array(
-      '@list' => implode(', ', array_keys($this->_extensions)),
+      '@list' => implode(', ', array_keys($this->registry['extensions_dev'])),
     ));
     if (drush_get_context('DRUSH_VERBOSE')) {
       if ($this->html) {
@@ -25,7 +49,7 @@ class AuditCheckExtensionsDev extends AuditCheck {
         $ret_val .= '<table>';
         $ret_val .= '<thead><tr><th>Name</th><th>Reason</th></thead>';
         $ret_val .= '<tbody>';
-        foreach ($this->_extensions as $row) {
+        foreach ($this->registry['extensions_dev'] as $row) {
           $ret_val .= '<tr><td>' . implode('</td><td>', $row) . '</td></tr>';
         }
         $ret_val .= '</tbody>';
@@ -33,7 +57,7 @@ class AuditCheckExtensionsDev extends AuditCheck {
       }
       else {
         $ret_val .= PHP_EOL;
-        foreach ($this->_extensions as $row) {
+        foreach ($this->registry['extensions_dev'] as $row) {
           $ret_val .= '    ' . $row[0] . ': ' . $row[1] . PHP_EOL;
         }
       }
@@ -41,15 +65,18 @@ class AuditCheckExtensionsDev extends AuditCheck {
     return $ret_val;
   }
 
+  /**
+   * Implements \AuditCheck\getAction().
+   */
   public function getAction() {
     return dt('Disable development modules for increased performance, stability and security in the Live (production) environment.');
   }
 
-  public function getDescription() {
-    return dt('Check for enabled development modules.');
-  }
-
+  /**
+   * Implements \AuditCheck\getScore().
+   */
   public function getScore() {
+    $this->registry['extensions_dev'] = array();
     $extension_info = drush_get_extensions(FALSE);
     uasort($extension_info, '_drush_pm_sort_extensions');
     $dev_extensions = $this->getExtensions();
@@ -73,10 +100,10 @@ class AuditCheckExtensionsDev extends AuditCheck {
       // Reason.
       $row[] = $dev_extensions[$extension->name];
 
-      $this->_extensions[$extension->name] = $row;
+      $this->registry['extensions_dev'][$extension->name] = $row;
     }
 
-    if (!empty($this->_extensions)) {
+    if (!empty($this->registry['extensions_dev'])) {
       return AuditCheck::AUDIT_CHECK_SCORE_WARN;
     }
     return AuditCheck::AUDIT_CHECK_SCORE_PASS;

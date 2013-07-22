@@ -1,19 +1,40 @@
 <?php
+/**
+ * @file
+ * Contains \AuditCheckDatabaseRowCount.
+ */
 
 class AuditCheckDatabaseRowCount extends AuditCheck {
   const AUDIT_CHECK_DB_ROW_MIN_DEFAULT = 1000;
-  protected $_rows_by_table;
 
+  /**
+   * Implements \AuditCheck\getLabel().
+   */
   public function getLabel() {
     return dt('Tables with at least @min_rows rows', array(
       '@min_rows' => drush_get_option('min_rows', AuditCheckDatabaseRowCount::AUDIT_CHECK_DB_ROW_MIN_DEFAULT),
     ));
   }
 
+  /**
+   * Implements \AuditCheck\getDescription().
+   */
+  public function getDescription() {
+    return dt('Return list of all tables with at least @min_rows rows in the database.', array(
+      '@min_rows' => drush_get_option('min_rows', AuditCheckDatabaseRowCount::AUDIT_CHECK_DB_ROW_MIN_DEFAULT),
+    ));
+  }
+
+  /**
+   * Implements \AuditCheck\getResultFail().
+   */
   public function getResultFail() {}
 
+  /**
+   * Implements \AuditCheck\getResultInfo().
+   */
   public function getResultInfo() {
-    if (empty($this->_rows_by_table)) {
+    if (empty($this->registry['rows_by_table'] )) {
       return dt('No tables with less than @min_rows rows.', array(
         '@min_rows' => drush_get_option('min_rows', AuditCheckDatabaseRowCount::AUDIT_CHECK_DB_ROW_MIN_DEFAULT),
       ));
@@ -22,7 +43,7 @@ class AuditCheckDatabaseRowCount extends AuditCheck {
       $ret_val = '<table>';
       $ret_val .= '<thead><tr><th>Table Name</th><th>Rows</th></tr></thead>';
       $ret_val .= '<tbody>';
-      foreach ($this->_rows_by_table as $table_name => $rows) {
+      foreach ($this->registry['rows_by_table'] as $table_name => $rows) {
         $ret_val .= '<tr>';
         $ret_val .= '<td>' . $table_name . '</td>';
         $ret_val .= '<td>' . $rows . '</td>';
@@ -33,27 +54,33 @@ class AuditCheckDatabaseRowCount extends AuditCheck {
     else {
       $ret_val  = 'Table Name: Rows' . PHP_EOL;
       $ret_val .= '----------------' . PHP_EOL;
-      foreach ($this->_rows_by_table as $table_name => $rows) {
+      foreach ($this->registry['rows_by_table']  as $table_name => $rows) {
         $ret_val .= "$table_name: $rows" . PHP_EOL;
       }
     }
     return $ret_val;
   }
 
+  /**
+   * Implements \AuditCheck\getResultPass().
+   */
   public function getResultPass() {}
 
+  /**
+   * Implements \AuditCheck\getResultWarning().
+   */
   public function getResultWarning() {
     return $this->getResultInfo();
   }
 
+  /**
+   * Implements \AuditCheck\getAction().
+   */
   public function getAction() {}
 
-  public function getDescription() {
-    return dt('Return list of all tables with at least @min_rows rows in the database.', array(
-      '@min_rows' => drush_get_option('min_rows', AuditCheckDatabaseRowCount::AUDIT_CHECK_DB_ROW_MIN_DEFAULT),
-    ));
-  }
-
+  /**
+   * Implements \AuditCheck\getScore().
+   */
   public function getScore() {
     $warning = FALSE;
     $db_spec = _drush_sql_get_db_spec();
@@ -70,7 +97,7 @@ class AuditCheckDatabaseRowCount extends AuditCheck {
       if ($row->rows > drush_get_option('min_rows', AuditCheckDatabaseRowCount::AUDIT_CHECK_DB_ROW_MIN_DEFAULT)) {
         $warning = TRUE;
       }
-      $this->rows_by_table[$row->table_name] = $row->rows;
+      $this->registry['rows_by_table'][$row->table_name] = $row->rows;
     }
     if ($warning) {
       return AuditCheck::AUDIT_CHECK_SCORE_WARN;

@@ -1,26 +1,55 @@
 <?php
+/**
+ * @file
+ * Contains \AuditCheckViewsCacheResults.
+ */
 
 class AuditCheckViewsCacheResults extends AuditCheck {
+  /**
+   * Implements \AuditCheck\getLabel().
+   */
   public function getLabel() {
     return dt('Query results caching');
   }
 
+  /**
+   * Implements \AuditCheck\getDescription().
+   */
+  public function getDescription() {
+    return dt('Check the length of time raw query results should be cached.');
+  }
+
+  /**
+   * Implements \AuditCheck\getResultFail().
+   */
   public function getResultFail() {
     return dt('No View is caching query results!');
   }
 
+  /**
+   * Implements \AuditCheck\getResultInfo().
+   */
   public function getResultInfo() {}
 
+  /**
+   * Implements \AuditCheck\getResultPass().
+   */
   public function getResultPass() {
     return dt('Every View is caching query results.');
   }
 
+  /**
+   * Implements \AuditCheck\getResultWarning().
+   */
   public function getResultWarning() {
     return dt('The following Views are not caching query results: @views_without_results_caching', array(
       '@views_without_results_caching' => implode(', ', $this->registry['views_without_results_caching']),
     ));
   }
 
+  /**
+   * Implements \AuditCheck\getAction().
+   */
   public function getAction() {
     if ($this->score != AuditCheck::AUDIT_CHECK_SCORE_PASS) {
       $ret_val = dt('Query results should be cached for at least 1 minute.');
@@ -46,10 +75,9 @@ class AuditCheckViewsCacheResults extends AuditCheck {
     }
   }
 
-  public function getDescription() {
-    return dt('Check the length of time raw query results should be cached.');
-  }
-
+  /**
+   * Implements \AuditCheck\getScore().
+   */
   public function getScore() {
     $this->registry['results_lifespan'] = array();
     foreach ($this->registry['views'] as $view) {

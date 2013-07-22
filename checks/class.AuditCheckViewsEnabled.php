@@ -1,30 +1,58 @@
 <?php
+/**
+ * @file
+ * Contains \AuditCheckViewsEnabled.
+ */
 
 class AuditCheckViewsEnabled extends AuditCheck {
+  /**
+   * Implements \AuditCheck\getLabel().
+   */
   public function getLabel() {
     return dt('Views status');
   }
 
-  public function getResultFail() {}
-
-  public function getResultInfo() {
-    return dt('Views is not enabled.');
-  }
-
-  public function getResultPass() {
-    return dt('Views is enabled.');
-  }
-
-  public function getResultWarning() {
-    return dt('Only Views 7.x-3.x is supported by this tool.');
-  }
-
-  public function getAction() {}
-
+  /**
+   * Implements \AuditCheck\getDescription().
+   */
   public function getDescription() {
     return dt('Check to see if enabled');
   }
 
+  /**
+   * Implements \AuditCheck\getResultFail().
+   */
+  public function getResultFail() {}
+
+  /**
+   * Implements \AuditCheck\getResultInfo().
+   */
+  public function getResultInfo() {
+    return dt('Views is not enabled.');
+  }
+
+  /**
+   * Implements \AuditCheck\getResultPass().
+   */
+  public function getResultPass() {
+    return dt('Views is enabled.');
+  }
+
+  /**
+   * Implements \AuditCheck\getResultWarning().
+   */
+  public function getResultWarning() {
+    return dt('Only Views 7.x-3.x is supported by this tool.');
+  }
+
+  /**
+   * Implements \AuditCheck\getAction().
+   */
+  public function getAction() {}
+
+  /**
+   * Implements \AuditCheck\getScore().
+   */
   public function getScore() {
     if (!module_exists('views')) {
       $this->abort = TRUE;

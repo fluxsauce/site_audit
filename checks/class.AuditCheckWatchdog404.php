@@ -1,12 +1,32 @@
 <?php
+/**
+ * @file
+ * Contains \AuditCheckWatchdog404.
+ */
 
 class AuditCheckWatchdog404 extends AuditCheck {
+  /**
+   * Implements \AuditCheck\getLabel().
+   */
   public function getLabel() {
     return dt('Number of 404 entries');
   }
 
+  /**
+   * Implements \AuditCheck\getDescription().
+   */
+  public function getDescription() {
+    return dt('Count the number of page not found entries.');
+  }
+
+  /**
+   * Implements \AuditCheck\getResultFail().
+   */
   public function getResultFail() {}
 
+  /**
+   * Implements \AuditCheck\getResultInfo().
+   */
   public function getResultInfo() {
     return dt('@count_404 pages not found (@percent_404%).', array(
       '@count_404' => $this->registry['count_404'],
@@ -14,24 +34,32 @@ class AuditCheckWatchdog404 extends AuditCheck {
     ));
   }
 
+  /**
+   * Implements \AuditCheck\getResultPass().
+   */
   public function getResultPass() {
     return dt('No 404 entries.');
   }
 
+  /**
+   * Implements \AuditCheck\getResultWarning().
+   */
   public function getResultWarning() {
     return $this->getResultInfo();
   }
 
+  /**
+   * Implements \AuditCheck\getAction().
+   */
   public function getAction() {
     if ($this->score == AuditCheck::AUDIT_CHECK_SCORE_WARN) {
       return dt('Review the full report at admin/reports/page-not-found. If self-inflicted, fix the source. If a redirect is appropriate, visit admin/config/search/path and add URL aliases.');
     }
   }
 
-  public function getDescription() {
-    return dt('Count the number of page not found entries.');
-  }
-
+  /**
+   * Implements \AuditCheck\getScore().
+   */
   public function getScore() {
     $sql_query  = 'SELECT COUNT(wid) ';
     $sql_query .= 'FROM {watchdog} ';

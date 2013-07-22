@@ -1,14 +1,37 @@
 <?php
+/**
+ * @file
+ * Contains \AuditCheckViewsCount.
+ */
 
 class AuditCheckViewsCount extends AuditCheck {
+  /**
+   * Implements \AuditCheck\getLabel().
+   */
   public function getLabel() {
     return dt('Count');
   }
 
+  /**
+   * Implements \AuditCheck\getDescription().
+   */
+  public function getDescription() {
+    return dt('Number of enabled Views.');
+  }
+
+  /**
+   * Implements \AuditCheck\getResultFail().
+   */
   public function getResultFail() {}
 
+  /**
+   * Implements \AuditCheck\getResultInfo().
+   */
   public function getResultInfo() {}
 
+  /**
+   * Implements \AuditCheck\getResultPass().
+   */
   public function getResultPass() {
     $views_count = count($this->registry['views']);
     if (!$views_count) {
@@ -19,20 +42,25 @@ class AuditCheckViewsCount extends AuditCheck {
     ));
   }
 
+  /**
+   * Implements \AuditCheck\getResultWarning().
+   */
   public function getResultWarning() {
     return $this->getResultPass();
   }
 
+  /**
+   * Implements \AuditCheck\getAction().
+   */
   public function getAction() {
     if ($this->score == AuditCheck::AUDIT_CHECK_SCORE_WARN) {
       return dt('Consider disabling the views module if you don\'t need it.');
     }
   }
 
-  public function getDescription() {
-    return dt('Number of enabled Views.');
-  }
-
+  /**
+   * Implements \AuditCheck\getScore().
+   */
   public function getScore() {
     $this->registry['views'] = array();
 

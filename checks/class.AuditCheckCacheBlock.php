@@ -62,8 +62,8 @@ class AuditCheckCacheBlock extends AuditCheck {
     if ($conf['block_cache']) {
       return AuditCheck::AUDIT_CHECK_SCORE_PASS;
     }
-    // https://api.drupal.org/api/drupal/modules!block!block.module/function/block_form_system_performance_settings_alter/7
-    else if (count(module_implements('node_grants'))) {
+    // Same as block_form_system_performance_settings_alter().
+    elseif (count(module_implements('node_grants'))) {
       return AuditCheck::AUDIT_CHECK_SCORE_WARN;
     }
     return AuditCheck::AUDIT_CHECK_SCORE_FAIL;

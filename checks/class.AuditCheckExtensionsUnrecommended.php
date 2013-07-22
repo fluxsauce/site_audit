@@ -1,15 +1,30 @@
 <?php
+/**
+ * @file
+ * Contains \AuditCheckExtensionsUnrecommended.
+ */
 
 class AuditCheckExtensionsUnrecommended extends AuditCheck {
-  protected $_extensions = array();
-
+  /**
+   * Implements \AuditCheck\getLabel().
+   */
   public function getLabel() {
     return dt('Not recommended');
   }
 
+  /**
+   * Implements \AuditCheck\getDescription().
+   */
+  public function getDescription() {
+    return dt('Check for unrecommended modules.');
+  }
+
+  /**
+   * Implements \AuditCheck\getResultFail().
+   */
   public function getResultFail() {
     $ret_val = dt('The following unrecommended modules(s) are currently enabled: @list', array(
-      '@list' => implode(', ', array_keys($this->_extensions)),
+      '@list' => implode(', ', array_keys($this->registry['extensions_unrec'])),
     ));
     if (drush_get_context('DRUSH_VERBOSE')) {
       if ($this->html) {
@@ -17,7 +32,7 @@ class AuditCheckExtensionsUnrecommended extends AuditCheck {
         $ret_val .= '<table>';
         $ret_val .= '<thead><tr><th>Name</th><th>Reason</th></thead>';
         $ret_val .= '<tbody>';
-        foreach ($this->_extensions as $row) {
+        foreach ($this->registry['extensions_unrec'] as $row) {
           $ret_val .= '<tr><td>' . implode('</td><td>', $row) . '</td></tr>';
         }
         $ret_val .= '</tbody>';
@@ -25,7 +40,7 @@ class AuditCheckExtensionsUnrecommended extends AuditCheck {
       }
       else {
         $ret_val .= PHP_EOL;
-        foreach ($this->_extensions as $row) {
+        foreach ($this->registry['extensions_unrec'] as $row) {
           $ret_val .= '    ' . $row[0] . ': ' . $row[1] . PHP_EOL;
         }
       }
@@ -33,23 +48,35 @@ class AuditCheckExtensionsUnrecommended extends AuditCheck {
     return $ret_val;
   }
 
+  /**
+   * Implements \AuditCheck\getResultInfo().
+   */
   public function getResultInfo() {}
 
+  /**
+   * Implements \AuditCheck\getResultPass().
+   */
   public function getResultPass() {
     return dt('No unrecommended extensions were detected; no action required.');
   }
 
+  /**
+   * Implements \AuditCheck\getResultWarning().
+   */
   public function getResultWarning() {}
 
+  /**
+   * Implements \AuditCheck\getAction().
+   */
   public function getAction() {
     return dt('Disable and completely remove unrecommended modules for increased performance, stability and security in the any environment.');
   }
 
-  public function getDescription() {
-    return dt('Check for unrecommended modules.');
-  }
-
+  /**
+   * Implements \AuditCheck\getScore().
+   */
   public function getScore() {
+    $this->registry['extensions_unrec'] = array();
     $extension_info = drush_get_extensions(FALSE);
     uasort($extension_info, '_drush_pm_sort_extensions');
     $unrecommended_extensions = $this->getExtensions();
@@ -67,10 +94,10 @@ class AuditCheckExtensionsUnrecommended extends AuditCheck {
       // Reason.
       $row[] = $unrecommended_extensions[$extension->name];
 
-      $this->_extensions[$extension->name] = $row;
+      $this->registry['extensions_unrec'][$extension->name] = $row;
     }
 
-    if (!empty($this->_extensions)) {
+    if (!empty($this->registry['extensions_unrec'])) {
       return AuditCheck::AUDIT_CHECK_SCORE_FAIL;
     }
     return AuditCheck::AUDIT_CHECK_SCORE_PASS;

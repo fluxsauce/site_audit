@@ -1,10 +1,27 @@
 <?php
+/**
+ * @file
+ * Contains \AuditCheckInsightsAnalyze.
+ */
 
 class AuditCheckInsightsAnalyze extends AuditCheck {
+  /**
+   * Implements \AuditCheck\getLabel().
+   */
   public function getLabel() {
     return dt('Report');
   }
 
+  /**
+   * Implements \AuditCheck\getDescription().
+   */
+  public function getDescription() {
+    return dt('Full report at https://developers.google.com/speed/pagespeed/insights');
+  }
+
+  /**
+   * Implements \AuditCheck\getResultFail().
+   */
   public function getResultFail() {
     if (!empty($this->registry['errors'])) {
       if ($this->html) {
@@ -18,10 +35,16 @@ class AuditCheckInsightsAnalyze extends AuditCheck {
     $this->getResultPass();
   }
 
+  /**
+   * Implements \AuditCheck\getResultInfo().
+   */
   public function getResultInfo() {
     return dt('Views is not enabled.');
   }
 
+  /**
+   * Implements \AuditCheck\getResultPass().
+   */
   public function getResultPass() {
     if ($this->abort) {
       return;
@@ -157,16 +180,21 @@ class AuditCheckInsightsAnalyze extends AuditCheck {
     return $ret_val;
   }
 
+  /**
+   * Implements \AuditCheck\getResultWarning().
+   */
   public function getResultWarning() {
     return $this->getResultPass();
   }
 
+  /**
+   * Implements \AuditCheck\getAction().
+   */
   public function getAction() {}
 
-  public function getDescription() {
-    return dt('Full report at https://developers.google.com/speed/pagespeed/insights');
-  }
-
+  /**
+   * Implements \AuditCheck\getScore().
+   */
   public function getScore() {
     $pso_url = 'https://www.googleapis.com/pagespeedonline/v1/runPagespeed';
     $pso_url .= '?url=' . $this->registry['url'];

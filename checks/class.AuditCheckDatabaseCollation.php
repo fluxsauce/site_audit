@@ -1,14 +1,36 @@
 <?php
+/**
+ * @file
+ * Contains \AuditCheckDatabaseCollation.
+ */
 
 class AuditCheckDatabaseCollation extends AuditCheck {
   const AUDIT_CHECK_DB_COLLATION_DEFAULT = 'utf8_general_ci';
 
+  /**
+   * Implements \AuditCheck\getLabel().
+   */
   public function getLabel() {
     return dt('Collations');
   }
 
+  /**
+   * Implements \AuditCheck\getDescription().
+   */
+  public function getDescription() {
+    return dt('Check to see if there are any tables that aren\'t using @collation.', array(
+      '@collation' => drush_get_option('expected_collation', self::AUDIT_CHECK_DB_COLLATION_DEFAULT),
+    ));
+  }
+
+  /**
+   * Implements \AuditCheck\getResultFail().
+   */
   public function getResultFail() {}
 
+  /**
+   * Implements \AuditCheck\getResultInfo().
+   */
   public function getResultInfo() {
     if ($this->html) {
       $ret_val = '<table>';
@@ -32,24 +54,30 @@ class AuditCheckDatabaseCollation extends AuditCheck {
     return $ret_val;
   }
 
+  /**
+   * Implements \AuditCheck\getResultPass().
+   */
   public function getResultPass() {
     return dt('Every table is using @collation.', array(
       '@collation' => drush_get_option('expected_collation', self::AUDIT_CHECK_DB_COLLATION_DEFAULT),
     ));
   }
 
+  /**
+   * Implements \AuditCheck\getResultWarning().
+   */
   public function getResultWarning() {
     return $this->getResultInfo();
   }
 
+  /**
+   * Implements \AuditCheck\getAction().
+   */
   public function getAction() {}
 
-  public function getDescription() {
-    return dt('Check to see if there are any tables that aren\'t using @collation.', array(
-      '@collation' => drush_get_option('expected_collation', self::AUDIT_CHECK_DB_COLLATION_DEFAULT),
-    ));
-  }
-
+  /**
+   * Implements \AuditCheck\getScore().
+   */
   public function getScore() {
     $db_spec = _drush_sql_get_db_spec();
     $sql_query  = 'SELECT TABLE_NAME AS name ';

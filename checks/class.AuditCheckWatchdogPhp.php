@@ -1,12 +1,32 @@
 <?php
+/**
+ * @file
+ * Contains \AuditCheckWatchdogPhp.
+ */
 
 class AuditCheckWatchdogPhp extends AuditCheck {
+  /**
+   * Implements \AuditCheck\getLabel().
+   */
   public function getLabel() {
     return dt('PHP messages');
   }
 
+  /**
+   * Implements \AuditCheck\getDescription().
+   */
+  public function getDescription() {
+    return dt('Count PHP notices, warnings and errors.');
+  }
+
+  /**
+   * Implements \AuditCheck\getResultFail().
+   */
   public function getResultFail() {}
 
+  /**
+   * Implements \AuditCheck\getResultInfo().
+   */
   public function getResultInfo() {
     $counts = array();
     foreach ($this->registry['php_counts'] as $severity => $count) {
@@ -15,24 +35,32 @@ class AuditCheckWatchdogPhp extends AuditCheck {
     return implode(', ', $counts);
   }
 
+  /**
+   * Implements \AuditCheck\getResultPass().
+   */
   public function getResultPass() {
     return dt('No PHP warnings, notices or errors.');
   }
 
+  /**
+   * Implements \AuditCheck\getResultWarning().
+   */
   public function getResultWarning() {
     return $this->getResultInfo();
   }
 
+  /**
+   * Implements \AuditCheck\getAction().
+   */
   public function getAction() {
     if ($this->score == AuditCheck::AUDIT_CHECK_SCORE_WARN) {
       return dt('Every time Drupal logs a PHP notice, warning or error, PHP executes slower and the writing operation locks the database. By eliminating the problems, your site will be faster.');
     }
   }
 
-  public function getDescription() {
-    return dt('Count PHP notices, warnings and errors.');
-  }
-
+  /**
+   * Implements \AuditCheck\getScore().
+   */
   public function getScore() {
     $where = core_watchdog_query('php', NULL, NULL);
     $this->registry['php_counts'] = array();

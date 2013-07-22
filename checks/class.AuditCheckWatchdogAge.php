@@ -1,15 +1,35 @@
 <?php
+/**
+ * @file
+ * Contains \AuditCheckWatchdogAge.
+ */
 
 class AuditCheckWatchdogAge extends AuditCheck {
   public $ageNewest;
   public $ageOldest;
 
+  /**
+   * Implements \AuditCheck\getLabel().
+   */
   public function getLabel() {
     return dt('Date range of log entries');
   }
 
+  /**
+   * Implements \AuditCheck\getDescription().
+   */
+  public function getDescription() {
+    return dt('Oldest and newest.');
+  }
+
+  /**
+   * Implements \AuditCheck\getResultFail().
+   */
   public function getResultFail() {}
 
+  /**
+   * Implements \AuditCheck\getResultInfo().
+   */
   public function getResultInfo() {
     // If two different days...
     if (date('Y-m-d', $this->ageOldest) != date('Y-m-d', $this->ageNewest)) {
@@ -26,16 +46,24 @@ class AuditCheckWatchdogAge extends AuditCheck {
     ));
   }
 
+  /**
+   * Implements \AuditCheck\getResultPass().
+   */
   public function getResultPass() {}
 
+  /**
+   * Implements \AuditCheck\getResultWarning().
+   */
   public function getResultWarning() {}
 
+  /**
+   * Implements \AuditCheck\getAction().
+   */
   public function getAction() {}
 
-  public function getDescription() {
-    return dt('Oldest and newest.');
-  }
-
+  /**
+   * Implements \AuditCheck\getScore().
+   */
   public function getScore() {
     // Age of oldest entry.
     $sql_query  = 'SELECT timestamp ';
