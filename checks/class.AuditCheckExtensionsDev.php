@@ -112,6 +112,7 @@ class AuditCheckExtensionsDev extends AuditCheck {
   /**
    * Get a list of development extension names and reasons.
    * @return array
+   *   Keyed by module machine name, value is explanation.
    */
   public function getExtensions() {
     $developer_modules = array(

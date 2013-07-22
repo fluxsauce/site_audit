@@ -210,7 +210,7 @@ class AuditCheckInsightsAnalyze extends AuditCheck {
     if (isset($this->registry['json_result']->error)) {
       $this->abort = TRUE;
       $this->registry['errors'] = array();
-      foreach($this->registry['json_result']->error->errors as $error) {
+      foreach ($this->registry['json_result']->error->errors as $error) {
         $this->registry['errors'][] = dt('@message (@domain - @reason)', array(
           '@message' => $error->message,
           '@domain' => $error->domain,
@@ -235,9 +235,11 @@ class AuditCheckInsightsAnalyze extends AuditCheck {
  * Perform brute force variable replacement on a Google formatted string.
  *
  * @param string $format
+ *   Content to be formatted.
  * @param array $args
- *   Optional; contains standard objects
+ *   Optional; contains standard objects.
  * @return string
+ *   Human readable formatted content.
  */
 function google_json_text_replacement($format, $args = array()) {
   if (!$args) {

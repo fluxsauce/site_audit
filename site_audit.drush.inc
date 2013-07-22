@@ -147,38 +147,30 @@ function site_audit_drush_command() {
  */
 function site_audit_drush_help($section) {
   switch ($section) {
-    case 'drush:audit_cache':{
+    case 'drush:audit_cache':
       return dt('Audit Drupal\'s caching settings.');
-      break;
-    }
-    case 'drush:audit_codebase':{
+
+    case 'drush:audit_codebase':
       return dt('Audit the codebase of a Drupal site.');
-      break;
-    }
-    case 'drush:audit_database':{
+
+    case 'drush:audit_database':
       return dt('Audit the database structure and contents.');
-      break;
-    }
-    case 'drush:audit_extensions':{
+
+    case 'drush:audit_extensions':
       return dt('Audit modules and themes (extensions).');
-      break;
-    }
-    case 'drush:audit_watchdog':{
+
+    case 'drush:audit_watchdog':
       return dt('Audit Drupal\'s database logs.');
-      break;
-    }
-    case 'drush:audit_best_practices':{
+
+    case 'drush:audit_best_practices':
       return dt('Audit site for best practices.');
-      break;
-    }
-    case 'drush:audit_views':{
+
+    case 'drush:audit_views':
       return dt('Audit Views displays.');
-      break;
-    }
-    case 'meta:site_audit:title':{
+
+    case 'meta:site_audit:title':
       return dt('Tools for auditing a Drupal site, providing actionable suggestions when possible.');
-      break;
-    }
+
   }
 }
 

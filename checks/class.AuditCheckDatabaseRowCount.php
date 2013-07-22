@@ -34,7 +34,7 @@ class AuditCheckDatabaseRowCount extends AuditCheck {
    * Implements \AuditCheck\getResultInfo().
    */
   public function getResultInfo() {
-    if (empty($this->registry['rows_by_table'] )) {
+    if (empty($this->registry['rows_by_table'])) {
       return dt('No tables with less than @min_rows rows.', array(
         '@min_rows' => drush_get_option('min_rows', AuditCheckDatabaseRowCount::AUDIT_CHECK_DB_ROW_MIN_DEFAULT),
       ));
@@ -54,7 +54,7 @@ class AuditCheckDatabaseRowCount extends AuditCheck {
     else {
       $ret_val  = 'Table Name: Rows' . PHP_EOL;
       $ret_val .= '----------------' . PHP_EOL;
-      foreach ($this->registry['rows_by_table']  as $table_name => $rows) {
+      foreach ($this->registry['rows_by_table'] as $table_name => $rows) {
         $ret_val .= "$table_name: $rows" . PHP_EOL;
       }
     }

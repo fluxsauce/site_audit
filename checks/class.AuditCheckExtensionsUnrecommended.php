@@ -106,6 +106,7 @@ class AuditCheckExtensionsUnrecommended extends AuditCheck {
   /**
    * Get a list of unrecommended extension names and reasons.
    * @return array
+   *   Keyed by module machine name, value is explanation.
    */
   public function getExtensions() {
     $unrecommended_modules = array(

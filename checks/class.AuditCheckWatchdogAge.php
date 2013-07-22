@@ -36,7 +36,7 @@ class AuditCheckWatchdogAge extends AuditCheck {
       return dt('From @from to @to (@days days)', array(
         '@from' => date('r', $this->ageOldest),
         '@to' => date('r', $this->ageNewest),
-        '@days' => round(($this->ageNewest - $this->ageOldest) / 86400, 2)
+        '@days' => round(($this->ageNewest - $this->ageOldest) / 86400, 2),
       ));
     }
     // Same day; don't calculate number of days.
