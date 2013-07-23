@@ -178,91 +178,56 @@ function site_audit_drush_help($section) {
  * Check Drupal's caching settings and make recommendations as necessary.
  */
 function drush_site_audit_audit_cache() {
-  $check = new AuditReportCache();
-  if (drush_get_option('html')) {
-    echo $check->toHtml();
-  }
-  else {
-    $check->toDrush();
-  }
+  $report = new AuditReportCache();
+  $report->render();
 }
 
 /**
  * Audit the database associated with a Drupal site.
  */
 function drush_site_audit_audit_database() {
-  $check = new AuditReportDatabase();
-  if (drush_get_option('html')) {
-    echo $check->toHtml();
-  }
-  else {
-    $check->toDrush();
-  }
+  $report = new AuditReportDatabase();
+  $report->render();
 }
 
 /**
  * Audit modules and themes (extensions) for a given Drupal site.
  */
 function drush_site_audit_audit_extensions() {
-  $check = new AuditReportExtensions();
-  if (drush_get_option('html')) {
-    echo $check->toHtml();
-  }
-  else {
-    $check->toDrush();
-  }
+  $report = new AuditReportExtensions();
+  $report->render();
 }
 
 /**
  * Audit the executable codebase of a Drupal site.
  */
 function drush_site_audit_audit_codebase() {
-  $check = new AuditReportCodebase();
-  if (drush_get_option('html')) {
-    echo $check->toHtml();
-  }
-  else {
-    $check->toDrush();
-  }
+  $report = new AuditReportCodebase();
+  $report->render();
 }
 
 /**
  * Audit the database logs of a Drupal site.
  */
 function drush_site_audit_audit_watchdog() {
-  $check = new AuditReportWatchdog();
-  if (drush_get_option('html')) {
-    echo $check->toHtml();
-  }
-  else {
-    $check->toDrush();
-  }
+  $report = new AuditReportWatchdog();
+  $report->render();
 }
 
 /**
  * Audit the database logs of a Drupal site.
  */
 function drush_site_audit_audit_best_practices() {
-  $check = new AuditReportBestPractices();
-  if (drush_get_option('html')) {
-    echo $check->toHtml();
-  }
-  else {
-    $check->toDrush();
-  }
+  $report = new AuditReportBestPractices();
+  $report->render();
 }
 
 /**
  * Audit Views.
  */
 function drush_site_audit_audit_views() {
-  $check = new AuditReportViews();
-  if (drush_get_option('html')) {
-    echo $check->toHtml();
-  }
-  else {
-    $check->toDrush();
-  }
+  $report = new AuditReportViews();
+  $report->render();
 }
 
 /**
@@ -274,20 +239,23 @@ function drush_site_audit_audit_views() {
  *   URL to check.
  */
 function drush_site_audit_audit_google_insights_validate($key = '', $url = '') {
-  // Not going to write something that will validate the key itself, just check
-  // to see if it exists.
+  // Just check the API key exists.
   if (!$key) {
     drush_set_error('SITE_AUDIT_GOOGLE_INSIGHTS_NO_KEY', dt('An API key is required; see https://developers.google.com/speed/docs/insights/v1/getting_started#auth'));
   }
   if (filter_var($url, FILTER_VALIDATE_URL) === FALSE) {
     drush_set_error('SITE_AUDIT_GOOGLE_INSIGHTS_NO_URL', dt('A valid URL is required.'));
   }
+
+  // Optional impact.
   $impact = drush_get_option('impact');
   if ($impact) {
     if ($impact < 0 || !is_numeric($impact)) {
       drush_set_error('SITE_AUDIT_GOOGLE_INSIGHTS_BAD_IMPACT_FILTER', dt('Impact filter must be a number greater than 0.'));
     }
   }
+
+  // Optional limit.
   $limit = drush_get_option('limit');
   if ($limit) {
     if ($limit < 0 || !is_numeric($limit) || ($limit != (int) $limit)) {
@@ -305,11 +273,6 @@ function drush_site_audit_audit_google_insights_validate($key = '', $url = '') {
  *   URL to check.
  */
 function drush_site_audit_audit_google_insights($key, $url) {
-  $check = new AuditReportInsights($key, $url);
-  if (drush_get_option('html')) {
-    echo $check->toHtml();
-  }
-  else {
-    $check->toDrush();
-  }
+  $report = new AuditReportInsights($key, $url);
+  $report->render();
 }

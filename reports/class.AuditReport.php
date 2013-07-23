@@ -171,6 +171,18 @@ abstract class AuditReport {
   }
 
   /**
+   * Render the report; respects drush options.
+   */
+  public function render() {
+    if (drush_get_option('html')) {
+      echo $this->toHtml();
+    }
+    else {
+      $this->toDrush();
+    }
+  }
+
+  /**
    * Get the label for the report of what is being checked.
    *
    * @return string
