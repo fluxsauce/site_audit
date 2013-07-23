@@ -41,7 +41,7 @@ class SiteAuditCheckExtensionsDuplicate extends SiteAuditCheckAbstract {
    */
   public function getResultWarning() {
     $ret_val = dt('The following duplicate extensions were detected:');
-    if ($this->html) {
+    if (drush_get_option('html')) {
       $ret_val = '<p>' . $ret_val . '</p>';
       $ret_val .= '<table>';
       $ret_val .= '<thead><tr><th>Name</th><th>Paths</th></thead>';

@@ -39,7 +39,7 @@ class SiteAuditCheckDatabaseRowCount extends SiteAuditCheckAbstract {
         '@min_rows' => drush_get_option('min_rows', SiteAuditCheckDatabaseRowCount::AUDIT_CHECK_DB_ROW_MIN_DEFAULT),
       ));
     }
-    if ($this->html) {
+    if (drush_get_option('html')) {
       $ret_val = '<table>';
       $ret_val .= '<thead><tr><th>Table Name</th><th>Rows</th></tr></thead>';
       $ret_val .= '<tbody>';
@@ -53,9 +53,9 @@ class SiteAuditCheckDatabaseRowCount extends SiteAuditCheckAbstract {
     }
     else {
       $ret_val  = 'Table Name: Rows' . PHP_EOL;
-      $ret_val .= '----------------' . PHP_EOL;
+      $ret_val .= '  ----------------' . PHP_EOL;
       foreach ($this->registry['rows_by_table'] as $table_name => $rows) {
-        $ret_val .= "$table_name: $rows" . PHP_EOL;
+        $ret_val .= "  $table_name: $rows" . PHP_EOL;
       }
     }
     return $ret_val;
@@ -82,6 +82,7 @@ class SiteAuditCheckDatabaseRowCount extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\calculateScore().
    */
   public function calculateScore() {
+    $this->registry['rows_by_table'] = array();
     $warning = FALSE;
     $db_spec = _drush_sql_get_db_spec();
     $sql_query  = 'SELECT TABLE_NAME AS table_name, TABLE_ROWS AS rows ';

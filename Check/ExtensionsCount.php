@@ -58,7 +58,7 @@ class SiteAuditCheckExtensionsCount extends SiteAuditCheckAbstract {
       $output[] = '    - ' . dt('Consolidate functionality if possible, or custom develop a solution specific to your needs.');
       $output[] = '    - ' . dt('Avoid using modules that serve only one small purpose that is not mission critical.');
       $output[] = dt('A lightweight site is a fast and happy site!');
-      if ($this->html) {
+      if (drush_get_option('html')) {
         return implode('<br/>', $output);
       }
       return implode(PHP_EOL, $output);

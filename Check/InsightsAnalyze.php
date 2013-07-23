@@ -24,7 +24,7 @@ class SiteAuditCheckInsightsAnalyze extends SiteAuditCheckAbstract {
    */
   public function getResultFail() {
     if (!empty($this->registry['errors'])) {
-      if ($this->html) {
+      if (drush_get_option('html')) {
         $ret_val = '<ul><li>' . implode('</li><li>', $this->registry['errors']) . '</li></ul>';
       }
       else {
@@ -73,7 +73,7 @@ class SiteAuditCheckInsightsAnalyze extends SiteAuditCheckAbstract {
           ));
         }
       }
-      if ($this->html) {
+      if (drush_get_option('html')) {
         $ret_val .= '<dl><dt>' . dt('Page stats') . '</dt>';
         $ret_val .= '<dd>' . implode('</dd><dd>', $stats) . '</dd></dl>';
       }
@@ -88,7 +88,7 @@ class SiteAuditCheckInsightsAnalyze extends SiteAuditCheckAbstract {
       $impact_filter = drush_get_option('impact');
 
       // Results.
-      if ($this->html) {
+      if (drush_get_option('html')) {
         $ret_val .= '<h3>' . dt('Detailed results') . '</h3>';
       }
       else {
@@ -131,7 +131,7 @@ class SiteAuditCheckInsightsAnalyze extends SiteAuditCheckAbstract {
             else {
               $header = google_json_text_replacement($block->header->format, $block->header->args);
             }
-            if ($this->html) {
+            if (drush_get_option('html')) {
               $ret_val .= '<h4>' . $header . '</h4>';
             }
             else {
@@ -153,9 +153,9 @@ class SiteAuditCheckInsightsAnalyze extends SiteAuditCheckAbstract {
                 $urls[] = dt('(Showing @limit out of @total total)', array(
                   '@limit' => $limit,
                   '@total' => count($block->urls),
-                ) . ($this->html ? '' : PHP_EOL));
+                ) . (drush_get_option('html') ? '' : PHP_EOL));
               }
-              if ($this->html) {
+              if (drush_get_option('html')) {
                 $ret_val .= '<ul><li>' . implode('</li><li>', $urls) . '</li></ul>';
               }
               else {

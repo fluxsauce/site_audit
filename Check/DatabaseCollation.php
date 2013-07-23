@@ -32,7 +32,7 @@ class SiteAuditCheckDatabaseCollation extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getResultInfo().
    */
   public function getResultInfo() {
-    if ($this->html) {
+    if (drush_get_option('html')) {
       $ret_val = '<table>';
       $ret_val .= '<thead><tr><th>Table Name</th><th>Collation</th></tr></thead>';
       $ret_val .= '<tbody>';

@@ -44,7 +44,7 @@ class SiteAuditCheckExtensionsDev extends SiteAuditCheckAbstract {
       '@list' => implode(', ', array_keys($this->registry['extensions_dev'])),
     ));
     if (drush_get_context('DRUSH_VERBOSE')) {
-      if ($this->html) {
+      if (drush_get_option('html')) {
         $ret_val = '<p>' . $ret_val . '</p>';
         $ret_val .= '<table>';
         $ret_val .= '<thead><tr><th>Name</th><th>Reason</th></thead>';

@@ -62,7 +62,7 @@ class SiteAuditCheckViewsCacheResults extends SiteAuditCheckAbstract {
           dt('Next to Caching, click to edit.'),
           dt('Query results: (something other than Never cache)'),
         );
-        if ($this->html) {
+        if (drush_get_option('html')) {
           $ret_val .= '<ol><li>' . implode('</li><li>', $steps) . '</li></ol>';
         }
         else {
