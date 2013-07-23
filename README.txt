@@ -41,11 +41,11 @@ have explicit support that will be helpful to other developers.
 
 There are two classes that you should be aware of:
 
-* AuditReport - a collection of checks, run in sequential order. If a check
+* SiteAuditReport - a collection of checks, run in sequential order. If a check
   sets the abort property to TRUE, no further checks in the report will be
   executed.
 
-* AuditCheck - an individual check; treat them like a unit test, in that each
+* SiteAuditCheck - an individual check; treat them like a unit test, in that each
   check should be looking for one thing at a time.
 
 The AuditCheck class has a number of properties that are helpful:

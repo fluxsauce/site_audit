@@ -10,11 +10,11 @@ spl_autoload_register('site_audit_autoloader');
  * Define site_audit autoloader.
  */
 function site_audit_autoloader($class) {
-  if (substr($class, 0, 10) == 'AuditCheck') {
-    require_once 'checks/class.' . $class . '.php';
+  if (strpos($class, 'SiteAuditCheck') === 0) {
+    require_once 'Check/' . substr($class, strlen('SiteAuditCheck')) . '.php';
   }
-  elseif (substr($class, 0, 11) == 'AuditReport') {
-    require_once 'reports/class.' . $class . '.php';
+  elseif (strpos($class, 'SiteAuditReport') === 0) {
+    require_once 'Report/' . substr($class, strlen('SiteAuditReport')) . '.php';
   }
 }
 
@@ -178,7 +178,7 @@ function site_audit_drush_help($section) {
  * Check Drupal's caching settings and make recommendations as necessary.
  */
 function drush_site_audit_audit_cache() {
-  $report = new AuditReportCache();
+  $report = new SiteAuditReportCache();
   $report->render();
 }
 
@@ -186,7 +186,7 @@ function drush_site_audit_audit_cache() {
  * Audit the database associated with a Drupal site.
  */
 function drush_site_audit_audit_database() {
-  $report = new AuditReportDatabase();
+  $report = new SiteAuditReportDatabase();
   $report->render();
 }
 
@@ -194,7 +194,7 @@ function drush_site_audit_audit_database() {
  * Audit modules and themes (extensions) for a given Drupal site.
  */
 function drush_site_audit_audit_extensions() {
-  $report = new AuditReportExtensions();
+  $report = new SiteAuditReportExtensions();
   $report->render();
 }
 
@@ -202,7 +202,7 @@ function drush_site_audit_audit_extensions() {
  * Audit the executable codebase of a Drupal site.
  */
 function drush_site_audit_audit_codebase() {
-  $report = new AuditReportCodebase();
+  $report = new SiteAuditReportCodebase();
   $report->render();
 }
 
@@ -210,7 +210,7 @@ function drush_site_audit_audit_codebase() {
  * Audit the database logs of a Drupal site.
  */
 function drush_site_audit_audit_watchdog() {
-  $report = new AuditReportWatchdog();
+  $report = new SiteAuditReportWatchdog();
   $report->render();
 }
 
@@ -218,7 +218,7 @@ function drush_site_audit_audit_watchdog() {
  * Audit the database logs of a Drupal site.
  */
 function drush_site_audit_audit_best_practices() {
-  $report = new AuditReportBestPractices();
+  $report = new SiteAuditReportBestPractices();
   $report->render();
 }
 
@@ -226,7 +226,7 @@ function drush_site_audit_audit_best_practices() {
  * Audit Views.
  */
 function drush_site_audit_audit_views() {
-  $report = new AuditReportViews();
+  $report = new SiteAuditReportViews();
   $report->render();
 }
 
@@ -273,6 +273,6 @@ function drush_site_audit_audit_google_insights_validate($key = '', $url = '') {
  *   URL to check.
  */
 function drush_site_audit_audit_google_insights($key, $url) {
-  $report = new AuditReportInsights($key, $url);
+  $report = new SiteAuditReportInsights($key, $url);
   $report->render();
 }
