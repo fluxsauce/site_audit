@@ -108,9 +108,11 @@ abstract class SiteAuditReportAbstract {
             )));
           }
           else {
-            drush_print(dt('!label', array(
-              '!label' => $check->getLabel(),
-            )));
+            if ($check->getScore() != SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO) {
+              drush_print(dt('!label', array(
+                '!label' => $check->getLabel(),
+              )));
+            }
           }
           if ($this->percent == SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO) {
             drush_print(dt('  !result', array('!result' => $check->getResult())));
