@@ -45,8 +45,8 @@ There are two classes that you should be aware of:
   sets the abort property to TRUE, no further checks in the report will be
   executed.
 
-* SiteAuditCheck - an individual check; treat them like a unit test, in that each
-  check should be looking for one thing at a time.
+* SiteAuditCheck - an individual check; treat them like a unit test, in that
+  each check should be looking for one thing at a time.
 
 The AuditCheck class has a number of properties that are helpful:
 
