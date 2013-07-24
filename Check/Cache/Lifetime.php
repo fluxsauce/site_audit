@@ -37,9 +37,9 @@ class SiteAuditCheckCacheLifetime extends SiteAuditCheckAbstract {
   }
 
   /**
-   * Implements \SiteAudit\Check\Abstract\getResultWarning().
+   * Implements \SiteAudit\Check\Abstract\getResultWarn().
    */
-  public function getResultWarning() {
+  public function getResultWarn() {
     global $conf;
     return dt('Minimum cache lifetime is set to @minutes min.', array(
       '@minutes' => round($conf['cache_lifetime'] / 60),

@@ -37,9 +37,9 @@ class SiteAuditCheckBestPracticesFast404 extends SiteAuditCheckAbstract {
   }
 
   /**
-   * Implements \SiteAudit\Check\Abstract\getResultWarning().
+   * Implements \SiteAudit\Check\Abstract\getResultWarn().
    */
-  public function getResultWarning() {
+  public function getResultWarn() {
     return dt('Fast 404 pages are not enabled.');
   }
 

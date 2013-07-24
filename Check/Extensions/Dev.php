@@ -37,9 +37,9 @@ class SiteAuditCheckExtensionsDev extends SiteAuditCheckAbstract {
   }
 
   /**
-   * Implements \SiteAudit\Check\Abstract\getResultWarning().
+   * Implements \SiteAudit\Check\Abstract\getResultWarn().
    */
-  public function getResultWarning() {
+  public function getResultWarn() {
     $ret_val = dt('The following development modules(s) are currently enabled: @list', array(
       '@list' => implode(', ', array_keys($this->registry['extensions_dev'])),
     ));

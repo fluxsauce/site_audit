@@ -39,9 +39,9 @@ class SiteAuditCheckViewsCacheOutput extends SiteAuditCheckAbstract {
   }
 
   /**
-   * Implements \SiteAudit\Check\Abstract\getResultWarning().
+   * Implements \SiteAudit\Check\Abstract\getResultWarn().
    */
-  public function getResultWarning() {
+  public function getResultWarn() {
     return dt('The following Views are not caching rendered output: @views_without_output_caching', array(
       '@views_without_output_caching' => implode(', ', $this->registry['views_without_output_caching']),
     ));

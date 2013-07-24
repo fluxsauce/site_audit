@@ -42,9 +42,9 @@ class SiteAuditCheckCronRunning extends SiteAuditCheckAbstract {
   public function getResultPass() {}
 
   /**
-   * Implements \SiteAudit\Check\Abstract\getResultWarning().
+   * Implements \SiteAudit\Check\Abstract\getResultWarn().
    */
-  public function getResultWarning() {
+  public function getResultWarn() {
     return dt('Cron lock has been set for more than an hour and is most likely stuck.');
   }
 

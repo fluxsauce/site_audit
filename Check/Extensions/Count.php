@@ -39,9 +39,9 @@ class SiteAuditCheckExtensionsCount extends SiteAuditCheckAbstract {
   }
 
   /**
-   * Implements \SiteAudit\Check\Abstract\getResultWarning().
+   * Implements \SiteAudit\Check\Abstract\getResultWarn().
    */
-  public function getResultWarning() {
+  public function getResultWarn() {
     return dt('There are @extension_count extensions enabled; that\'s higher than the average.', array(
       '@extension_count' => $this->registry['extension_count'],
     ));

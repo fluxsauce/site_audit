@@ -181,9 +181,9 @@ class SiteAuditCheckInsightsAnalyze extends SiteAuditCheckAbstract {
   }
 
   /**
-   * Implements \SiteAudit\Check\Abstract\getResultWarning().
+   * Implements \SiteAudit\Check\Abstract\getResultWarn().
    */
-  public function getResultWarning() {
+  public function getResultWarn() {
     return $this->getResultPass();
   }
 

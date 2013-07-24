@@ -39,9 +39,9 @@ class SiteAuditCheckCacheBlock extends SiteAuditCheckAbstract {
   }
 
   /**
-   * Implements \SiteAudit\Check\Abstract\getResultWarning().
+   * Implements \SiteAudit\Check\Abstract\getResultWarn().
    */
-  public function getResultWarning() {
+  public function getResultWarn() {
     return dt('Block caching is inactive because you have enabled modules defining content access restrictions.');
   }
 

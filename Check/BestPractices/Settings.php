@@ -37,9 +37,9 @@ class SiteAuditCheckBestPracticesSettings extends SiteAuditCheckAbstract {
   }
 
   /**
-   * Implements \SiteAudit\Check\Abstract\getResultWarning().
+   * Implements \SiteAudit\Check\Abstract\getResultWarn().
    */
-  public function getResultWarning() {
+  public function getResultWarn() {
     return dt('sites/default/settings.php is a symbolic link.');
   }
 

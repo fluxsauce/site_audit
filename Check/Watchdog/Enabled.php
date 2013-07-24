@@ -39,9 +39,9 @@ class SiteAuditCheckWatchdogEnabled extends SiteAuditCheckAbstract {
   }
 
   /**
-   * Implements \SiteAudit\Check\Abstract\getResultWarning().
+   * Implements \SiteAudit\Check\Abstract\getResultWarn().
    */
-  public function getResultWarning() {}
+  public function getResultWarn() {}
 
   /**
    * Implements \SiteAudit\Check\Abstract\getAction().

@@ -60,7 +60,7 @@ abstract class SiteAuditCheckAbstract {
         return $this->getResultPass();
 
       case SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN:
-        return $this->getResultWarning();
+        return $this->getResultWarn();
 
       case SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO:
         return $this->getResultInfo();
@@ -178,7 +178,7 @@ abstract class SiteAuditCheckAbstract {
    * @return string
    *   Something is wrong, but not horribly so.
    */
-  abstract public function getResultWarning();
+  abstract public function getResultWarn();
 
   /**
    * Get action items for a user to perform if the check did not pass.
