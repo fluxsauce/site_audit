@@ -74,14 +74,21 @@ function site_audit_drush_command() {
     'description' => dt('Audit the codebase.'),
     'aliases' => array('acb'),
     'bootstrap' => DRUSH_BOOTSTRAP_DRUSH,
-    'options' => array_merge($options, $vendor_options),
+    'options' => $options,
+  );
+
+  $items['audit_cron'] = array(
+    'description' => dt('Audit cron.'),
+    'aliases' => array('acr'),
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
+    'options' => $options,
   );
 
   $items['audit_watchdog'] = array(
     'description' => dt('Audit the database logs.'),
     'aliases' => array('aw'),
     'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
-    'options' => array_merge($options, $vendor_options),
+    'options' => $options,
   );
 
   $items['audit_best_practices'] = array(
@@ -95,7 +102,7 @@ function site_audit_drush_command() {
     'description' => dt('Audit Views.'),
     'aliases' => array('av'),
     'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
-    'options' => array_merge($options, $vendor_options),
+    'options' => $options,
   );
 
   $items['audit_database'] = array(
@@ -274,5 +281,13 @@ function drush_site_audit_audit_google_insights_validate($key = '', $url = '') {
  */
 function drush_site_audit_audit_google_insights($key, $url) {
   $report = new SiteAuditReportInsights($key, $url);
+  $report->render();
+}
+
+/**
+ * Render a Cron report.
+ */
+function drush_site_audit_audit_cron() {
+  $report = new SiteAuditReportCron();
   $report->render();
 }
