@@ -4,19 +4,12 @@
  * Drupal site auditing commands.
  */
 
-spl_autoload_register('site_audit_autoloader');
-
-/**
- * Define site_audit autoloader.
- */
-function site_audit_autoloader($class) {
-  if (strpos($class, 'SiteAuditCheck') === 0) {
-    require_once 'Check/' . substr($class, strlen('SiteAuditCheck')) . '.php';
-  }
-  elseif (strpos($class, 'SiteAuditReport') === 0) {
+// Autoload Report classes.
+spl_autoload_register(function ($class) {
+  if (strpos($class, 'SiteAuditReport') === 0) {
     require_once 'Report/' . substr($class, strlen('SiteAuditReport')) . '.php';
   }
-}
+});
 
 /**
  * Implements hook_drush_command().

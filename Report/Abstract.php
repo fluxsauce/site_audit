@@ -45,9 +45,13 @@ abstract class SiteAuditReportAbstract {
    * Constructor; loads and executes checks based on the name of this report.
    */
   public function __construct() {
-    $base_class_name = 'SiteAuditCheck' . substr(get_class($this), strlen('SiteAuditCheck') + 1);
+    $report_name = substr(get_class($this), strlen('SiteAuditCheck') + 1);
+    $base_class_name = 'SiteAuditCheck' . $report_name;
+    require_once __DIR__ . '/../Check/Abstract.php';
     foreach ($this->getCheckNames() as $name) {
-      $class_name = $base_class_name . ucfirst(strtolower($name));
+      $check_name = ucfirst(strtolower($name));
+      require_once __DIR__ . "/../Check/$report_name/$check_name.php";
+      $class_name = $base_class_name . $check_name;
       $check = new $class_name($this->registry);
       // Calculate score.
       if ($check->getScore() != SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO) {
