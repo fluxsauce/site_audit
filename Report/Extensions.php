@@ -17,11 +17,11 @@ class SiteAuditReportExtensions extends SiteAuditReportAbstract {
    */
   public function getCheckNames() {
     return array(
-      'count',
-      'dev',
-      'unrecommended',
-      'duplicate',
-      'missing',
+      'Count',
+      'Dev',
+      'Unrecommended',
+      'Duplicate',
+      'Missing',
     );
   }
 }

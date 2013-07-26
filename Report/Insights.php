@@ -31,7 +31,7 @@ class SiteAuditReportInsights extends SiteAuditReportAbstract {
    */
   public function getCheckNames() {
     return array(
-      'analyze',
+      'Analyze',
     );
   }
 }

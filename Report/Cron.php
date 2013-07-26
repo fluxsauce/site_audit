@@ -17,9 +17,9 @@ class SiteAuditReportCron extends SiteAuditReportAbstract {
    */
   public function getCheckNames() {
     return array(
-      'enabled',
-      'running',
-      'last',
+      'Enabled',
+      'Running',
+      'Last',
     );
   }
 }

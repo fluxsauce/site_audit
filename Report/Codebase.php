@@ -17,8 +17,8 @@ class SiteAuditReportCodebase extends SiteAuditReportAbstract {
    */
   public function getCheckNames() {
     return array(
-      'sizefiles',
-      'sizeall',
+      'SizeFiles',
+      'SizeAll',
     );
   }
 }

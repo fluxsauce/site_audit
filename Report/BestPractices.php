@@ -17,12 +17,12 @@ class SiteAuditReportBestPractices extends SiteAuditReportAbstract {
    */
   public function getCheckNames() {
     return array(
-      'settings',
-      'sitesdefault',
-      'sitesall',
-      'multisite',
-      'sitessuperfluous',
-      'fast404',
+      'Settings',
+      'SitesDefault',
+      'SitesAll',
+      'Multisite',
+      'SitesSuperfluous',
+      'Fast404',
     );
   }
 }

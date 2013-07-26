@@ -48,8 +48,7 @@ abstract class SiteAuditReportAbstract {
     $report_name = substr(get_class($this), strlen('SiteAuditCheck') + 1);
     $base_class_name = 'SiteAuditCheck' . $report_name;
     require_once __DIR__ . '/../Check/Abstract.php';
-    foreach ($this->getCheckNames() as $name) {
-      $check_name = ucfirst(strtolower($name));
+    foreach ($this->getCheckNames() as $check_name) {
       require_once __DIR__ . "/../Check/$report_name/$check_name.php";
       $class_name = $base_class_name . $check_name;
       $check = new $class_name($this->registry);

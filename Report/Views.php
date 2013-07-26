@@ -17,10 +17,10 @@ class SiteAuditReportViews extends SiteAuditReportAbstract {
    */
   public function getCheckNames() {
     return array(
-      'enabled',
-      'count',
-      'cacheresults',
-      'cacheoutput',
+      'Enabled',
+      'Count',
+      'CacheResults',
+      'CacheOutput',
     );
   }
 }

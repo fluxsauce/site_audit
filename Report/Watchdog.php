@@ -17,11 +17,11 @@ class SiteAuditReportWatchdog extends SiteAuditReportAbstract {
    */
   public function getCheckNames() {
     return array(
-      'enabled',
-      'count',
-      'age',
+      'Enabled',
+      'Count',
+      'Age',
       '404',
-      'php',
+      'Php',
     );
   }
 }

@@ -17,13 +17,13 @@ class SiteAuditReportCache extends SiteAuditReportAbstract {
    */
   public function getCheckNames() {
     return array(
-      'anon',
-      'block',
-      'lifetime',
-      'pageExpire',
-      'pageCompression',
-      'preprocessCss',
-      'preprocessJs',
+      'Anon',
+      'Block',
+      'Lifetime',
+      'PageExpire',
+      'PageCompression',
+      'PreprocessCss',
+      'PreprocessJs',
     );
   }
 }

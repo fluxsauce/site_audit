@@ -17,9 +17,9 @@ class SiteAuditReportDatabase extends SiteAuditReportAbstract {
    */
   public function getCheckNames() {
     return array(
-      'size',
-      'rowcount',
-      'collation',
+      'Size',
+      'RowCount',
+      'Collation',
     );
   }
 }

@@ -43,7 +43,9 @@ There are two classes that you should be aware of:
 
 * SiteAuditReport - a collection of checks, run in sequential order. If a check
   sets the abort property to TRUE, no further checks in the report will be
-  executed.
+  executed. Check names in getCheckNames() must be the same as the filename of
+  the actual check - including capitalization. Otherwise, you'll get fatal
+  errors on case sensitive platforms.
 
 * SiteAuditCheck - an individual check; treat them like a unit test, in that
   each check should be looking for one thing at a time.
