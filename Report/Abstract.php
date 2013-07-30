@@ -36,7 +36,8 @@ abstract class SiteAuditReportAbstract {
   protected $hasFail = FALSE;
 
   /**
-   * Container that's passed between each SiteAuditCheckAbstract, better than a global.
+   * Container that's passed between each SiteAuditCheckAbstract, better than a
+   * global.
    * @var array
    */
   protected $registry = array();
@@ -109,34 +110,45 @@ abstract class SiteAuditReportAbstract {
       )));
     }
     if ($this->percent == 100) {
-      drush_log(dt('  No action required.'), 'success');
+      drush_log('  ' . dt('No action required.'), 'success');
     }
-    if ($this->percent != 100 || drush_get_option('detail')) {
+    if (drush_get_option('detail') || $this->percent != 100) {
       foreach ($this->checks as $check) {
-        if ($check->getScore() != SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS || drush_get_option('detail')) {
+        if (drush_get_option('detail') || $check->getScore() != SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS || $this->percent == SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO) {
           if (drush_get_option('detail')) {
-            drush_print(dt('!label: !description', array(
+            drush_print('  ' . dt('!label: !description', array(
               '!label' => $check->getLabel(),
               '!description' => $check->getDescription(),
             )));
           }
           else {
             if ($check->getScore() != SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO) {
-              drush_print(dt('!label', array(
+              drush_print('  ' . dt('!label', array(
                 '!label' => $check->getLabel(),
               )));
             }
           }
-          if ($this->percent == SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO) {
-            drush_print(dt('  !result', array('!result' => $check->getResult())));
+          if ($this->percent == SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO || drush_get_option('detail')) {
+            if ($check->getScore() != SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO) {
+              drush_print('    ' . dt('!result', array(
+                '!result' => $check->getResult(),
+              )));
+            }
+            else {
+              drush_print('  ' . dt('!result', array(
+                '!result' => $check->getResult(),
+              )));
+            }
           }
           else {
-            drush_log(dt('  !result', array(
+            drush_log('    ' . dt('!result', array(
               '!result' => $check->getResult(),
             )), $check->getScoreDrushLevel());
           }
           if ($check->getAction()) {
-            drush_print(dt('    !action', array('!action' => $check->getAction())));
+            drush_print('      ' . dt('!action', array(
+              '!action' => $check->getAction(),
+            )));
           }
         }
       }
@@ -150,23 +162,23 @@ abstract class SiteAuditReportAbstract {
    *   Report as rendered HTML.
    */
   public function toHtml() {
-    $ret_val = '<h2>' . $this->getLabel();
+    $ret_val = '<h3 id="' . get_class($this) . '">' . $this->getLabel();
     if ($this->percent != SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO) {
       $ret_val .= ': ' . $this->percent . '%';
     }
-    $ret_val .= '</h2>';
+    $ret_val .= '</h3>';
     if ($this->percent == 100) {
       $ret_val .= '<p>No action required.</p>';
     }
-    if ($this->percent != 100 || drush_get_option('detail')) {
+    if (drush_get_option('detail') || $this->percent != 100) {
       foreach ($this->checks as $check) {
-        if ($check->getScore() != SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS || drush_get_option('detail') || $this->percent == SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO) {
-          $ret_val .= '<h3>' . $check->getLabel();
+        if (drush_get_option('detail') || $check->getScore() != SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS || $this->percent == SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO) {
+          $ret_val .= '<h4>' . $check->getLabel();
           $ret_val .= ': ';
           $ret_val .= '<span style="color:' . $check->getScoreColor() . '">';
           $ret_val .= $check->getScoreLabel();
           $ret_val .= '</span>';
-          $ret_val .= '</h3>';
+          $ret_val .= '</h4>';
           if (drush_get_option('detail')) {
             $ret_val .= '<blockquote>' . $check->getDescription() . '</blockquote>';
           }
@@ -195,6 +207,14 @@ abstract class SiteAuditReportAbstract {
     else {
       $this->toDrush();
     }
+  }
+
+  /**
+   * Get the calculated percentage.
+   * @return int
+   */
+  public function getPercent() {
+    return $this->percent;
   }
 
   /**

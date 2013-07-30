@@ -79,9 +79,9 @@ class SiteAuditCheckInsightsAnalyze extends SiteAuditCheckAbstract {
       }
       else {
         foreach ($stats as &$stat) {
-          $stat = '      - ' . $stat;
+          $stat = '        - ' . $stat;
         }
-        $ret_val .= PHP_EOL . '    ' . dt('Page stats') . PHP_EOL;
+        $ret_val .= PHP_EOL . '      ' . dt('Page stats') . PHP_EOL;
         $ret_val .= implode(PHP_EOL, $stats);
       }
 
@@ -92,7 +92,7 @@ class SiteAuditCheckInsightsAnalyze extends SiteAuditCheckAbstract {
         $ret_val .= '<h3>' . dt('Detailed results') . '</h3>';
       }
       else {
-        $ret_val .= PHP_EOL . '    ' . dt('Detailed results:');
+        $ret_val .= PHP_EOL . '      ' . dt('Detailed results:');
       }
       $rendered_result_count = 0;
       foreach ($this->registry['json_result']->formattedResults->ruleResults as $resultValues) {

@@ -39,9 +39,8 @@ class SiteAuditCheckExtensionsUnrecommended extends SiteAuditCheckAbstract {
         $ret_val .= '</table>';
       }
       else {
-        $ret_val .= PHP_EOL;
         foreach ($this->registry['extensions_unrec'] as $row) {
-          $ret_val .= '    ' . $row[0] . ': ' . $row[1] . PHP_EOL;
+          $ret_val .= PHP_EOL . '      - ' . $row[0] . ': ' . $row[1];
         }
       }
     }

@@ -8,14 +8,14 @@ class SiteAuditReportInsights extends SiteAuditReportAbstract {
   /**
    * Override parent constructor to provide argument support.
    *
-   * @param string $key
-   *   Google API key.
    * @param string $url
    *   URL of site to test.
+   * @param string $key
+   *   Google API key.
    */
-  public function __construct($key, $url) {
-    $this->registry['key'] = $key;
+  public function __construct($url, $key) {
     $this->registry['url'] = $url;
+    $this->registry['key'] = $key;
     parent::__construct();
   }
 
