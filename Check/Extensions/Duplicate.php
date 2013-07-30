@@ -56,10 +56,9 @@ class SiteAuditCheckExtensionsDuplicate extends SiteAuditCheckAbstract {
       $ret_val .= '</table>';
     }
     else {
-      $ret_val .= PHP_EOL;
       foreach ($this->registry['extensions_dupe'] as $name => $paths) {
         if (count($paths) > 1) {
-          $ret_val .= '    ' . $name . PHP_EOL;
+          $ret_val .= PHP_EOL . '    ' . $name . PHP_EOL;
           $extension_list = '';
           foreach ($paths as $path) {
             $extension_list .= '      ' . $path . PHP_EOL;
@@ -100,7 +99,17 @@ class SiteAuditCheckExtensionsDuplicate extends SiteAuditCheckAbstract {
       if (!isset($this->registry['extensions_dupe'][$name])) {
         $this->registry['extensions_dupe'][$name] = array();
       }
-      $this->registry['extensions_dupe'][$name][] = substr($path, strlen($drupal_root) + 1);
+      $path = substr($path, strlen($drupal_root) + 1);
+      $info = file($drupal_root . '/' . $path);
+      foreach ($info as $line) {
+        if (strpos($line, 'version') === 0) {
+          $version = explode('=', $line);
+          if (isset($version[1])) {
+            $path .= ' (' . trim(str_replace('"', '', $version[1])) . ')';
+          }
+        }
+      }
+      $this->registry['extensions_dupe'][$name][] = $path;
       if (count($this->registry['extensions_dupe'][$name]) > 1) {
         $warn = TRUE;
       }
