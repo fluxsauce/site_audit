@@ -92,10 +92,11 @@ class SiteAuditCheckInsightsAnalyze extends SiteAuditCheckAbstract {
         $ret_val .= '<h3>' . dt('Detailed results') . '</h3>';
       }
       else {
-        $ret_val .= PHP_EOL . '    ' . dt('Detailed results:') . PHP_EOL;
+        $ret_val .= PHP_EOL . '    ' . dt('Detailed results:');
       }
       $rendered_result_count = 0;
       foreach ($this->registry['json_result']->formattedResults->ruleResults as $resultValues) {
+        rtrim($ret_val);
         // Filter out based on impact threshold.
         if ($resultValues->ruleImpact < $impact_filter) {
           continue;
@@ -116,11 +117,11 @@ class SiteAuditCheckInsightsAnalyze extends SiteAuditCheckAbstract {
         }
 
         // Render Rule, score and impact.
-        $ret_val .= '      ' . dt('@localizedRuleName: @ruleScore @impact', array(
+        $ret_val .= PHP_EOL . '        ' . dt('@localizedRuleName: @ruleScore @impact', array(
           '@localizedRuleName' => $resultValues->localizedRuleName,
           '@ruleScore' => $resultValues->ruleScore,
           '@impact' => $impact,
-        )) . PHP_EOL;
+        ));
 
         if (isset($resultValues->urlBlocks)) {
           foreach ($resultValues->urlBlocks as $block) {
@@ -131,15 +132,24 @@ class SiteAuditCheckInsightsAnalyze extends SiteAuditCheckAbstract {
             else {
               $header = google_json_text_replacement($block->header->format, $block->header->args);
             }
+
+            $limit = drush_get_option('limit', 0);
+            if ($limit > 0 && isset($block->urls) && ($limit != count($block->urls)) && ($limit < count($block->urls))) {
+              $header .= ' ' . dt('(Showing @limit out of @total total)', array(
+                '@limit' => $limit,
+                '@total' => count($block->urls),
+              ));
+            }
+
             if (drush_get_option('html')) {
               $ret_val .= '<h4>' . $header . '</h4>';
             }
             else {
-              $ret_val .= '        ' . $header . PHP_EOL;
+              $ret_val .= PHP_EOL . '          ' . $header;
             }
             if (isset($block->urls) && !empty($block->urls)) {
               $urls = array();
-              $limit = drush_get_option('limit', 0);
+
               $count = 0;
               foreach ($block->urls as $url) {
                 if ($limit > 0) {
@@ -149,18 +159,14 @@ class SiteAuditCheckInsightsAnalyze extends SiteAuditCheckAbstract {
                 }
                 $urls[] = google_json_text_replacement($url->result->format, $url->result->args);
               }
-              if ($limit > 0 && ($limit != count($block->urls)) && ($limit < count($block->urls))) {
-                $urls[] = dt('(Showing @limit out of @total total)', array(
-                  '@limit' => $limit,
-                  '@total' => count($block->urls),
-                ) . (drush_get_option('html') ? '' : PHP_EOL));
-              }
+
               if (drush_get_option('html')) {
                 $ret_val .= '<ul><li>' . implode('</li><li>', $urls) . '</li></ul>';
               }
               else {
-                $ret_val .= '          ' . implode(PHP_EOL . '          ', $urls);
-                $ret_val .= PHP_EOL;
+                foreach ($urls as $url) {
+                  $ret_val .= PHP_EOL . '            ' . $url;
+                }
               }
             }
           }
@@ -242,7 +248,7 @@ class SiteAuditCheckInsightsAnalyze extends SiteAuditCheckAbstract {
  *   Human readable formatted content.
  */
 function google_json_text_replacement($format, $args = array()) {
-  if (!$args) {
+  if (!$args || empty($args)) {
     return $format;
   }
   // If there's a better way of doing this, please let me know.
