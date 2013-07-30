@@ -31,7 +31,7 @@ class SiteAuditCheckDatabaseSize extends SiteAuditCheckAbstract {
    */
   public function getResultInfo() {
     return dt('Total size: @size_in_mbMB', array(
-      '@size_in_mb' => number_format(round($this->registry['rows_by_table'] / 1048576, 2)),
+      '@size_in_mb' => number_format($this->registry['rows_by_table'] / 1048576, 2),
     ));
   }
 

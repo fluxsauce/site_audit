@@ -9,29 +9,34 @@ class SiteAuditCheckCodebaseSizeAll extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
   public function getLabel() {
-    return dt('Size of entire Drupal site');
+    return dt('Size of entire site');
   }
 
   /**
    * Implements \SiteAudit\Check\Abstract\getDescription().
    */
   public function getDescription() {
-    return dt('Determine the size of the codebase.');
+    return dt('Determine the size of the site root.');
   }
 
   /**
    * Implements \SiteAudit\Check\Abstract\getResultFail().
    */
   public function getResultFail() {
-    return dt('Unable to determine size of codebase!');
+    return dt('Unable to determine size of site root!');
   }
 
   /**
    * Implements \SiteAudit\Check\Abstract\getResultInfo().
    */
   public function getResultInfo() {
+    if ($this->registry['size_files_kb'] < 1024) {
+      return dt('Total size: @size_files_kbkB', array(
+        '@size_all_kb' => number_format($this->registry['size_all_kb']),
+      ));
+    }
     return dt('Total size: @size_all_mbMB', array(
-      '@size_all_mb' => number_format($this->registry['size_all_mb']),
+      '@size_all_mb' => number_format($this->registry['size_all_kb'] / 1024, 2),
     ));
   }
 
@@ -56,9 +61,8 @@ class SiteAuditCheckCodebaseSizeAll extends SiteAuditCheckAbstract {
   public function calculateScore() {
     $drupal_root = drush_get_context('DRUSH_SELECTED_DRUPAL_ROOT');
     exec('du -s -k -x ' . $drupal_root, $result);
-    $kb_size_everything = trim($result[0]);
-    $this->registry['size_all_mb'] = round($kb_size_everything / 1024, 2);
-    if (!$this->registry['size_all_mb']) {
+    $this->registry['size_all_kb'] = trim($result[0]);
+    if (!$this->registry['size_all_kb']) {
       $this->abort = TRUE;
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
     }

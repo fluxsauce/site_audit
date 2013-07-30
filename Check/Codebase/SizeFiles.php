@@ -30,8 +30,13 @@ class SiteAuditCheckCodebaseSizeFiles extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getResultInfo().
    */
   public function getResultInfo() {
-    return dt('Size: @size_files_mbMB', array(
-      '@size_files_mb' => number_format($this->registry['size_files_mb']),
+    if ($this->registry['size_files_kb'] < 1024) {
+      return dt('Files: @size_files_kbkB', array(
+        '@size_files_kb' => number_format($this->registry['size_files_kb']),
+      ));
+    }
+    return dt('Files: @size_files_mbMB', array(
+      '@size_files_mb' => number_format($this->registry['size_files_kb'] / 1024, 2),
     ));
   }
 
@@ -56,9 +61,8 @@ class SiteAuditCheckCodebaseSizeFiles extends SiteAuditCheckAbstract {
   public function calculateScore() {
     $drupal_root = drush_get_context('DRUSH_SELECTED_DRUPAL_ROOT');
     exec('du -s -k -x ' . $drupal_root . '/sites/default/files', $result);
-    $kb_size_files = trim($result[0]);
-    $this->registry['size_files_mb'] = round($kb_size_files / 1024, 2);
-    if (!$this->registry['size_files_mb']) {
+    $this->registry['size_files_kb'] = trim($result[0]);
+    if (!$this->registry['size_files_kb']) {
       $this->abort = TRUE;
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
     }
