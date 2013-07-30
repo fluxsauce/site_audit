@@ -48,6 +48,7 @@ abstract class SiteAuditReportAbstract {
     $report_name = substr(get_class($this), strlen('SiteAuditCheck') + 1);
     $base_class_name = 'SiteAuditCheck' . $report_name;
     require_once __DIR__ . '/../Check/Abstract.php';
+    $percent_override = NULL;
     foreach ($this->getCheckNames() as $check_name) {
       require_once __DIR__ . "/../Check/$report_name/$check_name.php";
       $class_name = $base_class_name . $check_name;
@@ -63,6 +64,10 @@ abstract class SiteAuditReportAbstract {
         // Maximum.
         $this->scoreMax += SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
       }
+      // Allow Report percentage to be overridden.
+      if ($check->getPercentOverride()) {
+        $percent_override = $check->getPercentOverride();
+      }
       // Combine registry.
       $this->registry = array_merge($this->registry, $check->getRegistry());
       // Store all checks.
@@ -72,11 +77,16 @@ abstract class SiteAuditReportAbstract {
         break;
       }
     }
-    if ($this->scoreMax != 0) {
-      $this->percent = round(($this->scoreTotal / $this->scoreMax) * 100);
+    if ($percent_override) {
+      $this->percent = $percent_override;
     }
     else {
-      $this->percent = SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
+      if ($this->scoreMax != 0) {
+        $this->percent = round(($this->scoreTotal / $this->scoreMax) * 100);
+      }
+      else {
+        $this->percent = SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
+      }
     }
   }
 

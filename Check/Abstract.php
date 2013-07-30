@@ -33,6 +33,12 @@ abstract class SiteAuditCheckAbstract {
   protected $abort = FALSE;
 
   /**
+   * If set, will override the Report's percentage.
+   * @var int
+   */
+  protected $percent_override;
+
+  /**
    * Use for passing data between checks within a report.
    * @var array
    */
@@ -223,5 +229,13 @@ abstract class SiteAuditCheckAbstract {
    */
   public function shouldAbort() {
     return $this->abort;
+  }
+
+  /**
+   * Get the report percent override, if any.
+   * @return int
+   */
+  public function getPercentOverride() {
+    return $this->percent_override;
   }
 }
