@@ -26,7 +26,7 @@ class SiteAuditCheckExtensionsUnrecommended extends SiteAuditCheckAbstract {
     $ret_val = dt('The following unrecommended modules(s) are currently enabled: @list', array(
       '@list' => implode(', ', array_keys($this->registry['extensions_unrec'])),
     ));
-    if (drush_get_context('DRUSH_VERBOSE')) {
+    if (drush_get_option('detail')) {
       if (drush_get_option('html')) {
         $ret_val = '<p>' . $ret_val . '</p>';
         $ret_val .= '<table>';

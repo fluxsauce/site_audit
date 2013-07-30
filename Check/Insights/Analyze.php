@@ -55,7 +55,7 @@ class SiteAuditCheckInsightsAnalyze extends SiteAuditCheckAbstract {
       '@score' => $this->registry['json_result']->score,
     ));
 
-    if (drush_get_context('DRUSH_VERBOSE')) {
+    if (drush_get_option('detail')) {
       // Page Stats.
       $stats = array();
       foreach ($this->registry['json_result']->pageStats as $stat_name => $count) {

@@ -24,11 +24,11 @@ drush ac
 
 Create a new file or overwrite:
 
-drush ac --html --verbose > ~/desktop/report.html
+drush ac --html --detail > ~/desktop/report.html
 
 Continue writing to a file:
 
-drush abp --html --verbose >> ~/desktop/report.html
+drush abp --html --detail >> ~/desktop/report.html
 
 == Vendor specific options ==
 
@@ -36,6 +36,8 @@ Some commands such as the cache audit (ac) have the ability to optionally
 produce results that are specific to a particular platform. Currently only
 supports Pantheon, but submit a patch if you have another platform that should
 have explicit support that will be helpful to other developers.
+
+drush @pantheon.SITENAME.ENV --vendor=pantheon --detail ac
 
 = Adding Reports =
 

@@ -111,10 +111,10 @@ abstract class SiteAuditReportAbstract {
     if ($this->percent == 100) {
       drush_log(dt('  No action required.'), 'success');
     }
-    if ($this->percent != 100 || drush_get_context('DRUSH_VERBOSE')) {
+    if ($this->percent != 100 || drush_get_option('detail')) {
       foreach ($this->checks as $check) {
-        if ($check->getScore() != SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS || drush_get_context('DRUSH_VERBOSE')) {
-          if (drush_get_context('DRUSH_VERBOSE')) {
+        if ($check->getScore() != SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS || drush_get_option('detail')) {
+          if (drush_get_option('detail')) {
             drush_print(dt('!label: !description', array(
               '!label' => $check->getLabel(),
               '!description' => $check->getDescription(),
@@ -158,16 +158,16 @@ abstract class SiteAuditReportAbstract {
     if ($this->percent == 100) {
       $ret_val .= '<p>No action required.</p>';
     }
-    if ($this->percent != 100 || drush_get_context('DRUSH_VERBOSE')) {
+    if ($this->percent != 100 || drush_get_option('detail')) {
       foreach ($this->checks as $check) {
-        if ($check->getScore() != SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS || drush_get_context('DRUSH_VERBOSE') || $this->percent == SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO) {
+        if ($check->getScore() != SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS || drush_get_option('detail') || $this->percent == SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO) {
           $ret_val .= '<h3>' . $check->getLabel();
           $ret_val .= ': ';
           $ret_val .= '<span style="color:' . $check->getScoreColor() . '">';
           $ret_val .= $check->getScoreLabel();
           $ret_val .= '</span>';
           $ret_val .= '</h3>';
-          if (drush_get_context('DRUSH_VERBOSE')) {
+          if (drush_get_option('detail')) {
             $ret_val .= '<blockquote>' . $check->getDescription() . '</blockquote>';
           }
           $ret_val .= '<p>';

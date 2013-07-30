@@ -154,7 +154,7 @@ abstract class SiteAuditCheckAbstract {
   /**
    * Get a more verbose description of what is being checked.
    * @return string
-   *   A sentence describing the check; shown in verbose mode.
+   *   A sentence describing the check; shown in detail mode.
    */
   abstract public function getDescription();
 

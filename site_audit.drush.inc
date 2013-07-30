@@ -21,6 +21,9 @@ function site_audit_drush_command() {
     'html' => array(
       'description' => dt('If set, render as HTML report.'),
     ),
+    'detail' => array(
+      'description' => dt('If set, provided detailed responses.'),
+    ),
   );
 
   $vendor_options = array(
@@ -148,28 +151,28 @@ function site_audit_drush_command() {
 function site_audit_drush_help($section) {
   switch ($section) {
     case 'drush:audit_cache':
-      return dt('Audit Drupal\'s caching settings.');
+      return dt('Audit Drupal\'s caching settings');
 
     case 'drush:audit_codebase':
-      return dt('Audit the codebase of a Drupal site.');
+      return dt('Audit the codebase of a Drupal site');
 
     case 'drush:audit_database':
-      return dt('Audit the database structure and contents.');
+      return dt('Audit the database structure and contents');
 
     case 'drush:audit_extensions':
-      return dt('Audit modules and themes (extensions).');
+      return dt('Audit modules and themes (extensions)');
 
     case 'drush:audit_watchdog':
-      return dt('Audit Drupal\'s database logs.');
+      return dt('Audit Drupal\'s database logs');
 
     case 'drush:audit_best_practices':
-      return dt('Audit site for best practices.');
+      return dt('Audit site for best practices');
 
     case 'drush:audit_views':
-      return dt('Audit Views displays.');
+      return dt('Audit Views displays');
 
     case 'meta:site_audit:title':
-      return dt('Tools for auditing a Drupal site, providing actionable suggestions when possible.');
+      return dt('Tools for auditing a Drupal site');
 
   }
 }

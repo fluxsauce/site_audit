@@ -53,7 +53,7 @@ class SiteAuditCheckViewsCacheOutput extends SiteAuditCheckAbstract {
   public function getAction() {
     if ($this->score != SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS) {
       $ret_val = dt('Rendered output should be cached for as long as possible (if the query changes, the output will be refreshed).');
-      if (drush_get_context('DRUSH_VERBOSE')) {
+      if (drush_get_option('detail')) {
         $steps = array(
           dt('Go to /admin/structure/views/'),
           dt('Edit the View in question'),
