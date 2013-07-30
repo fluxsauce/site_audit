@@ -107,8 +107,8 @@ function site_audit_drush_command() {
   );
 
   $arguments_gi = array(
-    'key' => dt('Google Code API Key - see https://developers.google.com/speed/docs/insights/v1/getting_started#auth'),
     'url' => dt('The URL that you wish to test.'),
+    'key' => dt('Google Code API Key - see https://developers.google.com/speed/docs/insights/v1/getting_started#auth'),
   );
   $arguments_all = array_merge($arguments_all, $arguments_gi);
   $options_gi = array(
@@ -132,6 +132,8 @@ function site_audit_drush_command() {
     'arguments' => $arguments_gi,
     'options' => array_merge($options, $options_gi),
   );
+
+  $arguments_all['key'] = dt('URL for Site Audit Report, also used for Google PageSpeed Insights report.');
 
   $items['audit_all'] = array(
     'description' => dt('Executes every Site Audit Report'),
@@ -204,7 +206,7 @@ function drush_site_audit_audit_all($url = '', $key = '') {
         if (!in_array(strtolower($report_name), $reports_to_skip)) {
           // Special case for arguments.
           if ($report_name == 'Insights') {
-            $report = new $report_class($key, $url);
+            $report = new $report_class($url, $key);
           }
           else {
             $report = new $report_class();
@@ -370,10 +372,10 @@ function drush_site_audit_audit_google_insights_validate($url = '', $key = '') {
 /**
  * Render a Google PageSpeed Insight report.
  *
- * @param string $key
- *   Google API key.
  * @param string $url
  *   URL to check.
+ * @param string $key
+ *   Google API key.
  */
 function drush_site_audit_audit_google_insights($url, $key) {
   $report = new SiteAuditReportInsights($url, $key);

@@ -36,7 +36,7 @@ abstract class SiteAuditCheckAbstract {
    * If set, will override the Report's percentage.
    * @var int
    */
-  protected $percent_override;
+  protected $percentOverride;
 
   /**
    * Use for passing data between checks within a report.
@@ -236,6 +236,6 @@ abstract class SiteAuditCheckAbstract {
    * @return int
    */
   public function getPercentOverride() {
-    return $this->percent_override;
+    return $this->percentOverride;
   }
 }
