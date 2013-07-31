@@ -236,12 +236,19 @@ function drush_site_audit_audit_all($url = '', $key = '') {
     $report_time = dt('Generated at @time', array('@time' => date('r')));
     if (drush_get_option('html')) {
       $report_title = '<a href="https://drupal.org/project/site_audit">' . dt('Site Audit') . '</a>';
-      $report_title .= ' ' . dt('Report for') . ' ' . l($url, $url);
+      if ($url) {
+        $report_title .= ' ' . dt('Report for') . ' ' . l($url, $url);
+      }
       echo '<h1>' . $report_title . '</h1>';
       echo '<p><em>' . $report_time . '</em></p>';
     }
     else {
-      drush_print(dt('Site Audit Report for @url', array('@url' => $url)));
+      if ($url) {
+        drush_print(dt('https://drupal.org/project/site_audit report for @url', array('@url' => $url)));
+      }
+      else {
+        drush_print(dt('https://drupal.org/project/site_audit report'));
+      }
       drush_print($report_time);
       drush_print();
     }
@@ -316,20 +323,6 @@ function drush_site_audit_audit_all($url = '', $key = '') {
     else {
       drush_log(dt('Result: @url', array('@url' => $json->html_url)), 'success');
     }
-  }
-}
-
-/**
- * Validate parameters.
- *
- * @param string $url
- *   URL to check.
- * @param string $key
- *   Google API key.
- */
-function drush_site_audit_audit_all_validate($url = '', $key = '') {
-  if (filter_var($url, FILTER_VALIDATE_URL) === FALSE) {
-    drush_set_error('SITE_AUDIT_ALL_NO_URL', dt('A valid URL is required.'));
   }
 }
 

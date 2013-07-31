@@ -117,11 +117,17 @@ class SiteAuditCheckInsightsAnalyze extends SiteAuditCheckAbstract {
         }
 
         // Render Rule, score and impact.
-        $ret_val .= PHP_EOL . '        ' . dt('@localizedRuleName: @ruleScore @impact', array(
+        $rule_score_impact = dt('@localizedRuleName: @ruleScore @impact', array(
           '@localizedRuleName' => $resultValues->localizedRuleName,
           '@ruleScore' => $resultValues->ruleScore,
           '@impact' => $impact,
         ));
+        if (drush_get_option('html')) {
+          $ret_val .= '<p>' . $rule_score_impact . '</p>';
+        }
+        else {
+          $ret_val .= PHP_EOL . '        ' . $rule_score_impact;
+        }
 
         if (isset($resultValues->urlBlocks)) {
           foreach ($resultValues->urlBlocks as $block) {
