@@ -176,7 +176,7 @@ abstract class SiteAuditReportAbstract {
   public function toHtml() {
     $ret_val = '<h2 id="' . get_class($this) . '">' . $this->getLabel();
     if ($this->percent != SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO) {
-      $ret_val .= ' <span class="label label-'. $this->getPercentCssClass() . '">' . $this->percent . '%</span>';
+      $ret_val .= ' <span class="label label-' . $this->getPercentCssClass() . '">' . $this->percent . '%</span>';
     }
     else {
       $ret_val .= ' <span class="label label-info">' . dt('Info') . '</span>';
@@ -225,6 +225,7 @@ abstract class SiteAuditReportAbstract {
   /**
    * Get the calculated percentage.
    * @return int
+   *   Calculated percentage.
    */
   public function getPercent() {
     return $this->percent;

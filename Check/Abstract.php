@@ -224,6 +224,7 @@ abstract class SiteAuditCheckAbstract {
   /**
    * Get the report percent override, if any.
    * @return int
+   *   The overridden percentage.
    */
   public function getPercentOverride() {
     return $this->percentOverride;

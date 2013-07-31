@@ -252,7 +252,7 @@ class SiteAuditCheckInsightsAnalyze extends SiteAuditCheckAbstract {
       $this->percentOverride = $this->registry['json_result']->score;
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN;
     }
-    return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_ERROR;
+    return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
   }
 }
 
