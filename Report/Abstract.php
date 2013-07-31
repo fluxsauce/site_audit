@@ -110,7 +110,12 @@ abstract class SiteAuditReportAbstract {
       )));
     }
     if ($this->percent == 100) {
-      drush_log('  ' . dt('No action required.'), 'success');
+      if (drush_get_option('gist')) {
+        drush_print('  ' . dt('No action required.'));
+      }
+      else {
+        drush_log('  ' . dt('No action required.'), 'success');
+      }
     }
     if (drush_get_option('detail') || $this->percent != 100) {
       foreach ($this->checks as $check) {
@@ -141,9 +146,16 @@ abstract class SiteAuditReportAbstract {
             }
           }
           else {
-            drush_log('    ' . dt('!result', array(
-              '!result' => $check->getResult(),
-            )), $check->getScoreDrushLevel());
+            if (drush_get_option('gist')) {
+              drush_log('    ' . dt('!result', array(
+                '!result' => $check->getResult(),
+              )));
+            }
+            else {
+              drush_log('    ' . dt('!result', array(
+                '!result' => $check->getResult(),
+              )), $check->getScoreDrushLevel());
+            }
           }
           if ($check->getAction()) {
             drush_print('      ' . dt('!action', array(

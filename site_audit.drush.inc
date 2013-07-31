@@ -145,6 +145,11 @@ function site_audit_drush_command() {
         'example-value' => dt('insights'),
         'value' => 'required',
       ),
+      'gist' => array(
+        'description' => dt('Publish result in a private gist. Set value with a Personal API Access Token created from https://github.com/settings/applications'),
+        'value' => 'required',
+        'example-value' => 'YOURTOKEN',
+      ),
     )),
     'arguments' => $arguments_all,
   );
@@ -191,6 +196,11 @@ function site_audit_drush_help($section) {
  * Execute every single report.
  */
 function drush_site_audit_audit_all($url = '', $key = '') {
+  $gist = drush_get_option('gist');
+  if ($gist) {
+    ob_start();
+  }
+
   $reports_to_skip = array();
   if (drush_get_option('skip')) {
     $reports_to_skip = explode(',', drush_get_option('skip'));
@@ -252,7 +262,9 @@ function drush_site_audit_audit_all($url = '', $key = '') {
       echo '</ul>';
     }
     // Render reports.
-    echo '<h2>' . dt('Reports') . '</h2>';
+    if (drush_get_option('html')) {
+      echo '<h2>' . dt('Reports') . '</h2>';
+    }
     foreach ($reports_to_render as $report) {
       $report->render();
       if (drush_get_option('html')) {
@@ -261,6 +273,48 @@ function drush_site_audit_audit_all($url = '', $key = '') {
           'external' => TRUE,
         )) . '</em></p>';
       }
+    }
+  }
+  if ($gist) {
+    $result = ob_get_contents();
+    while (ob_get_level()) {
+      ob_end_clean();
+    }
+
+    $file_name = 'site_audit.' . (drush_get_option('html') ? 'html' : 'txt');
+
+    $data = array(
+      'description' => $url . ' Site Audit',
+      'public' => FALSE,
+      'files' => array(
+        $file_name => array(
+          'content' => $result,
+          'language' => (drush_get_option('html') ? 'html' : 'text'),
+        ),
+      ),
+    );
+    $data_string = json_encode($data);
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'https://api.github.com/gists');
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+      'Content-Type: application/json',
+      'Content-Length: ' . strlen($data_string),
+      'Authorization: bearer ' . $gist,
+    ));
+
+    $result = curl_exec($ch);
+    $json = json_decode($result);
+    if (!isset($json->html_url)) {
+      drush_set_error('SITE_AUDIT_GIST_JSON', dt('api.github.com says: @message', array(
+        '@message' => $json->message,
+      )));
+    }
+    else {
+      drush_log(dt('Result: @url', array('@url' => $json->html_url)), 'success');
     }
   }
 }
