@@ -121,6 +121,8 @@ class SiteAuditCheckExtensionsDev extends SiteAuditCheckAbstract {
       'form' => dt('Development utility.'),
       'drupal_ipsum' => dt('Development utility to generate fake content.'),
       'dummy_content' => dt('Development utility to generate random content.'),
+      'hacked' => dt('Development utility for detecting altered code.'),
+      'simpletest' => dt('Automated testing framework for development.'),
       // Examples module.
       'action_example' => dt('Development examples.'),
       'ajax_example' => dt('Development examples.'),

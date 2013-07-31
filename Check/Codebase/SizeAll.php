@@ -30,8 +30,8 @@ class SiteAuditCheckCodebaseSizeAll extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getResultInfo().
    */
   public function getResultInfo() {
-    if ($this->registry['size_files_kb'] < 1024) {
-      return dt('Total size: @size_files_kbkB', array(
+    if ($this->registry['size_all_kb'] < 1024) {
+      return dt('Total size: @size_all_kbkB', array(
         '@size_all_kb' => number_format($this->registry['size_all_kb']),
       ));
     }

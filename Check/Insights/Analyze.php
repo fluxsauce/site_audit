@@ -145,7 +145,7 @@ class SiteAuditCheckInsightsAnalyze extends SiteAuditCheckAbstract {
 
             $limit = drush_get_option('limit', 0);
             if ($limit > 0 && isset($block->urls) && ($limit != count($block->urls)) && ($limit < count($block->urls))) {
-              $header .= ' ' . dt('(Showing @limit out of @total total)', array(
+              $header .= ' ' . dt('Showing @limit out of @total total:', array(
                 '@limit' => $limit,
                 '@total' => count($block->urls),
               ));

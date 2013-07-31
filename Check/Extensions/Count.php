@@ -92,7 +92,7 @@ class SiteAuditCheckExtensionsCount extends SiteAuditCheckAbstract {
       $this->registry['extension_count']++;
     }
 
-    if ($this->registry['extension_count'] >= 1) {
+    if ($this->registry['extension_count'] >= 150) {
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN;
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
