@@ -67,7 +67,7 @@ class SiteAuditCheckViewsCacheResults extends SiteAuditCheckAbstract {
         }
         else {
           foreach ($steps as $step) {
-            $ret_val .= PHP_EOL . '        - ' . $step;
+            $ret_val .= PHP_EOL . str_repeat(' ', 8) . '- ' . $step;
           }
         }
       }

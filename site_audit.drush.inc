@@ -150,6 +150,9 @@ function site_audit_drush_command() {
         'value' => 'required',
         'example-value' => 'YOURTOKEN',
       ),
+      'bootstrap' => array(
+        'description' => dt('If enabled, will wrap the generated report with Twitter Bootstrap 3.0 inline HTML.'),
+      ),
     )),
     'arguments' => $arguments_all,
   );
@@ -232,6 +235,10 @@ function drush_site_audit_audit_all($url = '', $key = '') {
       return;
     }
 
+    if (drush_get_option('bootstrap')) {
+      echo file_get_contents(__DIR__ . '/html/header.html');
+    }
+
     // Header.
     $report_time = dt('Generated on @time', array('@time' => date('r')));
     if (drush_get_option('html')) {
@@ -297,6 +304,9 @@ function drush_site_audit_audit_all($url = '', $key = '') {
           ),
         )) . '</div>';
       }
+    }
+    if (drush_get_option('bootstrap')) {
+      echo file_get_contents(__DIR__ . '/html/footer.html');
     }
   }
   if ($gist) {

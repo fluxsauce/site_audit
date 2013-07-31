@@ -73,11 +73,10 @@ class SiteAuditCheckInsightsAnalyze extends SiteAuditCheckAbstract {
         $ret_val .= '</dl>';
       }
       else {
+        $ret_val .= dt('Page stats');
         foreach ($stats as $name => $count) {
-          $stat = '        - ' . $name . ': ' . $count;
+          $ret_val .= PHP_EOL . str_repeat(' ', 6) . '- ' . $name . ': ' . $count;
         }
-        $ret_val .= PHP_EOL . '      ' . dt('Page stats') . PHP_EOL;
-        $ret_val .= implode(PHP_EOL, $stats);
       }
 
       $impact_filter = drush_get_option('impact');
@@ -87,7 +86,7 @@ class SiteAuditCheckInsightsAnalyze extends SiteAuditCheckAbstract {
         $ret_val .= '<h3>' . dt('Detailed results') . '</h3>';
       }
       else {
-        $ret_val .= PHP_EOL . '      ' . dt('Detailed results:');
+        $ret_val .= PHP_EOL . str_repeat(' ', 6) . dt('Detailed results:');
       }
       $rendered_result_count = 0;
       foreach ($this->registry['json_result']->formattedResults->ruleResults as $resultValues) {
@@ -131,7 +130,7 @@ class SiteAuditCheckInsightsAnalyze extends SiteAuditCheckAbstract {
           $ret_val .= '">' . $rule_score_impact . '</div>';
         }
         else {
-          $ret_val .= PHP_EOL . '        ' . $rule_score_impact;
+          $ret_val .= PHP_EOL . str_repeat(' ', 8) . $rule_score_impact;
         }
 
         if (isset($resultValues->urlBlocks)) {
@@ -156,7 +155,7 @@ class SiteAuditCheckInsightsAnalyze extends SiteAuditCheckAbstract {
               $ret_val .= '<blockquote>' . $header;
             }
             else {
-              $ret_val .= PHP_EOL . '          ' . $header;
+              $ret_val .= PHP_EOL . str_repeat(' ', 10) . $header;
             }
             if (isset($block->urls) && !empty($block->urls)) {
               $urls = array();
@@ -178,7 +177,7 @@ class SiteAuditCheckInsightsAnalyze extends SiteAuditCheckAbstract {
               }
               else {
                 foreach ($urls as $url) {
-                  $ret_val .= PHP_EOL . '            ' . $url;
+                  $ret_val .= PHP_EOL . str_repeat(' ', 12) . $url;
                 }
               }
             }

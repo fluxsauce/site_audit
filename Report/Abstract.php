@@ -111,56 +111,56 @@ abstract class SiteAuditReportAbstract {
     }
     if ($this->percent == 100) {
       if (drush_get_option('gist')) {
-        drush_print(str_pad(dt('No action required.'), 2, ' ', STR_PAD_LEFT));
+        drush_print(str_repeat(' ', 2) . dt('No action required.'));
       }
       else {
-        drush_log(str_pad(dt('No action required.'), 'success'), 2, ' ', STR_PAD_LEFT);
+        drush_log(str_repeat(' ', 2) . dt('No action required.'), 'success');
       }
     }
     if (drush_get_option('detail') || $this->percent != 100) {
       foreach ($this->checks as $check) {
         if (drush_get_option('detail') || $check->getScore() != SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS || $this->percent == SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO) {
           if (drush_get_option('detail')) {
-            drush_print(str_pad(dt('!label: !description', array(
+            drush_print(str_repeat(' ', 2) . dt('!label: !description', array(
               '!label' => $check->getLabel(),
               '!description' => $check->getDescription(),
-            )), 2, ' ', STR_PAD_LEFT));
+            )));
           }
           else {
             if ($check->getScore() != SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO) {
-              drush_print(str_pad(dt('!label', array(
+              drush_print(str_repeat(' ', 2) . dt('!label', array(
                 '!label' => $check->getLabel(),
-              )), 2, ' ', STR_PAD_LEFT));
+              )));
             }
           }
           if ($this->percent == SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO || drush_get_option('detail')) {
             if ($check->getScore() != SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO) {
-              drush_print(str_pad(dt('!result', array(
+              drush_print(str_repeat(' ', 4) . dt('!result', array(
                 '!result' => $check->getResult(),
-              )), 4, ' ', STR_PAD_LEFT));
+              )));
             }
             else {
-              drush_print(str_pad(dt('!result', array(
+              drush_print(str_repeat(' ', 2) . dt('!result', array(
                 '!result' => $check->getResult(),
-              )), 2, ' ', STR_PAD_LEFT));
+              )));
             }
           }
           else {
             if (drush_get_option('gist')) {
-              drush_log(str_pad(dt('!result', array(
+              drush_log(str_repeat(' ', 4) . dt('!result', array(
                 '!result' => $check->getResult(),
-              )), 4, ' ', STR_PAD_LEFT));
+              )));
             }
             else {
-              drush_log(str_pad(dt('!result', array(
+              drush_log(str_repeat(' ', 4) . dt('!result', array(
                 '!result' => $check->getResult(),
-              )), 4, ' ', STR_PAD_LEFT), $check->getScoreDrushLevel());
+              )), $check->getScoreDrushLevel());
             }
           }
           if ($check->getAction()) {
-            drush_print(str_pad(dt('!action', array(
+            drush_print(str_repeat(' ', 6) . dt('!action', array(
               '!action' => $check->getAction(),
-            )), 6, ' ', STR_PAD_LEFT));
+            )));
           }
         }
       }

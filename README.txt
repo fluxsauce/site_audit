@@ -24,11 +24,16 @@ drush ac
 
 Create a new file or overwrite:
 
-drush ac --html --detail > ~/desktop/report.html
+drush ac --html --detail > ~/Desktop/report.html
 
 Continue writing to a file:
 
-drush abp --html --detail >> ~/desktop/report.html
+drush abp --html --detail >> ~/Desktop/report.html
+
+Run every report with maximum detail, skipping Google insights and adding
+Twitter Bootstrap for styling:
+
+drush aa --html --bootstrap --detail --skip=insights > ~/Desktop/report.html
 
 == Vendor specific options ==
 

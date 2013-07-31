@@ -58,10 +58,10 @@ class SiteAuditCheckExtensionsDuplicate extends SiteAuditCheckAbstract {
     else {
       foreach ($this->registry['extensions_dupe'] as $name => $paths) {
         if (count($paths) > 1) {
-          $ret_val .= PHP_EOL . '      ' . $name . PHP_EOL;
+          $ret_val .= PHP_EOL . str_repeat(' ', 6) . $name . PHP_EOL;
           $extension_list = '';
           foreach ($paths as $path) {
-            $extension_list .= '        ' . $path . PHP_EOL;
+            $extension_list .= str_repeat(' ', 8) . $path . PHP_EOL;
           }
           $ret_val .= rtrim($extension_list);
         }

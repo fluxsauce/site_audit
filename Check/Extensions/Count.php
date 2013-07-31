@@ -52,16 +52,27 @@ class SiteAuditCheckExtensionsCount extends SiteAuditCheckAbstract {
    */
   public function getAction() {
     if ($this->score != SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS) {
-      $output = array();
-      $output[] = dt('Consider the following options:');
-      $output[] = '    - ' . dt('Disable unneeded or unnecessary extensions.');
-      $output[] = '    - ' . dt('Consolidate functionality if possible, or custom develop a solution specific to your needs.');
-      $output[] = '    - ' . dt('Avoid using modules that serve only one small purpose that is not mission critical.');
-      $output[] = dt('A lightweight site is a fast and happy site!');
+      $ret_val = dt('Consider the following options:') . PHP_EOL;
+      $options = array();
+      $options[] = dt('Disable unneeded or unnecessary extensions.');
+      $options[] = dt('Consolidate functionality if possible, or custom develop a solution specific to your needs.');
+      $options[] = dt('Avoid using modules that serve only one small purpose that is not mission critical.');
+
       if (drush_get_option('html')) {
-        return implode('<br/>', $output);
+        $ret_val .= '<ul>';
+        foreach ($options as $option) {
+          $ret_val .= '<li>' . $option . '</li>';
+        }
+        $ret_val .= '</ul>';
       }
-      return implode(PHP_EOL, $output);
+      else {
+        foreach ($options as $option) {
+          $ret_val .= str_repeat(' ', 6) . '- ' . $option . PHP_EOL;
+        }
+        $ret_val .= str_repeat(' ', 6);
+      }
+      $ret_val .= dt('A lightweight site is a fast and happy site!');
+      return $ret_val;
     }
   }
 
@@ -81,7 +92,7 @@ class SiteAuditCheckExtensionsCount extends SiteAuditCheckAbstract {
       $this->registry['extension_count']++;
     }
 
-    if ($this->registry['extension_count'] >= 150) {
+    if ($this->registry['extension_count'] >= 1) {
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN;
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
