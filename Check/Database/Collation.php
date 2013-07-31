@@ -33,7 +33,7 @@ class SiteAuditCheckDatabaseCollation extends SiteAuditCheckAbstract {
    */
   public function getResultInfo() {
     if (drush_get_option('html')) {
-      $ret_val = '<table>';
+      $ret_val = '<table class="table table-condensed">';
       $ret_val .= '<thead><tr><th>Table Name</th><th>Collation</th></tr></thead>';
       $ret_val .= '<tbody>';
       foreach ($this->registry['collation_tables'] as $name => $collation) {

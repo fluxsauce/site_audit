@@ -10,16 +10,6 @@ abstract class SiteAuditCheckAbstract {
   const AUDIT_CHECK_SCORE_FAIL = 0;
   const AUDIT_CHECK_SCORE_INFO = -1;
 
-  const AUDIT_CHECK_COLOR_PASS = 'green';
-  const AUDIT_CHECK_COLOR_WARN = '#d0cc35';
-  const AUDIT_CHECK_COLOR_FAIL = 'red';
-  const AUDIT_CHECK_COLOR_INFO = 'cyan';
-
-  const AUDIT_CHECK_DRUSH_PASS = 'success';
-  const AUDIT_CHECK_DRUSH_WARN = 'warning';
-  const AUDIT_CHECK_DRUSH_FAIL = 'error';
-  const AUDIT_CHECK_DRUSH_INFO = 'notice';
-
   /**
    * Quantifiable number associated with result on a scale of 0 to 2.
    * @var int
@@ -89,35 +79,35 @@ abstract class SiteAuditCheckAbstract {
         return dt('Pass');
 
       case SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN:
-        return dt('Recommendation');
+        return dt('Warning');
 
       case SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO:
         return dt('Information');
 
       default:
-        return dt('Blocking');
+        return dt('Blocker');
 
     }
   }
 
   /**
-   * Get the HTML color associated with a score.
+   * Get the CSS class associated with a score.
    * @return string
-   *   Pretty colors. Will eventually be classes.
+   *   Name of the Twitter bootstrap class.
    */
-  public function getScoreColor() {
+  public function getScoreCssClass() {
     switch ($this->score) {
       case SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS:
-        return SiteAuditCheckAbstract::AUDIT_CHECK_COLOR_PASS;
+        return 'success';
 
       case SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN:
-        return SiteAuditCheckAbstract::AUDIT_CHECK_COLOR_WARN;
+        return 'warning';
 
       case SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO:
-        return SiteAuditCheckAbstract::AUDIT_CHECK_COLOR_INFO;
+        return 'info';
 
       default:
-        return SiteAuditCheckAbstract::AUDIT_CHECK_COLOR_FAIL;
+        return 'danger';
 
     }
   }
@@ -130,16 +120,16 @@ abstract class SiteAuditCheckAbstract {
   public function getScoreDrushLevel() {
     switch ($this->score) {
       case SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS:
-        return SiteAuditCheckAbstract::AUDIT_CHECK_DRUSH_PASS;
+        return 'success';
 
       case SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN:
-        return SiteAuditCheckAbstract::AUDIT_CHECK_DRUSH_WARN;
+        return 'warning';
 
       case SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO:
-        return SiteAuditCheckAbstract::AUDIT_CHECK_DRUSH_INFO;
+        return 'notice';
 
       default:
-        return SiteAuditCheckAbstract::AUDIT_CHECK_DRUSH_FAIL;
+        return 'error';
 
     }
   }

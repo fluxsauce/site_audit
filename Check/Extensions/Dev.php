@@ -46,7 +46,7 @@ class SiteAuditCheckExtensionsDev extends SiteAuditCheckAbstract {
     if (drush_get_option('detail')) {
       if (drush_get_option('html')) {
         $ret_val = '<p>' . $ret_val . '</p>';
-        $ret_val .= '<table>';
+        $ret_val .= '<table class="table table-condensed">';
         $ret_val .= '<thead><tr><th>Name</th><th>Reason</th></thead>';
         $ret_val .= '<tbody>';
         foreach ($this->registry['extensions_dev'] as $row) {
@@ -68,7 +68,9 @@ class SiteAuditCheckExtensionsDev extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getAction().
    */
   public function getAction() {
-    return dt('Disable development modules for increased performance, stability and security in the Live (production) environment.');
+    if ($this->getScore() != SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS) {
+      return dt('Disable development modules for increased performance, stability and security in the Live (production) environment.');
+    }
   }
 
   /**

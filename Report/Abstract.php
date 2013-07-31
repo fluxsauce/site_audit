@@ -111,56 +111,56 @@ abstract class SiteAuditReportAbstract {
     }
     if ($this->percent == 100) {
       if (drush_get_option('gist')) {
-        drush_print('  ' . dt('No action required.'));
+        drush_print(str_pad(dt('No action required.'), 2, ' ', STR_PAD_LEFT));
       }
       else {
-        drush_log('  ' . dt('No action required.'), 'success');
+        drush_log(str_pad(dt('No action required.'), 'success'), 2, ' ', STR_PAD_LEFT);
       }
     }
     if (drush_get_option('detail') || $this->percent != 100) {
       foreach ($this->checks as $check) {
         if (drush_get_option('detail') || $check->getScore() != SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS || $this->percent == SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO) {
           if (drush_get_option('detail')) {
-            drush_print('  ' . dt('!label: !description', array(
+            drush_print(str_pad(dt('!label: !description', array(
               '!label' => $check->getLabel(),
               '!description' => $check->getDescription(),
-            )));
+            )), 2, ' ', STR_PAD_LEFT));
           }
           else {
             if ($check->getScore() != SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO) {
-              drush_print('  ' . dt('!label', array(
+              drush_print(str_pad(dt('!label', array(
                 '!label' => $check->getLabel(),
-              )));
+              )), 2, ' ', STR_PAD_LEFT));
             }
           }
           if ($this->percent == SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO || drush_get_option('detail')) {
             if ($check->getScore() != SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO) {
-              drush_print('    ' . dt('!result', array(
+              drush_print(str_pad(dt('!result', array(
                 '!result' => $check->getResult(),
-              )));
+              )), 4, ' ', STR_PAD_LEFT));
             }
             else {
-              drush_print('  ' . dt('!result', array(
+              drush_print(str_pad(dt('!result', array(
                 '!result' => $check->getResult(),
-              )));
+              )), 2, ' ', STR_PAD_LEFT));
             }
           }
           else {
             if (drush_get_option('gist')) {
-              drush_log('    ' . dt('!result', array(
+              drush_log(str_pad(dt('!result', array(
                 '!result' => $check->getResult(),
-              )));
+              )), 4, ' ', STR_PAD_LEFT));
             }
             else {
-              drush_log('    ' . dt('!result', array(
+              drush_log(str_pad(dt('!result', array(
                 '!result' => $check->getResult(),
-              )), $check->getScoreDrushLevel());
+              )), 4, ' ', STR_PAD_LEFT), $check->getScoreDrushLevel());
             }
           }
           if ($check->getAction()) {
-            drush_print('      ' . dt('!action', array(
+            drush_print(str_pad(dt('!action', array(
               '!action' => $check->getAction(),
-            )));
+            )), 6, ' ', STR_PAD_LEFT));
           }
         }
       }
@@ -174,34 +174,35 @@ abstract class SiteAuditReportAbstract {
    *   Report as rendered HTML.
    */
   public function toHtml() {
-    $ret_val = '<h3 id="' . get_class($this) . '">' . $this->getLabel();
+    $ret_val = '<h2 id="' . get_class($this) . '">' . $this->getLabel();
     if ($this->percent != SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO) {
-      $ret_val .= ': ' . $this->percent . '%';
+      $ret_val .= ' <span class="label label-'. $this->getPercentCssClass() . '">' . $this->percent . '%</span>';
     }
-    $ret_val .= '</h3>';
+    else {
+      $ret_val .= ' <span class="label label-info">' . dt('Info') . '</span>';
+    }
+    $ret_val .= '</h2>';
     if ($this->percent == 100) {
-      $ret_val .= '<p>No action required.</p>';
+      $ret_val .= '<p class="text-success">';
+      $ret_val .= '<strong>' . dt('Well done!') . '</strong> ' . dt('No action required.');
+      $ret_val .= '</p>';
     }
     if (drush_get_option('detail') || $this->percent != 100) {
       foreach ($this->checks as $check) {
         if (drush_get_option('detail') || $check->getScore() != SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS || $this->percent == SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO) {
-          $ret_val .= '<h4>' . $check->getLabel();
-          $ret_val .= ': ';
-          $ret_val .= '<span style="color:' . $check->getScoreColor() . '">';
-          $ret_val .= $check->getScoreLabel();
-          $ret_val .= '</span>';
-          $ret_val .= '</h4>';
+          $ret_val .= '<div class="panel panel-' . $check->getScoreCssClass() . '">';
+          // Heading.
+          $ret_val .= '<div class="panel-heading"><strong>' . $check->getLabel() . '</strong>';
           if (drush_get_option('detail')) {
-            $ret_val .= '<blockquote>' . $check->getDescription() . '</blockquote>';
+            $ret_val .= '<small> - ' . $check->getDescription() . '</small>';
           }
-          $ret_val .= '<p>';
-          $ret_val .= $check->getResult();
-          $ret_val .= '</p>';
+          $ret_val .= '</div>';
+          // Result.
+          $ret_val .= '<p>' . $check->getResult() . '</p>';
           if ($check->getAction()) {
-            $ret_val .= '<p>';
-            $ret_val .= $check->getAction();
-            $ret_val .= '</p>';
+            $ret_val .= '<div class="well well-small">' . $check->getAction() . '</div>';
           }
+          $ret_val .= '</div>';
         }
       }
     }
@@ -227,6 +228,24 @@ abstract class SiteAuditReportAbstract {
    */
   public function getPercent() {
     return $this->percent;
+  }
+
+  /**
+   * Get the CSS class associated with a percentage.
+   * @return string
+   *   Twitter Bootstrap CSS class.
+   */
+  public function getPercentCssClass() {
+    if ($this->percent > 80) {
+      return 'success';
+    }
+    if ($this->percent > 65) {
+      return 'warning';
+    }
+    if ($this->percent >= 0) {
+      return 'danger';
+    }
+    return 'info';
   }
 
   /**

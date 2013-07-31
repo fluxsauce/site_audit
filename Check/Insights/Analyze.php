@@ -16,7 +16,7 @@ class SiteAuditCheckInsightsAnalyze extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getDescription().
    */
   public function getDescription() {
-    return dt('Full report at https://developers.google.com/speed/pagespeed/insights');
+    return dt('Analysis by Google PageSpeed Insights service');
   }
 
   /**
@@ -49,11 +49,7 @@ class SiteAuditCheckInsightsAnalyze extends SiteAuditCheckAbstract {
     if ($this->abort) {
       return;
     }
-    $ret_val = dt('@title - @id: @score', array(
-      '@title' => $this->registry['json_result']->title,
-      '@id' => $this->registry['json_result']->id,
-      '@score' => $this->registry['json_result']->score,
-    ));
+    $ret_val = '';
 
     if (drush_get_option('detail')) {
       // Page Stats.
@@ -61,25 +57,24 @@ class SiteAuditCheckInsightsAnalyze extends SiteAuditCheckAbstract {
       foreach ($this->registry['json_result']->pageStats as $stat_name => $count) {
         $formatted_stat_name = ucfirst(preg_replace('/(?<!^)((?<![[:upper:]])[[:upper:]]|[[:upper:]](?![[:upper:]]))/', ' $1', $stat_name));
         if (stripos($stat_name, 'bytes') !== FALSE) {
-          $stats[] = dt('@stat_name: @kbKB', array(
-            '@stat_name' => $formatted_stat_name,
-            '@kb' => round($count / 1024, 2),
-          ));
+          $stats[$formatted_stat_name] = round($count / 1024, 2) . 'kB';
         }
         else {
-          $stats[] = dt('@stat_name: @count', array(
-            '@stat_name' => $formatted_stat_name,
-            '@count' => $count,
-          ));
+          $stats[$formatted_stat_name] = $count;
         }
       }
       if (drush_get_option('html')) {
-        $ret_val .= '<dl><dt>' . dt('Page stats') . '</dt>';
-        $ret_val .= '<dd>' . implode('</dd><dd>', $stats) . '</dd></dl>';
+        $ret_val .= '<h3>' . dt('Page stats') . '</h3>';
+        $ret_val .= '<dl class="dl-horizontal">';
+        foreach ($stats as $name => $count) {
+          $ret_val .= '<dt>' . $name . '</dt>';
+          $ret_val .= '<dd>' . $count . '</dd>';
+        }
+        $ret_val .= '</dl>';
       }
       else {
-        foreach ($stats as &$stat) {
-          $stat = '        - ' . $stat;
+        foreach ($stats as $name => $count) {
+          $stat = '        - ' . $name . ': ' . $count;
         }
         $ret_val .= PHP_EOL . '      ' . dt('Page stats') . PHP_EOL;
         $ret_val .= implode(PHP_EOL, $stats);
@@ -123,7 +118,17 @@ class SiteAuditCheckInsightsAnalyze extends SiteAuditCheckAbstract {
           '@impact' => $impact,
         ));
         if (drush_get_option('html')) {
-          $ret_val .= '<p>' . $rule_score_impact . '</p>';
+          $ret_val .= '<div class="alert alert-block ';
+          if ($resultValues->ruleScore >= 80) {
+            $ret_val .= 'alert-success';
+          }
+          else if ($resultValues->ruleScore >= 60) {
+            $ret_val .= 'alert-warning';
+          }
+          else {
+            $ret_val .= 'alert-danger';
+          }
+          $ret_val .= '">' . $rule_score_impact . '</div>';
         }
         else {
           $ret_val .= PHP_EOL . '        ' . $rule_score_impact;
@@ -148,7 +153,7 @@ class SiteAuditCheckInsightsAnalyze extends SiteAuditCheckAbstract {
             }
 
             if (drush_get_option('html')) {
-              $ret_val .= '<h4>' . $header . '</h4>';
+              $ret_val .= '<blockquote>' . $header;
             }
             else {
               $ret_val .= PHP_EOL . '          ' . $header;
@@ -167,13 +172,18 @@ class SiteAuditCheckInsightsAnalyze extends SiteAuditCheckAbstract {
               }
 
               if (drush_get_option('html')) {
+                $ret_val .= '<small>' . dt('URLs:');
                 $ret_val .= '<ul><li>' . implode('</li><li>', $urls) . '</li></ul>';
+                $ret_val .= '</small>';
               }
               else {
                 foreach ($urls as $url) {
                   $ret_val .= PHP_EOL . '            ' . $url;
                 }
               }
+            }
+            if (drush_get_option('html')) {
+              $ret_val .= '</blockquote>';
             }
           }
         }
@@ -202,7 +212,9 @@ class SiteAuditCheckInsightsAnalyze extends SiteAuditCheckAbstract {
   /**
    * Implements \SiteAudit\Check\Abstract\getAction().
    */
-  public function getAction() {}
+  public function getAction() {
+    return dt('Full report at https://developers.google.com/speed/pagespeed/insights');
+  }
 
   /**
    * Implements \SiteAudit\Check\Abstract\calculateScore().

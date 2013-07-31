@@ -40,7 +40,7 @@ class SiteAuditCheckDatabaseRowCount extends SiteAuditCheckAbstract {
       ));
     }
     if (drush_get_option('html')) {
-      $ret_val = '<table>';
+      $ret_val = '<table class="table table-condensed">';
       $ret_val .= '<thead><tr><th>Table Name</th><th>Rows</th></tr></thead>';
       $ret_val .= '<tbody>';
       foreach ($this->registry['rows_by_table'] as $table_name => $rows) {

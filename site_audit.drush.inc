@@ -56,7 +56,7 @@ function site_audit_drush_command() {
       'value' => 'required',
     ),
   );
-  $options_all = array_merge($options, $options_db);
+  $options_all = array_merge($options_all, $options_db);
   $items['audit_database'] = array(
     'description' => dt('Report information about a site environment\'s database.'),
     'aliases' => array('ad'),
@@ -233,18 +233,23 @@ function drush_site_audit_audit_all($url = '', $key = '') {
     }
 
     // Header.
-    $report_time = dt('Generated at @time', array('@time' => date('r')));
+    $report_time = dt('Generated on @time', array('@time' => date('r')));
     if (drush_get_option('html')) {
-      $report_title = '<a href="https://drupal.org/project/site_audit">' . dt('Site Audit') . '</a>';
+      $report_title = l(dt('Site Audit'), 'https://drupal.org/project/site_audit');
       if ($url) {
-        $report_title .= ' ' . dt('Report for') . ' ' . l($url, $url);
+        $report_title .= ' ' . dt('report for !url', array(
+          '!url' => l($url, $url),
+        ));
       }
-      echo '<h1>' . $report_title . '</h1>';
-      echo '<p><em>' . $report_time . '</em></p>';
+      echo '<div class="page-header">';
+      echo '<h1>' . $report_title . '<br/><small>' . $report_time . '</small></h1>';
+      echo '</div>';
     }
     else {
       if ($url) {
-        drush_print(dt('https://drupal.org/project/site_audit report for @url', array('@url' => $url)));
+        drush_print(dt('https://drupal.org/project/site_audit report for @url', array(
+          '@url' => $url,
+        )));
       }
       else {
         drush_print(dt('https://drupal.org/project/site_audit report'));
@@ -255,30 +260,42 @@ function drush_site_audit_audit_all($url = '', $key = '') {
 
     // Table of Contents; HTML only.
     if (drush_get_option('html')) {
-      echo '<h2 id="top">' . dt('Table of contents') . '</h2><ul>';
+      echo '<h2 id="top">' . dt('Summary') . '</h2>';
+      $buttons = array();
       foreach ($reports_to_render as $report) {
-        echo '<li>' . l($report->getLabel(), '', array(
+        $button_text = $report->getLabel();
+        if ($report->getPercent() != SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO) {
+          $button_text .= ' (' . $report->getPercent() . '%)';
+        }
+        else {
+          $button_text .= ' (' . dt('Info') . ')';
+        }
+        $buttons[] = l($button_text, '', array(
           'fragment' => get_class($report),
           'external' => TRUE,
+          'attributes' => array(
+            'class' => array(
+              'btn',
+              'btn-' . $report->getPercentCssClass(),
+              'btn-mini',
+            ),
+            'style' => 'margin-bottom: 5px;',
+          ),
         ));
-        if ($report->getPercent() != SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO) {
-          echo ' (' . $report->getPercent() . '%)</li>';
-        }
-        echo '</li>';
       }
-      echo '</ul>';
+      echo '<p>' . implode('&nbsp;', $buttons) . '</p>';
     }
     // Render reports.
-    if (drush_get_option('html')) {
-      echo '<h2>' . dt('Reports') . '</h2>';
-    }
     foreach ($reports_to_render as $report) {
       $report->render();
-      if (drush_get_option('html')) {
-        echo '<p><em>' . l(dt('Back to top'), '', array(
+      if (drush_get_option('html') && ($report->getPercent() != 100)) {
+        echo '<div>' . l(dt('Back to top'), '', array(
           'fragment' => 'top',
           'external' => TRUE,
-        )) . '</em></p>';
+          'attributes' => array(
+            'class' => array('btn', 'btn-default', 'btn-mini'),
+          ),
+        )) . '</div>';
       }
     }
   }
