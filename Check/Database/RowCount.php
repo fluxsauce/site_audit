@@ -50,6 +50,7 @@ class SiteAuditCheckDatabaseRowCount extends SiteAuditCheckAbstract {
         $ret_val .= '</tr>';
       }
       $ret_val .= '</tbody>';
+      $ret_val .= '</table>';
     }
     else {
       $ret_val  = str_repeat(' ', 2) . dt('Table Name: Rows') . PHP_EOL;
