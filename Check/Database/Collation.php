@@ -43,6 +43,7 @@ class SiteAuditCheckDatabaseCollation extends SiteAuditCheckAbstract {
         $ret_val .= '</tr>';
       }
       $ret_val .= '</tbody>';
+      $ret_val .= '</table>';
     }
     else {
       $ret_val  = 'Table Name: Collation' . PHP_EOL;
