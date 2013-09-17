@@ -53,7 +53,7 @@ class SiteAuditCheckDatabaseRowCount extends SiteAuditCheckAbstract {
       $ret_val .= '</table>';
     }
     else {
-      $ret_val  = str_repeat(' ', 2) . dt('Table Name: Rows') . PHP_EOL;
+      $ret_val  = dt('Table Name: Rows') . PHP_EOL;
       $ret_val .= str_repeat(' ', 4) . '----------------' . PHP_EOL;
       foreach ($this->registry['rows_by_table'] as $table_name => $rows) {
         $ret_val .= str_repeat(' ', 4) . "$table_name: $rows" . PHP_EOL;

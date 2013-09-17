@@ -47,7 +47,7 @@ class SiteAuditCheckDatabaseCollation extends SiteAuditCheckAbstract {
     }
     else {
       $ret_val  = 'Table Name: Collation' . PHP_EOL;
-      $ret_val .= '---------------------' . PHP_EOL;
+      $ret_val .= str_repeat(' ', 4) . '---------------------' . PHP_EOL;
       foreach ($this->registry['collation_tables'] as $name => $collation) {
         $ret_val .= "$name: $collation" . PHP_EOL;
       }
