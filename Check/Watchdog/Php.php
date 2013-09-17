@@ -32,7 +32,9 @@ class SiteAuditCheckWatchdogPhp extends SiteAuditCheckAbstract {
     foreach ($this->registry['php_counts'] as $severity => $count) {
       $counts[] = $severity . ': ' . $count;
     }
-    return implode(', ', $counts);
+    $ret_val = implode(', ', $counts);
+    $ret_val .= ' - total ' . $this->registry['percent_php'] . '%';
+    return $ret_val;
   }
 
   /**
@@ -68,7 +70,7 @@ class SiteAuditCheckWatchdogPhp extends SiteAuditCheckAbstract {
     $rsc = drush_db_select('watchdog', '*', $where['where'], $where['args'], 0, NULL, 'wid', 'DESC');
     while ($result = drush_db_fetch_object($rsc)) {
       $row = core_watchdog_format_result($result);
-      if (!isset($counts[$row->severity])) {
+      if (!isset($this->registry['php_counts'][$row->severity])) {
         $this->registry['php_counts'][$row->severity] = 0;
       }
       $this->registry['php_counts'][$row->severity]++;
