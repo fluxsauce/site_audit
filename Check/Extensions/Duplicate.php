@@ -86,7 +86,8 @@ class SiteAuditCheckExtensionsDuplicate extends SiteAuditCheckAbstract {
     $this->registry['extensions_dupe'] = array();
     $warn = FALSE;
     $drupal_root = drush_get_context('DRUSH_SELECTED_DRUPAL_ROOT');
-    exec("find $drupal_root -type f -name '*.info' -o -path './sites/default/files' -prune -xdev", $result);
+    $command = "find $drupal_root -xdev -type f -name '*.info' -o -path './sites/default/files' -prune";
+    exec($command, $result);
     foreach ($result as $path) {
       $name = substr(array_pop(explode('/', $path)), 0, -5);
       // Safe duplicates.
