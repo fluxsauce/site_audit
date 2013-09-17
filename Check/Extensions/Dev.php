@@ -123,6 +123,9 @@ class SiteAuditCheckExtensionsDev extends SiteAuditCheckAbstract {
       'dummy_content' => dt('Development utility to generate random content.'),
       'hacked' => dt('Development utility for detecting altered code.'),
       'simpletest' => dt('Automated testing framework for development.'),
+      'path_redirect_generate' => dt('Development utility for generating redirects.'),
+      'drupalforfirebug' => dt('Development utility for browser debugging.'),
+      'performance' => dt('Development utility for monitoring and performance logging.'),
       // Examples module.
       'action_example' => dt('Development examples.'),
       'ajax_example' => dt('Development examples.'),
