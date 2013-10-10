@@ -157,7 +157,7 @@ abstract class SiteAuditReportAbstract {
             }
           }
           if ($this->percent == SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO || drush_get_option('detail')) {
-            if ($check->getScore() != SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO) {
+            if (($check->getScore() != SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO) || drush_get_option('detail')) {
               drush_print(str_repeat(' ', 4) . dt('!result', array(
                 '!result' => $check->getResult(),
               )));

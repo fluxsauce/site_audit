@@ -109,6 +109,13 @@ function site_audit_drush_command() {
     'options' => $options,
   );
 
+  $items['audit_users'] = array(
+    'description' => dt('Audit Users.'),
+    'aliases' => array('au'),
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
+    'options' => $options,
+  );
+
   $arguments_gi = array(
     'url' => dt('The URL that you wish to test.'),
     'key' => dt('Google Code API Key - see https://developers.google.com/speed/docs/insights/v1/getting_started#auth'),
@@ -485,5 +492,13 @@ function drush_site_audit_audit_google_insights($url, $key) {
  */
 function drush_site_audit_audit_cron() {
   $report = new SiteAuditReportCron();
+  $report->render();
+}
+
+/**
+ * Render a Users report.
+ */
+function drush_site_audit_audit_users() {
+  $report = new SiteAuditReportUsers();
   $report->render();
 }
