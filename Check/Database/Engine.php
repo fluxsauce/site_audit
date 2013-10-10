@@ -23,24 +23,7 @@ class SiteAuditCheckDatabaseEngine extends SiteAuditCheckAbstract {
   /**
    * Implements \SiteAudit\Check\Abstract\getResultFail().
    */
-  public function getResultFail() {}
-
-  /**
-   * Implements \SiteAudit\Check\Abstract\getResultInfo().
-   */
-  public function getResultInfo() {}
-
-  /**
-   * Implements \SiteAudit\Check\Abstract\getResultPass().
-   */
-  public function getResultPass() {
-    return dt('Every table is using InnoDB.');
-  }
-
-  /**
-   * Implements \SiteAudit\Check\Abstract\getResultWarn().
-   */
-  public function getResultWarn() {
+  public function getResultFail() {
     if (drush_get_option('html')) {
       $ret_val = '<table class="table table-condensed">';
       $ret_val .= '<thead><tr><th>Table Name</th><th>Engine</th></tr></thead>';
@@ -72,6 +55,23 @@ class SiteAuditCheckDatabaseEngine extends SiteAuditCheckAbstract {
   }
 
   /**
+   * Implements \SiteAudit\Check\Abstract\getResultInfo().
+   */
+  public function getResultInfo() {}
+
+  /**
+   * Implements \SiteAudit\Check\Abstract\getResultPass().
+   */
+  public function getResultPass() {
+    return dt('Every table is using InnoDB.');
+  }
+
+  /**
+   * Implements \SiteAudit\Check\Abstract\getResultWarn().
+   */
+  public function getResultWarn() {}
+
+  /**
    * Implements \SiteAudit\Check\Abstract\getAction().
    */
   public function getAction() {
@@ -100,6 +100,6 @@ class SiteAuditCheckDatabaseEngine extends SiteAuditCheckAbstract {
     foreach ($result as $row) {
       $this->registry['engine_tables'][$row->name] = $row->ENGINE;
     }
-    return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN;
+    return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
   }
 }
