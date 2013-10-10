@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Contains \SiteAudit\Check\Codebase\SizeAll.
+ * Contains \SiteAudit\Check\Codebase\ManagedFileCount.
  */
 
 class SiteAuditCheckCodebaseManagedFileCount extends SiteAuditCheckAbstract {

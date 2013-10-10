@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Contains \SiteAudit\Check\Watchdog\Count.
+ * Contains \SiteAudit\Check\Users\WhoIsNumberOne.
  */
 
 class SiteAuditCheckUsersWhoIsNumberOne extends SiteAuditCheckAbstract {

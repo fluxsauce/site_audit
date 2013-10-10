@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Contains \SiteAudit\Check\Database\Collation.
+ * Contains \SiteAudit\Check\Database\Engine.
  */
 
 class SiteAuditCheckDatabaseEngine extends SiteAuditCheckAbstract {

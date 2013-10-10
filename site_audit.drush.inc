@@ -109,6 +109,13 @@ function site_audit_drush_command() {
     'options' => $options,
   );
 
+  $items['audit_status'] = array(
+    'description' => dt('Audit Status.'),
+    'aliases' => array('as'),
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
+    'options' => $options,
+  );
+
   $items['audit_users'] = array(
     'description' => dt('Audit Users.'),
     'aliases' => array('au'),
@@ -320,7 +327,7 @@ function drush_site_audit_audit_all($url = '', $key = '') {
       else {
         $report->render();
       }
-      if (drush_get_option('html') && ($report->getPercent() != 100)) {
+      if (drush_get_option('html')) {
         echo '<div>' . l(dt('Back to top'), '', array(
           'fragment' => 'top',
           'external' => TRUE,
@@ -500,5 +507,13 @@ function drush_site_audit_audit_cron() {
  */
 function drush_site_audit_audit_users() {
   $report = new SiteAuditReportUsers();
+  $report->render();
+}
+
+/**
+ * Render a Status report.
+ */
+function drush_site_audit_audit_status() {
+  $report = new SiteAuditReportStatus();
   $report->render();
 }

@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Contains \SiteAudit\Check\Watchdog\Count.
+ * Contains \SiteAudit\Check\Users\CountBlocked.
  */
 
 class SiteAuditCheckUsersCountBlocked extends SiteAuditCheckAbstract {

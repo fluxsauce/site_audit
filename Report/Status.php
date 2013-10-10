@@ -1,15 +1,15 @@
 <?php
 /**
  * @file
- * Contains \SiteAudit\Report\Users.
+ * Contains \SiteAudit\Report\Status.
  */
 
-class SiteAuditReportUsers extends SiteAuditReportAbstract {
+class SiteAuditReportStatus extends SiteAuditReportAbstract {
   /**
    * Implements \SiteAudit\Report\Abstract\getLabel().
    */
   public function getLabel() {
-    return dt('Users');
+    return dt('Status');
   }
 
   /**
@@ -17,11 +17,7 @@ class SiteAuditReportUsers extends SiteAuditReportAbstract {
    */
   public function getCheckNames() {
     return array(
-      'CountAll',
-      'CountBlocked',
-      'RolesList',
-      'WhoIsNumberOne',
-      'BlockedNumberOne',
+      'System',
     );
   }
 }
