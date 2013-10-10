@@ -19,6 +19,8 @@ class SiteAuditReportCodebase extends SiteAuditReportAbstract {
     return array(
       'SizeFiles',
       'SizeAll',
+      'ManagedFileCount',
+      'ManagedFileSize',
     );
   }
 }

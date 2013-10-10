@@ -77,7 +77,7 @@ function site_audit_drush_command() {
   $items['audit_codebase'] = array(
     'description' => dt('Audit the codebase.'),
     'aliases' => array('acb'),
-    'bootstrap' => DRUSH_BOOTSTRAP_DRUSH,
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
     'options' => $options,
   );
 
