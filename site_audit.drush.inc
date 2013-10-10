@@ -21,6 +21,9 @@ function site_audit_drush_command() {
     'html' => array(
       'description' => dt('If set, render as HTML report.'),
     ),
+    'json' => array(
+      'description' => dt('If set, render as JSON report.'),
+    ),
     'detail' => array(
       'description' => dt('If set, provided detailed responses.'),
     ),
@@ -241,7 +244,16 @@ function drush_site_audit_audit_all($url = '', $key = '') {
 
     // Header.
     $report_time = dt('Generated on @time', array('@time' => date('r')));
-    if (drush_get_option('html')) {
+
+    // Prepare JSON format.
+    if (drush_get_option('json')) {
+      $report_all = array(
+        'time' => time(),
+        'reports' => array(),
+      );
+    }
+    // Prepare HTML format.
+    else if (drush_get_option('html')) {
       $report_title = l(dt('Site Audit'), 'https://drupal.org/project/site_audit');
       if ($url) {
         $report_title .= ' ' . dt('report for !url', array(
@@ -252,6 +264,7 @@ function drush_site_audit_audit_all($url = '', $key = '') {
       echo '<h1>' . $report_title . '<br/><small>' . $report_time . '</small></h1>';
       echo '</div>';
     }
+    // Prepare Drush format.
     else {
       if ($url) {
         drush_print(dt('https://drupal.org/project/site_audit report for @url', array(
@@ -294,7 +307,12 @@ function drush_site_audit_audit_all($url = '', $key = '') {
     }
     // Render reports.
     foreach ($reports_to_render as $report) {
-      $report->render();
+      if (drush_get_option('json')) {
+        $report_all['reports'][get_class($report)] = json_decode($report->toJson());
+      }
+      else {
+        $report->render();
+      }
       if (drush_get_option('html') && ($report->getPercent() != 100)) {
         echo '<div>' . l(dt('Back to top'), '', array(
           'fragment' => 'top',
@@ -309,6 +327,12 @@ function drush_site_audit_audit_all($url = '', $key = '') {
       echo file_get_contents(__DIR__ . '/html/footer.html');
     }
   }
+
+  if (drush_get_option('json')) {
+    echo json_encode($report_all);
+    return;
+  }
+
   if ($gist) {
     $result = ob_get_contents();
     while (ob_get_level()) {

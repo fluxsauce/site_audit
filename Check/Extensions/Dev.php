@@ -57,7 +57,11 @@ class SiteAuditCheckExtensionsDev extends SiteAuditCheckAbstract {
       }
       else {
         foreach ($this->registry['extensions_dev'] as $row) {
-          $ret_val .= PHP_EOL . str_repeat(' ', 6) . '- ' . $row[0] . ': ' . $row[1];
+          $ret_val .= PHP_EOL;
+          if (!drush_get_option('json')) {
+            $ret_val .= str_repeat(' ', 6);
+          }
+          $ret_val .= '- ' . $row[0] . ': ' . $row[1];
         }
       }
     }

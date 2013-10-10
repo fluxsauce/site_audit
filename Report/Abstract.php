@@ -92,6 +92,29 @@ abstract class SiteAuditReportAbstract {
   }
 
   /**
+   * Render response using JSON.
+   *
+   * @return string
+   *   Format report as JSON.
+   */
+  public function toJson() {
+    $report = array(
+      'percent' => $this->percent,
+      'label' => $this->getLabel(),
+      'checks' => array(),
+    );
+    foreach ($this->checks as $check) {
+      $report['checks'][get_class($check)] = array(
+        'label' => $check->getLabel(),
+        'description' => $check->getDescription(),
+        'result' => $check->getResult(),
+        'action' => $check->getAction(),
+      );
+    }
+    return json_encode($report);
+  }
+
+  /**
    * Render response using Drush.
    *
    * @return string
@@ -216,6 +239,9 @@ abstract class SiteAuditReportAbstract {
   public function render() {
     if (drush_get_option('html')) {
       echo $this->toHtml();
+    }
+    elseif (drush_get_option('json')) {
+      echo $this->toJson();
     }
     else {
       $this->toDrush();

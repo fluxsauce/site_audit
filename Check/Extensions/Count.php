@@ -67,9 +67,14 @@ class SiteAuditCheckExtensionsCount extends SiteAuditCheckAbstract {
       }
       else {
         foreach ($options as $option) {
-          $ret_val .= str_repeat(' ', 6) . '- ' . $option . PHP_EOL;
+          if (!drush_get_option('json')) {
+            $ret_val .= str_repeat(' ', 6);
+          }
+          $ret_val .= '- ' . $option . PHP_EOL;
         }
-        $ret_val .= str_repeat(' ', 6);
+        if (!drush_get_option('json')) {
+          $ret_val .= str_repeat(' ', 6);
+        }
       }
       $ret_val .= dt('A lightweight site is a fast and happy site!');
       return $ret_val;

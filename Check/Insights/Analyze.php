@@ -38,9 +38,7 @@ class SiteAuditCheckInsightsAnalyze extends SiteAuditCheckAbstract {
   /**
    * Implements \SiteAudit\Check\Abstract\getResultInfo().
    */
-  public function getResultInfo() {
-    return dt('Views is not enabled.');
-  }
+  public function getResultInfo() {}
 
   /**
    * Implements \SiteAudit\Check\Abstract\getResultPass().
@@ -75,7 +73,11 @@ class SiteAuditCheckInsightsAnalyze extends SiteAuditCheckAbstract {
       else {
         $ret_val .= dt('Page stats');
         foreach ($stats as $name => $count) {
-          $ret_val .= PHP_EOL . str_repeat(' ', 6) . '- ' . $name . ': ' . $count;
+          $ret_val .= PHP_EOL;
+          if (!drush_get_option('json')) {
+            $ret_val .= str_repeat(' ', 6);
+          }
+          $ret_val .= '- ' . $name . ': ' . $count;
         }
       }
 
@@ -130,7 +132,11 @@ class SiteAuditCheckInsightsAnalyze extends SiteAuditCheckAbstract {
           $ret_val .= '">' . $rule_score_impact . '</div>';
         }
         else {
-          $ret_val .= PHP_EOL . str_repeat(' ', 8) . $rule_score_impact;
+          $ret_val .= PHP_EOL;
+          if (!drush_get_option('json')) {
+            $ret_val .= str_repeat(' ', 8);
+          }
+          $ret_val .= $rule_score_impact;
         }
 
         if (isset($resultValues->urlBlocks)) {
@@ -155,7 +161,11 @@ class SiteAuditCheckInsightsAnalyze extends SiteAuditCheckAbstract {
               $ret_val .= '<blockquote>' . $header;
             }
             else {
-              $ret_val .= PHP_EOL . str_repeat(' ', 10) . $header;
+              $ret_val .= PHP_EOL;
+              if (!drush_get_option('json')) {
+                $ret_val .= str_repeat(' ', 10);
+              }
+              $ret_val .= $header;
             }
             if (isset($block->urls) && !empty($block->urls)) {
               $urls = array();
@@ -177,7 +187,11 @@ class SiteAuditCheckInsightsAnalyze extends SiteAuditCheckAbstract {
               }
               else {
                 foreach ($urls as $url) {
-                  $ret_val .= PHP_EOL . str_repeat(' ', 12) . $url;
+                  $ret_val .= PHP_EOL;
+                  if (!drush_get_option('json')) {
+                    $ret_val .= str_repeat(' ', 12);
+                  }
+                  $ret_val .= $url;
                 }
               }
             }

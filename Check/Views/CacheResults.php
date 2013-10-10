@@ -67,7 +67,11 @@ class SiteAuditCheckViewsCacheResults extends SiteAuditCheckAbstract {
         }
         else {
           foreach ($steps as $step) {
-            $ret_val .= PHP_EOL . str_repeat(' ', 8) . '- ' . $step;
+            $ret_val .= PHP_EOL;
+            if (!drush_get_option('json')) {
+              $ret_val .= str_repeat(' ', 8);
+            }
+            $ret_val .= '- ' . $step;
           }
         }
       }

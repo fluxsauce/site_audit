@@ -54,9 +54,15 @@ class SiteAuditCheckDatabaseRowCount extends SiteAuditCheckAbstract {
     }
     else {
       $ret_val  = dt('Table Name: Rows') . PHP_EOL;
-      $ret_val .= str_repeat(' ', 4) . '----------------' . PHP_EOL;
+      if (!drush_get_option('json')) {
+        $ret_val .= str_repeat(' ', 4);
+      }
+      $ret_val .= '----------------' . PHP_EOL;
       foreach ($this->registry['rows_by_table'] as $table_name => $rows) {
-        $ret_val .= str_repeat(' ', 4) . "$table_name: $rows" . PHP_EOL;
+        if (!drush_get_option('json')) {
+          $ret_val .= str_repeat(' ', 4);
+        }
+        $ret_val .= "$table_name: $rows" . PHP_EOL;
       }
     }
     return $ret_val;
