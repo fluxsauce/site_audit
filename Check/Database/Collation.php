@@ -50,9 +50,13 @@ class SiteAuditCheckDatabaseCollation extends SiteAuditCheckAbstract {
       if (!drush_get_option('json')) {
         $ret_val .= str_repeat(' ', 4);
       }
-      $ret_val .= '---------------------' . PHP_EOL;
+      $ret_val .= '---------------------';
       foreach ($this->registry['collation_tables'] as $name => $collation) {
-        $ret_val .= "$name: $collation" . PHP_EOL;
+        $ret_val .= PHP_EOL;
+        if (!drush_get_option('json')) {
+          $ret_val .= str_repeat(' ', 4);
+        }
+        $ret_val .= "$name: $collation";
       }
     }
     return $ret_val;

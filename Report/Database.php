@@ -20,6 +20,7 @@ class SiteAuditReportDatabase extends SiteAuditReportAbstract {
       'Size',
       'RowCount',
       'Collation',
+      'Engine',
     );
   }
 }
