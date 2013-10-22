@@ -29,7 +29,9 @@ class SiteAuditCheckCronEnabled extends SiteAuditCheckAbstract {
   /**
    * Implements \SiteAudit\Check\Abstract\getResultInfo().
    */
-  public function getResultInfo() {}
+  public function getResultInfo() {
+    return dt('Drupal Cron is disabled, but Elysia Cron is being used instead.');
+  }
 
   /**
    * Implements \SiteAudit\Check\Abstract\getResultPass().
@@ -76,6 +78,11 @@ class SiteAuditCheckCronEnabled extends SiteAuditCheckAbstract {
     $this->registry['cron_safe_threshold'] = $cron_safe_threshold;
     if (!$this->registry['cron_safe_threshold']) {
       $this->abort = TRUE;
+      // Check for elysia_cron.
+      $status = drush_get_extension_status('elysia_cron');
+      if ($status == 'enabled') {
+        return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
+      }
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
