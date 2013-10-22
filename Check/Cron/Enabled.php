@@ -79,8 +79,7 @@ class SiteAuditCheckCronEnabled extends SiteAuditCheckAbstract {
     if (!$this->registry['cron_safe_threshold']) {
       $this->abort = TRUE;
       // Check for elysia_cron.
-      $status = drush_get_extension_status('elysia_cron');
-      if ($status == 'enabled') {
+      if (module_exists('elysia_cron')) {
         return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
       }
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
