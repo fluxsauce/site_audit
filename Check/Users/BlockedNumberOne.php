@@ -47,7 +47,9 @@ class SiteAuditCheckUsersBlockedNumberOne extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getAction().
    */
   public function getAction() {
-    return dt('Unblock UID #1 using `drush user-unblock 1`');
+    if ($this->score != SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS) {
+      return dt('Unblock UID #1 using `drush user-unblock 1`');
+    }
   }
 
   /**

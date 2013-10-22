@@ -75,9 +75,11 @@ class SiteAuditCheckDatabaseEngine extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getAction().
    */
   public function getAction() {
-    return dt('Change the Storage Engine to InnoDB. See @url for details.', array(
-      '@url' => 'http://dev.mysql.com/doc/refman/5.5/en/converting-tables-to-innodb.html',
-    ));
+    if ($this->score != SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS) {
+      return dt('Change the Storage Engine to InnoDB. See @url for details.', array(
+        '@url' => 'http://dev.mysql.com/doc/refman/5.5/en/converting-tables-to-innodb.html',
+      ));
+    }
   }
 
   /**
