@@ -130,6 +130,7 @@ class SiteAuditCheckExtensionsDev extends SiteAuditCheckAbstract {
       'path_redirect_generate' => dt('Development utility for generating redirects.'),
       'drupalforfirebug' => dt('Development utility for browser debugging.'),
       'performance' => dt('Development utility for monitoring and performance logging.'),
+      'taxonomy_csv' => dt('Taxonomy CSV is designed as a run-once setup or migration module; disable it once your imports and exports are processed.'),
       // Examples module.
       'action_example' => dt('Development examples.'),
       'ajax_example' => dt('Development examples.'),
