@@ -61,21 +61,10 @@ class SiteAuditCheckExtensionsMissing extends SiteAuditCheckAbstract {
     $this->registry['extensions_missing'] = array();
     $drupal_root = drush_get_context('DRUSH_SELECTED_DRUPAL_ROOT');
 
-    // Drupal 7 and above.
-    if (drush_drupal_major_version() >= 7) {
-      $result = db_select('system')->fields('system', array(
-        'name',
-        'filename',
-      ))->condition('status', '1', '=')->execute();
-    }
-    // Drupal 6.
-    else {
-      $result_query = db_query('SELECT name, filename FROM {system} WHERE status = 1');
-      $result = array();
-      while ($row = db_fetch_object($result_query)) {
-        $result[] = $row;
-      }
-    }
+    $result = db_select('system')->fields('system', array(
+      'name',
+      'filename',
+    ))->condition('status', '1', '=')->execute();
 
     foreach ($result as $row) {
       if (!file_exists($drupal_root . '/' . $row->filename)) {

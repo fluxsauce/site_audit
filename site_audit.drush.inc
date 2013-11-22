@@ -31,7 +31,7 @@ function site_audit_drush_command() {
 
   $vendor_options = array(
     'vendor' => array(
-      'description' => dt('If used, will adjust recommendations based on a Vendor\'s specific needs. Currently supported: pantheon'),
+      'description' => dt("If used, will adjust recommendations based on a Vendor's specific needs. Currently supported: pantheon"),
       'example-value' => dt('pantheon'),
       'value' => 'required',
     ),
@@ -213,6 +213,13 @@ function site_audit_drush_help($section) {
 }
 
 /**
+ * Validate execution of all reports.
+ */
+function drush_site_audit_audit_all_validate($url = '', $key = '') {
+  return site_audit_version_check();
+}
+
+/**
  * Execute every single report.
  */
 function drush_site_audit_audit_all($url = '', $key = '') {
@@ -267,7 +274,7 @@ function drush_site_audit_audit_all($url = '', $key = '') {
       );
     }
     // Prepare HTML format.
-    else if (drush_get_option('html')) {
+    elseif (drush_get_option('html')) {
       $report_title = l(dt('Site Audit'), 'https://drupal.org/project/site_audit');
       if ($url) {
         $report_title .= ' ' . dt('report for !url', array(
@@ -392,11 +399,39 @@ function drush_site_audit_audit_all($url = '', $key = '') {
 }
 
 /**
+ * Check the Drupal major version.
+ *
+ * @return bool
+ *   FALSE if unsupported.
+ */
+function site_audit_version_check() {
+  $drupal_major_version = drush_drupal_major_version();
+  if ($drupal_major_version < 7 || $drupal_major_version >= 8) {
+    return drush_set_error('SITE_AUDIT_DRUPAL_7_ONLY', dt('Site Audit only supports Drupal 7.'));
+  }
+  return TRUE;
+}
+
+/**
+ * Audit cache validation.
+ */
+function drush_site_audit_audit_cache_validate() {
+  return site_audit_version_check();
+}
+
+/**
  * Check Drupal's caching settings and make recommendations as necessary.
  */
 function drush_site_audit_audit_cache() {
   $report = new SiteAuditReportCache();
   $report->render();
+}
+
+/**
+ * Audit database validation.
+ */
+function drush_site_audit_audit_database_validate() {
+  return site_audit_version_check();
 }
 
 /**
@@ -408,11 +443,25 @@ function drush_site_audit_audit_database() {
 }
 
 /**
+ * Audit extensions validation.
+ */
+function drush_site_audit_audit_extensions_validate() {
+  return site_audit_version_check();
+}
+
+/**
  * Audit modules and themes (extensions) for a given Drupal site.
  */
 function drush_site_audit_audit_extensions() {
   $report = new SiteAuditReportExtensions();
   $report->render();
+}
+
+/**
+ * Audit codebase validation.
+ */
+function drush_site_audit_audit_codebase_validate() {
+  return site_audit_version_check();
 }
 
 /**
@@ -424,6 +473,13 @@ function drush_site_audit_audit_codebase() {
 }
 
 /**
+ * Audit watchdog validation.
+ */
+function drush_site_audit_audit_watchdog_validate() {
+  return site_audit_version_check();
+}
+
+/**
  * Audit the database logs of a Drupal site.
  */
 function drush_site_audit_audit_watchdog() {
@@ -432,11 +488,25 @@ function drush_site_audit_audit_watchdog() {
 }
 
 /**
- * Audit the database logs of a Drupal site.
+ * Audit best practices validation.
+ */
+function drush_site_audit_audit_best_practices_validate() {
+  return site_audit_version_check();
+}
+
+/**
+ * Audit Drupal best practices.
  */
 function drush_site_audit_audit_best_practices() {
   $report = new SiteAuditReportBestPractices();
   $report->render();
+}
+
+/**
+ * Audit views validation.
+ */
+function drush_site_audit_audit_views_validate() {
+  return site_audit_version_check();
 }
 
 /**
@@ -495,6 +565,13 @@ function drush_site_audit_audit_google_insights($url, $key) {
 }
 
 /**
+ * Audit cron validation.
+ */
+function drush_site_audit_audit_cron_validate() {
+  return site_audit_version_check();
+}
+
+/**
  * Render a Cron report.
  */
 function drush_site_audit_audit_cron() {
@@ -503,11 +580,25 @@ function drush_site_audit_audit_cron() {
 }
 
 /**
+ * Audit users validation.
+ */
+function drush_site_audit_audit_users_validate() {
+  return site_audit_version_check();
+}
+
+/**
  * Render a Users report.
  */
 function drush_site_audit_audit_users() {
   $report = new SiteAuditReportUsers();
   $report->render();
+}
+
+/**
+ * Audit status validation.
+ */
+function drush_site_audit_audit_status_validate() {
+  return site_audit_version_check();
 }
 
 /**
