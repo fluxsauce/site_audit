@@ -27,7 +27,9 @@ class SiteAuditCheckExtensionsDev extends SiteAuditCheckAbstract {
   /**
    * Implements \SiteAudit\Check\Abstract\getResultInfo().
    */
-  public function getResultInfo() {}
+  public function getResultInfo() {
+    return $this->getResultWarn();
+  }
 
   /**
    * Implements \SiteAudit\Check\Abstract\getResultPass().
@@ -109,6 +111,14 @@ class SiteAuditCheckExtensionsDev extends SiteAuditCheckAbstract {
     }
 
     if (!empty($this->registry['extensions_dev'])) {
+      if (drush_get_option('vendor') == 'pantheon') {
+        if (defined('PANTHEON_ENVIRONMENT')) {
+          if (!in_array(PANTHEON_ENVIRONMENT, array('test', 'live'))) {
+            return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
+          }
+        }
+        return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN;
+      }
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN;
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
