@@ -9,7 +9,7 @@ class SiteAuditCheckBlockCacheReport extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
   public function getLabel() {
-    return dt('Cache Report');
+    return dt('Cache report');
   }
 
   /**
@@ -30,12 +30,11 @@ class SiteAuditCheckBlockCacheReport extends SiteAuditCheckAbstract {
   public function getResultInfo() {
     if (drush_get_option('html')) {
       $ret_val = '<table class="table table-condensed">';
-      $ret_val .= '<thead><tr><th>Module</th><th>Info</th><th>State</th></tr></thead>';
+      $ret_val .= '<thead><tr><th>Module - Block</th><th>State</th></tr></thead>';
       $ret_val .= '<tbody>';
       foreach ($this->registry['blocks'] as $block) {
         $ret_val .= '<tr>';
-        $ret_val .= '<td>' . $block['module'] . '</td>';
-        $ret_val .= '<td>' . $block['info'] . '</td>';
+        $ret_val .= '<td>' . $block['module'] . ' - ' . $block['info'] . '</td>';
         $ret_val .= '<td>' . $block['state'] . '</td>';
         $ret_val .= '</tr>';
       }
@@ -43,16 +42,16 @@ class SiteAuditCheckBlockCacheReport extends SiteAuditCheckAbstract {
       $ret_val .= '</table>';
     }
     else {
-      $ret_val  = dt('Module - Info - State') . PHP_EOL;
+      $ret_val  = dt('Module - Info: State') . PHP_EOL;
       if (!drush_get_option('json')) {
         $ret_val .= str_repeat(' ', 4);
       }
-      $ret_val .= '---------------------' . PHP_EOL;
+      $ret_val .= '--------------------' . PHP_EOL;
       foreach ($this->registry['blocks'] as $block) {
         if (!drush_get_option('json')) {
           $ret_val .= str_repeat(' ', 4);
         }
-        $ret_val .= "{$block['module']} - {$block['info']} - {$block['state']}" . PHP_EOL;
+        $ret_val .= "{$block['module']} - {$block['info']}: {$block['state']}" . PHP_EOL;
       }
     }
     return $ret_val;
