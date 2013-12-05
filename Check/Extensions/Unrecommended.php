@@ -23,7 +23,7 @@ class SiteAuditCheckExtensionsUnrecommended extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getResultFail().
    */
   public function getResultFail() {
-    $ret_val = dt('The following unrecommended modules(s) are currently enabled: @list', array(
+    $ret_val = dt('The following unrecommended modules(s) currently exist in your codebase: @list', array(
       '@list' => implode(', ', array_keys($this->registry['extensions_unrec'])),
     ));
     if (drush_get_option('detail')) {
@@ -73,7 +73,7 @@ class SiteAuditCheckExtensionsUnrecommended extends SiteAuditCheckAbstract {
    */
   public function getAction() {
     if ($this->getScore() != SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS) {
-      return dt('Disable and completely remove unrecommended modules for increased performance, stability and security in the any environment.');
+      return dt('Disable and completely remove unrecommended modules from your codebase for increased performance, stability and security in the any environment.');
     }
   }
 
