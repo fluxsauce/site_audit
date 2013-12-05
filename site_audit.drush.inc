@@ -307,7 +307,7 @@ function drush_site_audit_audit_all($url = '', $key = '') {
     }
 
     // Table of Contents; HTML only.
-    if (drush_get_option('html')) {
+    if (drush_get_option('html') && !drush_get_option('json')) {
       echo '<h2 id="top">' . dt('Summary') . '</h2>';
       $buttons = array();
       foreach ($reports_to_render as $report) {
@@ -341,7 +341,7 @@ function drush_site_audit_audit_all($url = '', $key = '') {
       else {
         $report->render();
       }
-      if (drush_get_option('html')) {
+      if (drush_get_option('html') && !drush_get_option('json')) {
         echo '<div>' . l(dt('Back to top'), '', array(
           'fragment' => 'top',
           'external' => TRUE,
