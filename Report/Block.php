@@ -1,15 +1,15 @@
 <?php
 /**
  * @file
- * Contains \SiteAudit\Report\Cache.
+ * Contains \SiteAudit\Report\Block.
  */
 
-class SiteAuditReportCache extends SiteAuditReportAbstract {
+class SiteAuditReportBlock extends SiteAuditReportAbstract {
   /**
    * Implements \SiteAudit\Report\Abstract\getLabel().
    */
   public function getLabel() {
-    return dt('Drupal\'s caching settings');
+    return dt('Block');
   }
 
   /**
@@ -17,12 +17,9 @@ class SiteAuditReportCache extends SiteAuditReportAbstract {
    */
   public function getCheckNames() {
     return array(
-      'Anon',
-      'Lifetime',
-      'PageExpire',
-      'PageCompression',
-      'PreprocessCss',
-      'PreprocessJs',
+      'Enabled',
+      'Cache',
+      'CacheReport',
     );
   }
 }

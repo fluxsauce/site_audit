@@ -1,15 +1,15 @@
 <?php
 /**
  * @file
- * Contains \SiteAudit\Check\Cache\Block.
+ * Contains \SiteAudit\Check\Block\Cache.
  */
 
-class SiteAuditCheckCacheBlock extends SiteAuditCheckAbstract {
+class SiteAuditCheckBlockCache extends SiteAuditCheckAbstract {
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
   public function getLabel() {
-    return dt('Block caching');
+    return dt('Caching');
   }
 
   /**
@@ -29,15 +29,7 @@ class SiteAuditCheckCacheBlock extends SiteAuditCheckAbstract {
   /**
    * Implements \SiteAudit\Check\Abstract\getResultInfo().
    */
-  public function getResultInfo() {
-    if ($this->registry['block_disabled']) {
-      return dt('Block module is not enabled.');
-    }
-    elseif ($this->registry['no_theme_default']) {
-      return dt("No default theme, so assuming blocks aren't used.");
-    }
-    return dt('Not checking block cache.');
-  }
+  public function getResultInfo() {}
 
   /**
    * Implements \SiteAudit\Check\Abstract\getResultPass().
@@ -66,17 +58,6 @@ class SiteAuditCheckCacheBlock extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\calculateScore().
    */
   public function calculateScore() {
-    // See if block module is enabled.
-    if (!module_exists('block')) {
-      $this->registry['block_disabled'] = 'module';
-      return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
-    }
-    // Block module is enabled, but is there a default theme?
-    if (!variable_get('theme_default')) {
-      $this->registry['block_disabled'] = 'no_theme_default';
-      return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
-    }
-
     global $conf;
     if ($conf['block_cache']) {
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;

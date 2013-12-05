@@ -109,6 +109,13 @@ function site_audit_drush_command() {
     'options' => $options,
   );
 
+  $items['audit_block'] = array(
+    'description' => dt('Audit Block.'),
+    'aliases' => array('ab'),
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
+    'options' => $options,
+  );
+
   $items['audit_status'] = array(
     'description' => dt('Audit Status.'),
     'aliases' => array('as'),
@@ -503,7 +510,7 @@ function drush_site_audit_audit_best_practices() {
 }
 
 /**
- * Audit views validation.
+ * Audit Views validation.
  */
 function drush_site_audit_audit_views_validate() {
   return site_audit_version_check();
@@ -514,6 +521,21 @@ function drush_site_audit_audit_views_validate() {
  */
 function drush_site_audit_audit_views() {
   $report = new SiteAuditReportViews();
+  $report->render();
+}
+
+/**
+ * Audit Block validation.
+ */
+function drush_site_audit_audit_block_validate() {
+  return site_audit_version_check();
+}
+
+/**
+ * Audit Block.
+ */
+function drush_site_audit_audit_block() {
+  $report = new SiteAuditReportBlock();
   $report->render();
 }
 
