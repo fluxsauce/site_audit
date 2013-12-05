@@ -30,11 +30,12 @@ class SiteAuditCheckBlockCacheReport extends SiteAuditCheckAbstract {
   public function getResultInfo() {
     if (drush_get_option('html')) {
       $ret_val = '<table class="table table-condensed">';
-      $ret_val .= '<thead><tr><th>Module - Block</th><th>State</th></tr></thead>';
+      $ret_val .= '<thead><tr><th>Module</th><th>Block</th><th>State</th></tr></thead>';
       $ret_val .= '<tbody>';
       foreach ($this->registry['blocks'] as $block) {
         $ret_val .= '<tr>';
-        $ret_val .= '<td>' . $block['module'] . ' - ' . $block['info'] . '</td>';
+        $ret_val .= '<td>' . $block['module'] . '</td>';
+        $ret_val .= '<td>' . $block['info'] . '</td>';
         $ret_val .= '<td>' . $block['state'] . '</td>';
         $ret_val .= '</tr>';
       }
