@@ -115,7 +115,7 @@ class SiteAuditCheckExtensionsUnrecommended extends SiteAuditCheckAbstract {
    */
   public function getExtensions() {
     $unrecommended_modules = array(
-      'apc' => dt('APC is not an efficient mechanism for a Drupal caching backend and takes away space for opcode. Use redis or another caching mechanism for caching.'),
+      'apc' => dt('APC is not an optimal Drupal caching backend and takes away space for opcode. Use redis or another similar caching backend.'),
       'fast_404' => dt('Can conflict with Varnish caching; use Drupal\'s 404_fast_html instead'),
       'views_php' => dt('Unfinished and incomplete, Views PHP permits executable code to be stored in the database with no revisioning; a typo introduced in the Views UI can bring down an entire production site with no accountability. See http://api.drupal.org/api/views for details on how to implement your own custom Views functionality.'),
       'views_customfield' => dt('Views Custom Field contains the field for PHP code, which permits executable code to be stored in the database with no revisioning; a typo introduced in the Views UI can bring down an entire production site with no accountability. See http://api.drupal.org/api/views for details on how to implement your own custom Views functionality.'),
@@ -125,8 +125,8 @@ class SiteAuditCheckExtensionsUnrecommended extends SiteAuditCheckAbstract {
     if (drush_get_option('vendor') == 'pantheon') {
       // Unsupported or redundant.
       $pantheon_unrecommended_modules = array(
-        'memcache' => dt('Pantheon does provide memcache support; redis is provided as a service to all customers; see http://helpdesk.getpantheon.com/customer/portal/articles/401317-redis'),
-        'memcache_storage' => dt('Pantheon does provide memcache support; redis is provided as a service to all customers; see http://helpdesk.getpantheon.com/customer/portal/articles/401317-redis'),
+        'memcache' => dt('Pantheon does provide memcache; instead, redis is provided as a service to all customers; see http://helpdesk.getpantheon.com/customer/portal/articles/401317'),
+        'memcache_storage' => dt('Pantheon does provide memcache; instead, redis is provided as a service to all customers; see http://helpdesk.getpantheon.com/customer/portal/articles/401317'),
         'drupal_less' => dt('Before deployment, compile and commit CSS '),
         // Backup & Migrate and related modules.
         'backup_migrate' => dt('Backup & Migrate makes your Drupal site work harder and degrades site performance; instead, use Pantheon\'s Backup through the site dashboard, which won\'t affect site performance.'),
