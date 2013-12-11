@@ -69,7 +69,7 @@ class SiteAuditCheckStatusSystem extends SiteAuditCheckAbstract {
         );
       }
       else {
-        $item = $requirement['title'] . ': ' . $severity;
+        $item = strip_tags($requirement['title']) . ': ' . $severity;
         if (isset($requirement['value']) && $requirement['value']) {
           $item .= ' - ' . dt('@value', array(
             '@value' => strip_tags($requirement['value']),
