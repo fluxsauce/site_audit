@@ -3,7 +3,7 @@
 Site Audit is a collection of standardized Drush commands for analyzing a
 site for compliance with Drupal best practices. Originally designed to provide
 an actionable report prior to load testing and launch, each report can be read
-using Drush or written as HTML to a file.
+using Drush, or rendered as either HTML or JSON.
 
 = Installation =
 
@@ -34,6 +34,26 @@ Run every report with maximum detail, skipping Google insights and adding
 Twitter Bootstrap for styling:
 
 drush aa --html --bootstrap --detail --skip=insights > ~/Desktop/report.html
+
+== Skipping reports or checks ==
+
+For the Audit All command, an individual report can be skipped by name using
+the option --skip.
+
+For all commands, individual checks can be skipped by specifying the combination
+of the report name and the check name. For example, if you wanted to skip the
+System check in the Status report, use the following convention:
+
+--skip=StatusSystem
+
+Multiple skip values can be used, comma separated.
+
+If you want to permanently opt-out of a check, use the $conf array in
+settings.php with the individual check names in the same format as the skip
+option. For example, to permanently opt-out of the PageCompression check in the
+Cache report:
+
+$conf['site_audit']['opt_out']['CachePageCompression'] = TRUE;
 
 == Vendor specific options ==
 

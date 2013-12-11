@@ -23,6 +23,12 @@ abstract class SiteAuditCheckAbstract {
   protected $abort = FALSE;
 
   /**
+   * User has opted out of this check in configuration.
+   * @var boolean
+   */
+  protected $optOut = FALSE;
+
+  /**
    * If set, will override the Report's percentage.
    * @var int
    */
@@ -39,9 +45,15 @@ abstract class SiteAuditCheckAbstract {
    *
    * @param array $registry
    *   Aggregates data from each individual check.
+   * @param boolean $opt_out
+   *   If set, will not perform checks.
    */
-  public function __construct($registry) {
+  public function __construct($registry, $opt_out = FALSE) {
     $this->registry = $registry;
+    if ($opt_out) {
+      $this->optOut = TRUE;
+      $this->score = SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
+    }
   }
 
   /**
@@ -51,6 +63,9 @@ abstract class SiteAuditCheckAbstract {
    *   Human readable message for a given status.
    */
   public function getResult() {
+    if ($this->optOut) {
+      return dt('Opted-out in site configuration.');
+    }
     switch ($this->score) {
       case SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS:
         return $this->getResultPass();
@@ -179,9 +194,21 @@ abstract class SiteAuditCheckAbstract {
   /**
    * Get action items for a user to perform if the check did not pass.
    * @return string
-   *   Get a description of what happened in a warning check.
+   *   Actionable tasks to perform.
    */
   abstract public function getAction();
+
+  /**
+   * Display action items for a user to perform.
+   * @return string
+   *   Actionable tasks to perform, or nothing if check is opted-out.
+   */
+  public function renderAction() {
+    if ($this->optOut) {
+      return;
+    }
+    return $this->getAction();
+  }
 
   /**
    * Calculate the score.

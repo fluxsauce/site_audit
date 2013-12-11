@@ -46,6 +46,8 @@ abstract class SiteAuditReportAbstract {
    * Constructor; loads and executes checks based on the name of this report.
    */
   public function __construct() {
+    global $conf;
+
     $report_name = substr(get_class($this), strlen('SiteAuditCheck') + 1);
     $base_class_name = 'SiteAuditCheck' . $report_name;
     require_once __DIR__ . '/../Check/Abstract.php';
@@ -76,7 +78,8 @@ abstract class SiteAuditReportAbstract {
     foreach ($checks_to_perform as $check_name) {
       require_once __DIR__ . "/../Check/$report_name/$check_name.php";
       $class_name = $base_class_name . $check_name;
-      $check = new $class_name($this->registry);
+      $check = new $class_name($this->registry, isset($conf['site_audit']['opt_out'][$report_name . $check_name]));
+
       // Calculate score.
       if ($check->getScore() != SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO) {
         // Mark if there's a major failure.
@@ -131,7 +134,7 @@ abstract class SiteAuditReportAbstract {
         'label' => $check->getLabel(),
         'description' => $check->getDescription(),
         'result' => $check->getResult(),
-        'action' => $check->getAction(),
+        'action' => $check->renderAction(),
       );
     }
     return json_encode($report);
@@ -203,9 +206,9 @@ abstract class SiteAuditReportAbstract {
               )), $check->getScoreDrushLevel());
             }
           }
-          if ($check->getAction()) {
+          if ($check->renderAction()) {
             drush_print(str_repeat(' ', 6) . dt('!action', array(
-              '!action' => $check->getAction(),
+              '!action' => $check->renderAction(),
             )));
           }
         }
@@ -245,8 +248,8 @@ abstract class SiteAuditReportAbstract {
           $ret_val .= '</div>';
           // Result.
           $ret_val .= '<p>' . $check->getResult() . '</p>';
-          if ($check->getAction()) {
-            $ret_val .= '<div class="well well-small">' . $check->getAction() . '</div>';
+          if ($check->renderAction()) {
+            $ret_val .= '<div class="well well-small">' . $check->renderAction() . '</div>';
           }
           $ret_val .= '</div>';
         }
