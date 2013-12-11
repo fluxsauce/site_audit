@@ -121,6 +121,7 @@ class SiteAuditCheckExtensionsUnrecommended extends SiteAuditCheckAbstract {
       'views_customfield' => dt('Views Custom Field contains the field for PHP code, which permits executable code to be stored in the database with no revisioning; a typo introduced in the Views UI can bring down an entire production site with no accountability. See http://api.drupal.org/api/views for details on how to implement your own custom Views functionality.'),
       'bad_judgement' => dt('Joke module, framework for anarchy.'),
       'misery' => dt('Joke module, degrades site performance.'),
+      'supercron' => dt('Abandoned due to security concerns. https://drupal.org/node/1401644'),
     );
     if (drush_get_option('vendor') == 'pantheon') {
       // Unsupported or redundant.

@@ -30,7 +30,12 @@ class SiteAuditCheckCronEnabled extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getResultInfo().
    */
   public function getResultInfo() {
-    return dt('Drupal Cron is disabled, but Elysia Cron is being used instead.');
+    if (module_exists('elysia_cron')) {
+      return dt('Drupal Cron is disabled, but Elysia Cron is being used instead.');
+    }
+    if (module_exists('ultimate_cron')) {
+      return dt('Drupal Cron is disabled, but Ultimate Cron is being used instead.');
+    }
   }
 
   /**
@@ -78,8 +83,12 @@ class SiteAuditCheckCronEnabled extends SiteAuditCheckAbstract {
     $this->registry['cron_safe_threshold'] = $cron_safe_threshold;
     if (!$this->registry['cron_safe_threshold']) {
       $this->abort = TRUE;
-      // Check for elysia_cron.
+      // Check for Elysia Cron.
       if (module_exists('elysia_cron')) {
+        return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
+      }
+      // Check for Ultimate Cron.
+      if (module_exists('ultimate_cron')) {
         return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
       }
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
