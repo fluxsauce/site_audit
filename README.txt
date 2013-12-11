@@ -8,9 +8,16 @@ using Drush, or rendered as either HTML or JSON.
 = Installation =
 
 Copy the entire Site Audit project to either your unified or personal Drush
-folder in the commands subdirectory, then clear Drush's cache:
+folder in the commands subdirectory, like
+
+~/.drush/commands
+
+then clear Drush's cache:
 
 drush cc drush
+
+See https://github.com/drush-ops/drush#commands to learn more about installing
+commands into Drush.
 
 = Usage =
 
