@@ -33,7 +33,7 @@ class SiteAuditCheckBestPracticesSitesSuperfluous extends SiteAuditCheckAbstract
    * Implements \SiteAudit\Check\Abstract\getResultPass().
    */
   public function getResultPass() {
-    return dt('No multisites detected.');
+    return dt('No unnecessary files detected.');
   }
 
   /**

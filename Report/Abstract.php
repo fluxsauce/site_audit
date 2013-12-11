@@ -50,7 +50,30 @@ abstract class SiteAuditReportAbstract {
     $base_class_name = 'SiteAuditCheck' . $report_name;
     require_once __DIR__ . '/../Check/Abstract.php';
     $percent_override = NULL;
-    foreach ($this->getCheckNames() as $check_name) {
+
+    $checks_to_skip = array();
+    if (drush_get_option('skip')) {
+      $checks_to_skip = explode(',', drush_get_option('skip'));
+    }
+
+    $checks_to_perform = $this->getCheckNames();
+
+    foreach ($checks_to_perform as $key => $check_name) {
+      if (in_array($report_name . $check_name, $checks_to_skip)) {
+        unset($checks_to_perform[$key]);
+      }
+    }
+
+    if (empty($checks_to_perform)) {
+      // No message for audit_all.
+      $command = drush_parse_command();
+      if ($command['command'] == 'audit_all') {
+        return FALSE;
+      }
+      return drush_set_error('SITE_AUDIT_NO_CHECKS', dt('No checks are available!'));
+    }
+
+    foreach ($checks_to_perform as $check_name) {
       require_once __DIR__ . "/../Check/$report_name/$check_name.php";
       $class_name = $base_class_name . $check_name;
       $check = new $class_name($this->registry);
@@ -237,6 +260,9 @@ abstract class SiteAuditReportAbstract {
    * Render the report; respects drush options.
    */
   public function render() {
+    if (empty($this->checks)) {
+      return;
+    }
     if (drush_get_option('html')) {
       echo $this->toHtml();
     }

@@ -115,8 +115,8 @@ class SiteAuditCheckExtensionsUnrecommended extends SiteAuditCheckAbstract {
    */
   public function getExtensions() {
     $unrecommended_modules = array(
-      'apc' => dt('APC is not an optimal Drupal caching backend and takes away space for opcode. Use redis or another similar caching backend.'),
-      'fast_404' => dt('Can conflict with Varnish caching; use Drupal\'s 404_fast_html instead'),
+      'apc' => dt("APC takes away space for PHP's opcode cache, potentially degrading performance for high traffic and complex sites. Use redis or another similar caching backend."),
+      'fast_404' => dt("Can cause 404s to be cached by Varnish; use Drupal's 404_fast_html instead"),
       'views_php' => dt('Unfinished and incomplete, Views PHP permits executable code to be stored in the database with no revisioning; a typo introduced in the Views UI can bring down an entire production site with no accountability. See http://api.drupal.org/api/views for details on how to implement your own custom Views functionality.'),
       'views_customfield' => dt('Views Custom Field contains the field for PHP code, which permits executable code to be stored in the database with no revisioning; a typo introduced in the Views UI can bring down an entire production site with no accountability. See http://api.drupal.org/api/views for details on how to implement your own custom Views functionality.'),
       'bad_judgement' => dt('Joke module, framework for anarchy.'),
@@ -125,11 +125,12 @@ class SiteAuditCheckExtensionsUnrecommended extends SiteAuditCheckAbstract {
     if (drush_get_option('vendor') == 'pantheon') {
       // Unsupported or redundant.
       $pantheon_unrecommended_modules = array(
-        'memcache' => dt('Pantheon does provide memcache; instead, redis is provided as a service to all customers; see http://helpdesk.getpantheon.com/customer/portal/articles/401317'),
-        'memcache_storage' => dt('Pantheon does provide memcache; instead, redis is provided as a service to all customers; see http://helpdesk.getpantheon.com/customer/portal/articles/401317'),
-        'drupal_less' => dt('Before deployment, compile and commit CSS '),
+        'memcache' => dt('Pantheon does not provide memcache; instead, redis is provided as a service to all customers; see http://helpdesk.getpantheon.com/customer/portal/articles/401317'),
+        'memcache_storage' => dt('Pantheon does not provide memcache; instead, redis is provided as a service to all customers; see http://helpdesk.getpantheon.com/customer/portal/articles/401317'),
+        'drupal_less' => dt('Before deployment, compile and commit CSS.'),
+        'boost' => dt("Boost is optimal for shared hosts; Pantheon's Varnish caching layer handles anonymous page caching more efficiently."),
         // Backup & Migrate and related modules.
-        'backup_migrate' => dt('Backup & Migrate makes your Drupal site work harder and degrades site performance; instead, use Pantheon\'s Backup through the site dashboard, which won\'t affect site performance.'),
+        'backup_migrate' => dt("On Pantheon, Backup & Migrate makes your Drupal site work harder and degrades site performance; instead, use Pantheon's Backup through the site dashboard, which won't affect site performance."),
         'backup_migrate_files' => dt('Part of Backup & Migrate; use Pantheon\'s Backup instead.'),
         'backup_migrate_prune' => dt('Part of Backup & Migrate; use Pantheon\'s Backup instead.'),
         'backup_migrate_sftp' => dt('Part of Backup & Migrate; use Pantheon\'s Backup instead.'),

@@ -16,7 +16,7 @@ class SiteAuditCheckStatusSystem extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getDescription().
    */
   public function getDescription() {
-    return dt('Drupal\'s status report.');
+    return dt("Drupal's status report.");
   }
 
   /**

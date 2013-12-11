@@ -27,6 +27,11 @@ function site_audit_drush_command() {
     'detail' => array(
       'description' => dt('If set, provided detailed responses.'),
     ),
+    'skip' => array(
+      'description' => dt('Name(s) of reports or specific checks to skip, comma separated.'),
+      'example-value' => dt('insights,ExtensionsDev'),
+      'value' => 'required',
+    ),
   );
 
   $vendor_options = array(
@@ -164,11 +169,6 @@ function site_audit_drush_command() {
     'aliases' => array('aa'),
     'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
     'options' => array_merge($options_all, array(
-      'skip' => array(
-        'description' => dt('Name(s) of reports to skip, comma separated.'),
-        'example-value' => dt('insights'),
-        'value' => 'required',
-      ),
       'gist' => array(
         'description' => dt('Publish result in a private gist. Set value with a Personal API Access Token created from https://github.com/settings/applications'),
         'value' => 'required',
@@ -262,8 +262,7 @@ function drush_site_audit_audit_all($url = '', $key = '') {
     closedir($handle);
 
     if (empty($reports_to_render)) {
-      drush_set_error('SITE_AUDIT_NO_REPORTS', dt('No reports are available!'));
-      return;
+      return drush_set_error('SITE_AUDIT_NO_REPORTS', dt('No reports are available!'));
     }
 
     if (drush_get_option('bootstrap')) {
