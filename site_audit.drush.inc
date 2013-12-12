@@ -97,7 +97,7 @@ function site_audit_drush_command() {
     'description' => dt('Audit the database logs.'),
     'aliases' => array('aw'),
     'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
-    'options' => $options,
+    'options' => array_merge($options, $vendor_options),
   );
 
   $items['audit_best_practices'] = array(

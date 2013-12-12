@@ -32,7 +32,7 @@ class SiteAuditCheckWatchdogCount extends SiteAuditCheckAbstract {
       return dt('There are no dblog entries.');
     }
     return dt('There are @count_entries log entries.', array(
-      '@count_entries' => $this->registry['count_entries'],
+      '@count_entries' => number_format($this->registry['count_entries']),
     ));
   }
 

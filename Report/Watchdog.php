@@ -17,6 +17,7 @@ class SiteAuditReportWatchdog extends SiteAuditReportAbstract {
    */
   public function getCheckNames() {
     return array(
+      'Syslog',
       'Enabled',
       'Count',
       'Age',
