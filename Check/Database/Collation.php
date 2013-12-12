@@ -84,7 +84,7 @@ class SiteAuditCheckDatabaseCollation extends SiteAuditCheckAbstract {
   public function getAction() {
     if ($this->getScore() == SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN) {
       return dt('In MySQL, use the command "!command" to convert the affected tables. Of course, test first and ensure your data will not be negatively affected.', array(
-        '!command' => 'ALTER TABLE <table name> CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;',
+        '!command' => 'ALTER TABLE table_name CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;',
       ));
     }
   }
