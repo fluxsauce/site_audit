@@ -16,7 +16,7 @@ class SiteAuditCheckCodebaseSizeAll extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getDescription().
    */
   public function getDescription() {
-    return dt('Determine the size of the site root.');
+    return dt('Determine the size of the site root; does not include remote mounts.');
   }
 
   /**
