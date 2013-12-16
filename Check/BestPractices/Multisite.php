@@ -9,21 +9,21 @@ class SiteAuditCheckBestPracticesMultisite extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
   public function getLabel() {
-    return dt('Multisite');
+    return dt('Multi-site');
   }
 
   /**
    * Implements \SiteAudit\Check\Abstract\getDescription().
    */
   public function getDescription() {
-    return dt('Detect multisite configurations.');
+    return dt('Detect multi-site configurations.');
   }
 
   /**
    * Implements \SiteAudit\Check\Abstract\getResultFail().
    */
   public function getResultFail() {
-    return dt('The following multisite configuration(s) were detected: @list', array(
+    return dt('The following multi-site configuration(s) were detected: @list', array(
       '@list' => implode(', ', $this->registry['multisites']),
     ));
   }
@@ -31,13 +31,15 @@ class SiteAuditCheckBestPracticesMultisite extends SiteAuditCheckAbstract {
   /**
    * Implements \SiteAudit\Check\Abstract\getResultInfo().
    */
-  public function getResultInfo() {}
+  public function getResultInfo() {
+    return $this->getResultFail();
+  }
 
   /**
    * Implements \SiteAudit\Check\Abstract\getResultPass().
    */
   public function getResultPass() {
-    return dt('No multisites detected.');
+    return dt('No multi-sites detected.');
   }
 
   /**
@@ -69,6 +71,7 @@ class SiteAuditCheckBestPracticesMultisite extends SiteAuditCheckAbstract {
         'all',
         'example.sites.php',
         'README.txt',
+        '.svn',
       ))) {
         if (is_dir($drupal_root . '/sites/' . $entry)) {
           $this->registry['multisites'][] = $entry;
@@ -77,7 +80,10 @@ class SiteAuditCheckBestPracticesMultisite extends SiteAuditCheckAbstract {
     }
     closedir($handle);
     if (!empty($this->registry['multisites'])) {
-      return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
+      if (drush_get_option('vendor') == 'pantheon') {
+        return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
+      }
+      return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
   }
