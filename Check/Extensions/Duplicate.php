@@ -9,7 +9,7 @@ class SiteAuditCheckExtensionsDuplicate extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
   public function getLabel() {
-    return dt('Count');
+    return dt('Duplicates');
   }
 
   /**
@@ -40,7 +40,7 @@ class SiteAuditCheckExtensionsDuplicate extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getResultWarn().
    */
   public function getResultWarn() {
-    $ret_val = dt('The following duplicate extensions were detected:');
+    $ret_val = dt('The following duplicate extensions were found:');
     if (drush_get_option('html')) {
       $ret_val = '<p>' . $ret_val . '</p>';
       $ret_val .= '<table class="table table-condensed">';
