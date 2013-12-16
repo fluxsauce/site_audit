@@ -74,7 +74,7 @@ class SiteAuditCheckExtensionsDev extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getAction().
    */
   public function getAction() {
-    if ($this->getScore() != SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS) {
+    if ($this->getScore() == SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN) {
       return dt('Disable development modules for increased performance, stability and security in the Live (production) environment.');
     }
   }
