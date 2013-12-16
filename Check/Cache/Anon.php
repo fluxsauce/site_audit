@@ -29,7 +29,9 @@ class SiteAuditCheckCacheAnon extends SiteAuditCheckAbstract {
   /**
    * Implements \SiteAudit\Check\Abstract\getResultInfo().
    */
-  public function getResultInfo() {}
+  public function getResultInfo() {
+    return $this->getResultFail();
+  }
 
   /**
    * Implements \SiteAudit\Check\Abstract\getResultPass().
@@ -59,6 +61,9 @@ class SiteAuditCheckCacheAnon extends SiteAuditCheckAbstract {
     global $conf;
     if ($conf['cache']) {
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
+    }
+    if (drush_get_option('vendor') == 'pantheon' && defined('PANTHEON_ENVIRONMENT') && !in_array(PANTHEON_ENVIRONMENT, array('test', 'live'))) {
+      return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
   }

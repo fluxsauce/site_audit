@@ -29,7 +29,9 @@ class SiteAuditCheckCachePageExpire extends SiteAuditCheckAbstract {
   /**
    * Implements \SiteAudit\Check\Abstract\getResultInfo().
    */
-  public function getResultInfo() {}
+  public function getResultInfo() {
+    return $this->getResultFail();
+  }
 
   /**
    * Implements \SiteAudit\Check\Abstract\getResultPass().
@@ -69,6 +71,9 @@ class SiteAuditCheckCachePageExpire extends SiteAuditCheckAbstract {
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
     }
     elseif (!$conf['page_cache_maximum_age']) {
+      if (drush_get_option('vendor') == 'pantheon' && defined('PANTHEON_ENVIRONMENT') && !in_array(PANTHEON_ENVIRONMENT, array('test', 'live'))) {
+        return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
+      }
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN;
