@@ -5,8 +5,6 @@
  */
 
 class SiteAuditCheckDatabaseCollation extends SiteAuditCheckAbstract {
-  const AUDIT_CHECK_DB_COLLATION_DEFAULT = 'utf8_general_ci';
-
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -18,9 +16,7 @@ class SiteAuditCheckDatabaseCollation extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getDescription().
    */
   public function getDescription() {
-    return dt('Check to see if there are any tables that aren\'t using @collation.', array(
-      '@collation' => drush_get_option('expected_collation', self::AUDIT_CHECK_DB_COLLATION_DEFAULT),
-    ));
+    return dt("Check to see if there are any tables that aren't using UTF-8.");
   }
 
   /**
@@ -66,9 +62,7 @@ class SiteAuditCheckDatabaseCollation extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getResultPass().
    */
   public function getResultPass() {
-    return dt('Every table is using @collation.', array(
-      '@collation' => drush_get_option('expected_collation', self::AUDIT_CHECK_DB_COLLATION_DEFAULT),
-    ));
+    return dt('Every table is using UTF-8.');
   }
 
   /**
@@ -98,10 +92,10 @@ class SiteAuditCheckDatabaseCollation extends SiteAuditCheckAbstract {
     $sql_query .= ', TABLE_COLLATION AS collation ';
     $sql_query .= 'FROM information_schema.TABLES ';
     $sql_query .= 'WHERE TABLES.table_schema = :dbname ';
-    $sql_query .= 'AND TABLE_COLLATION != :collation ';
+    $sql_query .= 'AND TABLE_COLLATION NOT IN (:collation) ';
     $result = db_query($sql_query, array(
       ':dbname' => $db_spec['database'],
-      ':collation' => drush_get_option('expected_collation', self::AUDIT_CHECK_DB_COLLATION_DEFAULT),
+      ':collation' => array('utf8_general_ci', 'utf8_unicode_ci', 'utf8_bin'),
     ));
     if (!$result->rowCount()) {
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;

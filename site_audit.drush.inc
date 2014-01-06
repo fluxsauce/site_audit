@@ -58,11 +58,6 @@ function site_audit_drush_command() {
       'example-value' => dt('1000'),
       'value' => 'required',
     ),
-    'expected_collation' => array(
-      'description' => dt('Check that all tables are of an expected collation. Defaults to utf8_general_ci.'),
-      'example-value' => dt('utf8_general_ci'),
-      'value' => 'required',
-    ),
   );
   $options_all = array_merge($options_all, $options_db);
   $items['audit_database'] = array(
