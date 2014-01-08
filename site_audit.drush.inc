@@ -81,6 +81,13 @@ function site_audit_drush_command() {
     'options' => $options,
   );
 
+  $items['audit_content'] = array(
+    'description' => dt('Audit content.'),
+    'aliases' => array('acn'),
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
+    'options' => $options,
+  );
+
   $items['audit_cron'] = array(
     'description' => dt('Audit cron.'),
     'aliases' => array('acr'),
@@ -192,6 +199,9 @@ function site_audit_drush_help($section) {
 
     case 'drush:audit_codebase':
       return dt('Audit the codebase of a Drupal site');
+
+    case 'drush:audit_content':
+      return dt('Audit the content of a Drupal site');
 
     case 'drush:audit_database':
       return dt('Audit the database structure and contents');
@@ -425,6 +435,21 @@ function drush_site_audit_audit_cache_validate() {
  */
 function drush_site_audit_audit_cache() {
   $report = new SiteAuditReportCache();
+  $report->render();
+}
+
+/**
+ * Audit content validation.
+ */
+function drush_site_audit_audit_content_validate() {
+  return site_audit_version_check();
+}
+
+/**
+ * Audit Drupal's content.
+ */
+function drush_site_audit_audit_content() {
+  $report = new SiteAuditReportContent();
   $report->render();
 }
 
