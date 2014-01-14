@@ -135,6 +135,7 @@ abstract class SiteAuditReportAbstract {
         'description' => $check->getDescription(),
         'result' => $check->getResult(),
         'action' => $check->renderAction(),
+        'score' => $check->getScore(),
       );
     }
     return json_encode($report);
