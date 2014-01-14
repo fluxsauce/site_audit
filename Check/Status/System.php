@@ -61,10 +61,21 @@ class SiteAuditCheckStatusSystem extends SiteAuditCheckAbstract {
       }
 
       if (drush_get_option('html')) {
+        $value = isset($requirement['value']) && $requirement['value'] ? $requirement['value'] : '&nbsp;';
+        $uri = drush_get_context('DRUSH_URI');
+        // Unknown URI - strip all links, but leave formatting.
+        if ($uri == 'http://default') {
+          $value = strip_tags($value, '<em><i><b><strong><span>');
+        }
+        // Convert relative links to absolute.
+        else {
+          $value = preg_replace("#(<\s*a\s+[^>]*href\s*=\s*[\"'])(?!http)([^\"'>]+)([\"'>]+)#", '$1' . $uri . '$2$3', $value);
+        }
+
         $item = array(
           'title' => $requirement['title'],
           'severity' => $severity,
-          'value' => isset($requirement['value']) && $requirement['value'] ? $requirement['value'] : '&nbsp;',
+          'value' => $value,
           'class' => $class,
         );
       }
