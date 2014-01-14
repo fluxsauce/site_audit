@@ -45,19 +45,26 @@ class SiteAuditCheckExtensionsDev extends SiteAuditCheckAbstract {
     $ret_val = dt('The following development modules(s) are currently enabled: @list', array(
       '@list' => implode(', ', array_keys($this->registry['extensions_dev'])),
     ));
+    $show_table = TRUE;
+    if (drush_get_option('vendor') == 'pantheon' && defined('PANTHEON_ENVIRONMENT') && !in_array(PANTHEON_ENVIRONMENT, array('test', 'live'))) {
+      $show_table = FALSE;
+    }
+
     if (drush_get_option('detail')) {
       if (drush_get_option('html')) {
         $ret_val = '<p>' . $ret_val . '</p>';
-        $ret_val .= '<table class="table table-condensed">';
-        $ret_val .= '<thead><tr><th>Name</th><th>Reason</th></thead>';
-        $ret_val .= '<tbody>';
-        foreach ($this->registry['extensions_dev'] as $row) {
-          $ret_val .= '<tr><td>' . implode('</td><td>', $row) . '</td></tr>';
+        if ($show_table) {
+          $ret_val .= '<table class="table table-condensed">';
+          $ret_val .= '<thead><tr><th>Name</th><th>Reason</th></thead>';
+          $ret_val .= '<tbody>';
+          foreach ($this->registry['extensions_dev'] as $row) {
+            $ret_val .= '<tr><td>' . implode('</td><td>', $row) . '</td></tr>';
+          }
+          $ret_val .= '</tbody>';
+          $ret_val .= '</table>';
         }
-        $ret_val .= '</tbody>';
-        $ret_val .= '</table>';
       }
-      else {
+      else if ($show_table) {
         foreach ($this->registry['extensions_dev'] as $row) {
           $ret_val .= PHP_EOL;
           if (!drush_get_option('json')) {
@@ -75,7 +82,13 @@ class SiteAuditCheckExtensionsDev extends SiteAuditCheckAbstract {
    */
   public function getAction() {
     if ($this->getScore() == SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN) {
-      return dt('Disable development modules for increased performance, stability and security in the Live (production) environment.');
+      $show_action = TRUE;
+      if (drush_get_option('vendor') == 'pantheon' && defined('PANTHEON_ENVIRONMENT') && !in_array(PANTHEON_ENVIRONMENT, array('test', 'live'))) {
+        $show_action = FALSE;
+      }
+      if ($show_action) {
+        return dt('Disable development modules for increased stability, security and performance in the Live (production) environment.');
+      }
     }
   }
 
@@ -193,7 +206,7 @@ class SiteAuditCheckExtensionsDev extends SiteAuditCheckAbstract {
       'devel' => dt('Debugging utility; degrades performance and potential security risk.'),
       'devel_node_access' => dt('Development utility; degrades performance and potential security risk.'),
       'devel_themer' => dt('Development utility; degrades performance and potential security risk.'),
-      'field_ui' => dt('Development user interface; unnecessary overhead.'),
+      'field_ui' => dt('Development user interface; allows privileged users to change site structure which can lead to data inconsistencies. Best practice is to store Content Types in code and deploy changes instead of allowing editing in live environments.'),
       'fontyourface_ui' => dt('Development user interface; unnecessary overhead.'),
       'form_controller' => dt('Development utility; unnecessary overhead.'),
       'imagecache_ui' => dt('Development user interface; unnecessary overhead.'),
@@ -207,7 +220,7 @@ class SiteAuditCheckExtensionsDev extends SiteAuditCheckAbstract {
       'upgrade_status' => dt('Development utility for performing a major Drupal core update; should removed after use.'),
       'user_display_ui' => dt('Development user interface; unnecessary overhead.'),
       'util' => dt('Development utility; unnecessary overhead, potential security risk.'),
-      'views_ui' => dt('Development user interface; unnecessary overhead.'),
+      'views_ui' => dt('Development UI; allows privileged users to change site structure which can lead to performance problems or inconsistent behavior. Best practice is to store Views in code and deploy changes instead of allowing editing in live environments.'),
       'views_theme_wizard' => dt('Development utility; unnecessary overhead, potential security risk.'),
     );
 
