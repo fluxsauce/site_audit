@@ -53,7 +53,7 @@ class SiteAuditCheckExtensionsDev extends SiteAuditCheckAbstract {
     if (drush_get_option('detail')) {
       if (drush_get_option('html')) {
         if ($show_table) {
-          $ret_val = '<p>' . $ret_val . '</p>';
+          $ret_val .= '<br/>';
           $ret_val .= '<table class="table table-condensed">';
           $ret_val .= '<thead><tr><th>Name</th><th>Reason</th></thead>';
           $ret_val .= '<tbody>';
