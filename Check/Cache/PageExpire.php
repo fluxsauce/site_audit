@@ -71,7 +71,7 @@ class SiteAuditCheckCachePageExpire extends SiteAuditCheckAbstract {
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
     }
     elseif (!$conf['page_cache_maximum_age']) {
-      if (drush_get_option('vendor') == 'pantheon' && defined('PANTHEON_ENVIRONMENT') && !in_array(PANTHEON_ENVIRONMENT, array('test', 'live'))) {
+      if (site_audit_env_is_dev()) {
         return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
       }
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;

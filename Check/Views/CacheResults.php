@@ -29,7 +29,9 @@ class SiteAuditCheckViewsCacheResults extends SiteAuditCheckAbstract {
   /**
    * Implements \SiteAudit\Check\Abstract\getResultInfo().
    */
-  public function getResultInfo() {}
+  public function getResultInfo() {
+    return $this->getResultWarn();
+  }
 
   /**
    * Implements \SiteAudit\Check\Abstract\getResultPass().
@@ -51,7 +53,7 @@ class SiteAuditCheckViewsCacheResults extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getAction().
    */
   public function getAction() {
-    if ($this->score != SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS) {
+    if (!in_array($this->score, array(SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO, SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS))) {
       $ret_val = dt('Query results should be cached for at least 1 minute.');
       if (drush_get_option('detail')) {
         $steps = array(
@@ -157,6 +159,9 @@ class SiteAuditCheckViewsCacheResults extends SiteAuditCheckAbstract {
 
     if (count($this->registry['views_without_results_caching']) == 0) {
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
+    }
+    if (site_audit_env_is_dev()) {
+      return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
     }
     if (count($this->registry['views_without_results_caching']) == count($this->registry['views'])) {
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;

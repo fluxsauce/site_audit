@@ -62,7 +62,7 @@ class SiteAuditCheckCacheAnon extends SiteAuditCheckAbstract {
     if ($conf['cache']) {
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
     }
-    if (drush_get_option('vendor') == 'pantheon' && defined('PANTHEON_ENVIRONMENT') && !in_array(PANTHEON_ENVIRONMENT, array('test', 'live'))) {
+    if (site_audit_env_is_dev()) {
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;

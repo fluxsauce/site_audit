@@ -410,6 +410,21 @@ function drush_site_audit_audit_all($url = '', $key = '') {
 }
 
 /**
+ * Determine if in a development environment.
+ *
+ * @return bool
+ *   Whether site is in a development environment.
+ */
+function site_audit_env_is_dev() {
+  // Pantheon.
+  if (drush_get_option('vendor') == 'pantheon') {
+    return (defined('PANTHEON_ENVIRONMENT') && !in_array(PANTHEON_ENVIRONMENT, array('test', 'live')));
+  }
+  // Your host could be here! Submit an issue and/or a patch.
+  return FALSE;
+}
+
+/**
  * Check the Drupal major version.
  *
  * @return bool

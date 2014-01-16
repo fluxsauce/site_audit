@@ -46,7 +46,7 @@ class SiteAuditCheckExtensionsDev extends SiteAuditCheckAbstract {
       '@list' => implode(', ', array_keys($this->registry['extensions_dev'])),
     ));
     $show_table = TRUE;
-    if (drush_get_option('vendor') == 'pantheon' && defined('PANTHEON_ENVIRONMENT') && !in_array(PANTHEON_ENVIRONMENT, array('test', 'live'))) {
+    if (site_audit_env_is_dev()) {
       $show_table = FALSE;
     }
 
@@ -83,7 +83,7 @@ class SiteAuditCheckExtensionsDev extends SiteAuditCheckAbstract {
   public function getAction() {
     if ($this->getScore() == SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN) {
       $show_action = TRUE;
-      if (drush_get_option('vendor') == 'pantheon' && defined('PANTHEON_ENVIRONMENT') && !in_array(PANTHEON_ENVIRONMENT, array('test', 'live'))) {
+      if (site_audit_env_is_dev()) {
         $show_action = FALSE;
       }
       if ($show_action) {
@@ -124,13 +124,8 @@ class SiteAuditCheckExtensionsDev extends SiteAuditCheckAbstract {
     }
 
     if (!empty($this->registry['extensions_dev'])) {
-      if (drush_get_option('vendor') == 'pantheon') {
-        if (defined('PANTHEON_ENVIRONMENT')) {
-          if (!in_array(PANTHEON_ENVIRONMENT, array('test', 'live'))) {
-            return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
-          }
-        }
-        return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN;
+      if (site_audit_env_is_dev()) {
+        return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
       }
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN;
     }
