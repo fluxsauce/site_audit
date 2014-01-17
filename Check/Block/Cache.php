@@ -29,7 +29,9 @@ class SiteAuditCheckBlockCache extends SiteAuditCheckAbstract {
   /**
    * Implements \SiteAudit\Check\Abstract\getResultInfo().
    */
-  public function getResultInfo() {}
+  public function getResultInfo() {
+    return $this->getResultFail();
+  }
 
   /**
    * Implements \SiteAudit\Check\Abstract\getResultPass().
@@ -65,6 +67,10 @@ class SiteAuditCheckBlockCache extends SiteAuditCheckAbstract {
     // Same as block_form_system_performance_settings_alter().
     elseif (count(module_implements('node_grants'))) {
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN;
+    }
+    // Block caching is off.
+    if (site_audit_env_is_dev()) {
+      return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
   }
