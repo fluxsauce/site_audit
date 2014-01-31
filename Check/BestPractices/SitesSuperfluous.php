@@ -71,7 +71,10 @@ class SiteAuditCheckBestPracticesSitesSuperfluous extends SiteAuditCheckAbstract
         'README.txt',
       ))) {
         if (is_file($drupal_root . '/sites/' . $entry)) {
-          $this->registry['superfluous'][] = $entry;
+          // Support multi-site directory aliasing for non-Pantheon sites.
+          if ($entry != 'sites.php' || drush_get_option('vendor') == 'pantheon') {
+            $this->registry['superfluous'][] = $entry;
+          }
         }
       }
     }
