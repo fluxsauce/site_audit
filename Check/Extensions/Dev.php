@@ -97,7 +97,7 @@ class SiteAuditCheckExtensionsDev extends SiteAuditCheckAbstract {
    */
   public function calculateScore() {
     $this->registry['extensions_dev'] = array();
-    $extension_info = drush_get_extensions(FALSE);
+    $extension_info = $this->registry['extensions'];
     uasort($extension_info, '_drush_pm_sort_extensions');
     $dev_extensions = $this->getExtensions();
 

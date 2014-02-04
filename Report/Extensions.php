@@ -20,6 +20,7 @@ class SiteAuditReportExtensions extends SiteAuditReportAbstract {
       'Count',
       'Dev',
       'Unrecommended',
+      'Version',
       'Duplicate',
       'Missing',
     );

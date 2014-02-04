@@ -86,12 +86,11 @@ class SiteAuditCheckExtensionsCount extends SiteAuditCheckAbstract {
    */
   public function calculateScore() {
     $this->registry['extension_count'] = 0;
-    $extension_info = drush_get_extensions(FALSE);
+    $this->registry['extensions'] = drush_get_extensions(FALSE);
 
-    foreach ($extension_info as $key => $extension) {
+    foreach ($this->registry['extensions'] as $extension) {
       $status = drush_get_extension_status($extension);
       if (!in_array($status, array('enabled'))) {
-        unset($extension_info[$key]);
         continue;
       }
       $this->registry['extension_count']++;
