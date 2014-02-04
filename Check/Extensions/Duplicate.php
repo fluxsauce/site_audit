@@ -47,28 +47,24 @@ class SiteAuditCheckExtensionsDuplicate extends SiteAuditCheckAbstract {
       $ret_val .= '<thead><tr><th>Name</th><th>Paths</th></thead>';
       $ret_val .= '<tbody>';
       foreach ($this->registry['extensions_dupe'] as $name => $paths) {
-        if (count($paths) > 1) {
-          $ret_val .= '<tr><td>' . $name . '</td>';
-          $ret_val .= '<td>' . implode('<br/>', $paths) . '</td></tr>';
-        }
+        $ret_val .= '<tr><td>' . $name . '</td>';
+        $ret_val .= '<td>' . implode('<br/>', $paths) . '</td></tr>';
       }
       $ret_val .= '</tbody>';
       $ret_val .= '</table>';
     }
     else {
       foreach ($this->registry['extensions_dupe'] as $name => $paths) {
-        if (count($paths) > 1) {
-          $ret_val .= PHP_EOL;
-          if (!drush_get_option('json')) {
-            $ret_val .= str_repeat(' ', 6);
-          }
-          $ret_val .= $name . PHP_EOL;
-          $extension_list = '';
-          foreach ($paths as $path) {
-            $extension_list .= str_repeat(' ', 8) . $path . PHP_EOL;
-          }
-          $ret_val .= rtrim($extension_list);
+        $ret_val .= PHP_EOL;
+        if (!drush_get_option('json')) {
+          $ret_val .= str_repeat(' ', 6);
         }
+        $ret_val .= $name . PHP_EOL;
+        $extension_list = '';
+        foreach ($paths as $path) {
+          $extension_list .= str_repeat(' ', 8) . $path . PHP_EOL;
+        }
+        $ret_val .= rtrim($extension_list);
       }
     }
     return $ret_val;
@@ -88,7 +84,6 @@ class SiteAuditCheckExtensionsDuplicate extends SiteAuditCheckAbstract {
    */
   public function calculateScore() {
     $this->registry['extensions_dupe'] = array();
-    $warn = FALSE;
     $drupal_root = drush_get_context('DRUSH_SELECTED_DRUPAL_ROOT');
     $command = "find $drupal_root -xdev -type f -name '*.info' -o -path './sites/default/files' -prune";
     exec($command, $result);
@@ -115,11 +110,31 @@ class SiteAuditCheckExtensionsDuplicate extends SiteAuditCheckAbstract {
         }
       }
       $this->registry['extensions_dupe'][$name][] = $path;
-      if (count($this->registry['extensions_dupe'][$name]) > 1) {
-        $warn = TRUE;
+    }
+
+    // Review the detected extensions.
+    foreach ($this->registry['extensions_dupe'] as $extension => $paths) {
+      // No duplicates.
+      if (count($paths) == 1) {
+        unset($this->registry['extensions_dupe'][$extension]);
+        continue;
+      }
+
+      // If every path is within an installation profile, ignore.
+      $paths_in_profile = 0;
+      foreach ($paths as $path) {
+        if (strpos($path, 'profiles/') === 0) {
+          $paths_in_profile++;
+        }
+      }
+      if ($paths_in_profile == count($paths)) {
+        unset($this->registry['extensions_dupe'][$extension]);
+        continue;
       }
     }
-    if ($warn) {
+
+    // Determine score.
+    if (count($this->registry['extensions_dupe'])) {
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN;
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
