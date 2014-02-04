@@ -110,7 +110,15 @@ class SiteAuditCheckExtensionsDev extends SiteAuditCheckAbstract {
         continue;
       }
 
+      // Not in the list of known development modules.
       if (!array_key_exists($extension->name, $dev_extensions)) {
+        unset($extension_info[$key]);
+        continue;
+      }
+
+      // Do not report modules that are dependencies of other modules, such
+      // as field_ui in Drupal Commerce.
+      if (isset($extension->required_by) && !empty($extension->required_by)) {
         unset($extension_info[$key]);
         continue;
       }
