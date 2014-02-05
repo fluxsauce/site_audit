@@ -29,8 +29,9 @@ class SiteAuditCheckCronLast extends SiteAuditCheckAbstract {
    */
   public function getResultInfo() {
     if ($this->registry['cron_last']) {
-      return dt('Cron last ran at @date', array(
+      return dt('Cron last ran at @date (@ago ago)', array(
         '@date' => date('r', $this->registry['cron_last']),
+        '@ago' => format_interval(time() - $this->registry['cron_last']),
       ));
     }
     return dt('Cron has never run.');
@@ -55,7 +56,6 @@ class SiteAuditCheckCronLast extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\calculateScore().
    */
   public function calculateScore() {
-    $this->registry['cron_last'] = variable_get('cron_last');
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
   }
 }

@@ -42,6 +42,11 @@ class SiteAuditCheckCronEnabled extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getResultPass().
    */
   public function getResultPass() {
+    // Manual execution.
+    if (!$this->registry['cron_safe_threshold']) {
+      return dt('Drupal Cron frequency is set to never, but has been executed within the past 24 hours (either manually or using drush cron).');
+    }
+    // Default.
     return dt('Cron is set to run every @minutes minutes.', array(
       '@minutes' => round($this->registry['cron_safe_threshold'] / 60),
     ));
@@ -65,6 +70,8 @@ class SiteAuditCheckCronEnabled extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\calculateScore().
    */
   public function calculateScore() {
+    // Determine when cron last ran.
+    $this->registry['cron_last'] = variable_get('cron_last');
     // Manually getting from database due to cron_safe_threshold known issue
     // https://drupal.org/node/1811224 in drush core.
     $sql_query  = 'SELECT value ';
@@ -82,14 +89,19 @@ class SiteAuditCheckCronEnabled extends SiteAuditCheckAbstract {
     }
     $this->registry['cron_safe_threshold'] = $cron_safe_threshold;
     if (!$this->registry['cron_safe_threshold']) {
-      $this->abort = TRUE;
       // Check for Elysia Cron.
       if (module_exists('elysia_cron')) {
         return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
+        $this->abort = TRUE;
       }
       // Check for Ultimate Cron.
       if (module_exists('ultimate_cron')) {
         return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
+        $this->abort = TRUE;
+      }
+      // Check to see if Cron has been run within the last day.
+      if ((time() - $this->registry['cron_last']) < (24 * 60 * 60)) {
+        return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
       }
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
     }
