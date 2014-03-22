@@ -37,6 +37,9 @@ class SiteAuditCheckViewsCacheOutput extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getResultPass().
    */
   public function getResultPass() {
+    if ($this->registry['views_cache_bully_output']) {
+      return dt('Views Cache Bully is enforcing rendered output caching.');
+    }
     return dt('Every View is caching rendered output.');
   }
 
@@ -85,6 +88,15 @@ class SiteAuditCheckViewsCacheOutput extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\calculateScore().
    */
   public function calculateScore() {
+    // Views Cache Bully.
+    $this->registry['views_cache_bully_output'] = FALSE;
+    if (module_exists('views_cache_bully') && variable_get('views_cache_bully_output_lifespan', 3600) > 0) {
+      $this->registry['views_cache_bully_output'] = TRUE;
+    }
+    if ($this->registry['views_cache_bully_output']) {
+      return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
+    }
+
     $this->registry['output_lifespan'] = array();
     foreach ($this->registry['views'] as $view) {
       foreach ($view->display as $display_name => $display) {
