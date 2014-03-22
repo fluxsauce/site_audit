@@ -28,7 +28,13 @@ class SiteAuditCheckContentVocabularies extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getResultInfo().
    */
   public function getResultInfo() {
+    if (!isset($this->registry['vocabulary_counts'])) {
+      return dt('The taxonomy module is not enabled.');
+    }
     if (empty($this->registry['vocabulary_counts'])) {
+      if (drush_get_option('detail')) {
+        return dt('No vocabularies exist.');
+      }
       return '';
     }
     $ret_val = '';
@@ -78,6 +84,10 @@ class SiteAuditCheckContentVocabularies extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\calculateScore().
    */
   public function calculateScore() {
+    if (!module_exists('taxonomy')) {
+      $this->abort = TRUE;
+      return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
+    }
     $sql_query  = 'SELECT COUNT(tid) AS count, {taxonomy_vocabulary}.name AS name ';
     $sql_query .= 'FROM {taxonomy_vocabulary} ';
     $sql_query .= 'JOIN {taxonomy_term_data} ON {taxonomy_vocabulary}.vid = {taxonomy_term_data}.vid ';
@@ -96,6 +106,11 @@ class SiteAuditCheckContentVocabularies extends SiteAuditCheckAbstract {
         continue;
       }
       $this->registry['vocabulary_counts'][$row->name] = $row->count;
+    }
+
+    // No need to check for unused vocabularies if there aren't any.
+    if (empty($this->registry['vocabulary_counts'])) {
+      $this->abort = TRUE;
     }
 
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;

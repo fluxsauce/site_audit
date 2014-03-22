@@ -47,12 +47,13 @@ class SiteAuditCheckBlockCacheReport extends SiteAuditCheckAbstract {
       if (!drush_get_option('json')) {
         $ret_val .= str_repeat(' ', 4);
       }
-      $ret_val .= '--------------------' . PHP_EOL;
+      $ret_val .= '--------------------';
       foreach ($this->registry['blocks'] as $block) {
+        $ret_val .= PHP_EOL;
         if (!drush_get_option('json')) {
           $ret_val .= str_repeat(' ', 4);
         }
-        $ret_val .= "{$block['module']} - {$block['info']}: {$block['state']}" . PHP_EOL;
+        $ret_val .= "{$block['module']} - {$block['info']}: {$block['state']}";
       }
     }
     return $ret_val;

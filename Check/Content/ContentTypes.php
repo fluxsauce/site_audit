@@ -29,6 +29,9 @@ class SiteAuditCheckContentContentTypes extends SiteAuditCheckAbstract {
    */
   public function getResultInfo() {
     if (empty($this->registry['content_type_counts'])) {
+      if (drush_get_option('detail')) {
+        return dt('No nodes exist.');
+      }
       return '';
     }
     $ret_val = '';
