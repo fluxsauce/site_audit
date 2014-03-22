@@ -23,6 +23,7 @@ class SiteAuditReportBestPractices extends SiteAuditReportAbstract {
       'Multisite',
       'SitesSuperfluous',
       'Fast404',
+      'PhpFilter',
     );
   }
 }
