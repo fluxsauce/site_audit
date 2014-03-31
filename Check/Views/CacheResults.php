@@ -123,7 +123,7 @@ class SiteAuditCheckViewsCacheResults extends SiteAuditCheckAbstract {
                 $this->registry['results_lifespan'][$view->name]['default'] = $lifespan;
               }
               else {
-                $this->registry['results_lifespan'][$view->name]['default'][$display_name] = $lifespan;
+                $this->registry['results_lifespan'][$view->name]['displays'][$display_name] = $lifespan;
               }
             }
           }
@@ -138,9 +138,15 @@ class SiteAuditCheckViewsCacheResults extends SiteAuditCheckAbstract {
     $this->registry['views_without_results_caching'] = array();
 
     foreach ($this->registry['results_lifespan'] as $view_name => $view_data) {
-      // If all the displays are default, consolidate.
-      $all_default_displays = TRUE;
-      if (isset($view_data['displays']) && count($view_data['displays']) > 0) {
+      // Views with only master display.
+      if (!isset($view_data['displays']) || (count($view_data['displays']) == 0)) {
+        if ($view_data['default'] == 'none') {
+          $this->registry['views_without_results_caching'][] = $view_name;
+        }
+      }
+      else {
+        // If all the displays are default, consolidate.
+        $all_default_displays = TRUE;
         foreach ($view_data['displays'] as $display_name => $lifespan) {
           if ($lifespan != 'default') {
             $all_default_displays = FALSE;
@@ -151,21 +157,19 @@ class SiteAuditCheckViewsCacheResults extends SiteAuditCheckAbstract {
             $this->registry['views_without_results_caching'][] = $view_name;
           }
         }
-      }
-      else {
-        $uncached_view_string = $view_name;
-        $uncached_view_displays = array();
-        if (isset($view_data['displays']) && count($view_data['displays']) > 0) {
+        else {
+          $uncached_view_string = $view_name;
+          $uncached_view_displays = array();
           foreach ($view_data['displays'] as $display_name => $display_data) {
             if ($display_data == 'none' || ($display_data == 'default' && $view_data['default'] == 'none')) {
               $uncached_view_displays[] = $display_name;
             }
           }
+          if (!empty($uncached_view_displays)) {
+            $uncached_view_string .= ' (' . implode(', ', $uncached_view_displays) . ')';
+            $this->registry['views_without_results_caching'][] = $uncached_view_string;
+          }
         }
-        if (!empty($uncached_view_displays)) {
-          $uncached_view_string .= ' (' . implode(', ', $uncached_view_displays) . ')';
-        }
-        $this->registry['views_without_results_caching'][] = $uncached_view_string;
       }
     }
 
