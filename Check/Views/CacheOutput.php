@@ -112,10 +112,12 @@ class SiteAuditCheckViewsCacheOutput extends SiteAuditCheckAbstract {
               }
             }
             else {
-              $lifespan = max(array(
-                $display->display_options['cache']['output_lifespan_custom'],
-                $display->display_options['cache']['output_lifespan'],
-              ));
+              if ($display->display_options['cache']['output_lifespan'] == 'custom') {
+                $lifespan = $display->display_options['cache']['output_lifespan_custom'];
+              }
+              else {
+                $lifespan = $display->display_options['cache']['output_lifespan'];
+              }
               if ($lifespan < 1) {
                 $lifespan = 'none';
               }
