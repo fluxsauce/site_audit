@@ -95,4 +95,4 @@ The AuditCheck class has a number of properties that are helpful:
 
 = Credits =
 
-Jon Peck, https://www.getpantheon.com/
+Jon Peck, http://about.me/jonpeck
