@@ -85,7 +85,7 @@ class SiteAuditCheckExtensionsDuplicate extends SiteAuditCheckAbstract {
   public function calculateScore() {
     $this->registry['extensions_dupe'] = array();
     $drupal_root = drush_get_context('DRUSH_SELECTED_DRUPAL_ROOT');
-    $command = "find $drupal_root -xdev -type f -name '*.info' -o -path './sites/default/files' -prune";
+    $command = "find $drupal_root -xdev -type f -name '*.info' -o -path './" . variable_get('file_public_path', conf_path() . '/files') . "' -prune";
     exec($command, $result);
     foreach ($result as $path) {
       $name = substr(array_pop(explode('/', $path)), 0, -5);
