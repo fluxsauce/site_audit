@@ -53,16 +53,17 @@ class SiteAuditCheckDatabaseRowCount extends SiteAuditCheckAbstract {
       $ret_val .= '</table>';
     }
     else {
-      $ret_val  = dt('Table Name: Rows') . PHP_EOL;
+      $ret_val = dt('Table Name: Rows') . PHP_EOL;
       if (!drush_get_option('json')) {
         $ret_val .= str_repeat(' ', 4);
       }
-      $ret_val .= '----------------' . PHP_EOL;
+      $ret_val .= '----------------';
       foreach ($this->registry['rows_by_table'] as $table_name => $rows) {
+        $ret_val .= PHP_EOL;
         if (!drush_get_option('json')) {
           $ret_val .= str_repeat(' ', 4);
         }
-        $ret_val .= "$table_name: $rows" . PHP_EOL;
+        $ret_val .= "$table_name: $rows";
       }
     }
     return $ret_val;
@@ -89,9 +90,16 @@ class SiteAuditCheckDatabaseRowCount extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\calculateScore().
    */
   public function calculateScore() {
+    if (version_compare(DRUSH_VERSION, 7, '>=')) {
+      $sql = drush_sql_get_class();
+      $db_spec = $sql->db_spec();
+    }
+    else {
+      $db_spec = _drush_sql_get_db_spec();
+    }
+
     $this->registry['rows_by_table'] = array();
     $warning = FALSE;
-    $db_spec = _drush_sql_get_db_spec();
     $sql_query  = 'SELECT TABLE_NAME AS table_name, TABLE_ROWS AS rows ';
     $sql_query .= 'FROM information_schema.TABLES ';
     $sql_query .= 'WHERE TABLES.TABLE_SCHEMA = :dbname ';

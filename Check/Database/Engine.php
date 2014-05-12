@@ -86,7 +86,14 @@ class SiteAuditCheckDatabaseEngine extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\calculateScore().
    */
   public function calculateScore() {
-    $db_spec = _drush_sql_get_db_spec();
+    if (version_compare(DRUSH_VERSION, 7, '>=')) {
+      $sql = drush_sql_get_class();
+      $db_spec = $sql->db_spec();
+    }
+    else {
+      $db_spec = _drush_sql_get_db_spec();
+    }
+
     $sql_query  = 'SELECT TABLE_NAME AS name ';
     $sql_query .= ', ENGINE ';
     $sql_query .= 'FROM information_schema.TABLES ';
