@@ -42,20 +42,20 @@ class SiteAuditCheckStatusSystem extends SiteAuditCheckAbstract {
         continue;
       }
 
-      // Title: severity - value
+      // Title: severity - value.
       if ($requirement['severity'] == REQUIREMENT_INFO) {
         $class = 'info';
         $severity = 'Info';
       }
-      else if ($requirement['severity'] == REQUIREMENT_OK) {
+      elseif ($requirement['severity'] == REQUIREMENT_OK) {
         $severity = 'Ok';
         $class = 'success';
       }
-      else if ($requirement['severity'] == REQUIREMENT_WARNING) {
+      elseif ($requirement['severity'] == REQUIREMENT_WARNING) {
         $severity = 'Warning';
         $class = 'warning';
       }
-      else if ($requirement['severity'] == REQUIREMENT_ERROR) {
+      elseif ($requirement['severity'] == REQUIREMENT_ERROR) {
         $severity = 'Error';
         $class = 'error';
       }
@@ -129,8 +129,8 @@ class SiteAuditCheckStatusSystem extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\calculateScore().
    */
   public function calculateScore() {
-    // https://api.drupal.org/api/drupal/modules%21system%21system.admin.inc/function/system_status/7
-    // Load .install files
+    // See system/system.admin.inc function system_status().
+    // Load .install files.
     include_once DRUPAL_ROOT . '/includes/install.inc';
     drupal_load_updates();
 
@@ -149,7 +149,7 @@ class SiteAuditCheckStatusSystem extends SiteAuditCheckAbstract {
       if ($requirement['severity'] == REQUIREMENT_WARNING) {
         $this->percentOverride += $score_each / 2;
       }
-      else if ($requirement['severity'] != REQUIREMENT_ERROR) {
+      elseif ($requirement['severity'] != REQUIREMENT_ERROR) {
         $this->percentOverride += $score_each;
       }
     }

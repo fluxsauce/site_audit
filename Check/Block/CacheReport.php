@@ -112,7 +112,7 @@ class SiteAuditCheckBlockCacheReport extends SiteAuditCheckAbstract {
   /**
    * Render a block cache state.
    *
-   * @param $state
+   * @param int $state
    *   Drupal block caching state.
    *
    * @return string

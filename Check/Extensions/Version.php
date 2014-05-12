@@ -86,9 +86,7 @@ class SiteAuditCheckExtensionsVersion extends SiteAuditCheckAbstract {
     uasort($extension_info, '_drush_pm_sort_extensions');
     $compatibility_modules = $this->getExtensions();
 
-    foreach ($extension_info as $key => $extension) {
-      $row = array();
-
+    foreach ($extension_info as $extension) {
       if (array_key_exists($extension->name, $compatibility_modules)) {
         foreach ($compatibility_modules[$extension->name] as $version) {
           if (version_compare($extension->info['version'], $version['version'], $version['operator'])) {
@@ -110,6 +108,9 @@ class SiteAuditCheckExtensionsVersion extends SiteAuditCheckAbstract {
   /**
    * Get a list of modules with known compatibility problems.
    * @return array
+   *   An array keyed by module name with the keys operator for comparison,
+   *   version for the version to compare and reason to describe why there is a
+   *   compatiability problem.
    */
   public function getExtensions() {
     $compatibility_modules = array(

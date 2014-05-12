@@ -18,13 +18,13 @@ abstract class SiteAuditCheckAbstract {
 
   /**
    * Indicate that no other checks should be run after this check.
-   * @var boolean
+   * @var bool
    */
   protected $abort = FALSE;
 
   /**
    * User has opted out of this check in configuration.
-   * @var boolean
+   * @var bool
    */
   protected $optOut = FALSE;
 
@@ -45,7 +45,7 @@ abstract class SiteAuditCheckAbstract {
    *
    * @param array $registry
    *   Aggregates data from each individual check.
-   * @param boolean $opt_out
+   * @param bool $opt_out
    *   If set, will not perform checks.
    */
   public function __construct($registry, $opt_out = FALSE) {

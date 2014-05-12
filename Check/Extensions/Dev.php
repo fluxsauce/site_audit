@@ -64,7 +64,7 @@ class SiteAuditCheckExtensionsDev extends SiteAuditCheckAbstract {
           $ret_val .= '</table>';
         }
       }
-      else if ($show_table) {
+      elseif ($show_table) {
         foreach ($this->registry['extensions_dev'] as $row) {
           $ret_val .= PHP_EOL;
           if (!drush_get_option('json')) {

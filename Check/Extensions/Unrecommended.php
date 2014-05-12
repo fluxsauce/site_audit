@@ -86,7 +86,7 @@ class SiteAuditCheckExtensionsUnrecommended extends SiteAuditCheckAbstract {
     uasort($extension_info, '_drush_pm_sort_extensions');
     $unrecommended_extensions = $this->getExtensions();
 
-    foreach ($extension_info as $key => $extension) {
+    foreach ($extension_info as $extension) {
       $row = array();
 
       // Not in the list of known unrecommended modules.
