@@ -197,7 +197,7 @@ function site_audit_drush_command() {
   );
 
   $items['audit_status'] = array(
-    'description' => dt('Audit Status.'),
+    'description' => dt('Audit Drupal\'s built-in status report.'),
     'aliases' => array('as'),
     'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
     'options' => $options,
@@ -254,6 +254,7 @@ function site_audit_drush_command() {
     'description' => dt('Executes every Site Audit Report'),
     'aliases' => array('aa'),
     'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
+    'arguments' => $arguments_all,
     'options' => array_merge($options_all, array(
       'gist' => array(
         'description' => dt('Publish result in a private gist. Set value with a Personal API Access Token created from https://github.com/settings/applications'),
@@ -261,7 +262,21 @@ function site_audit_drush_command() {
         'example-value' => 'YOURTOKEN',
       ),
     )),
-    'arguments' => $arguments_all,
+    'reports' => array(
+      'BestPractices',
+      'Block',
+      'Cache',
+      'Codebase',
+      'Content',
+      'Cron',
+      'Database',
+      'Extensions',
+      'Insights',
+      'Status',
+      'Users',
+      'Views',
+      'Watchdog',
+    )
   );
 
   return $items;
@@ -272,33 +287,6 @@ function site_audit_drush_command() {
  */
 function site_audit_drush_help($section) {
   switch ($section) {
-    case 'drush:audit_all':
-      return dt('Execute every Site Audit report');
-
-    case 'drush:audit_cache':
-      return dt('Audit Drupal\'s caching settings');
-
-    case 'drush:audit_codebase':
-      return dt('Audit the codebase of a Drupal site');
-
-    case 'drush:audit_content':
-      return dt('Audit the content of a Drupal site');
-
-    case 'drush:audit_database':
-      return dt('Audit the database structure and contents');
-
-    case 'drush:audit_extensions':
-      return dt('Audit modules and themes (extensions)');
-
-    case 'drush:audit_watchdog':
-      return dt('Audit Drupal\'s database logs');
-
-    case 'drush:audit_best_practices':
-      return dt('Audit site for best practices');
-
-    case 'drush:audit_views':
-      return dt('Audit Views displays');
-
     case 'meta:site_audit:title':
       return dt('Tools for auditing a Drupal site');
 
@@ -325,27 +313,26 @@ function drush_site_audit_audit_all($url = '', $key = '') {
   if (drush_get_option('skip')) {
     $reports_to_skip = explode(',', drush_get_option('skip'));
   }
-  if ($handle = opendir(__DIR__ . '/Report')) {
+
+  $command = drush_get_command();
+
+  $report_names = $command['reports'];
+  if (!empty($report_names)) {
     $reports_to_render = array();
-    while (FALSE !== ($entry = readdir($handle))) {
-      if (!in_array($entry, array('.', '..', 'Abstract.php'))) {
-        $file_name = explode('.', $entry);
-        $report_name = $file_name[0];
-        $report_class = 'SiteAuditReport' . $report_name;
-        // Allow a specific report to be skipped.
-        if (!in_array(strtolower($report_name), $reports_to_skip)) {
-          // Special case for arguments.
-          if ($report_name == 'Insights') {
-            $report = new $report_class($url, $key);
-          }
-          else {
-            $report = new $report_class();
-          }
-          $reports_to_render[get_class($report)] = $report;
+    foreach ($report_names as $report_name) {
+      $report_class = 'SiteAuditReport' . $report_name;
+      // Allow a specific report to be skipped.
+      if (!in_array(strtolower($report_name), $reports_to_skip)) {
+        // Special case for arguments.
+        if ($report_name == 'Insights') {
+          $report = new $report_class($url, $key);
         }
+        else {
+          $report = new $report_class();
+        }
+        $reports_to_render[get_class($report)] = $report;
       }
     }
-    closedir($handle);
 
     if (empty($reports_to_render)) {
       return drush_set_error('SITE_AUDIT_NO_REPORTS', dt('No reports are available!'));
