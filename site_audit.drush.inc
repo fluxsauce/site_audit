@@ -4,22 +4,33 @@
  * Drupal site auditing commands.
  */
 
-define('SITE_AUDIT_BASE_PATH', __DIR__);
-
-// Autoload Report classes.
-spl_autoload_register(function ($class) {
-  if (strpos($class, 'SiteAuditReport') === 0) {
-    require_once 'Report/' . substr($class, strlen('SiteAuditReport')) . '.php';
-  }
-});
+site_audit_bootstrap();
 
 /**
- * Implements hook_drush_command().
+ * Bootstrapper.
  */
-function site_audit_drush_command() {
-  $items = array();
+function site_audit_bootstrap() {
+  define('SITE_AUDIT_BASE_PATH', __DIR__);
 
-  $options = array(
+  require_once SITE_AUDIT_BASE_PATH . '/Report/Abstract.php';
+  require_once SITE_AUDIT_BASE_PATH . '/Check/Abstract.php';
+
+  // Autoload Report classes.
+  spl_autoload_register(function ($class) {
+    if (strpos($class, 'SiteAuditReport') === 0) {
+      require_once SITE_AUDIT_BASE_PATH . '/Report/' . substr($class, strlen('SiteAuditReport')) . '.php';
+    }
+  });
+}
+
+/**
+ * Get common command options used by all site_audit commands.
+ *
+ * @return array
+ *   Associative array of common command options.
+ */
+function site_audit_common_options() {
+  return array(
     'html' => array(
       'description' => dt('If set, render as HTML report.'),
     ),
@@ -38,6 +49,13 @@ function site_audit_drush_command() {
       'description' => dt('If enabled, will wrap the generated report with Twitter Bootstrap 3.0 inline HTML.'),
     ),
   );
+}
+
+/**
+ * Implements hook_drush_command().
+ */
+function site_audit_drush_command() {
+  $items = array();
 
   $vendor_options = array(
     'vendor' => array(
@@ -47,14 +65,14 @@ function site_audit_drush_command() {
     ),
   );
 
-  $options_all = array_merge($options, $vendor_options);
+  $options_all = array_merge(site_audit_common_options(), $vendor_options);
   $arguments_all = array();
 
   $items['audit_best_practices'] = array(
     'description' => dt('Audit best practices used.'),
     'aliases' => array('abp'),
     'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
-    'options' => array_merge($options, $vendor_options),
+    'options' => array_merge(site_audit_common_options(), $vendor_options),
     'checks' => array(
       'Settings',
       'SitesDefault',
@@ -70,7 +88,7 @@ function site_audit_drush_command() {
     'description' => dt('Audit Block.'),
     'aliases' => array('ab'),
     'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
-    'options' => $options,
+    'options' => site_audit_common_options(),
     'checks' => array(
       'Enabled',
       'Cache',
@@ -82,7 +100,7 @@ function site_audit_drush_command() {
     'description' => dt('Audit Drupal\'s caching settings.'),
     'aliases' => array('ac'),
     'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
-    'options' => array_merge($options, $vendor_options),
+    'options' => array_merge(site_audit_common_options(), $vendor_options),
     'checks' => array(
       'Anon',
       'Lifetime',
@@ -97,7 +115,7 @@ function site_audit_drush_command() {
     'description' => dt('Audit the codebase.'),
     'aliases' => array('acb'),
     'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
-    'options' => $options,
+    'options' => site_audit_common_options(),
     'checks' => array(
       'SizeFiles',
       'SizeAll',
@@ -110,7 +128,7 @@ function site_audit_drush_command() {
     'description' => dt('Audit content.'),
     'aliases' => array('acn'),
     'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
-    'options' => $options,
+    'options' => site_audit_common_options(),
     'checks' => array(
       'ContentTypes',
       'ContentTypesUnused',
@@ -123,7 +141,7 @@ function site_audit_drush_command() {
     'description' => dt('Audit cron.'),
     'aliases' => array('acr'),
     'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
-    'options' => $options,
+    'options' => site_audit_common_options(),
     'checks' => array(
       'Enabled',
       'Running',
@@ -143,7 +161,7 @@ function site_audit_drush_command() {
     'description' => dt('Report information about a site environment\'s database.'),
     'aliases' => array('ad'),
     'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
-    'options' => array_merge($options, $options_db),
+    'options' => array_merge(site_audit_common_options(), $options_db),
     'checks' => array(
       'Size',
       'RowCount',
@@ -156,7 +174,7 @@ function site_audit_drush_command() {
     'description' => dt('Audit extensions (modules and themes).'),
     'aliases' => array('ae'),
     'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
-    'options' => array_merge($options, $vendor_options),
+    'options' => array_merge(site_audit_common_options(), $vendor_options),
     'checks' => array(
       'Count',
       'Dev',
@@ -190,7 +208,7 @@ function site_audit_drush_command() {
     'aliases' => array('agi'),
     'bootstrap' => DRUSH_BOOTSTRAP_DRUSH,
     'arguments' => $arguments_gi,
-    'options' => array_merge($options, $options_gi),
+    'options' => array_merge(site_audit_common_options(), $options_gi),
     'checks' => array(
       'Analyze',
     ),
@@ -200,7 +218,7 @@ function site_audit_drush_command() {
     'description' => dt('Audit Drupal\'s built-in status report.'),
     'aliases' => array('as'),
     'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
-    'options' => $options,
+    'options' => site_audit_common_options(),
     'checks' => array(
       'System',
     ),
@@ -210,7 +228,7 @@ function site_audit_drush_command() {
     'description' => dt('Audit Users.'),
     'aliases' => array('au'),
     'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
-    'options' => $options,
+    'options' => site_audit_common_options(),
     'checks' => array(
       'CountAll',
       'CountBlocked',
@@ -224,7 +242,7 @@ function site_audit_drush_command() {
     'description' => dt('Audit Views.'),
     'aliases' => array('av'),
     'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
-    'options' => $options,
+    'options' => site_audit_common_options(),
     'checks' => array(
       'Enabled',
       'Count',
@@ -237,7 +255,7 @@ function site_audit_drush_command() {
     'description' => dt('Audit the database logs.'),
     'aliases' => array('aw'),
     'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
-    'options' => array_merge($options, $vendor_options),
+    'options' => array_merge(site_audit_common_options(), $vendor_options),
     'checks' => array(
       'Syslog',
       'Enabled',
