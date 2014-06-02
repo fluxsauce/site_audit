@@ -11,16 +11,4 @@ class SiteAuditReportCodebase extends SiteAuditReportAbstract {
   public function getLabel() {
     return dt('Codebase');
   }
-
-  /**
-   * Implements \SiteAudit\Report\Abstract\getCheckNames().
-   */
-  public function getCheckNames() {
-    return array(
-      'SizeFiles',
-      'SizeAll',
-      'ManagedFileCount',
-      'ManagedFileSize',
-    );
-  }
 }

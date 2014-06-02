@@ -323,11 +323,24 @@ abstract class SiteAuditReportAbstract {
   /**
    * Get the names of all the checks within the report.
    *
-   * Abstract instead of using pattern matching so order can be manually
-   * specified.
+   * Uses the key 'checks' within the command to populate. Order matters, so
+   * if you implement hook_drush_command_alter(), try to add checks in a logical
+   * order, IE don't check for something specific about Views if Views is
+   * disabled.
    *
    * @return array
    *   Machine readable names.
    */
-  abstract public function getCheckNames();
+  public function getCheckNames() {
+    $commands = drush_get_commands();
+
+    // Guess the name of the Drush command.
+    $command_name_pieces = preg_split('/(?=[A-Z])/', get_called_class());
+    unset($command_name_pieces[0], $command_name_pieces[1], $command_name_pieces[3]);
+    $command_name = strtolower(implode('_', $command_name_pieces));
+    $command = $commands[$command_name];
+
+    drush_command_invoke_all_ref('drush_command_alter', $command);
+    return $command['checks'];
+  }
 }

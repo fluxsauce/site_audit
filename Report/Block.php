@@ -11,15 +11,4 @@ class SiteAuditReportBlock extends SiteAuditReportAbstract {
   public function getLabel() {
     return dt('Block');
   }
-
-  /**
-   * Implements \SiteAudit\Report\Abstract\getCheckNames().
-   */
-  public function getCheckNames() {
-    return array(
-      'Enabled',
-      'Cache',
-      'CacheReport',
-    );
-  }
 }

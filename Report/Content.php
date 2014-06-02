@@ -11,16 +11,4 @@ class SiteAuditReportContent extends SiteAuditReportAbstract {
   public function getLabel() {
     return dt('Content');
   }
-
-  /**
-   * Implements \SiteAudit\Report\Abstract\getCheckNames().
-   */
-  public function getCheckNames() {
-    return array(
-      'ContentTypes',
-      'ContentTypesUnused',
-      'Vocabularies',
-      'VocabulariesUnused',
-    );
-  }
 }

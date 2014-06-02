@@ -11,15 +11,4 @@ class SiteAuditReportCron extends SiteAuditReportAbstract {
   public function getLabel() {
     return dt('Cron');
   }
-
-  /**
-   * Implements \SiteAudit\Report\Abstract\getCheckNames().
-   */
-  public function getCheckNames() {
-    return array(
-      'Enabled',
-      'Running',
-      'Last',
-    );
-  }
 }

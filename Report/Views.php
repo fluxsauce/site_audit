@@ -11,16 +11,4 @@ class SiteAuditReportViews extends SiteAuditReportAbstract {
   public function getLabel() {
     return dt('Views');
   }
-
-  /**
-   * Implements \SiteAudit\Report\Abstract\getCheckNames().
-   */
-  public function getCheckNames() {
-    return array(
-      'Enabled',
-      'Count',
-      'CacheResults',
-      'CacheOutput',
-    );
-  }
 }

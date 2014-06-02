@@ -11,13 +11,4 @@ class SiteAuditReportStatus extends SiteAuditReportAbstract {
   public function getLabel() {
     return dt('Status');
   }
-
-  /**
-   * Implements \SiteAudit\Report\Abstract\getCheckNames().
-   */
-  public function getCheckNames() {
-    return array(
-      'System',
-    );
-  }
 }

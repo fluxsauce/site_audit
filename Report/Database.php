@@ -11,16 +11,4 @@ class SiteAuditReportDatabase extends SiteAuditReportAbstract {
   public function getLabel() {
     return dt('Database');
   }
-
-  /**
-   * Implements \SiteAudit\Report\Abstract\getCheckNames().
-   */
-  public function getCheckNames() {
-    return array(
-      'Size',
-      'RowCount',
-      'Collation',
-      'Engine',
-    );
-  }
 }

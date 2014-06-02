@@ -11,18 +11,4 @@ class SiteAuditReportCache extends SiteAuditReportAbstract {
   public function getLabel() {
     return dt('Drupal\'s caching settings');
   }
-
-  /**
-   * Implements \SiteAudit\Report\Abstract\getCheckNames().
-   */
-  public function getCheckNames() {
-    return array(
-      'Anon',
-      'Lifetime',
-      'PageExpire',
-      'PageCompression',
-      'PreprocessCss',
-      'PreprocessJs',
-    );
-  }
 }

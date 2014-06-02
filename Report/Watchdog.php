@@ -11,18 +11,4 @@ class SiteAuditReportWatchdog extends SiteAuditReportAbstract {
   public function getLabel() {
     return dt('Watchdog database logs');
   }
-
-  /**
-   * Implements \SiteAudit\Report\Abstract\getCheckNames().
-   */
-  public function getCheckNames() {
-    return array(
-      'Syslog',
-      'Enabled',
-      'Count',
-      'Age',
-      '404',
-      'Php',
-    );
-  }
 }

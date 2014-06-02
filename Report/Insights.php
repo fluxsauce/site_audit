@@ -25,13 +25,4 @@ class SiteAuditReportInsights extends SiteAuditReportAbstract {
   public function getLabel() {
     return dt('Google PageSpeed Insights');
   }
-
-  /**
-   * Implements \SiteAudit\Report\Abstract\getCheckNames().
-   */
-  public function getCheckNames() {
-    return array(
-      'Analyze',
-    );
-  }
 }

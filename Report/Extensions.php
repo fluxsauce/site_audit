@@ -11,18 +11,4 @@ class SiteAuditReportExtensions extends SiteAuditReportAbstract {
   public function getLabel() {
     return dt('Extensions');
   }
-
-  /**
-   * Implements \SiteAudit\Report\Abstract\getCheckNames().
-   */
-  public function getCheckNames() {
-    return array(
-      'Count',
-      'Dev',
-      'Unrecommended',
-      'Version',
-      'Duplicate',
-      'Missing',
-    );
-  }
 }

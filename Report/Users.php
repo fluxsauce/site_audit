@@ -11,17 +11,4 @@ class SiteAuditReportUsers extends SiteAuditReportAbstract {
   public function getLabel() {
     return dt('Users');
   }
-
-  /**
-   * Implements \SiteAudit\Report\Abstract\getCheckNames().
-   */
-  public function getCheckNames() {
-    return array(
-      'CountAll',
-      'CountBlocked',
-      'RolesList',
-      'WhoIsNumberOne',
-      'BlockedNumberOne',
-    );
-  }
 }
