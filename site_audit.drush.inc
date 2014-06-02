@@ -4,6 +4,8 @@
  * Drupal site auditing commands.
  */
 
+define('SITE_AUDIT_BASE_PATH', __DIR__);
+
 // Autoload Report classes.
 spl_autoload_register(function ($class) {
   if (strpos($class, 'SiteAuditReport') === 0) {
@@ -31,6 +33,9 @@ function site_audit_drush_command() {
       'description' => dt('Name(s) of reports or specific checks to skip, comma separated.'),
       'example-value' => dt('insights,ExtensionsDev'),
       'value' => 'required',
+    ),
+    'bootstrap' => array(
+      'description' => dt('If enabled, will wrap the generated report with Twitter Bootstrap 3.0 inline HTML.'),
     ),
   );
 
@@ -176,9 +181,6 @@ function site_audit_drush_command() {
         'value' => 'required',
         'example-value' => 'YOURTOKEN',
       ),
-      'bootstrap' => array(
-        'description' => dt('If enabled, will wrap the generated report with Twitter Bootstrap 3.0 inline HTML.'),
-      ),
     )),
     'arguments' => $arguments_all,
   );
@@ -271,7 +273,7 @@ function drush_site_audit_audit_all($url = '', $key = '') {
     }
 
     if (drush_get_option('bootstrap')) {
-      echo file_get_contents(__DIR__ . '/html/header.html');
+      echo file_get_contents(SITE_AUDIT_BASE_PATH . '/html/header.html');
     }
 
     // Header.
@@ -356,7 +358,7 @@ function drush_site_audit_audit_all($url = '', $key = '') {
       }
     }
     if (drush_get_option('bootstrap')) {
-      echo file_get_contents(__DIR__ . '/html/footer.html');
+      echo file_get_contents(SITE_AUDIT_BASE_PATH . '/html/footer.html');
     }
   }
 

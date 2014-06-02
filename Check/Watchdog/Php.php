@@ -84,7 +84,7 @@ class SiteAuditCheckWatchdogPhp extends SiteAuditCheckAbstract {
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
     }
 
-    $this->registry['percent_php'] = round(($this->registry['php_count_total'] / $this->registry['count_entries']) * 100);
+    $this->registry['percent_php'] = round(($this->registry['php_count_total'] / $this->registry['count_entries']) * 100, 2);
     if ($this->registry['percent_php'] >= 10) {
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN;
     }

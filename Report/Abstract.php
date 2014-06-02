@@ -268,7 +268,14 @@ abstract class SiteAuditReportAbstract {
       return;
     }
     if (drush_get_option('html')) {
+      $command = drush_get_command();
+      if (drush_get_option('bootstrap') && ($command['command'] != 'audit_all')) {
+        echo file_get_contents(SITE_AUDIT_BASE_PATH . '/html/header.html');
+      }
       echo $this->toHtml();
+      if (drush_get_option('bootstrap') && ($command['command'] != 'audit_all')) {
+        echo file_get_contents(SITE_AUDIT_BASE_PATH . '/html/footer.html');
+      }
     }
     elseif (drush_get_option('json')) {
       echo $this->toJson();
