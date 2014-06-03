@@ -4,24 +4,17 @@
  * Drupal site auditing commands.
  */
 
-site_audit_bootstrap();
+define('SITE_AUDIT_BASE_PATH', __DIR__);
 
-/**
- * Bootstrapper.
- */
-function site_audit_bootstrap() {
-  define('SITE_AUDIT_BASE_PATH', __DIR__);
+require_once SITE_AUDIT_BASE_PATH . '/Report/Abstract.php';
+require_once SITE_AUDIT_BASE_PATH . '/Check/Abstract.php';
 
-  require_once SITE_AUDIT_BASE_PATH . '/Report/Abstract.php';
-  require_once SITE_AUDIT_BASE_PATH . '/Check/Abstract.php';
-
-  // Autoload Report classes.
-  spl_autoload_register(function ($class) {
-    if (strpos($class, 'SiteAuditReport') === 0) {
-      require_once SITE_AUDIT_BASE_PATH . '/Report/' . substr($class, strlen('SiteAuditReport')) . '.php';
-    }
-  });
-}
+// Autoload Report classes.
+spl_autoload_register(function ($class) {
+  if (strpos($class, 'SiteAuditReport') === 0) {
+    require_once SITE_AUDIT_BASE_PATH . '/Report/' . substr($class, strlen('SiteAuditReport')) . '.php';
+  }
+});
 
 /**
  * Get common command options used by all site_audit commands.
@@ -333,11 +326,16 @@ function drush_site_audit_audit_all($url = '', $key = '') {
   }
 
   $command = drush_get_command();
+  drush_command_invoke_all_ref('drush_command_alter', $command);
 
   $report_names = $command['reports'];
   if (!empty($report_names)) {
     $reports_to_render = array();
     foreach ($report_names as $report_name) {
+      if (is_array($report_name)) {
+        require_once($report_name['location']);
+        $report_name = $report_name['name'];
+      }
       $report_class = 'SiteAuditReport' . $report_name;
       // Allow a specific report to be skipped.
       if (!in_array(strtolower($report_name), $reports_to_skip)) {

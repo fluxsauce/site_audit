@@ -143,14 +143,16 @@ class SiteAuditCheckStatusSystem extends SiteAuditCheckAbstract {
 
     $worst_severity = REQUIREMENT_INFO;
     foreach ($this->registry['requirements'] as $requirement) {
-      if ($requirement['severity'] > $worst_severity) {
-        $worst_severity = $requirement['severity'];
-      }
-      if ($requirement['severity'] == REQUIREMENT_WARNING) {
-        $this->percentOverride += $score_each / 2;
-      }
-      elseif ($requirement['severity'] != REQUIREMENT_ERROR) {
-        $this->percentOverride += $score_each;
+      if (isset($requirement['severity'])) {
+        if ($requirement['severity'] > $worst_severity) {
+          $worst_severity = $requirement['severity'];
+        }
+        if ($requirement['severity'] == REQUIREMENT_WARNING) {
+          $this->percentOverride += $score_each / 2;
+        }
+        elseif ($requirement['severity'] != REQUIREMENT_ERROR) {
+          $this->percentOverride += $score_each;
+        }
       }
     }
 

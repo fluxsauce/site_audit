@@ -43,13 +43,22 @@ abstract class SiteAuditReportAbstract {
   protected $registry = array();
 
   /**
+   * Get the complete name of the report.
+   *
+   * @return string
+   *   The report name.
+   */
+  protected function getReportName() {
+    return substr(get_class($this), strlen('SiteAuditReport'));
+  }
+
+  /**
    * Constructor; loads and executes checks based on the name of this report.
    */
   public function __construct() {
     global $conf;
 
-    $report_name = substr(get_class($this), strlen('SiteAuditCheck') + 1);
-    $base_class_name = 'SiteAuditCheck' . $report_name;
+    $base_class_name = 'SiteAuditCheck' . $this->getReportName();
     $percent_override = NULL;
 
     $checks_to_skip = array();
@@ -76,10 +85,6 @@ abstract class SiteAuditReportAbstract {
 
     foreach ($checks_to_perform as $check_name) {
       $class_name = $base_class_name . $check_name;
-      if (!class_exists($class_name)) {
-        require_once SITE_AUDIT_BASE_PATH . "/Check/$report_name/$check_name.php";
-      }
-
       $check = new $class_name($this->registry, isset($conf['site_audit']['opt_out'][$report_name . $check_name]));
 
       // Calculate score.
@@ -343,6 +348,21 @@ abstract class SiteAuditReportAbstract {
     $command = $commands[$command_name];
 
     drush_command_invoke_all_ref('drush_command_alter', $command);
-    return $command['checks'];
+
+    $checks = array();
+    foreach ($command['checks'] as $check) {
+      if (is_array($check)) {
+        $checks[] = $check['name'];
+        require_once $check['location'];
+      }
+      else {
+        $checks[] = $check;
+        $base_class_name = 'SiteAuditCheck' . $this->getReportName();
+        $class_name = $base_class_name . $check;
+        require_once SITE_AUDIT_BASE_PATH . "/Check/{$this->getReportName()}/$check.php";
+      }
+    }
+
+    return $checks;
   }
 }
