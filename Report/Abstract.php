@@ -69,7 +69,7 @@ abstract class SiteAuditReportAbstract {
     $checks_to_perform = $this->getCheckNames();
 
     foreach ($checks_to_perform as $key => $check_name) {
-      if (in_array($report_name . $check_name, $checks_to_skip)) {
+      if (in_array($this->getReportName() . $check_name, $checks_to_skip)) {
         unset($checks_to_perform[$key]);
       }
     }
@@ -85,7 +85,7 @@ abstract class SiteAuditReportAbstract {
 
     foreach ($checks_to_perform as $check_name) {
       $class_name = $base_class_name . $check_name;
-      $check = new $class_name($this->registry, isset($conf['site_audit']['opt_out'][$report_name . $check_name]));
+      $check = new $class_name($this->registry, isset($conf['site_audit']['opt_out'][$this->getReportName() . $check_name]));
 
       // Calculate score.
       if ($check->getScore() != SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO) {
@@ -359,7 +359,9 @@ abstract class SiteAuditReportAbstract {
         $checks[] = $check;
         $base_class_name = 'SiteAuditCheck' . $this->getReportName();
         $class_name = $base_class_name . $check;
-        require_once SITE_AUDIT_BASE_PATH . "/Check/{$this->getReportName()}/$check.php";
+        if (!class_exists($class_name)) {
+          require_once SITE_AUDIT_BASE_PATH . "/Check/{$this->getReportName()}/$check.php";
+        }
       }
     }
 
