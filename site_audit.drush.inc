@@ -101,6 +101,10 @@ function site_audit_drush_command() {
       'PageCompression',
       'PreprocessCss',
       'PreprocessJs',
+      'Lock',
+      'Backends',
+      'DefaultClass',
+      'Bins',
     ),
   );
 
