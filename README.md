@@ -30,10 +30,10 @@ or more checks. Site Audit reports include:
 * Cache - optimal Drupal caching settings
 * Codebase - size of the site; size and count of managed files
 * Content - checks for unused content types, vocabularies
-* Cron - Drupal\'s built-in cron
+* Cron - Drupal's built-in cron
 * Database - collation, engine, row counts, and size
 * Extensions - count, development modules, duplicates, missing
-* Insights - Analyze site with Google Insights
+* Insights - Analyze site with Google PageSpeed Insights
 * Status - check for failures in Drupal's built-in status report
 * Users - blocked user #1, number of normal and blocked users, list of roles
 * Views - caching settings
