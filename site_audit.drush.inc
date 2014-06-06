@@ -333,7 +333,7 @@ function drush_site_audit_audit_all($url = '', $key = '') {
     $reports_to_render = array();
     foreach ($report_names as $report_name) {
       if (is_array($report_name)) {
-        require_once($report_name['location']);
+        require_once $report_name['location'];
         $report_name = $report_name['name'];
       }
       $report_class = 'SiteAuditReport' . $report_name;
