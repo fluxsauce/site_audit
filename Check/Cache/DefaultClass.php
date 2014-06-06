@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Contains \SiteAudit\Check\Cache\Lock.
+ * Contains \SiteAudit\Check\Cache\DefaultClass.
  */
 
 class SiteAuditCheckCacheDefaultClass extends SiteAuditCheckAbstract {

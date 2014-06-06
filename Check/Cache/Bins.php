@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Contains \SiteAudit\Check\Cache\Backends.
+ * Contains \SiteAudit\Check\Cache\Bins.
  */
 
 class SiteAuditCheckCacheBins extends SiteAuditCheckAbstract {
