@@ -90,7 +90,7 @@ class SiteAuditCheckContentVocabularies extends SiteAuditCheckAbstract {
     }
     $sql_query  = 'SELECT COUNT(tid) AS count, {taxonomy_vocabulary}.name AS name ';
     $sql_query .= 'FROM {taxonomy_vocabulary} ';
-    $sql_query .= 'JOIN {taxonomy_term_data} ON {taxonomy_vocabulary}.vid = {taxonomy_term_data}.vid ';
+    $sql_query .= 'LEFT JOIN {taxonomy_term_data} ON {taxonomy_vocabulary}.vid = {taxonomy_term_data}.vid ';
     $sql_query .= 'GROUP BY name ';
     $sql_query .= 'ORDER BY count DESC ';
 
