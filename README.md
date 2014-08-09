@@ -41,6 +41,8 @@ or more checks. Site Audit reports include:
 
 # Installation
 
+Site Audit is not a module; do not install it in your site root.
+
 Copy the entire Site Audit project to either your unified or personal Drush
 folder in the commands subdirectory, like
 
@@ -266,9 +268,31 @@ function security_review_drush_command_alter(&$command) {
 }
 ````
 
+# Release notes
+
+Release notes are maintained at https://www.drupal.org/node/2022771/release
+
+The version of Site Audit is found in ````site_audit.info```` and can be
+displayed with the command:
+
+````
+drush site-audit-version
+````
+
+The response will be in the form:
+
+````
+Site Audit v#.#
+````
+
 # Credits
 
 Site Audit is written and maintained by Jon Peck, http://about.me/jonpeck
+
+Site Audit can be found at:
+
+* https://www.drupal.org/project/site_audit
+* https://github.com/fluxsauce/site_audit
 
 Thank you to Suzanne Aldrich, Kelly Bell, Aimee Degnan, Joe Miller, Matt Parker,
 Ben Sheldon, David Strauss, and everyone else who has given feedback and
