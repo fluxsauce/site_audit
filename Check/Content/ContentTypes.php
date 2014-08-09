@@ -81,8 +81,10 @@ class SiteAuditCheckContentContentTypes extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\calculateScore().
    */
   public function calculateScore() {
-    $sql_query  = 'SELECT COUNT(nid) AS count, type ';
-    $sql_query .= 'FROM {node} ';
+    $sql_query  = 'SELECT COUNT({node}.nid) AS count, {node_type}.type ';
+    $sql_query .= 'FROM {node_type} ';
+    $sql_query .= 'LEFT JOIN {node} ';
+    $sql_query .= 'ON {node}.type = {node_type}.type ';
     $sql_query .= 'GROUP BY type ';
     $sql_query .= 'ORDER BY count DESC ';
 
