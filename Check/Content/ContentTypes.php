@@ -102,6 +102,12 @@ class SiteAuditCheckContentContentTypes extends SiteAuditCheckAbstract {
       $this->registry['content_type_counts'][$row->type] = $row->count;
     }
 
+    // Check to see if no nodes exist.
+    $content_type_counts = array_count_values($this->registry['content_type_counts']);
+    if (count($content_type_counts) == 1 && isset($content_type_counts[0]) && $content_type_counts[0] > 0) {
+      $this->registry['content_type_counts'] = array();
+    }
+
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
   }
 }
