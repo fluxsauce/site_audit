@@ -67,14 +67,14 @@ class SiteAuditCheckCachePageExpire extends SiteAuditCheckAbstract {
    */
   public function calculateScore() {
     global $conf;
-    if ($conf['page_cache_maximum_age'] >= 900) {
-      return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
-    }
-    elseif (!$conf['page_cache_maximum_age']) {
+    if (!isset($conf['page_cache_maximum_age']) || !$conf['page_cache_maximum_age']) {
       if (site_audit_env_is_dev()) {
         return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
       }
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
+    }
+    elseif ($conf['page_cache_maximum_age'] >= 900) {
+      return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN;
   }

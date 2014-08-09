@@ -42,6 +42,11 @@ class SiteAuditCheckStatusSystem extends SiteAuditCheckAbstract {
         continue;
       }
 
+      // Default to REQUIREMENT_INFO if no severity is set.
+      if (!isset($requirement['severity'])) {
+        $requirement['severity'] = REQUIREMENT_INFO;
+      }
+
       // Title: severity - value.
       if ($requirement['severity'] == REQUIREMENT_INFO) {
         $class = 'info';

@@ -60,7 +60,7 @@ class SiteAuditCheckCacheLifetime extends SiteAuditCheckAbstract {
    */
   public function calculateScore() {
     global $conf;
-    if (!$conf['cache_lifetime']) {
+    if (!isset($conf['cache_lifetime']) || !$conf['cache_lifetime']) {
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN;

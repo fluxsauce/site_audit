@@ -57,7 +57,7 @@ class SiteAuditCheckBestPracticesFast404 extends SiteAuditCheckAbstract {
    */
   public function calculateScore() {
     global $conf;
-    if ($conf['404_fast_html']) {
+    if (isset($conf['404_fast_html']) && $conf['404_fast_html']) {
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN;
