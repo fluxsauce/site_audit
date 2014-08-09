@@ -476,18 +476,23 @@ function drush_site_audit_audit_all($url = '', $key = '') {
 
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, 'https://api.github.com/gists');
-    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+    curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
       'Content-Type: application/json',
-      'Content-Length: ' . strlen($data_string),
-      'Authorization: bearer ' . $gist,
+      'Authorization: token ' . $gist,
+      'User-Agent: Drupal-Site-Audit',
     ));
 
     $result = curl_exec($ch);
     $json = json_decode($result);
-    if (!isset($json->html_url)) {
+    if (is_null($json)) {
+      drush_set_error('SITE_AUDIT_GIST_NULL', dt('api.github.com did not provide JSON; raw result: @message', array(
+        '@message' => $result,
+      )));
+    }
+    elseif (!isset($json->html_url)) {
       drush_set_error('SITE_AUDIT_GIST_JSON', dt('api.github.com says: @message', array(
         '@message' => $json->message,
       )));
