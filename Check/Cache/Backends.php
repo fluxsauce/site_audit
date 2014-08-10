@@ -55,7 +55,7 @@ class SiteAuditCheckCacheBackends extends SiteAuditCheckAbstract {
       if (drush_get_option('vendor') == 'pantheon') {
         return dt('Consider using a caching backend such as redis.');
       }
-      else if (drush_get_option('vendor') == 'acquia') {
+      elseif (drush_get_option('vendor') == 'acquia') {
         return dt('Consider using a caching backend such as memcache.');
       }
       return dt('Consider using a caching backend such as redis or memcache.');

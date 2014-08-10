@@ -123,7 +123,7 @@ class SiteAuditCheckInsightsAnalyze extends SiteAuditCheckAbstract {
           if ($resultValues->ruleScore >= 80) {
             $ret_val .= 'alert-success';
           }
-          else if ($resultValues->ruleScore >= 60) {
+          elseif ($resultValues->ruleScore >= 60) {
             $ret_val .= 'alert-warning';
           }
           else {
@@ -277,6 +277,7 @@ class SiteAuditCheckInsightsAnalyze extends SiteAuditCheckAbstract {
  *   Content to be formatted.
  * @param array $args
  *   Optional; contains standard objects.
+ *
  * @return string
  *   Human readable formatted content.
  */

@@ -91,13 +91,13 @@ class SiteAuditCheckCronEnabled extends SiteAuditCheckAbstract {
     if (!$this->registry['cron_safe_threshold']) {
       // Check for Elysia Cron.
       if (module_exists('elysia_cron')) {
-        return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
         $this->abort = TRUE;
+        return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
       }
       // Check for Ultimate Cron.
       if (module_exists('ultimate_cron')) {
-        return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
         $this->abort = TRUE;
+        return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
       }
       // Check to see if Cron has been run within the last day.
       if ((time() - $this->registry['cron_last']) < (24 * 60 * 60)) {

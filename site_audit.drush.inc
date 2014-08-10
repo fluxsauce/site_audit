@@ -10,11 +10,13 @@ require_once SITE_AUDIT_BASE_PATH . '/Report/Abstract.php';
 require_once SITE_AUDIT_BASE_PATH . '/Check/Abstract.php';
 
 // Autoload Report classes.
-spl_autoload_register(function ($class) {
-  if (strpos($class, 'SiteAuditReport') === 0) {
-    require_once SITE_AUDIT_BASE_PATH . '/Report/' . substr($class, strlen('SiteAuditReport')) . '.php';
+spl_autoload_register(
+  function ($class) {
+    if (strpos($class, 'SiteAuditReport') === 0) {
+      require_once SITE_AUDIT_BASE_PATH . '/Report/' . substr($class, strlen('SiteAuditReport')) . '.php';
+    }
   }
-});
+);
 
 /**
  * Get common command options used by all site_audit commands.
@@ -292,7 +294,7 @@ function site_audit_drush_command() {
       'Users',
       'Views',
       'Watchdog',
-    )
+    ),
   );
 
   $items['site-audit-version'] = array(
