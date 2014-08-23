@@ -37,14 +37,14 @@ class SiteAuditCheckStatusSystem extends SiteAuditCheckAbstract {
   public function getResultPass() {
     $items = array();
     foreach ($this->registry['requirements'] as $requirement) {
-      // Reduce verbosity.
-      if (!drush_get_option('detail') && $requirement['severity'] < REQUIREMENT_WARNING) {
-        continue;
-      }
-
       // Default to REQUIREMENT_INFO if no severity is set.
       if (!isset($requirement['severity'])) {
         $requirement['severity'] = REQUIREMENT_INFO;
+      }
+
+      // Reduce verbosity.
+      if (!drush_get_option('detail') && $requirement['severity'] < REQUIREMENT_WARNING) {
+        continue;
       }
 
       // Title: severity - value.
