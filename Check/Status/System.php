@@ -144,7 +144,13 @@ class SiteAuditCheckStatusSystem extends SiteAuditCheckAbstract {
     usort($this->registry['requirements'], '_system_sort_requirements');
 
     $this->percentOverride = 0;
-    $score_each = 100 / count($this->registry['requirements']);
+    $requirements_with_severity = array();
+    foreach ($this->registry['requirements'] as $key => $value) {
+      if (isset($value['severity'])) {
+        $requirements_with_severity[$key] = $value;
+      }
+    }
+    $score_each = 100 / count($requirements_with_severity);
 
     $worst_severity = REQUIREMENT_INFO;
     foreach ($this->registry['requirements'] as $requirement) {
