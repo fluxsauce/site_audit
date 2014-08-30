@@ -57,10 +57,15 @@ class SiteAuditCheckCodebaseManagedFileSize extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\calculateScore().
    */
   public function calculateScore() {
-    $sql_query  = 'SELECT SUM(filesize) ';
-    $sql_query .= 'FROM {file_managed} ';
-    $sql_query .= 'WHERE status = 1 ';
-    $this->registry['managed_filesize'] = db_query($sql_query)->fetchField();
+    if (!$this->registry['managed_file_count']) {
+      $this->registry['managed_filesize'] = 0;
+    }
+    else {
+      $sql_query  = 'SELECT SUM(filesize) ';
+      $sql_query .= 'FROM {file_managed} ';
+      $sql_query .= 'WHERE status = 1 ';
+      $this->registry['managed_filesize'] = db_query($sql_query)->fetchField();
+    }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
   }
 }

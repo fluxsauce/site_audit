@@ -56,9 +56,6 @@ class SiteAuditCheckCodebaseManagedFileCount extends SiteAuditCheckAbstract {
     $sql_query .= 'FROM {file_managed} ';
     $sql_query .= 'WHERE status = 1 ';
     $this->registry['managed_file_count'] = db_query($sql_query)->fetchField();
-    if (!$this->registry['managed_file_count']) {
-      $this->abort = TRUE;
-    }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
   }
 }
