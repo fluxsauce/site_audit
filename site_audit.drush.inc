@@ -299,6 +299,7 @@ function site_audit_drush_command() {
 
   $items['site-audit-version'] = array(
     'description' => dt('Show the Site Audit version.'),
+    'callback' => 'drush_site_audit_site_audit_version',
     'bootstrap' => DRUSH_BOOTSTRAP_DRUSH,
   );
 
@@ -769,7 +770,7 @@ function drush_site_audit_audit_status() {
 /**
  * Display the Site Audit version.
  */
-function drush_site_audit_version() {
+function drush_site_audit_site_audit_version() {
   $info = parse_ini_file(SITE_AUDIT_BASE_PATH . '/site_audit.info');
   drush_print(dt('Site Audit v@site_audit_version', array(
     '@site_audit_version' => $info['site_audit_version'],
