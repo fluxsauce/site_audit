@@ -214,6 +214,16 @@ function site_audit_drush_command() {
     ),
   );
 
+  $items['audit_security'] = array(
+    'description' => dt('Audit the site for known security vulnerabilities.'),
+    'aliases' => array('asec'),
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
+    'options' => site_audit_common_options(),
+    'checks' => array(
+      'MenuRouter',
+    ),
+  );
+
   $items['audit_status'] = array(
     'description' => dt('Audit Drupal\'s built-in status report.'),
     'aliases' => array('as'),
@@ -290,6 +300,7 @@ function site_audit_drush_command() {
       'Database',
       'Extensions',
       'Insights',
+      'Security',
       'Status',
       'Users',
       'Views',
@@ -764,6 +775,21 @@ function drush_site_audit_audit_status_validate() {
  */
 function drush_site_audit_audit_status() {
   $report = new SiteAuditReportStatus();
+  $report->render();
+}
+
+/**
+ * Audit security validation.
+ */
+function drush_site_audit_audit_security_validate() {
+  return site_audit_version_check();
+}
+
+/**
+ * Render a Security report.
+ */
+function drush_site_audit_audit_security() {
+  $report = new SiteAuditReportSecurity();
   $report->render();
 }
 
