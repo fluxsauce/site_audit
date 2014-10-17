@@ -84,6 +84,10 @@ class SiteAuditCheckSecurityMenuRouter extends SiteAuditCheckAbstract {
   public function calculateScore() {
     // DRUPAL SA-CORE-2014-005 Exploits.
     // Example from https://gist.github.com/joshkoenig/ on 2014-10-17.
+    $dangerous_callbacks = array(
+      'php_eval' => 'execute arbitrary PHP code',
+      'file_put_contents' => 'write to a file',
+    );
     $columns = array(
       'access',
       'page',
@@ -99,14 +103,12 @@ class SiteAuditCheckSecurityMenuRouter extends SiteAuditCheckAbstract {
     $sql_query .= 'WHERE ';
     $callback_sql = array();
     foreach ($columns as $column) {
-      $callback_sql[] = $column . '_callback IN (:names) ';
+      $callback_sql[] = $column . '_callback IN (:callbacks) ';
     }
     $sql_query .= implode('OR ', $callback_sql);
 
     $result = db_query($sql_query, array(
-      ':names' => array(
-        'file_put_contents',
-      ),
+      ':callbacks' => array_keys($dangerous_callbacks)
     ));
     if (!$result->rowCount()) {
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
@@ -116,7 +118,7 @@ class SiteAuditCheckSecurityMenuRouter extends SiteAuditCheckAbstract {
         $callback = $column . '_callback';
         $arguments = $column . '_arguments';
         if ($row->$callback) {
-          $this->registry['menu_router'][$row->path] = $callback . ' - write a file (file_put_contents) with the following value: "' . check_plain($row->$arguments) . '"';
+          $this->registry['menu_router'][$row->path] = $callback . ' "' . $row->$callback . '" (' . $dangerous_callbacks[$row->$callback] . ') with the following value: "' . check_plain($row->$arguments) . '"';
         }
       }
     }
