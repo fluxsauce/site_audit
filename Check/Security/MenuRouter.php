@@ -83,10 +83,10 @@ class SiteAuditCheckSecurityMenuRouter extends SiteAuditCheckAbstract {
    */
   public function calculateScore() {
     // DRUPAL SA-CORE-2014-005 Exploits.
-    // Example from https://gist.github.com/joshkoenig/ on 2014-10-17.
     $dangerous_callbacks = array(
       'php_eval' => 'execute arbitrary PHP code',
       'file_put_contents' => 'write to a file',
+      'assert' => 'execute arbitrary PHP code',
     );
     $columns = array(
       'access',
