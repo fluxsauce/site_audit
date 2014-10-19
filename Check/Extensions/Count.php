@@ -96,7 +96,7 @@ class SiteAuditCheckExtensionsCount extends SiteAuditCheckAbstract {
       $this->registry['extension_count']++;
     }
 
-    if ($this->registry['extension_count'] >= 150) {
+    if ($this->registry['extension_count'] >= drush_get_option('extension_count', 150)) {
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN;
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;

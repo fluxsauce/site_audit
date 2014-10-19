@@ -184,6 +184,11 @@ function site_audit_drush_command() {
       'Disabled',
     ),
   );
+  $items['audit_extensions']['options']['extension_count'] = array(
+    'description' => dt('Specify threshold for average number of extensions'),
+    'example-value' => dt('150'),
+    'value' => 'required',
+  );
 
   $arguments_gi = array(
     'url' => dt('The URL that you wish to test.'),
@@ -600,6 +605,12 @@ function drush_site_audit_audit_database() {
  * Audit extensions validation.
  */
 function drush_site_audit_audit_extensions_validate() {
+  $extension_count = drush_get_option('extension_count');
+  if ($extension_count) {
+    if ((int) $extension_count != $extension_count || $extension_count < 1) {
+      return drush_set_error(dt('The extension count must be a whole number above zero.'));
+    }
+  }
   return site_audit_version_check();
 }
 
