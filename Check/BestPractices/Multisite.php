@@ -72,6 +72,7 @@ class SiteAuditCheckBestPracticesMultisite extends SiteAuditCheckAbstract {
         'example.sites.php',
         'README.txt',
         '.svn',
+        '.DS_Store',
       ))) {
         if (is_dir($drupal_root . '/sites/' . $entry)) {
           $this->registry['multisites'][] = $entry;
