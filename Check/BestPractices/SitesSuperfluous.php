@@ -69,6 +69,7 @@ class SiteAuditCheckBestPracticesSitesSuperfluous extends SiteAuditCheckAbstract
         'all',
         'example.sites.php',
         'README.txt',
+        '.DS_Store',
       ))) {
         if (is_file($drupal_root . '/sites/' . $entry)) {
           // Support multi-site directory aliasing for non-Pantheon sites.
