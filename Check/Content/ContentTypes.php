@@ -28,13 +28,23 @@ class SiteAuditCheckContentContentTypes extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getResultInfo().
    */
   public function getResultInfo() {
+    $ret_val = '';
+
     if (empty($this->registry['content_type_counts'])) {
       if (drush_get_option('detail')) {
         return dt('No nodes exist.');
       }
-      return '';
+      return $ret_val;
     }
-    $ret_val = '';
+
+    $ret_val .= "Total: {$this->registry['node_count']} nodes";
+    if (drush_get_option('html') == TRUE) {
+      $ret_val = "<p>$ret_val</p>";
+    }
+    else {
+      $ret_val .= PHP_EOL;
+    }
+
     if (drush_get_option('html') == TRUE) {
       $ret_val .= '<table class="table table-condensed">';
       $ret_val .= "<thead><tr><th>Content Type</th><th>Node Count</th></tr></thead>";
@@ -44,7 +54,6 @@ class SiteAuditCheckContentContentTypes extends SiteAuditCheckAbstract {
       $ret_val .= '</table>';
     }
     else {
-      $ret_val  = 'Content Type: Count' . PHP_EOL;
       if (!drush_get_option('json')) {
         $ret_val .= str_repeat(' ', 4);
       }
@@ -83,23 +92,21 @@ class SiteAuditCheckContentContentTypes extends SiteAuditCheckAbstract {
   public function calculateScore() {
     $sql_query  = 'SELECT COUNT({node}.nid) AS count, {node_type}.type ';
     $sql_query .= 'FROM {node_type} ';
-    $sql_query .= 'LEFT JOIN {node} ';
-    $sql_query .= 'ON {node}.type = {node_type}.type ';
+    $sql_query .= 'LEFT JOIN {node} ON {node}.type = {node_type}.type ';
     $sql_query .= 'GROUP BY type ';
     $sql_query .= 'ORDER BY count DESC ';
 
     $result = db_query($sql_query);
 
     $this->registry['content_type_counts'] = $this->registry['content_types_unused'] = array();
+    $this->registry['node_count'] = 0;
 
     foreach ($result as $row) {
       if ($row->count == 0) {
         $this->registry['content_types_unused'][] = $row->type;
       }
-      elseif (!drush_get_option('detail')) {
-        continue;
-      }
       $this->registry['content_type_counts'][$row->type] = $row->count;
+      $this->registry['node_count'] += $row->count;
     }
 
     // Check to see if no nodes exist.
