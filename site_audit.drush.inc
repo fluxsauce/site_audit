@@ -9,19 +9,16 @@ if (class_exists('SiteAuditReportAbstract')) {
   return;
 }
 
-define('SITE_AUDIT_BASE_PATH', __DIR__);
+// Major version check.
+if (version_compare(phpversion(), '5.3.0') < 0) {
+  return drush_set_error('SITE_AUDIT_REQUIREMENTS_ERROR', dt('site_audit requires command-line PHP 5.3.0 or higher; support for PHP 5.3 was terminated August 14, 2014, and PHP 5.2 was terminated January 6, 2011. If your host is unable or unwilling to upgrade to a major supported version, consider an alternative.'));
+}
 
+// Includes.
+define('SITE_AUDIT_BASE_PATH', __DIR__);
+require_once SITE_AUDIT_BASE_PATH . '/site_audit.autoload.inc';
 require_once SITE_AUDIT_BASE_PATH . '/Report/Abstract.php';
 require_once SITE_AUDIT_BASE_PATH . '/Check/Abstract.php';
-
-// Autoload Report classes.
-spl_autoload_register(
-  function ($class) {
-    if (strpos($class, 'SiteAuditReport') === 0) {
-      require_once SITE_AUDIT_BASE_PATH . '/Report/' . substr($class, strlen('SiteAuditReport')) . '.php';
-    }
-  }
-);
 
 /**
  * Get common command options used by all site_audit commands.
