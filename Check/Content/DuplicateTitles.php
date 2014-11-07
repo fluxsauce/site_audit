@@ -42,6 +42,13 @@ class SiteAuditCheckContentDuplicateTitles extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getResultWarn().
    */
   public function getResultWarn() {
+    if (!drush_get_option('detail')) {
+      return dt('There are @count duplicate titles in the following types: @types', array(
+        '@count' => $this->registry['nodes_duplicate_title_count'],
+        '@types' => implode(', ', array_keys($this->registry['nodes_duplicate_titles'])),
+      ));
+    }
+
     $ret_val = '';
     if (drush_get_option('html') == TRUE) {
       $ret_val .= '<table class="table table-condensed">';
@@ -76,7 +83,11 @@ class SiteAuditCheckContentDuplicateTitles extends SiteAuditCheckAbstract {
   /**
    * Implements \SiteAudit\Check\Abstract\getAction().
    */
-  public function getAction() {}
+  public function getAction() {
+    if ($this->getScore() == SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN) {
+      return dt('Consider reviewing your content and finding a way to disambiguate the duplicate titles.');
+    }
+  }
 
   /**
    * Implements \SiteAudit\Check\Abstract\calculateScore().
@@ -95,9 +106,11 @@ class SiteAuditCheckContentDuplicateTitles extends SiteAuditCheckAbstract {
     $result = db_query($sql_query);
 
     $this->registry['nodes_duplicate_titles'] = array();
+    $this->registry['nodes_duplicate_title_count'] = 0;
 
     foreach ($result as $row) {
       $this->registry['nodes_duplicate_titles'][$row->type][check_plain($row->title)] = $row->duplicate_count;
+      $this->registry['nodes_duplicate_title_count'] += $row->duplicate_count;
     }
 
     if (!empty($this->registry['nodes_duplicate_titles'])) {

@@ -136,6 +136,10 @@ function site_audit_drush_command() {
       'DuplicateTitles',
       'Vocabularies',
       'VocabulariesUnused',
+      'FieldEnabled',
+      'FieldCount',
+      'FieldInstances',
+      'FieldsUnused',
     ),
   );
 
