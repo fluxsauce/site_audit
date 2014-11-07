@@ -4,6 +4,11 @@
  * Drupal site auditing commands.
  */
 
+// Avoid loading multiple versions of site_audit.
+if (class_exists('SiteAuditReportAbstract')) {
+  return;
+}
+
 define('SITE_AUDIT_BASE_PATH', __DIR__);
 
 require_once SITE_AUDIT_BASE_PATH . '/Report/Abstract.php';
