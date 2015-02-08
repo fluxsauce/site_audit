@@ -273,7 +273,7 @@ class SiteAuditCheckSecurityMenuRouter extends SiteAuditCheckAbstract {
     $sql_query .= implode('OR ', $callback_sql);
 
     $result = db_query($sql_query, array(
-      ':callbacks' => array_keys($dangerous_callbacks)
+      ':callbacks' => array_keys($dangerous_callbacks),
     ));
     if (!$result->rowCount()) {
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;

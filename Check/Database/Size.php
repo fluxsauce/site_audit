@@ -75,13 +75,14 @@ class SiteAuditCheckDatabaseSize extends SiteAuditCheckAbstract {
         return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
       }
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
-    } catch (PDOException $e) {
+    }
+    catch (PDOException $e) {
       // Error executing the query.
       $this->abort = TRUE;
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
     }
 
-    // Other error.
+    // Empty database.
     $this->abort = TRUE;
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
   }

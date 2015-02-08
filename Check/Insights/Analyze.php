@@ -91,6 +91,7 @@ class SiteAuditCheckInsightsAnalyze extends SiteAuditCheckAbstract {
         $ret_val .= PHP_EOL . str_repeat(' ', 6) . dt('Detailed results:');
       }
       $rendered_result_count = 0;
+      // @codingStandardsIgnoreStart
       foreach ($this->registry['json_result']->formattedResults->ruleResults as $resultValues) {
         rtrim($ret_val);
         // Filter out based on impact threshold.
@@ -141,6 +142,7 @@ class SiteAuditCheckInsightsAnalyze extends SiteAuditCheckAbstract {
 
         if (isset($resultValues->urlBlocks)) {
           foreach ($resultValues->urlBlocks as $block) {
+            // @codingStandardsIgnoreEnd
             // Header.
             if (!isset($block->header->args)) {
               $header = google_json_text_replacement($block->header->format);
