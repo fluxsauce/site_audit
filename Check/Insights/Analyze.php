@@ -259,6 +259,18 @@ class SiteAuditCheckInsightsAnalyze extends SiteAuditCheckAbstract {
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
     }
 
+    // Failure.
+    if (isset($this->registry['json_result']->responseCode) && $this->registry['json_result']->responseCode != 200) {
+      $this->abort = TRUE;
+      $this->registry['errors'] = array();
+      $this->registry['errors'][] = dt('@id @message - response code @responsecode)', array(
+        '@message' => 'not accessible to PageSpeed Insights',
+        '@id' => $this->registry['json_result']->id,
+        '@responsecode' => $this->registry['json_result']->responseCode,
+      ));
+      return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
+    }
+
     // Overview.
     if ($this->registry['json_result']->score > 80) {
       $this->percentOverride = $this->registry['json_result']->score;
