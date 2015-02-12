@@ -16,7 +16,7 @@ class SiteAuditCheckInsightsAnalyze extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getDescription().
    */
   public function getDescription() {
-    return dt('Analysis by Google PageSpeed Insights service');
+    return dt('Analysis by the Google PageSpeed Insights service');
   }
 
   /**
@@ -228,7 +228,9 @@ class SiteAuditCheckInsightsAnalyze extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getAction().
    */
   public function getAction() {
-    return dt('Full report at https://developers.google.com/speed/pagespeed/insights');
+    if ($this->score !== SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL) {
+      return dt('Full report at https://developers.google.com/speed/pagespeed/insights');
+    }
   }
 
   /**
@@ -259,12 +261,12 @@ class SiteAuditCheckInsightsAnalyze extends SiteAuditCheckAbstract {
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
     }
 
-    // Failure.
+    // Access problem.
     if (isset($this->registry['json_result']->responseCode) && $this->registry['json_result']->responseCode != 200) {
       $this->abort = TRUE;
       $this->registry['errors'] = array();
       $this->registry['errors'][] = dt('@id @message - response code @responsecode)', array(
-        '@message' => 'not accessible to PageSpeed Insights',
+        '@message' => 'is not accessible by PageSpeed Insights',
         '@id' => $this->registry['json_result']->id,
         '@responsecode' => $this->registry['json_result']->responseCode,
       ));
