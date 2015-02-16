@@ -344,7 +344,7 @@ abstract class SiteAuditReportAbstract {
     // Guess the name of the Drush command.
     $command_name_pieces = preg_split('/(?=[A-Z])/', get_called_class());
     unset($command_name_pieces[0], $command_name_pieces[1], $command_name_pieces[3]);
-    $command_name = strtolower(implode('_', $command_name_pieces));
+    $command_name = strtolower(implode('-', $command_name_pieces));
     $command = $commands[$command_name];
 
     drush_command_invoke_all_ref('drush_command_alter', $command);

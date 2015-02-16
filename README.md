@@ -20,24 +20,17 @@ multiple formats, including plain text, HTML, and JSON.
 Site Audit can also be extended by other projects to add custom reports and
 checks.
 
+There are two major versions of Site Audit:
+
+* 7.x-1.x - Supports Drupal 7.
+* 8.x-2.x - Supports Drupal 8; under heavy development.
+
 # Reports
 
 Site Audit includes a number of comprehensive reports, each consisting of one
 or more checks. Site Audit reports include:
 
-* Best Practices - structural recommendations
-* Block - caching
 * Cache - optimal Drupal caching settings
-* Codebase - size of the site; size and count of managed files
-* Content - checks for unused content types, vocabularies
-* Cron - Drupal's built-in cron
-* Database - collation, engine, row counts, and size
-* Extensions - count, development modules, duplicates, missing
-* Insights - Analyze site with Google PageSpeed Insights
-* Status - check for failures in Drupal's built-in status report
-* Users - blocked user #1, number of normal and blocked users, list of roles
-* Views - caching settings
-* Watchdog - 404 error count, age, number of entries, enabled, PHP errors
 
 # Installation
 
@@ -56,7 +49,7 @@ then clear Drush's cache:
 drush cc drush
 ````
 
-See https://github.com/drush-ops/drush#commands to learn more about installing
+See http://docs.drush.org/en/master/commands/ to learn more about installing
 commands into Drush.
 
 # Usage

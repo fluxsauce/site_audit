@@ -1,22 +1,22 @@
 <?php
 /**
  * @file
- * Contains \SiteAudit\Check\BestPractices\Fast404.
+ * Contains \SiteAudit\Check\Cache\PageInternal.
  */
 
-class SiteAuditCheckBestPracticesFast404 extends SiteAuditCheckAbstract {
+class SiteAuditCheckCachePageInternal extends SiteAuditCheckAbstract {
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
   public function getLabel() {
-    return dt('Fast 404 pages');
+    return dt('Internal Page Cache');
   }
 
   /**
    * Implements \SiteAudit\Check\Abstract\getDescription().
    */
   public function getDescription() {
-    return dt('Check if enabled.');
+    return dt('Check if Drupal\'s internal cache system is used to store cached pages.');
   }
 
   /**
@@ -27,20 +27,22 @@ class SiteAuditCheckBestPracticesFast404 extends SiteAuditCheckAbstract {
   /**
    * Implements \SiteAudit\Check\Abstract\getResultInfo().
    */
-  public function getResultInfo() {}
+  public function getResultInfo() {
+    return $this->getResultWarn();
+  }
 
   /**
    * Implements \SiteAudit\Check\Abstract\getResultPass().
    */
   public function getResultPass() {
-    return dt('Fast 404 pages are enabled.');
+    return dt('Drupal is storing cached pages internally.');
   }
 
   /**
    * Implements \SiteAudit\Check\Abstract\getResultWarn().
    */
   public function getResultWarn() {
-    return dt('Fast 404 pages are not enabled.');
+    return dt('Drupal is not storing cached pages internally.');
   }
 
   /**
@@ -48,7 +50,7 @@ class SiteAuditCheckBestPracticesFast404 extends SiteAuditCheckAbstract {
    */
   public function getAction() {
     if ($this->score == SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN) {
-      return dt('See https://drupal.org/node/1313592 and default.settings.php for details on how to implement.');
+      return dt('Go to /admin/config/development/performance and check "Use internal page cache".');
     }
   }
 
@@ -56,9 +58,11 @@ class SiteAuditCheckBestPracticesFast404 extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\calculateScore().
    */
   public function calculateScore() {
-    global $conf;
-    if (isset($conf['404_fast_html']) && $conf['404_fast_html']) {
+    if (\Drupal::config('system.performance')->get('cache.page.use_internal')) {
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
+    }
+    if (site_audit_env_is_dev()) {
+      return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN;
   }
