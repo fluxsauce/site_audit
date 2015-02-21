@@ -65,6 +65,16 @@ function site_audit_drush_command() {
   $options_all = array_merge(site_audit_common_options(), $vendor_options);
   $arguments_all = array();
 
+  $items['audit-best-practices'] = array(
+    'description' => dt('Audit best practices used.'),
+    'aliases' => array('abp'),
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
+    'options' => array_merge(site_audit_common_options(), $vendor_options),
+    'checks' => array(
+      'Fast404',
+    ),
+  );
+
   $items['audit-cache'] = array(
     'description' => dt('Audit Drupal\'s caching settings.'),
     'aliases' => array('ac'),
@@ -81,6 +91,7 @@ function site_audit_drush_command() {
     'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
     'arguments' => $arguments_all,
     'reports' => array(
+      'BestPractices',
       'Cache',
     ),
   );
@@ -298,5 +309,20 @@ function drush_site_audit_audit_cache_validate() {
  */
 function drush_site_audit_audit_cache() {
   $report = new SiteAuditReportCache();
+  $report->render();
+}
+
+/**
+ * Audit best practices validation.
+ */
+function drush_site_audit_audit_best_practices_validate() {
+  return site_audit_version_check();
+}
+
+/**
+ * Audit Drupal best practices.
+ */
+function drush_site_audit_audit_best_practices() {
+  $report = new SiteAuditReportBestPractices();
   $report->render();
 }
