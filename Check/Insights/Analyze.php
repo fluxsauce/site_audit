@@ -265,8 +265,7 @@ class SiteAuditCheckInsightsAnalyze extends SiteAuditCheckAbstract {
     if (isset($this->registry['json_result']->responseCode) && $this->registry['json_result']->responseCode != 200) {
       $this->abort = TRUE;
       $this->registry['errors'] = array();
-      $this->registry['errors'][] = dt('@id @message - response code @responsecode)', array(
-        '@message' => 'is not accessible by PageSpeed Insights',
+      $this->registry['errors'][] = dt('@id is not accessible by PageSpeed Insights - response code (@responsecode)', array(
         '@id' => $this->registry['json_result']->id,
         '@responsecode' => $this->registry['json_result']->responseCode,
       ));
