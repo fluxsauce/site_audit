@@ -241,9 +241,8 @@ class SiteAuditCheckInsightsAnalyze extends SiteAuditCheckAbstract {
     $pso_url .= '?url=' . $this->registry['url'];
     $pso_url .= '&key=' . $this->registry['key'];
 
-    $ch = curl_init($pso_url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    $result = curl_exec($ch);
+    $request = drupal_http_request($pso_url);
+    $result = $request->data;
 
     $this->registry['json_result'] = json_decode($result);
 
