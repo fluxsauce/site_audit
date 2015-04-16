@@ -88,7 +88,8 @@ class SiteAuditCheckExtensionsDuplicate extends SiteAuditCheckAbstract {
     $command = "find $drupal_root -xdev -type f -name '*.info' -o -path './" . variable_get('file_public_path', conf_path() . '/files') . "' -prune";
     exec($command, $result);
     foreach ($result as $path) {
-      $name = substr(array_pop(explode('/', $path)), 0, -5);
+      $path_parts = explode('/', $path);
+      $name = substr(array_pop($path_parts), 0, -5);
       // Safe duplicates.
       if (in_array($name, array(
         'drupal_system_listing_compatible_test',
