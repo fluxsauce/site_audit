@@ -64,9 +64,17 @@ class SiteAuditCheckWatchdogPhp extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\calculateScore().
    */
   public function calculateScore() {
-    $where = core_watchdog_query('php', NULL, NULL);
     $this->registry['php_counts'] = array();
     $this->registry['php_count_total'] = 0;
+    $this->registry['percent_php'] = 0;
+
+    $types = drush_watchdog_message_types();
+    if (array_search('php', $types) === FALSE) {
+      $this->abort = TRUE;
+      return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
+    }
+
+    $where = core_watchdog_query('php', NULL, NULL);
     $rsc = drush_db_select('watchdog', '*', $where['where'], $where['args'], 0, NULL, 'wid', 'DESC');
     while ($result = drush_db_fetch_object($rsc)) {
       $row = core_watchdog_format_result($result);
@@ -75,13 +83,6 @@ class SiteAuditCheckWatchdogPhp extends SiteAuditCheckAbstract {
       }
       $this->registry['php_counts'][$row->severity]++;
       $this->registry['php_count_total']++;
-    }
-
-    $this->registry['percent_php'] = 0;
-
-    if (!$this->registry['php_count_total']) {
-      $this->abort = TRUE;
-      return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
     }
 
     $this->registry['percent_php'] = round(($this->registry['php_count_total'] / $this->registry['count_entries']) * 100, 2);
