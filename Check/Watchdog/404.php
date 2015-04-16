@@ -71,7 +71,6 @@ class SiteAuditCheckWatchdog404 extends SiteAuditCheckAbstract {
 
     // @TODO: Aggregate 404 entries and return top 10.
     if (!$this->registry['count_404']) {
-      $this->abort = TRUE;
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
     }
     $this->registry['percent_404'] = round(($this->registry['count_404'] / $this->registry['count_entries']) * 100);
