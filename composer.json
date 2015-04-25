@@ -1,0 +1,17 @@
+{
+  "name": "drupal/site_audit",
+  "type": "library",
+  "description": "Drupal static site analysis platform",
+  "homepage": "https://www.drupal.org/project/site_audit",
+  "license": "GLP-2.0+",
+  "authors": [
+    { "name": "Jon Peck", "email": "jpeck@fluxsauce.com" }
+  ],
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/site_audit"
+  },
+  "require": {
+    "php": ">5.3.0"
+  },
+  "keywords": ["standards", "audit", "code review", "drupal", "analysis", "reports"]
+}
