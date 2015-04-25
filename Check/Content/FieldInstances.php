@@ -28,6 +28,10 @@ class SiteAuditCheckContentFieldInstances extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getResultInfo().
    */
   public function getResultInfo() {
+    if (empty($this->registry['field_api_map'])) {
+      return dt('Function field_info_field_map does not exist, cannot analyze.');
+    }
+
     $ret_val = '';
     if (drush_get_option('html') == TRUE) {
       $ret_val .= '<table class="table table-condensed">';
@@ -89,6 +93,12 @@ class SiteAuditCheckContentFieldInstances extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\calculateScore().
    */
   public function calculateScore() {
+    // Only available in Drupal 7.22 and above.
+    if (!function_exists('field_info_field_map')) {
+      $this->abort;
+      return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
+    }
+
     $this->registry['field_api_map'] = field_info_field_map();
     $this->registry['field_instance_counts'] = array();
 
