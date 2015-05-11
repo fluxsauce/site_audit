@@ -74,6 +74,7 @@ function site_audit_drush_command() {
       'Fast404',
       'Multisite',
       'Settings',
+      'Services',
     ),
   );
 
