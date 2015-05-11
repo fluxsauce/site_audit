@@ -73,6 +73,7 @@ function site_audit_drush_command() {
     'checks' => array(
       'Fast404',
       'Multisite',
+      'Settings',
     ),
   );
 
