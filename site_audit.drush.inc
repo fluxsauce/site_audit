@@ -85,6 +85,17 @@ function site_audit_drush_command() {
     ),
   );
 
+  $items['audit-extensions'] = array(
+    'description' => dt('Audit extensions (modules and themes).'),
+    'aliases' => array('ae'),
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
+    'options' => array_merge(site_audit_common_options(), $vendor_options),
+    'checks' => array(
+      'Count',
+      'Unrecommended',
+    ),
+  );
+
   $items['audit-all'] = array(
     'description' => dt('Executes every Site Audit Report'),
     'aliases' => array('aa'),
@@ -93,6 +104,7 @@ function site_audit_drush_command() {
     'reports' => array(
       'BestPractices',
       'Cache',
+      'Extensions',
     ),
   );
 
@@ -324,5 +336,26 @@ function drush_site_audit_audit_best_practices_validate() {
  */
 function drush_site_audit_audit_best_practices() {
   $report = new SiteAuditReportBestPractices();
+  $report->render();
+}
+
+/**
+ * Audit extensions validation.
+ */
+function drush_site_audit_audit_extensions_validate() {
+  $extension_count = drush_get_option('extension_count');
+  if ($extension_count) {
+    if ((int) $extension_count != $extension_count || $extension_count < 1) {
+      return drush_set_error(dt('The extension count must be a whole number above zero.'));
+    }
+  }
+  return site_audit_version_check();
+}
+
+/**
+ * Audit modules and themes (extensions) for a given Drupal site.
+ */
+function drush_site_audit_audit_extensions() {
+  $report = new SiteAuditReportExtensions();
   $report->render();
 }
