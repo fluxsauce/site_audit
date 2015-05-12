@@ -45,14 +45,29 @@ class SiteAuditCheckBestPracticesMultisite extends SiteAuditCheckAbstract {
   /**
    * Implements \SiteAudit\Check\Abstract\getResultWarn().
    */
-  public function getResultWarn() {}
+  public function getResultWarn() {
+    if ($this->registry['multisite_enabled']) {
+      return dt('sites/sites.php is present but no multisite directories are present.');
+    }
+    else {
+      return dt('Multisite directories are present but sites/sites.php is not present.');
+    }
+  }
 
   /**
    * Implements \SiteAudit\Check\Abstract\getAction().
    */
   public function getAction() {
     if ($this->score == SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL) {
-      return dt('See https://www.getpantheon.com/blog/much-ado-about-drupal-multisite for details.');
+      return dt('See https://pantheon.io/blog/drupal-multisite-much-ado-about-drupal-multisite for details.');
+    }
+    if ($this->score == SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN) {
+      if ($this->registry['multisite_enabled']) {
+        return dt('See https://www.drupal.org/node/2297419 for details on how to use multisite feature in Drupal 8.');
+      }
+      else {
+        return dt('Create sites.php file inside sites directory by copying example.sites.php file. See https://www.drupal.org/node/2297419 for more details.');
+      }
     }
   }
 
@@ -61,33 +76,37 @@ class SiteAuditCheckBestPracticesMultisite extends SiteAuditCheckAbstract {
    */
   public function calculateScore() {
     $drupal_root = drush_get_context('DRUSH_SELECTED_DRUPAL_ROOT');
-    if (is_file($drupal_root . '/sites/sites.php')) {
-      $handle = opendir($drupal_root . '/sites/');
-      $this->registry['multisites'] = array();
-      while (FALSE !== ($entry = readdir($handle))) {
-        if (!in_array($entry, array(
-          '.',
-          '..',
-          'default',
-          'all',
-          'example.sites.php',
-          'README.txt',
-          '.svn',
-          '.DS_Store',
-        ))
-        ) {
-          if (is_dir($drupal_root . '/sites/' . $entry)) {
-            $this->registry['multisites'][] = $entry;
-          }
+    $handle = opendir($drupal_root . '/sites/');
+    $this->registry['multisites'] = array();
+    while (FALSE !== ($entry = readdir($handle))) {
+      if (!in_array($entry, array(
+        '.',
+        '..',
+        'default',
+        'all',
+        'example.sites.php',
+        'README.txt',
+        '.svn',
+        '.DS_Store',
+      ))
+      ) {
+        if (is_dir($drupal_root . '/sites/' . $entry)) {
+          $this->registry['multisites'][] = $entry;
         }
       }
-      closedir($handle);
+    }
+    closedir($handle);
+    if ($this->registry['multisite_enabled']) {
+      if (drush_get_option('vendor') == 'pantheon') {
+        return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
+      }
       if (!empty($this->registry['multisites'])) {
-        if (drush_get_option('vendor') == 'pantheon') {
-          return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
-        }
         return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
       }
+      return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN;
+    }
+    elseif (!empty($this->registry['multisites'])) {
+      return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN;
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
   }
