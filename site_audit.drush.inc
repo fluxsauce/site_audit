@@ -82,6 +82,7 @@ function site_audit_drush_command() {
     'options' => array_merge(site_audit_common_options(), $vendor_options),
     'checks' => array(
       'PageInternal',
+      'Bins',
     ),
   );
 
