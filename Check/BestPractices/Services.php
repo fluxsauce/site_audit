@@ -51,7 +51,7 @@ class SiteAuditCheckBestPracticesServices extends SiteAuditCheckAbstract {
       return dt('Don\'t rely on symbolic links for core configuration files; copy services.yml where it should be and remove the symbolic link.');
     }
     if ($this->score == SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL) {
-      return dt('Create services.yml file inside sites/default directory by copying default.services.yml');
+      return dt('Create services.yml file inside sites/default directory by copying default.services.yml file. See https://www.drupal.org/documentation/install/settings-file for details.');
     }
   }
 
