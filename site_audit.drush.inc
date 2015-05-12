@@ -83,6 +83,7 @@ function site_audit_drush_command() {
     'checks' => array(
       'PageInternal',
       'Bins',
+      'PageExpire',
       'PreprocessCss',
       'PreprocessJs',
     ),
