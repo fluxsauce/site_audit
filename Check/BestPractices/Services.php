@@ -22,7 +22,9 @@ class SiteAuditCheckBestPracticesServices extends SiteAuditCheckAbstract {
   /**
    * Implements \SiteAudit\Check\Abstract\getResultFail().
    */
-  public function getResultFail() {}
+  public function getResultFail() {
+    return dt('services.yml does not exist! Copy the default.service.yml to services.yml and see https://www.drupal.org/documentation/install/settings-file for details.');
+  }
 
   /**
    * Implements \SiteAudit\Check\Abstract\getResultInfo().
@@ -33,7 +35,7 @@ class SiteAuditCheckBestPracticesServices extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getResultPass().
    */
   public function getResultPass() {
-    return dt('service.yml exists and is not a symbolic link.');
+    return dt('services.yml exists and is not a symbolic link.');
   }
 
   /**

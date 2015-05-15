@@ -66,7 +66,7 @@ class SiteAuditCheckBestPracticesMultisite extends SiteAuditCheckAbstract {
         return dt('See https://www.drupal.org/node/2297419 for details on how to use multisite feature in Drupal 8.');
       }
       else {
-        return dt('Create sites.php file inside sites directory by copying example.sites.php file. See https://www.drupal.org/node/2297419 for more details.');
+        return dt('Inside the sites/ directory, copy example.sites.php to sites.php to create the configuration. See https://www.drupal.org/node/2297419 for details.');
       }
     }
   }
