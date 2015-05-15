@@ -76,6 +76,7 @@ function site_audit_drush_command() {
       'Multisite',
       'Settings',
       'Services',
+      'SitesDefault',
     ),
   );
 
