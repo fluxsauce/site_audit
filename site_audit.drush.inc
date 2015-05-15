@@ -77,6 +77,7 @@ function site_audit_drush_command() {
       'Settings',
       'Services',
       'SitesDefault',
+      'SitesSuperfluous',
     ),
   );
 
