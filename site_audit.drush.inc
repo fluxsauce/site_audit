@@ -83,8 +83,8 @@ function site_audit_drush_command() {
     'checks' => array(
       'PageInternal',
       'AllBackends',
-      'Bins',
       'DefaultBackends',
+      'UsedBackends',
       'PageExpire',
       'PreprocessCss',
       'PreprocessJs',

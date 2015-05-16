@@ -77,7 +77,7 @@ class SiteAuditCheckCacheDefaultBackends extends SiteAuditCheckAbstract {
     $container = \Drupal::getContainer();
     $defaults = $container->getParameter('cache_default_bin_backends');
     $this->registry['default_backends'] = array();
-    foreach (array_keys($this->registry['cache_bins']) as $bin) {
+    foreach ($container->getParameter('cache_bins') as $bin) {
       if (isset($defaults[$bin])) {
         $this->registry['default_backends'][$bin] = $defaults[$bin];
       }
