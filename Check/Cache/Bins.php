@@ -80,15 +80,8 @@ class SiteAuditCheckCacheBins extends SiteAuditCheckAbstract {
    */
   public function calculateScore() {
     $container = \Drupal::getContainer();
-    $services = $container->getServiceIds();
-    $this->registry['cache_bins'] = array();
-    $variables = preg_grep('/^cache\./', array_values($services));
-    if (!empty($variables)) {
-      foreach ($variables as $variable_name) {
-        if (!preg_match('/\.backend\./', $variable_name)) {
-          $this->registry['cache_bins'][explode('.', $variable_name)[1]] = get_class($container->get($variable_name));
-        }
-      }
+    foreach ($container->getParameter('cache_bins') as $bin) {
+      $this->registry['cache_bins'][$bin] = get_class($container->get('cache.' . $bin));
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
   }
