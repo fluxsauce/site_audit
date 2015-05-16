@@ -84,6 +84,7 @@ function site_audit_drush_command() {
       'PageInternal',
       'AllBackends',
       'Bins',
+      'DefaultBackends',
       'PageExpire',
       'PreprocessCss',
       'PreprocessJs',
