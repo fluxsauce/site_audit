@@ -91,6 +91,7 @@ function site_audit_drush_command() {
     'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
     'options' => site_audit_common_options(),
     'checks' => array(
+      'SizeFiles',
       'SizeAll',
       'ManagedFileCount',
       'ManagedFileSize',
