@@ -72,6 +72,12 @@ function site_audit_drush_command() {
     'options' => array_merge(site_audit_common_options(), $vendor_options),
     'checks' => array(
       'Fast404',
+      'Sites',
+      'Multisite',
+      'Settings',
+      'Services',
+      'SitesDefault',
+      'SitesSuperfluous',
     ),
   );
 
