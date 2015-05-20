@@ -72,7 +72,7 @@ class SiteAuditCheckCacheUsedBackends extends SiteAuditCheckAbstract {
    */
   public function getAction() {
     if ($this->score == SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN) {
-      return dt('Consider using a caching backend such as redis or memcache. For details on how to configure alternative caching backends, see the Configuration section in https://api.drupal.org/api/drupal/core!modules!system!core.api.php/group/cache/8 .');
+      return dt('Consider using a caching backend such as redis or memcache. For details on how to configure alternative caching backends, see https://api.drupal.org/api/drupal/core%21modules%21system%21core.api.php/group/cache/8#configuration .');
     }
   }
 
