@@ -154,6 +154,7 @@ function site_audit_drush_command() {
       'Taxonomy',
       'Vocabularies',
       'VocabulariesUnused',
+      'FieldEnabled',
     ),
   );
 
