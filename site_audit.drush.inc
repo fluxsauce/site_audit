@@ -155,6 +155,7 @@ function site_audit_drush_command() {
       'Vocabularies',
       'VocabulariesUnused',
       'FieldEnabled',
+      'FieldCount',
     ),
   );
 
