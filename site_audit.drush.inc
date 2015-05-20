@@ -150,6 +150,7 @@ function site_audit_drush_command() {
     'checks' => array(
       'ContentTypes',
       'ContentTypesUnused',
+      'DuplicateTitles',
     ),
   );
 
