@@ -151,6 +151,7 @@ function site_audit_drush_command() {
       'ContentTypes',
       'ContentTypesUnused',
       'DuplicateTitles',
+      'Taxonomy',
     ),
   );
 
