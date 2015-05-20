@@ -9,27 +9,21 @@ class SiteAuditCheckCodebaseSizeFiles extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
   public function getLabel() {
-    $settings = \Drupal::service('settings');
-    $kernel = \Drupal::service('kernel');
-    return dt('Size of @files_folder', array('@files_folder' => $settings->get('file_public_path', $kernel->getSitePath() . '/files')));
+    return dt('Size of public:// folder');
   }
 
   /**
    * Implements \SiteAudit\Check\Abstract\getDescription().
    */
   public function getDescription() {
-    $settings = \Drupal::service('settings');
-    $kernel = \Drupal::service('kernel');
-    return dt('Determine the size of @files_folder.', array('@files_folder' => $settings->get('file_public_path', $kernel->getSitePath() . '/files')));
+    return dt('Determine the size of public:// folder.');
   }
 
   /**
    * Implements \SiteAudit\Check\Abstract\getResultFail().
    */
   public function getResultFail() {
-    $settings = \Drupal::service('settings');
-    $kernel = \Drupal::service('kernel');
-    return dt('Unable to determine size of @files_folder!', array('@files_folder' => $settings->get('file_public_path', $kernel->getSitePath() . '/files')));
+    return dt('Unable to determine size of public://!');
   }
 
   /**
