@@ -153,6 +153,7 @@ function site_audit_drush_command() {
       'DuplicateTitles',
       'Taxonomy',
       'Vocabularies',
+      'VocabulariesUnused',
     ),
   );
 
