@@ -152,6 +152,7 @@ function site_audit_drush_command() {
       'ContentTypesUnused',
       'DuplicateTitles',
       'Taxonomy',
+      'Vocabularies',
     ),
   );
 
