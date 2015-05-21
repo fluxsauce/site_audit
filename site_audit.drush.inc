@@ -96,6 +96,19 @@ function site_audit_drush_command() {
     ),
   );
 
+  $items['audit-codebase'] = array(
+    'description' => dt('Audit the codebase.'),
+    'aliases' => array('acb'),
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
+    'options' => site_audit_common_options(),
+    'checks' => array(
+      'SizeFiles',
+      'SizeAll',
+      'ManagedFileCount',
+      'ManagedFileSize',
+    ),
+  );
+
   $items['audit-extensions'] = array(
     'description' => dt('Audit extensions (modules and themes).'),
     'aliases' => array('ae'),
@@ -115,6 +128,7 @@ function site_audit_drush_command() {
     'reports' => array(
       'BestPractices',
       'Cache',
+      'Codebase',
       'Extensions',
     ),
   );
@@ -368,5 +382,20 @@ function drush_site_audit_audit_extensions_validate() {
  */
 function drush_site_audit_audit_extensions() {
   $report = new SiteAuditReportExtensions();
+  $report->render();
+}
+
+/**
+ * Audit codebase validation.
+ */
+function drush_site_audit_audit_codebase_validate() {
+  return site_audit_version_check();
+}
+
+/**
+ * Audit the executable codebase of a Drupal site.
+ */
+function drush_site_audit_audit_codebase() {
+  $report = new SiteAuditReportCodebase();
   $report->render();
 }
