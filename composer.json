@@ -1,6 +1,6 @@
 {
   "name": "drupal/site_audit",
-  "type": "library",
+  "type": "project",
   "description": "Drupal static site analysis platform",
   "homepage": "https://www.drupal.org/project/site_audit",
   "license": "GLP-2.0+",
@@ -12,6 +12,10 @@
   },
   "require": {
     "php": ">5.5.0"
+  },
+  "require-dev": {
+    "squizlabs/php_codesniffer": "*",
+    "drupal/coder": ">8.2.0"
   },
   "keywords": ["standards", "audit", "code review", "drupal", "analysis", "reports"]
 }
