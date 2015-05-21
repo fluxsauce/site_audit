@@ -100,7 +100,7 @@ class SiteAuditCheckViewsCacheResults extends SiteAuditCheckAbstract {
     $this->registry['results_lifespan'] = array();
     foreach ($this->registry['views'] as $view) {
       // Skip views used for administration purposes.
-      if (isset($view->tag) && $view->tag == 'admin') {
+      if (isset($view->tag) && (in_array($view->tag, array('admin', 'commerce')))) {
         continue;
       }
       foreach ($view->display as $display_name => $display) {
