@@ -4,6 +4,9 @@
  * Contains \SiteAudit\Check\Extensions\Unrecommended.
  */
 
+/**
+ * Class SiteAuditCheckExtensionsUnrecommended.
+ */
 class SiteAuditCheckExtensionsUnrecommended extends SiteAuditCheckAbstract {
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
@@ -89,30 +92,30 @@ class SiteAuditCheckExtensionsUnrecommended extends SiteAuditCheckAbstract {
     foreach ($extension_info as $extension) {
       $row = array();
 
-      $machineName = $extension->getName();
+      $machine_name = $extension->getName();
 
-      // Get the human readable name of the extension
-      $humanReadableName = '';
+      // Get the human readable name of the extension.
+      $human_readable_name = '';
       if (isset($extension->info['name'])) {
-        $humanReadableName = $extension->info['name'];
+        $human_readable_name = $extension->info['name'];
       }
       else {
-        $humanReadableName = $machineName;
+        $human_readable_name = $machine_name;
       }
 
-      // Construct label from machine name and human readable name of the extension
-      $label = $humanReadableName . ' (' . $machineName . ')';
+      // Construct label.
+      $label = $human_readable_name . ' (' . $machine_name . ')';
       // Not in the list of known unrecommended modules.
-      if (!array_key_exists($machineName, $unrecommended_extensions)) {
+      if (!array_key_exists($machine_name, $unrecommended_extensions)) {
         continue;
       }
 
       // Name.
       $row[] = $label;
       // Reason.
-      $row[] = $unrecommended_extensions[$machineName];
+      $row[] = $unrecommended_extensions[$machine_name];
 
-      $this->registry['extensions_unrec'][$machineName] = $row;
+      $this->registry['extensions_unrec'][$machine_name] = $row;
     }
 
     if (!empty($this->registry['extensions_unrec'])) {
@@ -122,9 +125,9 @@ class SiteAuditCheckExtensionsUnrecommended extends SiteAuditCheckAbstract {
   }
 
   /**
-   *  Get a list of unrecommended extension names and reasons.
+   * Get a list of unrecommended extension names and reasons.
    *
-   *  @return array
+   * @return array
    *    Keyed by module machine name, value is explanation.
    */
   public function getExtensions() {
@@ -134,4 +137,5 @@ class SiteAuditCheckExtensionsUnrecommended extends SiteAuditCheckAbstract {
     );
     return $unrecommended_modules;
   }
+
 }

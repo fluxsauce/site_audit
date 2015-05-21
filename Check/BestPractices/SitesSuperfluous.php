@@ -4,6 +4,9 @@
  * Contains \SiteAudit\Check\BestPractices\SitesSuperfluous.
  */
 
+/**
+ * Class SiteAuditCheckBestPracticesSitesSuperfluous.
+ */
 class SiteAuditCheckBestPracticesSitesSuperfluous extends SiteAuditCheckAbstract {
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
@@ -87,4 +90,5 @@ class SiteAuditCheckBestPracticesSitesSuperfluous extends SiteAuditCheckAbstract
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
   }
+
 }

@@ -3,6 +3,10 @@
  * @file
  * Contains \SiteAudit\Report\BestPractices.
  */
+
+/**
+ * Class SiteAuditReportBestPractices.
+ */
 class SiteAuditReportBestPractices extends SiteAuditReportAbstract {
   /**
    * Implements \SiteAudit\Report\Abstract\getLabel().
@@ -10,4 +14,5 @@ class SiteAuditReportBestPractices extends SiteAuditReportAbstract {
   public function getLabel() {
     return dt('Best practices');
   }
+
 }

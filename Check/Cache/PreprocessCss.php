@@ -4,6 +4,9 @@
  * Contains \SiteAudit\Check\Cache\PreprocessCss.
  */
 
+/**
+ * Class SiteAuditCheckCachePreprocessCss.
+ */
 class SiteAuditCheckCachePreprocessCss extends SiteAuditCheckAbstract {
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
@@ -67,4 +70,5 @@ class SiteAuditCheckCachePreprocessCss extends SiteAuditCheckAbstract {
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
   }
+
 }

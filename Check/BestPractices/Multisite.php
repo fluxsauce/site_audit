@@ -4,6 +4,9 @@
  * Contains \SiteAudit\Check\BestPractices\Multisite.
  */
 
+/**
+ * Class SiteAuditCheckBestPracticesMultisite.
+ */
 class SiteAuditCheckBestPracticesMultisite extends SiteAuditCheckAbstract {
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().

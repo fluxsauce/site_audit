@@ -4,6 +4,9 @@
  * Contains \SiteAudit\Check\BestPractices\SitesDefault.
  */
 
+/**
+ * Class SiteAuditCheckBestPracticesSitesDefault.
+ */
 class SiteAuditCheckBestPracticesSitesDefault extends SiteAuditCheckAbstract {
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().

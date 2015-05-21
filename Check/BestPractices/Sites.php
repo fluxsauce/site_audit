@@ -1,9 +1,12 @@
 <?php
 /**
  * @file
- * Contains \SiteAudit\Check\BestPractices\Settings.
+ * Contains \SiteAudit\Check\BestPractices\Sites.
  */
 
+/**
+ * Class SiteAuditCheckBestPracticesSites.
+ */
 class SiteAuditCheckBestPracticesSites extends SiteAuditCheckAbstract {
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().

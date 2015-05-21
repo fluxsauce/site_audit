@@ -1,9 +1,12 @@
 <?php
 /**
  * @file
- * Contains \SiteAudit\Check\Cache\Bins.
+ * Contains \SiteAudit\Check\Cache\UsedBackends.
  */
 
+/**
+ * Class SiteAuditCheckCacheUsedBackends.
+ */
 class SiteAuditCheckCacheUsedBackends extends SiteAuditCheckAbstract {
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().

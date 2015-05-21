@@ -3,6 +3,10 @@
  * @file
  * Contains \SiteAudit\Report\Extensions.
  */
+
+/**
+ * Class SiteAuditReportExtensions.
+ */
 class SiteAuditReportExtensions extends SiteAuditReportAbstract {
   /**
    * Implements \SiteAudit\Report\Abstract\getLabel().
@@ -10,4 +14,5 @@ class SiteAuditReportExtensions extends SiteAuditReportAbstract {
   public function getLabel() {
     return dt('Extensions');
   }
+
 }

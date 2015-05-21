@@ -4,6 +4,9 @@
  * Contains \SiteAudit\Check\BestPractices\Service.
  */
 
+/**
+ * Class SiteAuditCheckBestPracticesServices.
+ */
 class SiteAuditCheckBestPracticesServices extends SiteAuditCheckAbstract {
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
@@ -70,4 +73,5 @@ class SiteAuditCheckBestPracticesServices extends SiteAuditCheckAbstract {
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
   }
+
 }

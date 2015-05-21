@@ -4,6 +4,9 @@
  * Contains \SiteAudit\Check\Abstract.
  */
 
+/**
+ * Class SiteAuditCheckAbstract.
+ */
 abstract class SiteAuditCheckAbstract {
   const AUDIT_CHECK_SCORE_PASS = 2;
   const AUDIT_CHECK_SCORE_WARN = 1;
@@ -12,30 +15,35 @@ abstract class SiteAuditCheckAbstract {
 
   /**
    * Quantifiable number associated with result on a scale of 0 to 2.
+   *
    * @var int
    */
   protected $score;
 
   /**
    * Indicate that no other checks should be run after this check.
+   *
    * @var bool
    */
   protected $abort = FALSE;
 
   /**
    * User has opted out of this check in configuration.
+   *
    * @var bool
    */
   protected $optOut = FALSE;
 
   /**
    * If set, will override the Report's percentage.
+   *
    * @var int
    */
   protected $percentOverride;
 
   /**
    * Use for passing data between checks within a report.
+   *
    * @var array
    */
   protected $registry;
@@ -48,7 +56,7 @@ abstract class SiteAuditCheckAbstract {
    * @param bool $opt_out
    *   If set, will not perform checks.
    */
-  public function __construct($registry, $opt_out = FALSE) {
+  public function __construct(array $registry, $opt_out = FALSE) {
     $this->registry = $registry;
     if ($opt_out) {
       $this->optOut = TRUE;
@@ -107,6 +115,7 @@ abstract class SiteAuditCheckAbstract {
 
   /**
    * Get the CSS class associated with a score.
+   *
    * @return string
    *   Name of the Twitter bootstrap class.
    */
@@ -129,6 +138,7 @@ abstract class SiteAuditCheckAbstract {
 
   /**
    * Get the Drush message level associated with a score.
+   *
    * @return string
    *   Converts the score (integer) to Drush levels.
    */
@@ -151,6 +161,7 @@ abstract class SiteAuditCheckAbstract {
 
   /**
    * Get the label for the check that describes, high level what is happening.
+   *
    * @return string
    *   Get the label for the check that describes, high level what is happening.
    */
@@ -158,6 +169,7 @@ abstract class SiteAuditCheckAbstract {
 
   /**
    * Get a more verbose description of what is being checked.
+   *
    * @return string
    *   A sentence describing the check; shown in detail mode.
    */
@@ -165,6 +177,7 @@ abstract class SiteAuditCheckAbstract {
 
   /**
    * Get the description of what happened in a failed check.
+   *
    * @return string
    *   Something is explicitly wrong and requires action.
    */
@@ -172,6 +185,7 @@ abstract class SiteAuditCheckAbstract {
 
   /**
    * Get the result of a purely informational check.
+   *
    * @return string
    *   Purely informational response.
    */
@@ -179,6 +193,7 @@ abstract class SiteAuditCheckAbstract {
 
   /**
    * Get a description of what happened in a passed check.
+   *
    * @return string
    *   Success; good job.
    */
@@ -186,6 +201,7 @@ abstract class SiteAuditCheckAbstract {
 
   /**
    * Get a description of what happened in a warning check.
+   *
    * @return string
    *   Something is wrong, but not horribly so.
    */
@@ -193,6 +209,7 @@ abstract class SiteAuditCheckAbstract {
 
   /**
    * Get action items for a user to perform if the check did not pass.
+   *
    * @return string
    *   Actionable tasks to perform.
    */
@@ -200,18 +217,20 @@ abstract class SiteAuditCheckAbstract {
 
   /**
    * Display action items for a user to perform.
+   *
    * @return string
    *   Actionable tasks to perform, or nothing if check is opted-out.
    */
   public function renderAction() {
     if ($this->optOut) {
-      return;
+      return '';
     }
     return $this->getAction();
   }
 
   /**
    * Calculate the score.
+   *
    * @return int
    *   Constants indicating pass, fail and so forth.
    */
@@ -219,6 +238,7 @@ abstract class SiteAuditCheckAbstract {
 
   /**
    * Get a quantifiable number representing a check result; lazy initialization.
+   *
    * @return int
    *   Constants indicating pass, fail and so forth.
    */
@@ -231,6 +251,7 @@ abstract class SiteAuditCheckAbstract {
 
   /**
    * Get the check registry.
+   *
    * @return array
    *   Contains values calculated from this check and any prior checks.
    */
@@ -250,10 +271,12 @@ abstract class SiteAuditCheckAbstract {
 
   /**
    * Get the report percent override, if any.
+   *
    * @return int
    *   The overridden percentage.
    */
   public function getPercentOverride() {
     return $this->percentOverride;
   }
+
 }
