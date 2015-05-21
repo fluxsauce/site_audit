@@ -17,6 +17,5 @@
     "squizlabs/php_codesniffer": "*",
     "drupal/coder": ">8.2.0"
   },
-  "minimum-stability": "dev",
   "keywords": ["standards", "audit", "code review", "drupal", "analysis", "reports", "drush"]
 }
