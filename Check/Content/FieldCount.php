@@ -97,14 +97,13 @@ class SiteAuditCheckContentFieldCount extends SiteAuditCheckAbstract {
   public function calculateScore() {
     $map = \Drupal::entityManager()->getFieldMap();
     $this->registry['fields'] = array();
-    $default_fields = array(
+    $this->registry['default_fields'] = array(
       'body',
-      'comment',
       'comment_body',
     );
     foreach ($map as $entity => $fields) {
       foreach ($fields as $field => $description) {
-        if (preg_match('/^field\_/', $field) || in_array($field, $default_fields)) {
+        if (preg_match('/^field\_/', $field) || in_array($field, $this->registry['default_fields'])) {
           $this->registry['fields'][$field] = $description['type'];
         }
       }
