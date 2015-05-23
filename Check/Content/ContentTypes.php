@@ -4,6 +4,9 @@
  * Contains \SiteAudit\Check\Content\ContentTypes.
  */
 
+/**
+ * Class SiteAuditCheckContentContentTypes.
+ */
 class SiteAuditCheckContentContentTypes extends SiteAuditCheckAbstract {
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().

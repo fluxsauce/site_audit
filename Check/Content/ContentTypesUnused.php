@@ -4,6 +4,9 @@
  * Contains \SiteAudit\Check\Content\ContentTypesUnused.
  */
 
+/**
+ * Class SiteAuditCheckContentContentTypesUnused.
+ */
 class SiteAuditCheckContentContentTypesUnused extends SiteAuditCheckAbstract {
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().

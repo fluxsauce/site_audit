@@ -4,6 +4,9 @@
  * Contains \SiteAudit\Check\Content\DuplicateTitles.
  */
 
+/**
+ * Class SiteAuditCheckContentDuplicateTitles.
+ */
 class SiteAuditCheckContentDuplicateTitles extends SiteAuditCheckAbstract {
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().

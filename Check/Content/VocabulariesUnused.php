@@ -4,6 +4,9 @@
  * Contains \SiteAudit\Check\Content\ContentVocabulariesUnused.
  */
 
+/**
+ * Class SiteAuditCheckContentVocabulariesUnused.
+ */
 class SiteAuditCheckContentVocabulariesUnused extends SiteAuditCheckAbstract {
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().

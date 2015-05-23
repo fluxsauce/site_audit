@@ -4,6 +4,9 @@
  * Contains \SiteAudit\Check\Content\FieldEnabled.
  */
 
+/**
+ * Class SiteAuditCheckContentFieldEnabled.
+ */
 class SiteAuditCheckContentFieldEnabled extends SiteAuditCheckAbstract {
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().

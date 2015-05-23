@@ -4,6 +4,9 @@
  * Contains \SiteAudit\Check\Content\Vocabularies.
  */
 
+/**
+ * Class SiteAuditCheckContentVocabularies.
+ */
 class SiteAuditCheckContentVocabularies extends SiteAuditCheckAbstract {
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
