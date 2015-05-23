@@ -157,6 +157,7 @@ function site_audit_drush_command() {
       'FieldEnabled',
       'FieldCount',
       'FieldInstances',
+      'FieldsUnused',
     ),
   );
 
