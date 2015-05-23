@@ -109,6 +109,17 @@ function site_audit_drush_command() {
     ),
   );
 
+  $items['audit-cron'] = array(
+    'description' => dt('Audit cron.'),
+    'aliases' => array('acr'),
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
+    'options' => site_audit_common_options(),
+    'checks' => array(
+      'Enabled',
+      'Last',
+    ),
+  );
+
   $items['audit-extensions'] = array(
     'description' => dt('Audit extensions (modules and themes).'),
     'aliases' => array('ae'),
@@ -364,6 +375,21 @@ function drush_site_audit_audit_best_practices() {
   $report->render();
 }
 
+
+/**
+ * Audit cron validation.
+ */
+function drush_site_audit_audit_cron_validate() {
+  return site_audit_version_check();
+}
+
+/**
+ * Render a Cron report.
+ */
+function drush_site_audit_audit_cron() {
+  $report = new SiteAuditReportCron();
+  $report->render();
+}
 /**
  * Audit extensions validation.
  */
