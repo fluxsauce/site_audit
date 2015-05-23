@@ -38,11 +38,11 @@ class SiteAuditCheckContentFieldCount extends SiteAuditCheckAbstract {
     ));
     if (drush_get_option('detail')) {
       if (drush_get_option('html')) {
-        $ret_val .= '<p>' . $ret_val . '</p>';
+        $ret_val = '<p>' . $ret_val . '</p>';
         $ret_val .= '<table class="table table-condensed">';
         $ret_val .= '<tr><th>Name</th><th>Type</th></tr>';
         foreach ($this->registry['fields'] as $field_name => $description) {
-          $ret_val .= "<tr><td>$field_name</td><td></td>$description</tr>";
+          $ret_val .= "<tr><td>$field_name</td><td>$description</td></tr>";
         }
         $ret_val .= '</table>';
       }
