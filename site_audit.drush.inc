@@ -141,6 +141,7 @@ function site_audit_drush_command() {
       'Cache',
       'Codebase',
       'Extensions',
+      'Cron',
     ),
   );
 
