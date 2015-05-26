@@ -153,6 +153,20 @@ function site_audit_drush_command() {
     ),
   );
 
+  $items['audit-users'] = array(
+    'description' => dt('Audit Users.'),
+    'aliases' => array('au'),
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
+    'options' => site_audit_common_options(),
+    'checks' => array(
+      'CountAll',
+      'CountBlocked',
+      'RolesList',
+      'WhoIsNumberOne',
+      'BlockedNumberOne',
+    ),
+  );
+
   $items['audit-all'] = array(
     'description' => dt('Executes every Site Audit Report'),
     'aliases' => array('aa'),
@@ -165,6 +179,7 @@ function site_audit_drush_command() {
       'Extensions',
       'Cron',
       'Database',
+      'Users',
     ),
   );
 
@@ -462,5 +477,20 @@ function drush_site_audit_audit_codebase_validate() {
  */
 function drush_site_audit_audit_codebase() {
   $report = new SiteAuditReportCodebase();
+  $report->render();
+}
+
+/**
+ * Audit users validation.
+ */
+function drush_site_audit_audit_users_validate() {
+  return site_audit_version_check();
+}
+
+/**
+ * Render a Users report.
+ */
+function drush_site_audit_audit_users() {
+  $report = new SiteAuditReportUsers();
   $report->render();
 }
