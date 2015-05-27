@@ -135,6 +135,15 @@ class SiteAuditCheckExtensionsUnrecommended extends SiteAuditCheckAbstract {
       'bad_judgement' => dt('Joke module, framework for anarchy.'),
       'php' => dt('Executable code should never be stored in the database.'),
     );
+    if (drush_get_option('vendor') == 'pantheon') {
+      // Unsupported or redundant.
+      $pantheon_unrecommended_modules = array(
+        'memcache' => dt('Pantheon does not provide memcache; instead, redis is provided as a service to all customers; see http://helpdesk.getpantheon.com/customer/portal/articles/401317'),
+        'memcache_storage' => dt('Pantheon does not provide memcache; instead, redis is provided as a service to all customers; see http://helpdesk.getpantheon.com/customer/portal/articles/401317'),
+        'backup_migrate' => dt("On Pantheon, Backup & Migrate makes your Drupal site work harder and degrades site performance; instead, use Pantheon's Backup through the site dashboard, which won't affect site performance."),
+      );
+      $unrecommended_modules = array_merge($unrecommended_modules, $pantheon_unrecommended_modules);
+    }
     return $unrecommended_modules;
   }
 
