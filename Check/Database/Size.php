@@ -79,7 +79,7 @@ class SiteAuditCheckDatabaseSize extends SiteAuditCheckAbstract {
       }
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
     }
-    catch (PDOException $e) {
+    catch (\Drupal\Core\Database\DatabaseExceptionWrapper $e) {
       // Error executing the query.
       $this->abort = TRUE;
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
