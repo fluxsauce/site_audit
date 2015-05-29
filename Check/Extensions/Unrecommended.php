@@ -33,7 +33,7 @@ class SiteAuditCheckExtensionsUnrecommended extends SiteAuditCheckAbstract {
       if (drush_get_option('html')) {
         $ret_val .= '<br/>';
         $ret_val .= '<table class="table table-condensed">';
-        $ret_val .= '<thead><tr><th>Name</th><th>Reason</th></thead>';
+        $ret_val .= '<thead><tr><th>' . dt('Name') . '</th><th>' . dt('Reason') . '</th></thead>';
         $ret_val .= '<tbody>';
         foreach ($this->registry['extensions_unrec'] as $row) {
           $ret_val .= '<tr><td>' . implode('</td><td>', $row) . '</td></tr>';
@@ -94,24 +94,13 @@ class SiteAuditCheckExtensionsUnrecommended extends SiteAuditCheckAbstract {
 
       $machine_name = $extension->getName();
 
-      // Get the human readable name of the extension.
-      $human_readable_name = '';
-      if (isset($extension->info['name'])) {
-        $human_readable_name = $extension->info['name'];
-      }
-      else {
-        $human_readable_name = $machine_name;
-      }
-
-      // Construct label.
-      $label = $human_readable_name . ' (' . $machine_name . ')';
       // Not in the list of known unrecommended modules.
       if (!array_key_exists($machine_name, $unrecommended_extensions)) {
         continue;
       }
 
       // Name.
-      $row[] = $label;
+      $row[] = $extension->label;
       // Reason.
       $row[] = $unrecommended_extensions[$machine_name];
 
