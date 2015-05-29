@@ -57,15 +57,14 @@ class SiteAuditCheckUsersRolesList extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\calculateScore().
    */
   public function calculateScore() {
-    $roles = array_keys(\Drupal::entityManager()->getListBuilder('user_role')->load());
-    foreach ($roles as $role) {
-      if ($role != "anonymous" && $role != "authenticated") {
-        $sql_query = 'SELECT COUNT(entity_id) AS count_users ';
-        $sql_query .= 'FROM {user__roles} ';
-        $sql_query .= 'WHERE roles_target_id = :role';
-        $result = db_query($sql_query, array('role' => $role));
-        $this->registry['roles'][$role] = $result->fetchAssoc()['count_users'];
-      }
+    $sql_query = 'SELECT roles_target_id AS name';
+    $sql_query .= ', COUNT(entity_id) AS count_users ';
+    $sql_query .= 'FROM {user__roles} ';
+    $sql_query .= 'GROUP BY name ';
+    $sql_query .= 'ORDER BY name ASC ';
+    $result = db_query($sql_query);
+    foreach ($result as $row) {
+      $this->registry['roles'][$row->name] = $row->count_users;
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
   }
