@@ -131,25 +131,27 @@ class SiteAuditCheckExtensionsUnrecommended extends SiteAuditCheckAbstract {
       'misery' => dt('Joke module, degrades site performance.'),
       'supercron' => dt('Abandoned due to security concerns. https://drupal.org/node/1401644'),
     );
+
+    if (drush_get_option('vendor') == 'acquia') {
+      $acquia_unrecommended_modules = array(
+        'pantheon_apachesolr' => dt('The Pantheon Solr integration does not work on Acquia.'),
+        'pantheon_api' => dt('The Pantheon API does not work on Acquia.'),
+        'pantheon_login' => dt('The Pantheon login integration does not work on Acquia.'),
+        'redis' => dt('Acquia does not provide redis; instead, Memcached is provided as a service; see https://docs.acquia.com/cloud/performance/memcached'),
+      );
+      $unrecommended_modules = array_merge($unrecommended_modules, $acquia_unrecommended_modules);
+    }
+
     if (drush_get_option('vendor') == 'pantheon') {
-      // Unsupported or redundant.
       $pantheon_unrecommended_modules = array(
-        'memcache' => dt('Pantheon does not provide memcache; instead, redis is provided as a service to all customers; see http://helpdesk.getpantheon.com/customer/portal/articles/401317'),
+        'memcache' => dt('Pantheon does not provide memcache; instead, redis is provided as a service; see http://helpdesk.getpantheon.com/customer/portal/articles/401317'),
         'memcache_storage' => dt('Pantheon does not provide memcache; instead, redis is provided as a service to all customers; see http://helpdesk.getpantheon.com/customer/portal/articles/401317'),
         'drupal_less' => dt('Before deployment, compile and commit CSS.'),
         'boost' => dt("Boost is optimal for shared hosts; Pantheon's Varnish caching layer handles anonymous page caching more efficiently."),
-        // Backup & Migrate and related modules.
-        'backup_migrate' => dt("On Pantheon, Backup & Migrate makes your Drupal site work harder and degrades site performance; instead, use Pantheon's Backup through the site dashboard, which won't affect site performance."),
-        'backup_migrate_files' => dt('Part of Backup & Migrate; use Pantheon\'s Backup instead.'),
-        'backup_migrate_prune' => dt('Part of Backup & Migrate; use Pantheon\'s Backup instead.'),
-        'backup_migrate_sftp' => dt('Part of Backup & Migrate; use Pantheon\'s Backup instead.'),
-        'backup_migrate_dropbox' => dt('Part of Backup & Migrate; use Pantheon\'s Backup instead.'),
-        'backup_migrate_cloudfiles' => dt('Part of Backup & Migrate; use Pantheon\'s Backup instead.'),
-        'hpcloud' => dt('Part of Backup & Migrate; use Pantheon\'s Backup instead.'),
-        'nodesquirrel' => dt('Part of Backup & Migrate; use Pantheon\'s Backup instead.'),
       );
       $unrecommended_modules = array_merge($unrecommended_modules, $pantheon_unrecommended_modules);
     }
+
     return $unrecommended_modules;
   }
 }
