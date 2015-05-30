@@ -147,15 +147,17 @@ class SiteAuditCheckExtensionsDev extends SiteAuditCheckAbstract {
    */
   public function getExtensions() {
     $developer_modules = array(
-      'module_builder' => dt('Development utility.'),
-      'form' => dt('Development utility.'),
+      'coder_review' => dt('Debugging utility; potential security risk and unnecessary performance hit.'),
+      'coder_upgrade' => dt('Debugging utility; potential security risk and unnecessary performance hit.'),
       'drupal_ipsum' => dt('Development utility to generate fake content.'),
-      'dummy_content' => dt('Development utility to generate random content.'),
-      'hacked' => dt('Development utility for detecting altered code.'),
-      'simpletest' => dt('Automated testing framework for development.'),
-      'path_redirect_generate' => dt('Development utility for generating redirects.'),
       'drupalforfirebug' => dt('Development utility for browser debugging.'),
+      'dummy_content' => dt('Development utility to generate random content.'),
+      'form' => dt('Development utility.'),
+      'hacked' => dt('Development utility for detecting altered code.'),
+      'module_builder' => dt('Development utility.'),
+      'path_redirect_generate' => dt('Development utility for generating redirects.'),
       'performance' => dt('Development utility for monitoring and performance logging.'),
+      'simpletest' => dt('Automated testing framework for development.'),
       'taxonomy_csv' => dt('Taxonomy CSV is designed as a run-once setup or migration module; disable it once your imports and exports are processed.'),
       // Examples module.
       'action_example' => dt('Development examples.'),
