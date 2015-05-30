@@ -94,29 +94,12 @@ class SiteAuditCheckExtensionsUnrecommended extends SiteAuditCheckAbstract {
         continue;
       }
 
-      // Exceptions for backup_migrate in installation profiles on Pantheon.
-      if ($extension->name == 'backup_migrate' && (drush_get_option('vendor') == 'pantheon')) {
-        $in_profile = (strpos($extension->filename, 'profiles/') === 0);
-        $status = drush_get_extension_status($extension);
+      $in_profile = (strpos($extension->filename, 'profiles/') === 0);
+      $status = drush_get_extension_status($extension);
 
-        // If in profiles and disabled, ignore.
-        if ($in_profile && $status != 'enabled') {
-          continue;
-        }
-
-        // If enabled in dev, ignore.
-        if ($status == 'enabled' && site_audit_env_is_dev()) {
-          continue;
-        }
-
-        // If in profiles and enabled in non-dev, be more specific.
-        if ($in_profile && $status == 'enabled' && !site_audit_env_is_dev()) {
-          $this->registry['extensions_unrec'][$extension->name] = array(
-            $extension->label,
-            dt('backup_migrate should only be on Pantheon in live environments used to facilitate migrations; disable when complete and this check will pass.'),
-          );
-          continue;
-        }
+      // If in profiles and disabled, ignore.
+      if ($in_profile && $status != 'enabled') {
+        continue;
       }
 
       // Name.
