@@ -76,7 +76,6 @@ class SiteAuditCheckExtensionsCount extends SiteAuditCheckAbstract {
           $ret_val .= str_repeat(' ', 6);
         }
       }
-      $ret_val .= dt('A lightweight site is a fast and happy site!');
       return $ret_val;
     }
   }
