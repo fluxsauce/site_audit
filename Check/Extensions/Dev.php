@@ -118,7 +118,7 @@ class SiteAuditCheckExtensionsDev extends SiteAuditCheckAbstract {
 
       // Do not report modules that are dependencies of other modules, such
       // as field_ui in Drupal Commerce.
-      if (isset($extension->required_by) && !empty($extension->required_by)) {
+      if (isset($extension->required_by) && !empty($extension->required_by) && $key == 'field_ui') {
         unset($extension_info[$key]);
         continue;
       }
