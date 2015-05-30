@@ -185,7 +185,6 @@ function site_audit_drush_command() {
       'Count',
       'Dev',
       'Unrecommended',
-      'Version',
       'Duplicate',
       'Missing',
       'Disabled',
