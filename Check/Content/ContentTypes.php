@@ -40,7 +40,9 @@ class SiteAuditCheckContentContentTypes extends SiteAuditCheckAbstract {
       return $ret_val;
     }
 
-    $ret_val .= dt("Total {$this->registry['node_count']} nodes");
+    $ret_val .= dt('Total @node_count nodes', array(
+      '@node_count' => $this->registry['node_count'],
+    ));
     if (drush_get_option('html') == TRUE) {
       $ret_val = "<p>$ret_val</p>";
     }
@@ -50,7 +52,7 @@ class SiteAuditCheckContentContentTypes extends SiteAuditCheckAbstract {
 
     if (drush_get_option('html') == TRUE) {
       $ret_val .= '<table class="table table-condensed">';
-      $ret_val .= "<thead><tr><th>" . dt("Content Type") . "</th><th>" . dt("Node Count") . "</th></tr></thead>";
+      $ret_val .= '<thead><tr><th>" . dt('Content Type') . '</th><th>' . dt('Node Count') . '</th></tr></thead>';
       foreach ($this->registry['content_type_counts'] as $content_type => $count) {
         $ret_val .= "<tr><td>$content_type</td><td>$count</td></tr>";
       }
@@ -94,6 +96,7 @@ class SiteAuditCheckContentContentTypes extends SiteAuditCheckAbstract {
    */
   public function calculateScore() {
     $content_types = \Drupal::entityManager()->getBundleInfo('node');
+
     $sql_query  = 'SELECT COUNT({node}.nid) AS count, {node}.type AS type ';
     $sql_query .= 'FROM {node} ';
     $sql_query .= 'GROUP BY type ';
