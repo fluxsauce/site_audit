@@ -152,6 +152,7 @@ class SiteAuditCheckExtensionsDev extends SiteAuditCheckAbstract {
   public function getExtensions() {
     $developer_modules = array(
       'ipsum' => dt('Development utility to generate fake content.'),
+      'testmodule' => dt('Internal test module.'),
       // Examples module.
       'block_example' => dt('Development examples.'),
       'cache_example' => dt('Development examples.'),
