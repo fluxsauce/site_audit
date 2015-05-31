@@ -120,6 +120,28 @@ function site_audit_drush_command() {
     ),
   );
 
+  $options_db = array(
+    'min_rows' => array(
+      'description' => dt('Minimum number of rows to check for. Defaults to 1000.'),
+      'example-value' => dt('1000'),
+      'value' => 'required',
+    ),
+  );
+  $options_all = array_merge($options_all, $options_db);
+
+  $items['audit-database'] = array(
+    'description' => dt('Report information about a site environment\'s database.'),
+    'aliases' => array('ad'),
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
+    'options' => array_merge(site_audit_common_options(), $options_db),
+    'checks' => array(
+      'Size',
+      'Collation',
+      'Engine',
+      'RowCount',
+    ),
+  );
+
   $items['audit-extensions'] = array(
     'description' => dt('Audit extensions (modules and themes).'),
     'aliases' => array('ae'),
@@ -142,6 +164,7 @@ function site_audit_drush_command() {
       'Codebase',
       'Extensions',
       'Cron',
+      'Database',
     ),
   );
 
@@ -402,6 +425,21 @@ function drush_site_audit_audit_extensions_validate() {
     }
   }
   return site_audit_version_check();
+}
+
+/**
+ * Audit database validation.
+ */
+function drush_site_audit_audit_database_validate() {
+  return site_audit_version_check();
+}
+
+/**
+ * Audit the database associated with a Drupal site.
+ */
+function drush_site_audit_audit_database() {
+  $report = new SiteAuditReportDatabase();
+  $report->render();
 }
 
 /**
