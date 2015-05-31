@@ -44,7 +44,7 @@ class SiteAuditCheckExtensionsDuplicate extends SiteAuditCheckAbstract {
     if (drush_get_option('html')) {
       $ret_val = '<p>' . $ret_val . '</p>';
       $ret_val .= '<table class="table table-condensed">';
-      $ret_val .= '<thead><tr><th>Name</th><th>Paths</th></thead>';
+      $ret_val .= '<thead><tr><th>' . dt('Name') . '</th><th>' . dt('Paths') . '</th></thead>';
       $ret_val .= '<tbody>';
       foreach ($this->registry['extensions_dupe'] as $name => $paths) {
         $ret_val .= '<tr><td>' . $name . '</td>';

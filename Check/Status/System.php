@@ -96,7 +96,7 @@ class SiteAuditCheckStatusSystem extends SiteAuditCheckAbstract {
     }
     if (drush_get_option('html')) {
       $ret_val = '<table class="table table-condensed">';
-      $ret_val .= '<thead><tr><th>Title</th><th>Severity</th><th>Value</th></thead>';
+      $ret_val .= '<thead><tr><th>' . dt('Title') . '</th><th>' . dt('Severity') . '</th><th>' . dt('Value') . '</th></thead>';
       $ret_val .= '<tbody>';
       foreach ($items as $item) {
         $ret_val .= '<tr class="' . $item['class'] . '">';

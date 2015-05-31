@@ -31,7 +31,7 @@ class SiteAuditCheckSecurityMenuRouter extends SiteAuditCheckAbstract {
       if (drush_get_option('html')) {
         $ret_val .= '<br/>';
         $ret_val .= '<table class="table table-condensed">';
-        $ret_val .= '<thead><tr><th>Path</th><th>Reason</th></thead>';
+        $ret_val .= '<thead><tr><th>' . dt('Path') . '</th><th>' . dt('Reason') . '</th></thead>';
         $ret_val .= '<tbody>';
         foreach ($this->registry['menu_router'] as $path => $reason) {
           $ret_val .= '<tr><td>' . $path . '</td><td>' . $reason . '</td></tr>';

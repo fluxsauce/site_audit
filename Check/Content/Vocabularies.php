@@ -40,14 +40,14 @@ class SiteAuditCheckContentVocabularies extends SiteAuditCheckAbstract {
     $ret_val = '';
     if (drush_get_option('html') == TRUE) {
       $ret_val .= '<table class="table table-condensed">';
-      $ret_val .= "<thead><tr><th>Vocabulary</th><th>Terms</th></tr></thead>";
+      $ret_val .= '<thead><tr><th>' . dt('Vocabulary') . '</th><th>' . dt('Terms') . '</th></tr></thead>';
       foreach ($this->registry['vocabulary_counts'] as $vocabulary => $count) {
         $ret_val .= "<tr><td>$vocabulary</td><td>$count</td></tr>";
       }
       $ret_val .= '</table>';
     }
     else {
-      $ret_val  = 'Vocabulary: Count' . PHP_EOL;
+      $ret_val  = dt('Vocabulary: Count') . PHP_EOL;
       if (!drush_get_option('json')) {
         $ret_val .= str_repeat(' ', 4);
       }

@@ -31,7 +31,7 @@ class SiteAuditCheckCacheBins extends SiteAuditCheckAbstract {
     if (!empty($this->registry['cache_bins'])) {
       if (drush_get_option('html')) {
         $ret_val = '<table class="table table-condensed">';
-        $ret_val .= '<thead><tr><th>Bin</th><th>Class</th></tr></thead>';
+        $ret_val .= '<thead><tr><th>' . dt('Bin') . '</th><th>' . dt('Class') . '</th></tr></thead>';
         $ret_val .= '<tbody>';
         foreach ($this->registry['cache_bins'] as $bin => $class) {
           $ret_val .= "<tr><td>$bin</td><td>$class</td></tr>";
@@ -40,7 +40,7 @@ class SiteAuditCheckCacheBins extends SiteAuditCheckAbstract {
         $ret_val .= '</table>';
       }
       else {
-        $ret_val  = 'Bin: Class' . PHP_EOL;
+        $ret_val  = dt('Bin: Class') . PHP_EOL;
         if (!drush_get_option('json')) {
           $ret_val .= str_repeat(' ', 4);
         }
