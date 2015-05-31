@@ -55,7 +55,7 @@ class SiteAuditCheckContentDuplicateTitles extends SiteAuditCheckAbstract {
     $ret_val = '';
     if (drush_get_option('html') == TRUE) {
       $ret_val .= '<table class="table table-condensed">';
-      $ret_val .= "<thead><tr><th>" . dt("Content Type") . "</th><th>Title</th><th>" . dt("Count") . "</th></tr></thead>";
+      $ret_val .= '<thead><tr><th>' . dt('Content Type') . '</th><th>' . dt('Title') . '</th><th>' . dt('Count') . '</th></tr></thead>';
       foreach ($this->registry['nodes_duplicate_titles'] as $content_type => $title_counts) {
         foreach ($title_counts as $title => $count) {
           $ret_val .= "<tr><td>$content_type</td><td>$title</td><td>$count</td></tr>";
