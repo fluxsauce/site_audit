@@ -52,7 +52,7 @@ class SiteAuditCheckContentContentTypes extends SiteAuditCheckAbstract {
 
     if (drush_get_option('html') == TRUE) {
       $ret_val .= '<table class="table table-condensed">';
-      $ret_val .= '<thead><tr><th>" . dt('Content Type') . '</th><th>' . dt('Node Count') . '</th></tr></thead>';
+      $ret_val .= '<thead><tr><th>' . dt('Content Type') . '</th><th>' . dt('Node Count') . '</th></tr></thead>';
       foreach ($this->registry['content_type_counts'] as $content_type => $count) {
         $ret_val .= "<tr><td>$content_type</td><td>$count</td></tr>";
       }
