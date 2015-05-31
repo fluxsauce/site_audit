@@ -33,7 +33,7 @@ class SiteAuditCheckDatabaseCollation extends SiteAuditCheckAbstract {
   public function getResultInfo() {
     if (drush_get_option('html')) {
       $ret_val = '<table class="table table-condensed">';
-      $ret_val .= '<thead><tr><th>Table Name</th><th>Collation</th></tr></thead>';
+      $ret_val .= '<thead><tr><th>' . dt('Table Name') . '</th><th>' . dt('Collation') . '</th></tr></thead>';
       $ret_val .= '<tbody>';
       foreach ($this->registry['collation_tables'] as $name => $collation) {
         $ret_val .= '<tr>';
@@ -45,7 +45,7 @@ class SiteAuditCheckDatabaseCollation extends SiteAuditCheckAbstract {
       $ret_val .= '</table>';
     }
     else {
-      $ret_val  = 'Table Name: Collation' . PHP_EOL;
+      $ret_val  = dt('Table Name: Collation') . PHP_EOL;
       if (!drush_get_option('json')) {
         $ret_val .= str_repeat(' ', 4);
       }
