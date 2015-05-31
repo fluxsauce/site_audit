@@ -12,7 +12,7 @@ class SiteAuditCheckContentContentTypes extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
   public function getLabel() {
-    return dt('Content entity types');
+    return dt('Content types');
   }
 
   /**
@@ -40,7 +40,7 @@ class SiteAuditCheckContentContentTypes extends SiteAuditCheckAbstract {
       return $ret_val;
     }
 
-    $ret_val .= dt('Total @node_count nodes', array(
+    $ret_val .= dt('Total: @node_count nodes', array(
       '@node_count' => $this->registry['node_count'],
     ));
     if (drush_get_option('html') == TRUE) {
