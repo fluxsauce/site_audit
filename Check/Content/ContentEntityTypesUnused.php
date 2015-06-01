@@ -5,21 +5,21 @@
  */
 
 /**
- * Class SiteAuditCheckContentContentTypesUnused.
+ * Class SiteAuditCheckContentContentEntityTypesUnused.
  */
-class SiteAuditCheckContentContentTypesUnused extends SiteAuditCheckAbstract {
+class SiteAuditCheckContentContentEntityTypesUnused extends SiteAuditCheckAbstract {
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
   public function getLabel() {
-    return dt('Unused content types');
+    return dt('Unused content entity types');
   }
 
   /**
    * Implements \SiteAudit\Check\Abstract\getDescription().
    */
   public function getDescription() {
-    return dt('Check for unused content types');
+    return dt('Check for unused content entity types');
   }
 
   /**
@@ -43,8 +43,12 @@ class SiteAuditCheckContentContentTypesUnused extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getResultWarn().
    */
   public function getResultWarn() {
-    return dt('The following content types are unused: @content_types_unused', array(
-      '@content_types_unused' => implode(', ', $this->registry['content_types_unused']),
+    $report = array();
+    foreach ($this->registry['content_types_unused'] as $entity_type => $bundle) {
+      $report[] = $entity_type .= ': ' . implode(', ', $bundle);
+    }
+    return dt('The following content entity types are unused: @content_types_unused', array(
+      '@content_types_unused' => implode('; ', $report),
     ));
   }
 
