@@ -103,7 +103,6 @@ class SiteAuditCheckExtensionsDev extends SiteAuditCheckAbstract {
     $extension_info = $this->registry['extensions'];
     uasort($extension_info, '_drush_pm_sort_extensions');
     $dev_extensions = $this->getExtensions();
-
     foreach ($extension_info as $key => $extension) {
       $row = array();
       $status = drush_get_extension_status($extension);
@@ -114,7 +113,7 @@ class SiteAuditCheckExtensionsDev extends SiteAuditCheckAbstract {
       }
 
       // Not in the list of known development modules.
-      if (!array_key_exists($extension->name, $dev_extensions)) {
+      if (!array_key_exists($extension->getName(), $dev_extensions)) {
         unset($extension_info[$key]);
         continue;
       }
@@ -129,7 +128,7 @@ class SiteAuditCheckExtensionsDev extends SiteAuditCheckAbstract {
       // Name.
       $row[] = $extension->label;
       // Reason.
-      $row[] = $dev_extensions[$extension->name];
+      $row[] = $dev_extensions[$extension->getName()];
 
       $this->registry['extensions_dev'][$extension->name] = $row;
     }
