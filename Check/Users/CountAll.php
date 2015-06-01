@@ -63,12 +63,18 @@ class SiteAuditCheckUsersCountAll extends SiteAuditCheckAbstract {
     $sql_query  = 'SELECT COUNT(uid) ';
     $sql_query .= 'FROM {users} ';
     $sql_query .= 'WHERE uid != 0 ';
-    $this->registry['count_users_all'] = db_query($sql_query)->fetchField();
-    if (!$this->registry['count_users_all']) {
+    try {
+      $this->registry['count_users_all'] = db_query($sql_query)->fetchField();
+      if (!$this->registry['count_users_all']) {
+        $this->abort = TRUE;
+        return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
+      }
+      return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
+    }
+    catch (\Drupal\Core\Database\DatabaseExceptionWrapper $e) {
       $this->abort = TRUE;
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
     }
-    return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
   }
 
 }
