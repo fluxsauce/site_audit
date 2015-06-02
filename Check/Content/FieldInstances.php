@@ -54,13 +54,17 @@ class SiteAuditCheckContentFieldInstances extends SiteAuditCheckAbstract {
             $ret_val .= str_repeat(' ', 4);
           }
         }
-        $ret_val .= dt("Bundle: !bundle_name", array('!bundle_name' => $bundle_name));
+        $ret_val .= dt('Bundle: !bundle_name', array(
+          '!bundle_name' => $bundle_name,
+        ));
         foreach ($entity_types as $entity_type => $fields) {
           $ret_val .= PHP_EOL;
           if (!drush_get_option('json')) {
             $ret_val .= str_repeat(' ', 6);
           }
-          $ret_val .= dt("Entity Type: !entity_type", array("!entity_type" => $entity_type));
+          $ret_val .= dt('Entity Type: !entity_type', array(
+            '!entity_type' => $entity_type,
+          ));
           foreach ($fields as $field_name => $count) {
             $ret_val .= PHP_EOL;
             if (!drush_get_option('json')) {
