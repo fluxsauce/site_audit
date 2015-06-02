@@ -36,9 +36,9 @@ class SiteAuditCheckContentFieldInstances extends SiteAuditCheckAbstract {
     if (drush_get_option('html') == TRUE) {
       $ret_val .= '<table class="table table-condensed">';
       $ret_val .= '<tr><th>' . dt('Entity Type') . '</th><th>' . dt('Field Name') . '</th><th>' . dt('Bundle Name') . '</th><th>' . dt('Count') . '</th></tr>';
-      foreach ($this->registry['field_instance_counts'] as $bundle_name => $entity_types) {
-        foreach ($entity_types as $entity_type => $fields) {
-          foreach ($fields as $field_name => $count) {
+      foreach ($this->registry['field_instance_counts'] as $entity_type => $fields) {
+        foreach ($fields as $field_name => $bundles) {
+          foreach ($bundles as $bundle_name => $count) {
             $ret_val .= "<tr><td>$entity_type</td><td>$field_name</td><td>$bundle_name</td><td>$count</td></tr>";
           }
         }
