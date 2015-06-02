@@ -55,7 +55,7 @@ class SiteAuditCheckExtensionsDev extends SiteAuditCheckAbstract {
         if ($show_table) {
           $ret_val .= '<br/>';
           $ret_val .= '<table class="table table-condensed">';
-          $ret_val .= '<thead><tr><th>Name</th><th>Reason</th></thead>';
+          $ret_val .= '<thead><tr><th>' . dt('Name') . '</th><th>' . dt('Reason') . '</th></thead>';
           $ret_val .= '<tbody>';
           foreach ($this->registry['extensions_dev'] as $row) {
             $ret_val .= '<tr><td>' . implode('</td><td>', $row) . '</td></tr>';
