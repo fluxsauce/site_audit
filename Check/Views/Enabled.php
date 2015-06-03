@@ -59,7 +59,7 @@ class SiteAuditCheckViewsEnabled extends SiteAuditCheckAbstract {
       $this->abort = TRUE;
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
     }
-    return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN;
+    return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
   }
 
 }
