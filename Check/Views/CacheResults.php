@@ -4,6 +4,9 @@
  * Contains \SiteAudit\Check\Views\CacheResults.
  */
 
+/**
+ * Class SiteAuditCheckViewsCacheResults.
+ */
 class SiteAuditCheckViewsCacheResults extends SiteAuditCheckAbstract {
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
