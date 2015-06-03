@@ -49,9 +49,13 @@ class SiteAuditCheckExtensionsDuplicate extends SiteAuditCheckAbstract {
       $ret_val .= '<table class="table table-condensed">';
       $ret_val .= '<thead><tr><th>' . dt('Name') . '</th><th>' . dt('Paths') . '</th></thead>';
       $ret_val .= '<tbody>';
-      foreach ($this->registry['extensions_dupe'] as $name => $paths) {
+      foreach ($this->registry['extensions_dupe'] as $name => $infos) {
+        $paths = "";
+        foreach ($infos as $info) {
+          $paths .= $info['path'] . ", ";
+        }
         $ret_val .= '<tr><td>' . $name . '</td>';
-        $ret_val .= '<td>' . implode('<br/>', $paths) . '</td></tr>';
+        $ret_val .= '<td>' . $paths . '</td></tr>';
       }
       $ret_val .= '</tbody>';
       $ret_val .= '</table>';
@@ -65,7 +69,7 @@ class SiteAuditCheckExtensionsDuplicate extends SiteAuditCheckAbstract {
         $ret_val .= $name . PHP_EOL;
         $extension_list = '';
         foreach ($paths as $path) {
-          $extension_list .= str_repeat(' ', 8) . $path . PHP_EOL;
+          $extension_list .= str_repeat(' ', 8) . $path['path'] . PHP_EOL;
         }
         $ret_val .= rtrim($extension_list);
       }
@@ -108,36 +112,65 @@ class SiteAuditCheckExtensionsDuplicate extends SiteAuditCheckAbstract {
         $this->registry['extensions_dupe'][$name] = array();
       }
       $path = substr($path, strlen($drupal_root) + 1);
+      $version = '';
       $info = file($drupal_root . '/' . $path);
       foreach ($info as $line) {
         if (strpos($line, 'version') === 0) {
-          $version = explode(':', $line);
-          if (isset($version[1])) {
-            $path .= ' (' . trim(str_replace("'", '', $version[1])) . ')';
+          $version_split = explode(':', $line);
+          if (isset($version_split[1])) {
+            $version .= trim(str_replace("'", '', $version_split[1]));
+            $path = $path . '(' . $version . ')';
           }
         }
       }
-      $this->registry['extensions_dupe'][$name][] = $path;
+      $this->registry['extensions_dupe'][$name][] = array(
+        'path' => $path,
+        'version' => $version,
+      );
     }
 
     // Review the detected extensions.
-    foreach ($this->registry['extensions_dupe'] as $extension => $paths) {
+    foreach ($this->registry['extensions_dupe'] as $extension => $infos) {
       // No duplicates.
-      if (count($paths) == 1) {
+      if (count($infos) == 1) {
         unset($this->registry['extensions_dupe'][$extension]);
         continue;
       }
 
       // If every path is within an installation profile, ignore.
       $paths_in_profile = 0;
-      foreach ($paths as $path) {
-        if (strpos($path, 'profiles/') === 0) {
+      $non_profile_index = 0;
+      foreach ($infos as $index => $info) {
+        if (strpos($info['path'], 'profiles/') === 0) {
           $paths_in_profile++;
         }
+        else {
+          $non_profile_index = $index;
+        }
       }
-      if ($paths_in_profile == count($paths)) {
+      if ($paths_in_profile == count($infos)) {
         unset($this->registry['extensions_dupe'][$extension]);
         continue;
+      }
+
+      // Allow versions that are greater than what's in an installation profile
+      // if that version is enabled.
+      $extension_object = $this->registry['extensions'][$extension];
+      if ($paths_in_profile > 0 &&
+          count($infos) - $paths_in_profile == 1 &&
+          drush_get_extension_status($extension_object) == 'enabled' &&
+          $extension_object->info['version'] == $infos[$non_profile_index]['version']) {
+        $skip = TRUE;
+        foreach ($infos as $index => $info) {
+          if ($index != $non_profile_index) {
+            if (version_compare($infos[$non_profile_index]['version'], $info['version']) < 1) {
+              $skip = FALSE;
+            }
+          }
+        }
+        if ($skip === TRUE) {
+          unset($this->registry['extensions_dupe'][$extension]);
+        }
       }
     }
 
