@@ -35,13 +35,13 @@ class SiteAuditCheckContentContentEntityTypes extends SiteAuditCheckAbstract {
 
     if (empty($this->registry['content_entity_type_counts'])) {
       if (drush_get_option('detail')) {
-        return dt('No nodes exist.');
+        return dt('No entities exist.');
       }
       return $ret_val;
     }
     if (drush_get_option('html') == TRUE) {
       $ret_val .= '<table class="table table-condensed">';
-      $ret_val .= '<thead><tr><th>' . dt('Content Entity') . '</th><th>' . dt('Bundle') . '</th><th>' . dt('Node Count') . '</th></tr></thead>';
+      $ret_val .= '<thead><tr><th>' . dt('Content Entity') . '</th><th>' . dt('Bundle') . '</th><th>' . dt('Count') . '</th></tr></thead>';
       foreach ($this->registry['content_entity_type_counts'] as $entity_type => $bundles) {
         foreach ($bundles as $bundle => $count) {
           $ret_val .= "<tr><td>$entity_type</td><td>$bundle</td><td>$count</td></tr>";
