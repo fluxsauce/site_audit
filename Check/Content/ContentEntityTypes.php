@@ -58,7 +58,10 @@ class SiteAuditCheckContentContentEntityTypes extends SiteAuditCheckAbstract {
             $ret_val .= str_repeat(' ', 4);
           }
         }
-        $ret_val .= dt('Entity:') . $entity_type . dt(', Total Nodes: ') . $this->registry['node_count'][$entity_type];
+        $ret_val .= dt('Entity: @entity_type, total: @total', array(
+          '@entity_type' => $entity_type,
+          '@total' => $this->registry['entity_count'][$entity_type],
+        ));
         foreach ($bundles as $bundle => $count) {
           $ret_val .= PHP_EOL;
           if (!drush_get_option('json')) {
@@ -99,7 +102,7 @@ class SiteAuditCheckContentContentEntityTypes extends SiteAuditCheckAbstract {
       $bundle_column_name = $entity_manager->getDefinition($entity_type)->getKey('bundle');
       $interfaces = class_implements($entity_manager->getDefinition($entity_type)->getClass());
       if ($bundle_column_name != FALSE && in_array("Drupal\\Core\\Entity\\ContentEntityInterface", $interfaces)) {
-        $this->registry['node_count'][$entity_type] = 0;
+        $this->registry['entity_count'][$entity_type] = 0;
         foreach ($bundles as $bundle => $info) {
           if (get_class($entity_manager->getStorage($entity_type)) != 'Drupal\Core\Entity\ContentEntityNullStorage') {
             $query = \Drupal::entityQuery($entity_type)
@@ -107,7 +110,7 @@ class SiteAuditCheckContentContentEntityTypes extends SiteAuditCheckAbstract {
               ->count();
             $field_count = $query->execute();
             $this->registry['content_entity_type_counts'][$entity_type][$info['label']] = $field_count;
-            $this->registry['node_count'][$entity_type] += $field_count;
+            $this->registry['entity_count'][$entity_type] += $field_count;
             if ($field_count == 0) {
               $this->registry['content_types_unused'][$entity_type][] = $info['label'];
             }
