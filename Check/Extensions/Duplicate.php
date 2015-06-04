@@ -44,32 +44,36 @@ class SiteAuditCheckExtensionsDuplicate extends SiteAuditCheckAbstract {
    */
   public function getResultWarn() {
     $ret_val = dt('The following duplicate extensions were found:');
+
+    $paths = array();
+    foreach ($this->registry['extensions_dupe'] as $name => $instances) {
+      foreach ($instances as $instance) {
+        $paths[$name][] = $instance['path'];
+      }
+    }
+
     if (drush_get_option('html')) {
       $ret_val = '<p>' . $ret_val . '</p>';
       $ret_val .= '<table class="table table-condensed">';
       $ret_val .= '<thead><tr><th>' . dt('Name') . '</th><th>' . dt('Paths') . '</th></thead>';
       $ret_val .= '<tbody>';
       foreach ($this->registry['extensions_dupe'] as $name => $infos) {
-        $paths = "";
-        foreach ($infos as $info) {
-          $paths .= $info['path'] . ", ";
-        }
         $ret_val .= '<tr><td>' . $name . '</td>';
-        $ret_val .= '<td>' . $paths . '</td></tr>';
+        $ret_val .= '<td>' . implode('<br/>', $paths[$name]) . '</td></tr>';
       }
       $ret_val .= '</tbody>';
       $ret_val .= '</table>';
     }
     else {
-      foreach ($this->registry['extensions_dupe'] as $name => $paths) {
+      foreach ($this->registry['extensions_dupe'] as $name => $infos) {
         $ret_val .= PHP_EOL;
         if (!drush_get_option('json')) {
           $ret_val .= str_repeat(' ', 6);
         }
         $ret_val .= $name . PHP_EOL;
         $extension_list = '';
-        foreach ($paths as $path) {
-          $extension_list .= str_repeat(' ', 8) . $path['path'] . PHP_EOL;
+        foreach ($paths[$name] as $path) {
+          $extension_list .= str_repeat(' ', 8) . $path . PHP_EOL;
         }
         $ret_val .= rtrim($extension_list);
       }
@@ -82,7 +86,7 @@ class SiteAuditCheckExtensionsDuplicate extends SiteAuditCheckAbstract {
    */
   public function getAction() {
     if ($this->score != SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS) {
-      return dt('Prune your codebase to have only one copy of any given extension. If you are using an installation profile, work with the maintainer to update the relevant modules. If you remove an enabled module, you may have to rebuild the registry.');
+      return dt('Prune your codebase to have only one copy of any given extension.');
     }
   }
 
@@ -130,9 +134,9 @@ class SiteAuditCheckExtensionsDuplicate extends SiteAuditCheckAbstract {
     }
 
     // Review the detected extensions.
-    foreach ($this->registry['extensions_dupe'] as $extension => $infos) {
+    foreach ($this->registry['extensions_dupe'] as $extension => $instances) {
       // No duplicates.
-      if (count($infos) == 1) {
+      if (count($instances) == 1) {
         unset($this->registry['extensions_dupe'][$extension]);
         continue;
       }
@@ -140,15 +144,15 @@ class SiteAuditCheckExtensionsDuplicate extends SiteAuditCheckAbstract {
       // If every path is within an installation profile, ignore.
       $paths_in_profile = 0;
       $non_profile_index = 0;
-      foreach ($infos as $index => $info) {
-        if (strpos($info['path'], 'profiles/') === 0) {
+      foreach ($instances as $index => $instance) {
+        if (strpos($instance['path'], 'profiles/') === 0) {
           $paths_in_profile++;
         }
         else {
           $non_profile_index = $index;
         }
       }
-      if ($paths_in_profile == count($infos)) {
+      if ($paths_in_profile == count($instances)) {
         unset($this->registry['extensions_dupe'][$extension]);
         continue;
       }
@@ -157,13 +161,13 @@ class SiteAuditCheckExtensionsDuplicate extends SiteAuditCheckAbstract {
       // if that version is enabled.
       $extension_object = $this->registry['extensions'][$extension];
       if ($paths_in_profile > 0 &&
-          count($infos) - $paths_in_profile == 1 &&
+          count($instances) - $paths_in_profile == 1 &&
           drush_get_extension_status($extension_object) == 'enabled' &&
-          $extension_object->info['version'] == $infos[$non_profile_index]['version']) {
+          $extension_object->info['version'] == $instances[$non_profile_index]['version']) {
         $skip = TRUE;
-        foreach ($infos as $index => $info) {
+        foreach ($instances as $index => $info) {
           if ($index != $non_profile_index) {
-            if (version_compare($infos[$non_profile_index]['version'], $info['version']) < 1) {
+            if (version_compare($instances[$non_profile_index]['version'], $info['version']) < 1) {
               $skip = FALSE;
             }
           }
