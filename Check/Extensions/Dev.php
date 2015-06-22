@@ -130,7 +130,7 @@ class SiteAuditCheckExtensionsDev extends SiteAuditCheckAbstract {
       // Reason.
       $row[] = $dev_extensions[$extension->getName()];
 
-      $this->registry['extensions_dev'][$extension->name] = $row;
+      $this->registry['extensions_dev'][$extension->getName()] = $row;
     }
 
     if (!empty($this->registry['extensions_dev'])) {
