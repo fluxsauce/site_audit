@@ -96,7 +96,7 @@ class SiteAuditCheckContentDuplicateTitles extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\calculateScore().
    */
   public function calculateScore() {
-    if (empty($this->registry['content_type_counts'])) {
+    if (empty($this->registry['content_entity_type_counts'])) {
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
     }
 
