@@ -110,6 +110,7 @@ class SiteAuditCheckContentVocabularies extends SiteAuditCheckAbstract {
     foreach ($vocabularies as $vocabulary) {
       if (array_search($vocabulary['label'], array_keys($this->registry['vocabulary_counts'])) === FALSE) {
         $this->registry['vocabulary_unused'][] = $vocabulary['label'];
+        $this->registry['vocabulary_counts'][$vocabulary['label']] = 0;
       }
     }
     // No need to check for unused vocabularies if there aren't any.
