@@ -790,6 +790,21 @@ function drush_site_audit_audit_users() {
 }
 
 /**
+ * Audit Roles validation.
+ */
+function drush_site_audit_audit_roles_validate() {
+  return site_audit_version_check();
+}
+
+/**
+ * Render a Users report.
+ */
+function drush_site_audit_audit_roles() {
+  $report = new SiteAuditReportRoles();
+  $report->render();
+}
+
+/**
  * Audit status validation.
  */
 function drush_site_audit_audit_status_validate() {
