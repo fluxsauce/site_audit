@@ -253,9 +253,18 @@ function site_audit_drush_command() {
     'checks' => array(
       'CountAll',
       'CountBlocked',
-      'RolesList',
       'WhoIsNumberOne',
       'BlockedNumberOne',
+    ),
+  );
+
+  $items['audit_roles'] = array(
+    'description' => dt('Audit Roles.'),
+    'aliases' => array('ar'),
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
+    'options' => site_audit_common_options(),
+    'checks' => array(
+      'RolesList',
     ),
   );
 
