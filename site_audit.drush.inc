@@ -186,6 +186,16 @@ function site_audit_drush_command() {
     ),
   );
 
+  $items['audit-status'] = array(
+    'description' => dt('Audit Drupal\'s built-in status report.'),
+    'aliases' => array('as'),
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
+    'options' => site_audit_common_options(),
+    'checks' => array(
+      'System',
+    ),
+  );
+
   $items['audit-all'] = array(
     'description' => dt('Executes every Site Audit Report'),
     'aliases' => array('aa'),
@@ -200,6 +210,7 @@ function site_audit_drush_command() {
       'Cron',
       'Database',
       'Users',
+      'Status',
     ),
   );
 
@@ -523,9 +534,24 @@ function drush_site_audit_audit_users_validate() {
 }
 
 /**
+ * Audit status validation.
+ */
+function drush_site_audit_audit_status_validate() {
+  return site_audit_version_check();
+}
+
+/**
  * Render a Users report.
  */
 function drush_site_audit_audit_users() {
   $report = new SiteAuditReportUsers();
+  $report->render();
+}
+
+/**
+ * Render a Status report.
+ */
+function drush_site_audit_audit_status() {
+  $report = new SiteAuditReportStatus();
   $report->render();
 }
