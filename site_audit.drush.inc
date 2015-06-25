@@ -142,6 +142,25 @@ function site_audit_drush_command() {
     ),
   );
 
+  $items['audit-content'] = array(
+    'description' => dt('Audit content.'),
+    'aliases' => array('acn'),
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
+    'options' => site_audit_common_options(),
+    'checks' => array(
+      'ContentEntityTypes',
+      'ContentEntityTypesUnused',
+      'DuplicateTitles',
+      'Taxonomy',
+      'Vocabularies',
+      'VocabulariesUnused',
+      'FieldEnabled',
+      'FieldCount',
+      'FieldInstances',
+      'FieldsUnused',
+    ),
+  );
+
   $items['audit-extensions'] = array(
     'description' => dt('Audit extensions (modules and themes).'),
     'aliases' => array('ae'),
@@ -176,6 +195,7 @@ function site_audit_drush_command() {
       'BestPractices',
       'Cache',
       'Codebase',
+      'Content',
       'Extensions',
       'Cron',
       'Database',
@@ -396,6 +416,21 @@ function drush_site_audit_audit_cache_validate() {
  */
 function drush_site_audit_audit_cache() {
   $report = new SiteAuditReportCache();
+  $report->render();
+}
+
+/**
+ * Audit content validation.
+ */
+function drush_site_audit_audit_content_validate() {
+  return site_audit_version_check();
+}
+
+/**
+ * Audit Drupal's content.
+ */
+function drush_site_audit_audit_content() {
+  $report = new SiteAuditReportContent();
   $report->render();
 }
 
