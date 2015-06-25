@@ -1,22 +1,22 @@
 <?php
 /**
  * @file
- * Contains \SiteAudit\Check\Users\RolesList.
+ * Contains \SiteAudit\Check\Users\RolesPermissions.
  */
 
-class SiteAuditCheckRolesRolesList extends SiteAuditCheckAbstract {
+class SiteAuditCheckRolesRolesPermissions extends SiteAuditCheckAbstract {
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
   public function getLabel() {
-    return dt('List Roles');
+    return dt('Roles and Permissions');
   }
 
   /**
    * Implements \SiteAudit\Check\Abstract\getDescription().
    */
   public function getDescription() {
-    return dt('Show all available roles and user counts.');
+    return dt('Percentage of permissions assigned to individual roles.');
   }
 
   /**
@@ -28,12 +28,11 @@ class SiteAuditCheckRolesRolesList extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getResultInfo().
    */
   public function getResultInfo() {
-    $counts = array();
-    // TODO: No worky since users moved
+    $roles = array();
     foreach ($this->registry['roles'] as $name => $count_users) {
-      $counts[] = "$name: $count_users";
+      $roles[] = "$name: asdkflasjdf";
     }
-    return implode(', ', $counts);
+    return implode(', ', $roles);
   }
 
   /**
@@ -43,6 +42,7 @@ class SiteAuditCheckRolesRolesList extends SiteAuditCheckAbstract {
 
   /**
    * Implements \SiteAudit\Check\Abstract\getResultWarn().
+   * TODO: do we check for admin perms in roles here?
    */
   public function getResultWarn() {}
 
