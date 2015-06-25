@@ -4,7 +4,7 @@
  * Contains \SiteAudit\Check\Users\RolesList.
  */
 
-class SiteAuditCheckUsersRolesList extends SiteAuditCheckAbstract {
+class SiteAuditCheckRolesRolesList extends SiteAuditCheckAbstract {
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
