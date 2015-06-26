@@ -141,10 +141,15 @@ class SiteAuditCheckExtensionsDuplicate extends SiteAuditCheckAbstract {
         continue;
       }
 
-      // If every path is within an installation profile, ignore.
       $paths_in_profile = 0;
       $non_profile_index = 0;
+      $test_extensions = 0;
       foreach ($instances as $index => $instance) {
+        // Ignore if it is a test extension.
+        if (strpos($instance['path'], '/tests/') !== FALSE) {
+          $test_extensions++;
+          continue;
+        }
         if (strpos($instance['path'], 'profiles/') === 0) {
           $paths_in_profile++;
         }
@@ -152,7 +157,9 @@ class SiteAuditCheckExtensionsDuplicate extends SiteAuditCheckAbstract {
           $non_profile_index = $index;
         }
       }
-      if ($paths_in_profile == count($instances)) {
+      // If every path is within an installation profile
+      // or is a test extension, ignore.
+      if ($paths_in_profile + $test_extensions == count($instances)) {
         unset($this->registry['extensions_dupe'][$extension]);
         continue;
       }
