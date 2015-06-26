@@ -35,7 +35,8 @@ or more checks. Site Audit reports include:
 * Extensions - count, development modules, duplicates, missing
 * Insights - Analyze site with Google PageSpeed Insights
 * Status - check for failures in Drupal's built-in status report
-* Users - blocked user #1, number of normal and blocked users, list of roles
+* Users - blocked user #1, number of normal and blocked users
+* Roles - list of roles, percentage of permissions assigned to roles
 * Views - caching settings
 * Watchdog - 404 error count, age, number of entries, enabled, PHP errors
 
