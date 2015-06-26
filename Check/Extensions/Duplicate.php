@@ -170,13 +170,19 @@ class SiteAuditCheckExtensionsDuplicate extends SiteAuditCheckAbstract {
       if ($paths_in_profile > 0 &&
           count($instances) - $paths_in_profile == 1 &&
           drush_get_extension_status($extension_object) == 'enabled' &&
-          $extension_object->info['version'] == $instances[$non_profile_index]['version']) {
+          $extension_object->info['version'] == $instances[$non_profile_index]['version'] &&
+          $instances[$non_profile_index]['version'] != '') {
         $skip = TRUE;
         foreach ($instances as $index => $info) {
-          if ($index != $non_profile_index) {
+          if ($index != $non_profile_index && $info['version'] != '') {
             if (version_compare($instances[$non_profile_index]['version'], $info['version']) < 1) {
               $skip = FALSE;
+              break;
             }
+          }
+          elseif ($info['version'] == '') {
+            $skip = FALSE;
+            break;
           }
         }
         if ($skip === TRUE) {
