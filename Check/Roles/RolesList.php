@@ -9,7 +9,7 @@ class SiteAuditCheckRolesRolesList extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
   public function getLabel() {
-    return dt('List Roles');
+    return dt('Roles and User Count');
   }
 
   /**
@@ -29,7 +29,6 @@ class SiteAuditCheckRolesRolesList extends SiteAuditCheckAbstract {
    */
   public function getResultInfo() {
     $counts = array();
-    // TODO: No worky since users moved
     foreach ($this->registry['roles'] as $name => $count_users) {
       $counts[] = "$name: $count_users";
     }
