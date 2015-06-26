@@ -29,8 +29,10 @@ class SiteAuditCheckRolesRolesPermissions extends SiteAuditCheckAbstract {
    */
   public function getResultInfo() {
     $roles = array();
-    foreach ($this->registry['roles'] as $name => $count_users) {
-      $roles[] = "$name: asdkflasjdf";
+    $total = array_sum($this->registry['roles']);
+    foreach ($this->registry['roles'] as $name => $count_permissions) {
+      $percentage = number_format(($count_permissions/$total)*100,0);
+      $roles[] = "$name: $count_permissions ($percentage%)";
     }
     return implode(', ', $roles);
   }
@@ -56,14 +58,14 @@ class SiteAuditCheckRolesRolesPermissions extends SiteAuditCheckAbstract {
    */
   public function calculateScore() {
     $sql_query  = 'SELECT name';
-    $sql_query .= ', COUNT(uid) AS count_users ';
+    $sql_query .= ', COUNT(*) AS count_permissions ';
     $sql_query .= 'FROM {role} ';
-    $sql_query .= 'LEFT JOIN {users_roles} ON {role}.rid = {users_roles}.rid ';
+    $sql_query .= 'LEFT JOIN {role_permission} ON {role}.rid = {role_permission}.rid ';
     $sql_query .= 'GROUP BY {role}.rid ';
     $sql_query .= 'ORDER BY name ASC ';
     $result = db_query($sql_query);
     foreach ($result as $row) {
-      $this->registry['roles'][$row->name] = $row->count_users;
+      $this->registry['roles'][$row->name] = $row->count_permissions;
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
   }
