@@ -154,6 +154,11 @@ function site_audit_drush_command() {
       'Unrecommended',
     ),
   );
+  $items['audit-extensions']['options']['extension_count'] = array(
+    'description' => dt('Specify threshold for average number of extensions'),
+    'example-value' => dt('150'),
+    'value' => 'required',
+  );
 
   $items['audit-all'] = array(
     'description' => dt('Executes every Site Audit Report'),
