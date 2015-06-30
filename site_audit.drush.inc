@@ -186,6 +186,35 @@ function site_audit_drush_command() {
     ),
   );
 
+  $arguments_gi = array(
+    'url' => dt('The URL that you wish to test.'),
+    'key' => dt('Google Code API Key - see https://developers.google.com/speed/docs/insights/v1/getting_started#auth'),
+  );
+  $arguments_all = array_merge($arguments_all, $arguments_gi);
+  $options_gi = array(
+    'impact' => array(
+      'description' => dt('Only show results with an impact greater than what\'s specified. 3 is considered high impact.'),
+      'example-value' => dt('3'),
+      'value' => 'required',
+    ),
+    'limit' => array(
+      'description' => dt('Limit the number of records shown for each item.'),
+      'example-value' => dt('3'),
+      'value' => 'required',
+    ),
+  );
+  $options_all = array_merge($options_all, $options_gi);
+  $items['audit-front-end'] = array(
+    'description' => dt('Analyze a site using Google PageSpeed Insights.'),
+    'aliases' => array('afe'),
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_CONFIGURATION,
+    'arguments' => $arguments_gi,
+    'options' => array_merge(site_audit_common_options(), $options_gi),
+    'checks' => array(
+      'GooglePageSpeed',
+    ),
+  );
+
   $items['audit-all'] = array(
     'description' => dt('Executes every Site Audit Report'),
     'aliases' => array('aa'),
@@ -200,6 +229,7 @@ function site_audit_drush_command() {
       'Cron',
       'Database',
       'Users',
+      'FrontEnd',
     ),
   );
 
@@ -255,7 +285,7 @@ function drush_site_audit_audit_all($url = '', $key = '') {
       // Allow a specific report to be skipped.
       if (!in_array(strtolower($report_name), $reports_to_skip)) {
         // Special case for arguments.
-        if ($report_name == 'Insights') {
+        if ($report_name == 'FrontEnd') {
           $report = new $report_class($url, $key);
         }
         else {
@@ -527,5 +557,52 @@ function drush_site_audit_audit_users_validate() {
  */
 function drush_site_audit_audit_users() {
   $report = new SiteAuditReportUsers();
+  $report->render();
+}
+
+/**
+ * Validate parameters.
+ *
+ * @param string $url
+ *   URL to check.
+ * @param string $key
+ *   Google API key.
+ */
+function drush_site_audit_audit_front_end_validate($url = '', $key = '') {
+  // Just check the API key exists.
+  if (!$key) {
+    drush_set_error('SITE_AUDIT_GOOGLE_INSIGHTS_NO_KEY', dt('An API key is required; see https://developers.google.com/speed/docs/insights/v1/getting_started#auth'));
+  }
+  if (filter_var($url, FILTER_VALIDATE_URL) === FALSE) {
+    drush_set_error('SITE_AUDIT_GOOGLE_INSIGHTS_NO_URL', dt('A valid URL is required.'));
+  }
+
+  // Optional impact.
+  $impact = drush_get_option('impact');
+  if ($impact) {
+    if ($impact < 0 || !is_numeric($impact)) {
+      drush_set_error('SITE_AUDIT_GOOGLE_INSIGHTS_BAD_IMPACT_FILTER', dt('Impact filter must be a number greater than 0.'));
+    }
+  }
+
+  // Optional limit.
+  $limit = drush_get_option('limit');
+  if ($limit) {
+    if ($limit < 0 || !is_numeric($limit) || ($limit != (int) $limit)) {
+      drush_set_error('SITE_AUDIT_GOOGLE_INSIGHTS_BAD_LIMIT', dt('Limit must be an integer greater than 0.'));
+    }
+  }
+}
+
+/**
+ * Render a Google PageSpeed Insight report.
+ *
+ * @param string $url
+ *   URL to check.
+ * @param string $key
+ *   Google API key.
+ */
+function drush_site_audit_audit_front_end($url, $key) {
+  $report = new SiteAuditReportFrontEnd($url, $key);
   $report->render();
 }
