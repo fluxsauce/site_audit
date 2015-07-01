@@ -123,7 +123,7 @@ class SiteAuditCheckExtensionsDuplicate extends SiteAuditCheckAbstract {
           $version_split = explode(':', $line);
           if (isset($version_split[1])) {
             $version .= trim(str_replace("'", '', $version_split[1]));
-            $path = $path . '(' . $version . ')';
+            $path = $path . ' (' . $version . ')';
           }
         }
       }
