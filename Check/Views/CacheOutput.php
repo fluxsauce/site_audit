@@ -19,7 +19,7 @@ class SiteAuditCheckViewsCacheOutput extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getDescription().
    */
   public function getDescription() {
-    return dt('Check the length of time raw rendered output should be cached.');
+    return dt('Check to see if raw rendered output is being cached.');
   }
 
   /**
@@ -65,7 +65,7 @@ class SiteAuditCheckViewsCacheOutput extends SiteAuditCheckAbstract {
           dt('Select the Display'),
           dt('Click Advanced'),
           dt('Next to Caching, click to edit.'),
-          dt('Rendered output: (something other than Never cache)'),
+          dt('Caching: (something other than None)'),
         );
         if (drush_get_option('html') == TRUE) {
           $ret_val .= '<ol><li>' . implode('</li><li>', $steps) . '</li></ol>';

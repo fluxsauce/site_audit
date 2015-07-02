@@ -19,7 +19,7 @@ class SiteAuditCheckViewsCacheResults extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getDescription().
    */
   public function getDescription() {
-    return dt('Check the length of time raw query results should be cached.');
+    return dt('Check to see if raw query results are being cached.');
   }
 
   /**
@@ -57,7 +57,7 @@ class SiteAuditCheckViewsCacheResults extends SiteAuditCheckAbstract {
    */
   public function getAction() {
     if (!in_array($this->score, array(SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO, SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS))) {
-      $ret_val = dt('Query results should be cached for at least 1 minute.');
+      $ret_val = dt('Query results should be cached for at least 1 minute or use tag caching.');
       if (drush_get_option('detail')) {
         $steps = array(
           dt('Go to /admin/structure/views/'),
@@ -65,7 +65,7 @@ class SiteAuditCheckViewsCacheResults extends SiteAuditCheckAbstract {
           dt('Select the Display'),
           dt('Click Advanced'),
           dt('Next to Caching, click to edit.'),
-          dt('Query results: (something other than Never cache)'),
+          dt('Caching: (something other than None)'),
         );
         if (drush_get_option('html')) {
           $ret_val .= '<ol><li>' . implode('</li><li>', $steps) . '</li></ol>';
