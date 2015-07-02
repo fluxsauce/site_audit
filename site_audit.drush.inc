@@ -168,8 +168,15 @@ function site_audit_drush_command() {
     'options' => array_merge(site_audit_common_options(), $vendor_options),
     'checks' => array(
       'Count',
+      'Dev',
+      'Duplicate',
       'Unrecommended',
     ),
+  );
+  $items['audit-extensions']['options']['extension_count'] = array(
+    'description' => dt('Specify threshold for average number of extensions'),
+    'example-value' => dt('150'),
+    'value' => 'required',
   );
 
   $items['audit-users'] = array(
