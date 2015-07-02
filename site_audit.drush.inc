@@ -270,6 +270,16 @@ function site_audit_drush_command() {
     ),
   );
 
+  $items['audit-security'] = array(
+    'description' => dt('Audit the site for known security vulnerabilities.'),
+    'aliases' => array('asec'),
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
+    'options' => site_audit_common_options(),
+    'checks' => array(
+      'MenuRouter',
+    ),
+  );
+
   $items['audit-all'] = array(
     'description' => dt('Executes every Site Audit Report'),
     'aliases' => array('aa'),
@@ -640,4 +650,19 @@ function drush_site_audit_audit_views_validate() {
  */
 function drush_site_audit_audit_watchdog_validate() {
   return drush_site_audit_generic_callback_validate();
+}
+
+/**
+ * Audit security validation.
+ */
+function drush_site_audit_audit_security_validate() {
+  return site_audit_version_check();
+}
+
+/**
+ * Render a Security report.
+ */
+function drush_site_audit_audit_security() {
+  $report = new SiteAuditReportSecurity();
+  $report->render();
 }
