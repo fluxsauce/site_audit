@@ -4,6 +4,7 @@
  * Contains \SiteAudit\Check\Watchdog\Php.
  */
 
+use Drupal\Core\Logger\RfcLogLevel;
 /**
  * Class SiteAuditCheckWatchdogPhp.
  */
@@ -80,7 +81,9 @@ class SiteAuditCheckWatchdogPhp extends SiteAuditCheckAbstract {
     $where = core_watchdog_query('php', NULL, NULL);
     $rsc = drush_db_select('watchdog', '*', $where['where'], $where['args'], 0, NULL, 'wid', 'DESC');
     while ($result = drush_db_fetch_object($rsc)) {
+      $severity = $result->severity;
       $row = core_watchdog_format_result($result);
+      $row->severity = RfcLogLevel::getLevels()[$severity]->render();
       if (!isset($this->registry['php_counts'][$row->severity])) {
         $this->registry['php_counts'][$row->severity] = 0;
       }
