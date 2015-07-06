@@ -193,6 +193,21 @@ function site_audit_drush_command() {
     ),
   );
 
+  $items['audit-watchdog'] = array(
+    'description' => dt('Audit the database logs.'),
+    'aliases' => array('aw'),
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
+    'options' => array_merge(site_audit_common_options(), $vendor_options),
+    'checks' => array(
+      'Syslog',
+      'Enabled',
+      'Count',
+      'Age',
+      '404',
+      'Php',
+    ),
+  );
+
   $items['audit-all'] = array(
     'description' => dt('Executes every Site Audit Report'),
     'aliases' => array('aa'),
@@ -207,6 +222,7 @@ function site_audit_drush_command() {
       'Cron',
       'Database',
       'Users',
+      'Watchdog',
     ),
   );
 
@@ -530,9 +546,24 @@ function drush_site_audit_audit_users_validate() {
 }
 
 /**
+ * Audit watchdog validation.
+ */
+function drush_site_audit_audit_watchdog_validate() {
+  return site_audit_version_check();
+}
+
+/**
  * Render a Users report.
  */
 function drush_site_audit_audit_users() {
   $report = new SiteAuditReportUsers();
+  $report->render();
+}
+
+/**
+ * Audit the database logs of a Drupal site.
+ */
+function drush_site_audit_audit_watchdog() {
+  $report = new SiteAuditReportWatchdog();
   $report->render();
 }
