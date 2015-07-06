@@ -247,6 +247,19 @@ function site_audit_drush_command() {
     ),
   );
 
+  $items['audit-views'] = array(
+    'description' => dt('Audit Views.'),
+    'aliases' => array('av'),
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
+    'options' => site_audit_common_options(),
+    'checks' => array(
+      'Enabled',
+      'Count',
+      'CacheResults',
+      'CacheOutput',
+    ),
+  );
+
   $items['audit-all'] = array(
     'description' => dt('Executes every Site Audit Report'),
     'aliases' => array('aa'),
@@ -264,6 +277,7 @@ function site_audit_drush_command() {
       'FrontEnd',
       'Status',
       'Watchdog',
+      'Views',
     ),
   );
 
@@ -653,6 +667,22 @@ function drush_site_audit_audit_status_validate() {
  */
 function drush_site_audit_audit_status() {
   $report = new SiteAuditReportStatus();
+  $report->render();
+}
+
+/**
+ * Audit Views validation.
+ */
+function drush_site_audit_audit_views_validate() {
+  return site_audit_version_check();
+}
+
+
+/**
+ * Audit Views.
+ */
+function drush_site_audit_audit_views() {
+  $report = new SiteAuditReportViews();
   $report->render();
 }
 
