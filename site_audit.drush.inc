@@ -193,6 +193,16 @@ function site_audit_drush_command() {
     ),
   );
 
+  $items['audit-status'] = array(
+    'description' => dt('Audit Drupal\'s built-in status report.'),
+    'aliases' => array('as'),
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
+    'options' => site_audit_common_options(),
+    'checks' => array(
+      'System',
+    ),
+  );
+
   $items['audit-watchdog'] = array(
     'description' => dt('Audit the database logs.'),
     'aliases' => array('aw'),
@@ -222,6 +232,7 @@ function site_audit_drush_command() {
       'Cron',
       'Database',
       'Users',
+      'Status',
       'Watchdog',
     ),
   );
@@ -546,13 +557,6 @@ function drush_site_audit_audit_users_validate() {
 }
 
 /**
- * Audit watchdog validation.
- */
-function drush_site_audit_audit_watchdog_validate() {
-  return site_audit_version_check();
-}
-
-/**
  * Render a Users report.
  */
 function drush_site_audit_audit_users() {
@@ -561,9 +565,31 @@ function drush_site_audit_audit_users() {
 }
 
 /**
- * Audit the database logs of a Drupal site.
+ * Audit status validation.
  */
-function drush_site_audit_audit_watchdog() {
+function drush_site_audit_audit_status_validate() {
+  return site_audit_version_check();
+}
+
+/**
+ * Render a Status report.
+ */
+function drush_site_audit_audit_status() {
+  $report = new SiteAuditReportStatus();
+  $report->render();
+}
+
+/**
+ * Audit watchdog validation.
+ */
+function drush_site_audit_audit_watchdog_validate() {
+  return site_audit_version_check();
+}
+
+/**
+ * Render a watchdog report.
+ */
+function drush_site_audit_watchdog_status() {
   $report = new SiteAuditReportWatchdog();
   $report->render();
 }
