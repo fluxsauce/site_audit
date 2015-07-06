@@ -33,7 +33,7 @@ class SiteAuditCheckExtensionsUnrecommended extends SiteAuditCheckAbstract {
       if (drush_get_option('html')) {
         $ret_val .= '<br/>';
         $ret_val .= '<table class="table table-condensed">';
-        $ret_val .= '<thead><tr><th>Name</th><th>Reason</th></thead>';
+        $ret_val .= '<thead><tr><th>' . dt('Name') . '</th><th>' . dt('Reason') . '</th></thead>';
         $ret_val .= '<tbody>';
         foreach ($this->registry['extensions_unrec'] as $row) {
           $ret_val .= '<tr><td>' . implode('</td><td>', $row) . '</td></tr>';
@@ -94,24 +94,13 @@ class SiteAuditCheckExtensionsUnrecommended extends SiteAuditCheckAbstract {
 
       $machine_name = $extension->getName();
 
-      // Get the human readable name of the extension.
-      $human_readable_name = '';
-      if (isset($extension->info['name'])) {
-        $human_readable_name = $extension->info['name'];
-      }
-      else {
-        $human_readable_name = $machine_name;
-      }
-
-      // Construct label.
-      $label = $human_readable_name . ' (' . $machine_name . ')';
       // Not in the list of known unrecommended modules.
       if (!array_key_exists($machine_name, $unrecommended_extensions)) {
         continue;
       }
 
       // Name.
-      $row[] = $label;
+      $row[] = $extension->label;
       // Reason.
       $row[] = $unrecommended_extensions[$machine_name];
 
@@ -135,6 +124,14 @@ class SiteAuditCheckExtensionsUnrecommended extends SiteAuditCheckAbstract {
       'bad_judgement' => dt('Joke module, framework for anarchy.'),
       'php' => dt('Executable code should never be stored in the database.'),
     );
+    if (drush_get_option('vendor') == 'pantheon') {
+      // Unsupported or redundant.
+      $pantheon_unrecommended_modules = array(
+        'memcache' => dt('Pantheon does not provide memcache; instead, redis is provided as a service to all customers; see http://helpdesk.getpantheon.com/customer/portal/articles/401317'),
+        'memcache_storage' => dt('Pantheon does not provide memcache; instead, redis is provided as a service to all customers; see http://helpdesk.getpantheon.com/customer/portal/articles/401317'),
+      );
+      $unrecommended_modules = array_merge($unrecommended_modules, $pantheon_unrecommended_modules);
+    }
     return $unrecommended_modules;
   }
 
