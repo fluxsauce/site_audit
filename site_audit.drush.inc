@@ -168,8 +168,15 @@ function site_audit_drush_command() {
     'options' => array_merge(site_audit_common_options(), $vendor_options),
     'checks' => array(
       'Count',
+      'Dev',
+      'Duplicate',
       'Unrecommended',
     ),
+  );
+  $items['audit-extensions']['options']['extension_count'] = array(
+    'description' => dt('Specify threshold for average number of extensions'),
+    'example-value' => dt('150'),
+    'value' => 'required',
   );
 
   $items['audit-users'] = array(
@@ -215,6 +222,31 @@ function site_audit_drush_command() {
     ),
   );
 
+  $items['audit-status'] = array(
+    'description' => dt('Audit Drupal\'s built-in status report.'),
+    'aliases' => array('as'),
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
+    'options' => site_audit_common_options(),
+    'checks' => array(
+      'System',
+    ),
+  );
+
+  $items['audit-watchdog'] = array(
+    'description' => dt('Audit the database logs.'),
+    'aliases' => array('aw'),
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
+    'options' => array_merge(site_audit_common_options(), $vendor_options),
+    'checks' => array(
+      'Syslog',
+      'Enabled',
+      'Count',
+      'Age',
+      '404',
+      'Php',
+    ),
+  );
+
   $items['audit-all'] = array(
     'description' => dt('Executes every Site Audit Report'),
     'aliases' => array('aa'),
@@ -230,6 +262,8 @@ function site_audit_drush_command() {
       'Database',
       'Users',
       'FrontEnd',
+      'Status',
+      'Watchdog',
     ),
   );
 
@@ -604,5 +638,35 @@ function drush_site_audit_audit_front_end_validate($url = '', $key = '') {
  */
 function drush_site_audit_audit_front_end($url, $key) {
   $report = new SiteAuditReportFrontEnd($url, $key);
+  $report->render();
+}
+
+/**
+ * Audit status validation.
+ */
+function drush_site_audit_audit_status_validate() {
+  return site_audit_version_check();
+}
+
+/**
+ * Render a Status report.
+ */
+function drush_site_audit_audit_status() {
+  $report = new SiteAuditReportStatus();
+  $report->render();
+}
+
+/**
+ * Audit watchdog validation.
+ */
+function drush_site_audit_audit_watchdog_validate() {
+  return site_audit_version_check();
+}
+
+/**
+ * Render a watchdog report.
+ */
+function drush_site_audit_watchdog_status() {
+  $report = new SiteAuditReportWatchdog();
   $report->render();
 }
