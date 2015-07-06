@@ -15,7 +15,8 @@
   },
   "require-dev": {
     "squizlabs/php_codesniffer": "*",
-    "drupal/coder": ">8.2.0"
+    "drupal/coder": ">8.2.0",
+    "phpunit/phpunit": "4.7.*"
   },
   "keywords": ["standards", "audit", "code review", "drupal", "analysis", "reports", "drush"]
 }
