@@ -696,7 +696,7 @@ function drush_site_audit_audit_watchdog_validate() {
 /**
  * Render a watchdog report.
  */
-function drush_site_audit_watchdog_status() {
+function drush_site_audit_audit_watchdog() {
   $report = new SiteAuditReportWatchdog();
   $report->render();
 }
