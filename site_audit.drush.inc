@@ -67,6 +67,7 @@ function site_audit_drush_command() {
 
   $items['audit-best-practices'] = array(
     'description' => dt('Audit best practices used.'),
+    'callback' => 'drush_site_audit_generic_callback',
     'aliases' => array('abp'),
     'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
     'options' => array_merge(site_audit_common_options(), $vendor_options),
@@ -82,8 +83,9 @@ function site_audit_drush_command() {
   );
 
   $items['audit-cache'] = array(
-    'description' => dt('Audit Drupal\'s caching settings.'),
+    'description' => dt("Audit Drupal's caching settings."),
     'aliases' => array('ac'),
+    'callback' => 'drush_site_audit_generic_callback',
     'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
     'options' => array_merge(site_audit_common_options(), $vendor_options),
     'checks' => array(
@@ -99,6 +101,7 @@ function site_audit_drush_command() {
   $items['audit-codebase'] = array(
     'description' => dt('Audit the codebase.'),
     'aliases' => array('acb'),
+    'callback' => 'drush_site_audit_generic_callback',
     'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
     'options' => site_audit_common_options(),
     'checks' => array(
@@ -109,9 +112,30 @@ function site_audit_drush_command() {
     ),
   );
 
+  $items['audit-content'] = array(
+    'description' => dt('Audit content.'),
+    'aliases' => array('acn'),
+    'callback' => 'drush_site_audit_generic_callback',
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
+    'options' => site_audit_common_options(),
+    'checks' => array(
+      'ContentEntityTypes',
+      'ContentEntityTypesUnused',
+      'DuplicateTitles',
+      'Taxonomy',
+      'Vocabularies',
+      'VocabulariesUnused',
+      'FieldEnabled',
+      'FieldCount',
+      'FieldInstances',
+      'FieldsUnused',
+    ),
+  );
+
   $items['audit-cron'] = array(
     'description' => dt('Audit cron.'),
     'aliases' => array('acr'),
+    'callback' => 'drush_site_audit_generic_callback',
     'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
     'options' => site_audit_common_options(),
     'checks' => array(
@@ -130,8 +154,9 @@ function site_audit_drush_command() {
   $options_all = array_merge($options_all, $options_db);
 
   $items['audit-database'] = array(
-    'description' => dt('Report information about a site environment\'s database.'),
+    'description' => dt("Report information about a site's database."),
     'aliases' => array('ad'),
+    'callback' => 'drush_site_audit_generic_callback',
     'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
     'options' => array_merge(site_audit_common_options(), $options_db),
     'checks' => array(
@@ -139,25 +164,6 @@ function site_audit_drush_command() {
       'Collation',
       'Engine',
       'RowCount',
-    ),
-  );
-
-  $items['audit-content'] = array(
-    'description' => dt('Audit content.'),
-    'aliases' => array('acn'),
-    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
-    'options' => site_audit_common_options(),
-    'checks' => array(
-      'ContentEntityTypes',
-      'ContentEntityTypesUnused',
-      'DuplicateTitles',
-      'Taxonomy',
-      'Vocabularies',
-      'VocabulariesUnused',
-      'FieldEnabled',
-      'FieldCount',
-      'FieldInstances',
-      'FieldsUnused',
     ),
   );
 
@@ -177,20 +183,6 @@ function site_audit_drush_command() {
     'description' => dt('Specify threshold for average number of extensions'),
     'example-value' => dt('150'),
     'value' => 'required',
-  );
-
-  $items['audit-users'] = array(
-    'description' => dt('Audit Users.'),
-    'aliases' => array('au'),
-    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
-    'options' => site_audit_common_options(),
-    'checks' => array(
-      'CountAll',
-      'CountBlocked',
-      'RolesList',
-      'WhoIsNumberOne',
-      'BlockedNumberOne',
-    ),
   );
 
   $arguments_gi = array(
@@ -223,8 +215,9 @@ function site_audit_drush_command() {
   );
 
   $items['audit-status'] = array(
-    'description' => dt('Audit Drupal\'s built-in status report.'),
+    'description' => dt("Audit Drupal's built-in status report."),
     'aliases' => array('as'),
+    'callback' => 'drush_site_audit_generic_callback',
     'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
     'options' => site_audit_common_options(),
     'checks' => array(
@@ -232,9 +225,39 @@ function site_audit_drush_command() {
     ),
   );
 
+  $items['audit-users'] = array(
+    'description' => dt('Audit Users.'),
+    'aliases' => array('au'),
+    'callback' => 'drush_site_audit_generic_callback',
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
+    'options' => site_audit_common_options(),
+    'checks' => array(
+      'CountAll',
+      'CountBlocked',
+      'RolesList',
+      'WhoIsNumberOne',
+      'BlockedNumberOne',
+    ),
+  );
+
+  $items['audit-views'] = array(
+    'description' => dt('Audit Views.'),
+    'aliases' => array('av'),
+    'callback' => 'drush_site_audit_generic_callback',
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
+    'options' => site_audit_common_options(),
+    'checks' => array(
+      'Enabled',
+      'Count',
+      'CacheResults',
+      'CacheOutput',
+    ),
+  );
+
   $items['audit-watchdog'] = array(
     'description' => dt('Audit the database logs.'),
     'aliases' => array('aw'),
+    'callback' => 'drush_site_audit_generic_callback',
     'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
     'options' => array_merge(site_audit_common_options(), $vendor_options),
     'checks' => array(
@@ -244,19 +267,6 @@ function site_audit_drush_command() {
       'Age',
       '404',
       'Php',
-    ),
-  );
-
-  $items['audit-views'] = array(
-    'description' => dt('Audit Views.'),
-    'aliases' => array('av'),
-    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
-    'options' => site_audit_common_options(),
-    'checks' => array(
-      'Enabled',
-      'Count',
-      'CacheResults',
-      'CacheOutput',
     ),
   );
 
@@ -303,10 +313,67 @@ function site_audit_drush_help($section) {
 }
 
 /**
+ * Determine if in a development environment.
+ *
+ * @return bool
+ *   Whether site is in a development environment.
+ */
+function site_audit_env_is_dev() {
+  // Pantheon.
+  if (drush_get_option('vendor') == 'pantheon') {
+    return (defined('PANTHEON_ENVIRONMENT') && !in_array(PANTHEON_ENVIRONMENT, array('test', 'live')));
+  }
+  // Your host could be here! Submit an issue and/or a patch.
+  return FALSE;
+}
+
+/**
+ * Display the Site Audit version.
+ */
+function drush_site_audit_site_audit_version() {
+  $info = parse_ini_file(SITE_AUDIT_BASE_PATH . '/site_audit.info');
+  drush_print(dt('Site Audit v@site_audit_version', array(
+    '@site_audit_version' => $info['site_audit_version'],
+  )));
+}
+
+/**
+ * Check the Drupal major version.
+ *
+ * @return bool
+ *   FALSE if unsupported.
+ */
+function site_audit_version_check() {
+  $drupal_major_version = drush_drupal_major_version();
+  if ($drupal_major_version < 8) {
+    return drush_set_error('SITE_AUDIT_DRUPAL_8_ONLY', dt('Site Audit 2.x only supports Drupal 8.'));
+  }
+  return TRUE;
+}
+
+/**
+ * Generic callback for all commands.
+ */
+function drush_site_audit_generic_callback() {
+  $command = drush_get_context('command');
+  $command_parts = explode('-', $command['command']);
+  $report_class = 'SiteAuditReport' . implode('', array_map('ucfirst', array_slice($command_parts, 1)));
+  $report = new $report_class();
+  $report->render();
+}
+
+/**
+ * Generic validator for all commands.
+ */
+function drush_site_audit_generic_callback_validate() {
+  return site_audit_version_check();
+}
+
+/**
  * Validate execution of all reports.
  */
 function drush_site_audit_audit_all_validate($url = '', $key = '') {
-  return site_audit_version_check();
+  return drush_site_audit_generic_callback_validate();
 }
 
 /**
@@ -366,8 +433,8 @@ function drush_site_audit_audit_all($url = '', $key = '') {
       $report_title = l(dt('Site Audit'), 'https://drupal.org/project/site_audit');
       if ($url) {
         $report_title .= ' ' . dt('report for !url', array(
-          '!url' => l($url, $url),
-        ));
+            '!url' => l($url, $url),
+          ));
       }
       echo '<div class="page-header">';
       echo '<h1>' . $report_title . '<br/><small>' . $report_time . '</small></h1>';
@@ -424,12 +491,12 @@ function drush_site_audit_audit_all($url = '', $key = '') {
       }
       if (drush_get_option('html') && !drush_get_option('json')) {
         echo '<div>' . l(dt('Back to top'), '', array(
-          'fragment' => 'top',
-          'external' => TRUE,
-          'attributes' => array(
-            'class' => array('btn', 'btn-default', 'btn-mini'),
-          ),
-        )) . '</div>';
+            'fragment' => 'top',
+            'external' => TRUE,
+            'attributes' => array(
+              'class' => array('btn', 'btn-default', 'btn-mini'),
+            ),
+          )) . '</div>';
       }
     }
     if (drush_get_option('bootstrap')) {
@@ -444,104 +511,47 @@ function drush_site_audit_audit_all($url = '', $key = '') {
 }
 
 /**
- * Determine if in a development environment.
- *
- * @return bool
- *   Whether site is in a development environment.
+ * Audit best practices validation.
  */
-function site_audit_env_is_dev() {
-  // Pantheon.
-  if (drush_get_option('vendor') == 'pantheon') {
-    return (defined('PANTHEON_ENVIRONMENT') && !in_array(PANTHEON_ENVIRONMENT, array('test', 'live')));
-  }
-  // Your host could be here! Submit an issue and/or a patch.
-  return FALSE;
-}
-
-/**
- * Display the Site Audit version.
- */
-function drush_site_audit_site_audit_version() {
-  $info = parse_ini_file(SITE_AUDIT_BASE_PATH . '/site_audit.info');
-  drush_print(dt('Site Audit v@site_audit_version', array(
-    '@site_audit_version' => $info['site_audit_version'],
-  )));
-}
-
-/**
- * Check the Drupal major version.
- *
- * @return bool
- *   FALSE if unsupported.
- */
-function site_audit_version_check() {
-  $drupal_major_version = drush_drupal_major_version();
-  if ($drupal_major_version < 8) {
-    return drush_set_error('SITE_AUDIT_DRUPAL_8_ONLY', dt('Site Audit 2.x only supports Drupal 8.'));
-  }
-  return TRUE;
+function drush_site_audit_audit_best_practices_validate() {
+  return drush_site_audit_generic_callback_validate();
 }
 
 /**
  * Audit cache validation.
  */
 function drush_site_audit_audit_cache_validate() {
-  return site_audit_version_check();
+  return drush_site_audit_generic_callback_validate();
 }
 
 /**
- * Check Drupal's caching settings and make recommendations as necessary.
+ * Audit codebase validation.
  */
-function drush_site_audit_audit_cache() {
-  $report = new SiteAuditReportCache();
-  $report->render();
+function drush_site_audit_audit_codebase_validate() {
+  return drush_site_audit_generic_callback_validate();
 }
 
 /**
  * Audit content validation.
  */
 function drush_site_audit_audit_content_validate() {
-  return site_audit_version_check();
+  return drush_site_audit_generic_callback_validate();
 }
-
-/**
- * Audit Drupal's content.
- */
-function drush_site_audit_audit_content() {
-  $report = new SiteAuditReportContent();
-  $report->render();
-}
-
-/**
- * Audit best practices validation.
- */
-function drush_site_audit_audit_best_practices_validate() {
-  return site_audit_version_check();
-}
-
-/**
- * Audit Drupal best practices.
- */
-function drush_site_audit_audit_best_practices() {
-  $report = new SiteAuditReportBestPractices();
-  $report->render();
-}
-
 
 /**
  * Audit cron validation.
  */
 function drush_site_audit_audit_cron_validate() {
-  return site_audit_version_check();
+  return drush_site_audit_generic_callback_validate();
 }
 
 /**
- * Render a Cron report.
+ * Audit database validation.
  */
-function drush_site_audit_audit_cron() {
-  $report = new SiteAuditReportCron();
-  $report->render();
+function drush_site_audit_audit_database_validate() {
+  return drush_site_audit_generic_callback_validate();
 }
+
 /**
  * Audit extensions validation.
  */
@@ -552,64 +562,11 @@ function drush_site_audit_audit_extensions_validate() {
       return drush_set_error(dt('The extension count must be a whole number above zero.'));
     }
   }
-  return site_audit_version_check();
+  return drush_site_audit_generic_callback_validate();
 }
 
 /**
- * Audit database validation.
- */
-function drush_site_audit_audit_database_validate() {
-  return site_audit_version_check();
-}
-
-/**
- * Audit the database associated with a Drupal site.
- */
-function drush_site_audit_audit_database() {
-  $report = new SiteAuditReportDatabase();
-  $report->render();
-}
-
-/**
- * Audit modules and themes (extensions) for a given Drupal site.
- */
-function drush_site_audit_audit_extensions() {
-  $report = new SiteAuditReportExtensions();
-  $report->render();
-}
-
-/**
- * Audit codebase validation.
- */
-function drush_site_audit_audit_codebase_validate() {
-  return site_audit_version_check();
-}
-
-/**
- * Audit the executable codebase of a Drupal site.
- */
-function drush_site_audit_audit_codebase() {
-  $report = new SiteAuditReportCodebase();
-  $report->render();
-}
-
-/**
- * Audit users validation.
- */
-function drush_site_audit_audit_users_validate() {
-  return site_audit_version_check();
-}
-
-/**
- * Render a Users report.
- */
-function drush_site_audit_audit_users() {
-  $report = new SiteAuditReportUsers();
-  $report->render();
-}
-
-/**
- * Validate parameters.
+ * Audit front end validation.
  *
  * @param string $url
  *   URL to check.
@@ -617,10 +574,12 @@ function drush_site_audit_audit_users() {
  *   Google API key.
  */
 function drush_site_audit_audit_front_end_validate($url = '', $key = '') {
-  // Just check the API key exists.
+  // Ensure the API key exists.
   if (!$key) {
     drush_set_error('SITE_AUDIT_GOOGLE_INSIGHTS_NO_KEY', dt('An API key is required; see https://developers.google.com/speed/docs/insights/v1/getting_started#auth'));
   }
+
+  // Check for a valid URL.
   if (filter_var($url, FILTER_VALIDATE_URL) === FALSE) {
     drush_set_error('SITE_AUDIT_GOOGLE_INSIGHTS_NO_URL', dt('A valid URL is required.'));
   }
@@ -659,44 +618,26 @@ function drush_site_audit_audit_front_end($url, $key) {
  * Audit status validation.
  */
 function drush_site_audit_audit_status_validate() {
-  return site_audit_version_check();
+  return drush_site_audit_generic_callback_validate();
 }
 
 /**
- * Render a Status report.
+ * Audit users validation.
  */
-function drush_site_audit_audit_status() {
-  $report = new SiteAuditReportStatus();
-  $report->render();
+function drush_site_audit_audit_users_validate() {
+  return drush_site_audit_generic_callback_validate();
 }
 
 /**
  * Audit Views validation.
  */
 function drush_site_audit_audit_views_validate() {
-  return site_audit_version_check();
-}
-
-
-/**
- * Audit Views.
- */
-function drush_site_audit_audit_views() {
-  $report = new SiteAuditReportViews();
-  $report->render();
+  return drush_site_audit_generic_callback_validate();
 }
 
 /**
  * Audit watchdog validation.
  */
 function drush_site_audit_audit_watchdog_validate() {
-  return site_audit_version_check();
-}
-
-/**
- * Render a watchdog report.
- */
-function drush_site_audit_audit_watchdog() {
-  $report = new SiteAuditReportWatchdog();
-  $report->render();
+  return drush_site_audit_generic_callback_validate();
 }
