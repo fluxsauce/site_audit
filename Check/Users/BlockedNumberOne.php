@@ -64,4 +64,5 @@ class SiteAuditCheckUsersBlockedNumberOne extends SiteAuditCheckAbstract {
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
   }
+
 }

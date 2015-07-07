@@ -249,7 +249,7 @@ class SiteAuditCheckFrontEndGooglePageSpeed extends SiteAuditCheckAbstract {
     $result = curl_exec($ch);
     $this->registry['json_result'] = json_decode($result);
 
-    //network connection or any other problem
+    // Network connection or any other problem.
     if (is_null($this->registry['json_result'])) {
       $this->abort = TRUE;
       $this->registry['errors'] = array();
@@ -258,6 +258,7 @@ class SiteAuditCheckFrontEndGooglePageSpeed extends SiteAuditCheckAbstract {
       ));
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
     }
+
     // Failure.
     if (isset($this->registry['json_result']->error)) {
       $this->abort = TRUE;
@@ -271,6 +272,7 @@ class SiteAuditCheckFrontEndGooglePageSpeed extends SiteAuditCheckAbstract {
       }
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
     }
+
     // Access problem.
     if (isset($this->registry['json_result']->responseCode) && $this->registry['json_result']->responseCode != 200) {
       $this->abort = TRUE;
@@ -281,6 +283,7 @@ class SiteAuditCheckFrontEndGooglePageSpeed extends SiteAuditCheckAbstract {
       ));
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
     }
+
     // Overview.
     if ($this->registry['json_result']->score > 80) {
       $this->percentOverride = $this->registry['json_result']->score;
@@ -292,6 +295,7 @@ class SiteAuditCheckFrontEndGooglePageSpeed extends SiteAuditCheckAbstract {
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
   }
+
 }
 
 /**
