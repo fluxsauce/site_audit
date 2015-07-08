@@ -76,7 +76,7 @@ class SiteAuditCheckExtensionsCount extends SiteAuditCheckAbstract {
           $ret_val .= str_repeat(' ', 6);
         }
       }
-      return $ret_val;
+      return rtrim($ret_val);
     }
   }
 
