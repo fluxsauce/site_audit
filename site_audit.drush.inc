@@ -294,13 +294,7 @@ function site_audit_drush_command() {
     'aliases' => array('aa'),
     'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
     'arguments' => $arguments_all,
-    'options' => array_merge($options_all, array(
-      'gist' => array(
-        'description' => dt('Publish result in a private gist. Set value with a Personal API Access Token created from https://github.com/settings/applications'),
-        'value' => 'required',
-        'example-value' => 'YOURTOKEN',
-      ),
-    )),
+    'options' => $options_all,
     'reports' => array(
       'BestPractices',
       'Block',
@@ -350,11 +344,6 @@ function drush_site_audit_audit_all_validate($url = '', $key = '') {
  * Execute every single report.
  */
 function drush_site_audit_audit_all($url = '', $key = '') {
-  $gist = drush_get_option('gist');
-  if ($gist) {
-    ob_start();
-  }
-
   $reports_to_skip = array();
   if (drush_get_option('skip')) {
     $reports_to_skip = explode(',', drush_get_option('skip'));
@@ -482,54 +471,6 @@ function drush_site_audit_audit_all($url = '', $key = '') {
   if (drush_get_option('json')) {
     echo json_encode($report_all);
     return;
-  }
-
-  if ($gist) {
-    $result = ob_get_contents();
-    while (ob_get_level()) {
-      ob_end_clean();
-    }
-
-    $file_name = 'site_audit.' . (drush_get_option('html') ? 'html' : 'txt');
-
-    $data = array(
-      'description' => $url . ' Site Audit',
-      'public' => FALSE,
-      'files' => array(
-        $file_name => array(
-          'content' => $result,
-          'language' => (drush_get_option('html') ? 'html' : 'text'),
-        ),
-      ),
-    );
-    $data_string = json_encode($data);
-
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, 'https://api.github.com/gists');
-    curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-      'Content-Type: application/json',
-      'Authorization: token ' . $gist,
-      'User-Agent: Drupal-Site-Audit',
-    ));
-
-    $result = curl_exec($ch);
-    $json = json_decode($result);
-    if (is_null($json)) {
-      drush_set_error('SITE_AUDIT_GIST_NULL', dt('api.github.com did not provide JSON; raw result: @message', array(
-        '@message' => $result,
-      )));
-    }
-    elseif (!isset($json->html_url)) {
-      drush_set_error('SITE_AUDIT_GIST_JSON', dt('api.github.com says: @message', array(
-        '@message' => $json->message,
-      )));
-    }
-    else {
-      drush_log(dt('Result: @url', array('@url' => $json->html_url)), 'success');
-    }
   }
 }
 
