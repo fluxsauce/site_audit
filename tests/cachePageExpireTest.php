@@ -29,6 +29,7 @@ class CachePageExpireCase extends CommandUnishTestCase {
     $target = dirname(__DIR__);
     \mkdir($root . '/drush');
     \symlink($target, $this->webroot() . '/drush/site_audit');
+    $this->drush('cache-clear', array('drush'), $this->options);
     require_once $target . '/Check/Abstract.php';
   }
 

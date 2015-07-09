@@ -29,6 +29,7 @@ class BestPracticesFast404Case extends CommandUnishTestCase {
     $target = dirname(__DIR__);
     \mkdir($root . '/drush');
     \symlink($target, $this->webroot() . '/drush/site_audit');
+    $this->drush('cache-clear', array('drush'), $this->options);
     require_once $target . '/Check/Abstract.php';
   }
   /**
@@ -52,7 +53,7 @@ class BestPracticesFast404Case extends CommandUnishTestCase {
    */
   public function testFast404Two() {
     $eval1 = "\$config = \\Drupal::configFactory()->getEditable('system.performance'); \$config->set('fast_404.enabled', TRUE); \$config->save();";
-    $eval2 = "\$config = \\Drupal::configFactory()->getEditable('system.performance'); \$config->set('fast_404.paths', '/\.(?:txt|png)$/i'); \$config->save();";
+    $eval2 = "\$config = \\Drupal::configFactory()->getEditable('system.performance'); \$config->set('fast_404.paths', '/\\.(?:txt|png)$/i'); \$config->save();";
     $this->drush('php-eval', array($eval1), $this->options);
     $this->drush('php-eval', array($eval2), $this->options);
 

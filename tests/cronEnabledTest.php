@@ -29,6 +29,7 @@ class CronEnabledCase extends CommandUnishTestCase {
     $target = dirname(__DIR__);
     \mkdir($root . '/drush');
     \symlink($target, $this->webroot() . '/drush/site_audit');
+    $this->drush('cache-clear', array('drush'), $this->options);
     require_once $target . '/Check/Abstract.php';
   }
 
@@ -67,7 +68,9 @@ class CronEnabledCase extends CommandUnishTestCase {
    */
   public function testEnabledFail() {
     $eval1 = "\$config = \\Drupal::configFactory()->getEditable('system.cron'); \$config->set('threshold.autorun', 0); \$config->save();";
+    $eval2 = "\\Drupal::state()->set('system.cron_last', NULL)";
     $this->drush('php-eval', array($eval1), $this->options);
+    $this->drush('php-eval', array($eval2), $this->options);
     $this->drush('audit-cron', array(), $this->options + array(
         'detail' => NULL,
         'json' => NULL,
@@ -88,8 +91,7 @@ class CronEnabledCase extends CommandUnishTestCase {
         'json' => NULL,
       ));
     $output = json_decode($this->getOutput());
-    $this->assertEquals(\SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS, $output->checks->SiteAuditCheckCronEnabled->score);
+    $this->assertEquals(\SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN, $output->checks->SiteAuditCheckCronEnabled->score);
   }
-
 
 }
