@@ -91,7 +91,7 @@ class CronEnabledCase extends CommandUnishTestCase {
         'json' => NULL,
       ));
     $output = json_decode($this->getOutput());
-    $this->assertEquals(\SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN, $output->checks->SiteAuditCheckCronEnabled->score);
+    $this->assertEquals(\SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS, $output->checks->SiteAuditCheckCronEnabled->score);
   }
 
 }
