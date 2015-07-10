@@ -47,7 +47,7 @@ class UsersReportCase extends CommandUnishTestCase {
   }
 
   /**
-   * UnBlock the user with uid 1. Check should Fail.
+   * UnBlock the user with uid 1. Check should Pass.
    */
   public function testBlockedNumberOnePass() {
     $this->drush('user-unblock', array(1), $this->options);
