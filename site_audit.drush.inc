@@ -188,6 +188,8 @@ function site_audit_drush_command() {
       'Duplicate',
       'Missing',
       'Disabled',
+      'Update',
+      'Security',
     ),
   );
   $items['audit_extensions']['options']['extension_count'] = array(
