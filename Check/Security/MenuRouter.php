@@ -81,7 +81,7 @@ class SiteAuditCheckSecurityMenuRouter extends SiteAuditCheckAbstract {
    */
   public function getAction() {
     if ($this->score == SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL) {
-      return dt('Delete the offending entries from your menu_router, delete the target file, update your Drupal site code, and check your entire codebase for questionable code using a tool like the Hacked! module.');
+      return dt('Delete the file containing the offending menu_router entries, clear the site caches, update your Drupal site code, and check your entire codebase for questionable code using a tool like the Hacked! module.');
     }
   }
 
