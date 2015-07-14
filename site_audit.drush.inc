@@ -170,6 +170,7 @@ function site_audit_drush_command() {
   $items['audit-extensions'] = array(
     'description' => dt('Audit extensions (modules and themes).'),
     'aliases' => array('ae'),
+    'callback' => 'drush_site_audit_generic_callback',
     'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
     'options' => array_merge(site_audit_common_options(), $vendor_options),
     'checks' => array(
