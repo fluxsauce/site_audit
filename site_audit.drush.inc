@@ -215,6 +215,17 @@ function site_audit_drush_command() {
     ),
   );
 
+  $items['audit-security'] = array(
+    'description' => dt('Audit a site for known security vulnerabilities.'),
+    'aliases' => array('asec'),
+    'callback' => 'drush_site_audit_generic_callback',
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
+    'options' => site_audit_common_options(),
+    'checks' => array(
+      'MenuRouter',
+    ),
+  );
+
   $items['audit-status'] = array(
     'description' => dt("Audit Drupal's built-in status report."),
     'aliases' => array('as'),
@@ -268,16 +279,6 @@ function site_audit_drush_command() {
       'Age',
       '404',
       'Php',
-    ),
-  );
-
-  $items['audit-security'] = array(
-    'description' => dt('Audit the site for known security vulnerabilities.'),
-    'aliases' => array('asec'),
-    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
-    'options' => site_audit_common_options(),
-    'checks' => array(
-      'MenuRouter',
     ),
   );
 
@@ -626,6 +627,13 @@ function drush_site_audit_audit_front_end($url, $key) {
 }
 
 /**
+ * Audit security validation.
+ */
+function drush_site_audit_audit_security_validate() {
+  return site_audit_version_check();
+}
+
+/**
  * Audit status validation.
  */
 function drush_site_audit_audit_status_validate() {
@@ -651,19 +659,4 @@ function drush_site_audit_audit_views_validate() {
  */
 function drush_site_audit_audit_watchdog_validate() {
   return drush_site_audit_generic_callback_validate();
-}
-
-/**
- * Audit security validation.
- */
-function drush_site_audit_audit_security_validate() {
-  return site_audit_version_check();
-}
-
-/**
- * Render a Security report.
- */
-function drush_site_audit_audit_security() {
-  $report = new SiteAuditReportSecurity();
-  $report->render();
 }
