@@ -17,7 +17,7 @@ class CachePageExpireCase extends CommandUnishTestCase {
    * Sets up the environment for this test.
    */
   public function setUp() {
-    $site = $this->setUpDrupal(1, TRUE, UNISH_DRUPAL_MAJOR_VERSION, 'standard');
+    $site = $this->setUpDrupal(1, TRUE, UNISH_DRUPAL_MAJOR_VERSION);
     $root = $this->webroot();
     $this->options = array(
       'yes' => NULL,

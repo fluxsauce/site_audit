@@ -17,7 +17,7 @@ class ExtensionsReportCase extends CommandUnishTestCase {
    * Sets up the environment for this test.
    */
   public function setUp() {
-    $site = $this->setUpDrupal(1, TRUE, UNISH_DRUPAL_MAJOR_VERSION, 'standard');
+    $site = $this->setUpDrupal(1, TRUE, UNISH_DRUPAL_MAJOR_VERSION);
     $root = $this->webroot();
     $this->options = array(
       'yes' => NULL,
@@ -90,9 +90,9 @@ class ExtensionsReportCase extends CommandUnishTestCase {
    * Download Two copies of an extension. Check should warn.
    */
   public function testDuplicateWarn1() {
-    $this->drush('pm-download', array('ctools'), $this->options);
-    $this->drush('pm-download', array('ctools'), $this->options + array('destination' => 'profiles'));
-    $this->drush('pm-enable', array('ctools'), $this->options);
+    $this->drush('pm-download', array('php'), $this->options);
+    $this->drush('pm-download', array('php'), $this->options + array('destination' => 'profiles'));
+    $this->drush('pm-enable', array('php'), $this->options);
     $this->drush('audit-extensions', array(), $this->options + array(
         'detail' => NULL,
         'json' => NULL,
