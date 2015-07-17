@@ -205,9 +205,9 @@ function site_audit_drush_command() {
   );
   $options_all = array_merge($options_all, $options_gi);
   $items['audit-front-end'] = array(
-    'description' => dt('Analyze a site using Google PageSpeed Insights.'),
+    'description' => dt("Analyze a site's front end performance."),
     'aliases' => array('afe'),
-    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_CONFIGURATION,
+    'bootstrap' => DRUSH_BOOTSTRAP_NONE,
     'arguments' => $arguments_gi,
     'options' => array_merge(site_audit_common_options(), $options_gi),
     'checks' => array(
