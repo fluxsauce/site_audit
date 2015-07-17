@@ -219,7 +219,7 @@ function site_audit_drush_command() {
   $items['audit_insights'] = array(
     'description' => dt('Analyze a site using Google PageSpeed Insights.'),
     'aliases' => array('agi'),
-    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_CONFIGURATION,
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
     'arguments' => $arguments_gi,
     'options' => array_merge(site_audit_common_options(), $options_gi),
     'checks' => array(
