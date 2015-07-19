@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Contains /site_audit/tests/CachePageExpireCase.
+ * Contains /site_audit/tests/CacheReportCase.
  */
 
 namespace Unish;
