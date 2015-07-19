@@ -6,31 +6,20 @@
 
 namespace Unish;
 
+require_once 'Abstract.php';
+
 /**
  * Class CacheReportCase.
  *
  * @group commands
  */
-class CacheReportCase extends CommandUnishTestCase {
+class CacheReportCase extends SiteAuditTestAbstract {
 
   /**
    * Sets up the environment for this test.
    */
   public function setUp() {
-    $site = $this->setUpDrupal(1, TRUE, UNISH_DRUPAL_MAJOR_VERSION);
-    $root = $this->webroot();
-    $this->options = array(
-      'yes' => NULL,
-      'root' => $root,
-      'uri' => key($site),
-    );
-    // Symlink site_audit inside the site being tested, so that it is available
-    // as a drush command.
-    $target = dirname(__DIR__);
-    \mkdir($root . '/drush');
-    \symlink($target, $this->webroot() . '/drush/site_audit');
-    $this->drush('cache-clear', array('drush'), $this->options);
-    require_once $target . '/Check/Abstract.php';
+    $this->setUpSiteAuditTestEnvironment();
   }
 
   /**
