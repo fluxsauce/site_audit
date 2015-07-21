@@ -11,7 +11,9 @@
     "issues": "https://www.drupal.org/project/issues/site_audit"
   },
   "require": {
-    "php": ">5.5.0"
+    "php": ">5.5.0",
+    "phpmd/phpmd" : "@stable",
+    "ext-SimpleXML" : "0.1"
   },
   "require-dev": {
     "squizlabs/php_codesniffer": "*",

@@ -281,6 +281,28 @@ function site_audit_drush_command() {
       'Php',
     ),
   );
+  $options_code_analysis = array(
+    'custom_code' => array(
+      'description' => dt('Comma separated the directories/files containing custom code'),
+      'example-value' => dt('./modules/custom,./modules/features,./code.php'),
+      'value' => 'required',
+    ),
+    'phpmd_rules' => array(
+      'description' => dt('Comma separated list or an xml file containing the phpmd rules to be used'),
+      'example-value' => dt('codesize,naming,design,unusedcode'),
+      'value' => 'required',
+    ),
+  );
+  $items['audit-static-code-analysis'] = array(
+    'description' => dt('Audit the database logs.'),
+    'aliases' => array('asca'),
+    'callback' => 'drush_site_audit_generic_callback',
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
+    'options' => array_merge(site_audit_common_options(), $options_code_analysis),
+    'checks' => array(
+      'PhpMessDetection',
+    ),
+  );
 
   $items['audit-all'] = array(
     'description' => dt('Executes every Site Audit Report'),
@@ -300,6 +322,7 @@ function site_audit_drush_command() {
       'Status',
       'Watchdog',
       'Views',
+      'StaticCodeAnalysis',
     ),
   );
 
@@ -658,5 +681,12 @@ function drush_site_audit_audit_views_validate() {
  * Audit watchdog validation.
  */
 function drush_site_audit_audit_watchdog_validate() {
+  return drush_site_audit_generic_callback_validate();
+}
+
+/**
+ * Audit watchdog validation.
+ */
+function drush_site_audit_audit_code_analysis_validate() {
   return drush_site_audit_generic_callback_validate();
 }
