@@ -1,5 +1,8 @@
 #!/usr/bin/env sh
 
+# This script is a modified form of the script present in devel
+# module for running drush commnadfile tests. The original can be found at
+# http://cgit.drupalcode.org/devel/tree/run-tests-drush.sh?id=refs/heads;id2=8.x-1.x
 # This script will run phpunit-based test classes using Drush's
 # test framework.  First, the Drush executable is located, and
 # then phpunit is invoked, pointing to Drush's phpunit.xml as

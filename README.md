@@ -261,6 +261,33 @@ function security_review_drush_command_alter(&$command) {
 }
 ````
 
+
+# Testing
+
+Site Audit comes with a suite of functional tests testing all the
+platform independent functionality of the project.
+
+### Running the tests
+
+* Run `composer install` to install all the dependencies of site-audit which
+  includes PHPUnit that is used for testing.
+* Export the environment variable `UNISH_DB_URL=mysql://[username]:[password]@127.0.0.1`
+  with correct MySQL username and password for PHPUnit to use for testing
+* Run the script `./test.sh` from inside the site_audit directory.
+  This will run all the tests.  
+* To run the tests selectively, run `./test.sh --filter="*Extensions*" tests`
+  tests where *Extensions* is the regex matching the class name of tests for the extension report.
+  Similarly for other reports, run `./test.sh --filter="*[Report-name]*" tests`. For a particular test,
+  run `./test.sh --filter="*[test-name]*" tests`
+
+### Adding more tests
+
+* All the tests are present inside the `tests` directory.
+* Add test for a particular check inside the proper file for the check's report.
+* For a tutorial on writing tests for drush commands, refer to 
+  http://ninjaducks.in/hacking/writing-tests-for-drush-commands/
+
+
 # Release notes
 
 Release notes are maintained at https://www.drupal.org/node/2022771/release
