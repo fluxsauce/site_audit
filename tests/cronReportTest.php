@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Contains /site_audit/tests/CronEnabledCase.
+ * Contains /site_audit/tests/CronReportCase.
  */
 
 namespace Unish;
@@ -9,11 +9,11 @@ namespace Unish;
 require_once 'Abstract.php';
 
 /**
- * Class CronEnabledCase.
+ * Class CronReportCase.
  *
  * @group commands
  */
-class CronEnabledCase extends SiteAuditTestAbstract {
+class CronReportCase extends SiteAuditTestAbstract {
 
   /**
    * Sets up the environment for this test.
@@ -26,7 +26,11 @@ class CronEnabledCase extends SiteAuditTestAbstract {
    * Run the cron and set cron frequency to < 24 hours. Check should Pass.
    */
   public function testEnabledPassOne() {
-    $eval1 = "\$config = \\Drupal::configFactory()->getEditable('system.cron'); \$config->set('threshold.autorun', 60*60); \$config->save();";
+    $eval1 = <<<EOT
+\$config = \\Drupal::configFactory()->getEditable('system.cron');
+\$config->set('threshold.autorun', 60*60);
+\$config->save();
+EOT;
     $this->drush('php-eval', array($eval1), $this->options);
     $this->drush('cron', array(), $this->options);
     $this->drush('audit-cron', array(), $this->options + array(
@@ -41,7 +45,11 @@ class CronEnabledCase extends SiteAuditTestAbstract {
    * Run the cron and set cron frequency to > 24 hours. Check should Warn.
    */
   public function testEnabledWarn() {
-    $eval1 = "\$config = \\Drupal::configFactory()->getEditable('system.cron'); \$config->set('threshold.autorun', 25*60*60); \$config->save();";
+    $eval1 = <<<EOT
+\$config = \\Drupal::configFactory()->getEditable('system.cron');
+\$config->set('threshold.autorun', 25*60*60);
+\$config->save();
+EOT;
     $this->drush('php-eval', array($eval1), $this->options);
     $this->drush('cron', array(), $this->options);
     $this->drush('audit-cron', array(), $this->options + array(
@@ -56,10 +64,13 @@ class CronEnabledCase extends SiteAuditTestAbstract {
    * Set cron frequency to 0 and don't run cron. Check should Fail.
    */
   public function testEnabledFail() {
-    $eval1 = "\$config = \\Drupal::configFactory()->getEditable('system.cron'); \$config->set('threshold.autorun', 0); \$config->save();";
-    $eval2 = "\\Drupal::state()->set('system.cron_last', NULL)";
+    $eval1 = <<<EOT
+\$config = \\Drupal::configFactory()->getEditable('system.cron');
+\$config->set('threshold.autorun', 0);
+\$config->save();
+\\Drupal::state()->set('system.cron_last', NULL)
+EOT;
     $this->drush('php-eval', array($eval1), $this->options);
-    $this->drush('php-eval', array($eval2), $this->options);
     $this->drush('audit-cron', array(), $this->options + array(
         'detail' => NULL,
         'json' => NULL,
@@ -72,7 +83,11 @@ class CronEnabledCase extends SiteAuditTestAbstract {
    * Set cron frequency to 0 and run cron. Check should Pass.
    */
   public function testEnabledPassTwo() {
-    $eval1 = "\$config = \\Drupal::configFactory()->getEditable('system.cron'); \$config->set('threshold.autorun', 0); \$config->save();";
+    $eval1 = <<<EOT
+\$config = \\Drupal::configFactory()->getEditable('system.cron');
+\$config->set('threshold.autorun', 0);
+\$config->save();
+EOT;
     $this->drush('php-eval', array($eval1), $this->options);
     $this->drush('cron', array(), $this->options);
     $this->drush('audit-cron', array(), $this->options + array(

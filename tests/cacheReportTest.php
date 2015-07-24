@@ -26,7 +26,11 @@ class CacheReportCase extends SiteAuditTestAbstract {
    * Set cache.page.max_age to 0. Check should Fail.
    */
   public function testPageExpireOne() {
-    $eval1 = "\$config = \\Drupal::configFactory()->getEditable('system.performance'); \$config->set('cache.page.max_age', 0); \$config->save();";
+    $eval1 = <<<EOT
+\$config = \\Drupal::configFactory()->getEditable('system.performance');
+\$config->set('cache.page.max_age', 0);
+\$config->save();
+EOT;
     $this->drush('php-eval', array($eval1), $this->options);
     $this->drush('audit-cache', array(), $this->options + array(
         'detail' => NULL,
@@ -40,7 +44,11 @@ class CacheReportCase extends SiteAuditTestAbstract {
    * Set cache.page.max_age between 0 and 900. Check should Warn.
    */
   public function testPageExpireTwo() {
-    $eval1 = "\$config = \\Drupal::configFactory()->getEditable('system.performance'); \$config->set('cache.page.max_age', rand(1,89)); \$config->save();";
+    $eval1 = <<<EOT
+\$config = \\Drupal::configFactory()->getEditable('system.performance');
+\$config->set('cache.page.max_age', rand(1,89));
+\$config->save();
+EOT;
     $this->drush('php-eval', array($eval1), $this->options);
     $this->drush('audit-cache', array(), $this->options + array(
         'detail' => NULL,
@@ -54,7 +62,11 @@ class CacheReportCase extends SiteAuditTestAbstract {
    * Set cache.page.max_age greater than 900. Check should Pass.
    */
   public function testPageExpireThree() {
-    $eval1 = "\$config = \\Drupal::configFactory()->getEditable('system.performance'); \$config->set('cache.page.max_age', 901); \$config->save();";
+    $eval1 = <<<EOT
+\$config = \\Drupal::configFactory()->getEditable('system.performance');
+\$config->set('cache.page.max_age', 901);
+\$config->save();
+EOT;
     $this->drush('php-eval', array($eval1), $this->options);
     $this->drush('audit-cache', array(), $this->options + array(
         'detail' => NULL,
@@ -68,7 +80,11 @@ class CacheReportCase extends SiteAuditTestAbstract {
    * Set js.preprocess to false. Check should Fail.
    */
   public function testPreprocessJsFail() {
-    $eval1 = "\$config = \\Drupal::configFactory()->getEditable('system.performance'); \$config->set('js.preprocess', FALSE); \$config->save();";
+    $eval1 = <<<EOT
+\$config = \\Drupal::configFactory()->getEditable('system.performance');
+\$config->set('js.preprocess', FALSE);
+\$config->save();
+EOT;
     $this->drush('php-eval', array($eval1), $this->options);
     $this->drush('audit-cache', array(), $this->options + array(
         'detail' => NULL,
@@ -82,7 +98,11 @@ class CacheReportCase extends SiteAuditTestAbstract {
    * Set js.preprocess to true. Check should Pass.
    */
   public function testPreprocessJsPass() {
-    $eval1 = "\$config = \\Drupal::configFactory()->getEditable('system.performance'); \$config->set('js.preprocess', TRUE); \$config->save();";
+    $eval1 = <<<EOT
+\$config = \\Drupal::configFactory()->getEditable('system.performance');
+\$config->set('js.preprocess', TRUE);
+\$config->save();
+EOT;
     $this->drush('php-eval', array($eval1), $this->options);
     $this->drush('audit-cache', array(), $this->options + array(
         'detail' => NULL,
@@ -96,7 +116,11 @@ class CacheReportCase extends SiteAuditTestAbstract {
    * Set js.preprocess to false. Check should Fail.
    */
   public function testPreprocessCssFail() {
-    $eval1 = "\$config = \\Drupal::configFactory()->getEditable('system.performance'); \$config->set('css.preprocess', FALSE); \$config->save();";
+    $eval1 = <<<EOT
+\$config = \\Drupal::configFactory()->getEditable('system.performance');
+\$config->set('css.preprocess', FALSE);
+\$config->save();
+EOT;
     $this->drush('php-eval', array($eval1), $this->options);
     $this->drush('audit-cache', array(), $this->options + array(
         'detail' => NULL,
@@ -110,7 +134,11 @@ class CacheReportCase extends SiteAuditTestAbstract {
    * Set js.preprocess to true. Check should Pass.
    */
   public function testPreprocessCssPass() {
-    $eval1 = "\$config = \\Drupal::configFactory()->getEditable('system.performance'); \$config->set('css.preprocess', TRUE); \$config->save();";
+    $eval1 = <<<EOT
+\$config = \\Drupal::configFactory()->getEditable('system.performance');
+\$config->set('css.preprocess', TRUE);
+\$config->save();
+EOT;
     $this->drush('php-eval', array($eval1), $this->options);
     $this->drush('audit-cache', array(), $this->options + array(
         'detail' => NULL,

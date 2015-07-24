@@ -26,10 +26,17 @@ class BestPracticesReportCase extends SiteAuditTestAbstract {
    */
   public function testFast404One() {
     // Enable fast_404 and make fast_404 paths empty.
-    $eval1 = "\$config = \\Drupal::configFactory()->getEditable('system.performance'); \$config->set('fast_404.enabled', TRUE); \$config->save();";
-    $eval2 = "\$config = \\Drupal::configFactory()->getEditable('system.performance'); \$config->set('fast_404.paths', ''); \$config->save();";
+    $eval1 = <<<EOT
+\$config = \\Drupal::configFactory()->getEditable('system.performance');
+\$config->set('fast_404.enabled', TRUE);
+\$config->save();
+EOT;
+    $eval1 .= <<<EOT
+\$config = \\Drupal::configFactory()->getEditable('system.performance');
+\$config->set('fast_404.paths', '');
+\$config->save();
+EOT;
     $this->drush('php-eval', array($eval1), $this->options);
-    $this->drush('php-eval', array($eval2), $this->options);
 
     // Execute the best-practices command and get output.
     $this->drush('audit-best-practices', array(), $this->options + array('detail' => NULL, 'json' => NULL));
@@ -41,10 +48,17 @@ class BestPracticesReportCase extends SiteAuditTestAbstract {
    * Fast_404 enabled and fast_404 paths not empty in fast_404, check passes.
    */
   public function testFast404Two() {
-    $eval1 = "\$config = \\Drupal::configFactory()->getEditable('system.performance'); \$config->set('fast_404.enabled', TRUE); \$config->save();";
-    $eval2 = "\$config = \\Drupal::configFactory()->getEditable('system.performance'); \$config->set('fast_404.paths', '/\\.(?:txt|png)$/i'); \$config->save();";
+    $eval1 = <<<EOT
+\$config = \\Drupal::configFactory()->getEditable('system.performance');
+\$config->set('fast_404.enabled', TRUE);
+\$config->save();
+EOT;
+    $eval1 .= <<<EOT
+\$config = \\Drupal::configFactory()->getEditable('system.performance');
+\$config->set('fast_404.paths', '/\\.(?:txt|png)$/i');
+\$config->save();;
+EOT;
     $this->drush('php-eval', array($eval1), $this->options);
-    $this->drush('php-eval', array($eval2), $this->options);
 
     $this->drush('audit-best-practices', array(), $this->options + array('detail' => NULL, 'json' => NULL));
     $output = json_decode($this->getOutput());
@@ -56,7 +70,11 @@ class BestPracticesReportCase extends SiteAuditTestAbstract {
    * If fast_404 is disabled, check should warn.
    */
   public function testFast404Three() {
-    $eval1 = "\$config = \\Drupal::configFactory()->getEditable('system.performance'); \$config->set('fast_404.enabled', FALSE); \$config->save();";
+    $eval1 = <<<EOT
+\$config = \\Drupal::configFactory()->getEditable('system.performance');
+\$config->set('fast_404.enabled', FALSE);
+\$config->save();
+EOT;
     $this->drush('php-eval', array($eval1), $this->options);
     $this->drush('audit-best-practices', array(), $this->options + array('detail' => NULL, 'json' => NULL));
     $output = json_decode($this->getOutput());
