@@ -13,6 +13,7 @@
   "require": {
     "php": ">5.5.0",
     "phpmd/phpmd" : "@stable",
+    "sebastian/phpcpd": "*",
     "ext-SimpleXML" : "0.1"
   },
   "require-dev": {

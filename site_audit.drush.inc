@@ -107,26 +107,36 @@ function site_audit_drush_command() {
     'phpmd_ruleset' => array(
       'description' => dt('phpmd rules to be used, can also be an xml file with custom ruleset'),
       'example-value' => dt('codesize,naming,design,unusedcode'),
-      'value' => 'optional',
+      'value' => 'required',
     ),
     'phpmd_suffixes' => array(
       'description' => dt('Comma-separated string of valid source code filename extensions checked by phpmd'),
       'example-value' => dt('.php,.module,.install,.test,.inc,.profile,.theme'),
-      'value' => 'optional',
+      'value' => 'required',
     ),
     'phpmd_exclude' => array(
       'description' => dt('Comma-separated string of patterns that are used to ignore directories by phpmd'),
       'example-value' => dt('*.features.*,*_default.inc,*.ds.inc,*.strongarm.inc,*.panelizer.inc,*_defaults.inc,*.box.inc,*.context.inc,*displays.inc'),
-      'value' => 'optional',
+      'value' => 'required',
     ),
     'phpmd_minimumpriority' => array(
       'description' => dt('The phpmd rule priority threshold; rules with lower priority than they will not be used; between 1 and 5'),
       'example-value' => dt('3'),
-      'value' => 'optional',
+      'value' => 'required',
     ),
     'phpmd_strict' => array(
       'description' => dt('Phpmd also reports those nodes with a @SuppressWarnings annotation'),
       'value' => 'optional',
+    ),
+    'phpcpd_names' => array(
+      'description' => dt('A comma-separated list of file names for phpcpd to check'),
+      'example-value' => dt('*.php,*.module,*.install,*.test,*.inc,*.profile,*.theme'),
+      'value' => 'required',
+    ),
+    'phpcpd_names-exclude' => array(
+      'description' => dt('A comma-separated list of file names for phpcpd to exclude'),
+      'example-value' => dt('*.features.*,*_default.inc,*.ds.inc,*.strongarm.inc,*.panelizer.inc,*_defaults.inc,*.box.inc,*.context.inc,*displays.inc'),
+      'value' => 'required',
     ),
   );
 
@@ -142,6 +152,7 @@ function site_audit_drush_command() {
       'ManagedFileCount',
       'ManagedFileSize',
       'PhpMessDetection',
+      'PhpCopyPasteDetection',
     ),
   );
 
