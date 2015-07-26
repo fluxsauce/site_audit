@@ -25,14 +25,15 @@ class SiteAuditCheckCodebasePhpMessDetection extends SiteAuditCheckAbstract {
   /**
    * Implements \SiteAudit\Check\Abstract\getResultFail().
    */
-  public function getResultFail() {
-    return dt('Unable to find phpmd. Please run "composer install" to install all the dependencies of site_audit.');
-  }
+  public function getResultFail() {}
 
   /**
    * Implements \SiteAudit\Check\Abstract\getResultInfo().
    */
   public function getResultInfo() {
+    if (isset($this->registry['phpmd_path'])) {
+      return dt('Cannot find phpmd in path. Make sure that phpmd is present in the PATH or run composer install inside the site_audit directory to install all the dependencies');
+    }
     return dt('No custom code path specified');
   }
 
@@ -91,7 +92,8 @@ class SiteAuditCheckCodebasePhpMessDetection extends SiteAuditCheckAbstract {
           $begin = $violation['beginline'];
           $end = $violation['endline'];
           $rule = $violation['rule'];
-          $ret_val .= "$begin to $end:$rule-$violation";
+          $action = trim((String) $violation);
+          $ret_val .= "$begin to $end : $rule - $action";
         }
       }
     }
@@ -111,11 +113,13 @@ class SiteAuditCheckCodebasePhpMessDetection extends SiteAuditCheckAbstract {
     // Get the path of phpmd.
     $phpmd_path = $this->getPhpmd();
     if ($phpmd_path === SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO) {
+      $this->registry['phpmd_path'] = $phpmd_path;
       return $phpmd_path;
     }
     // Get the custom code paths.
     $custom_code = $this->getCustomCodePaths();
     if ($custom_code === SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO) {
+      $this->registry['custom_code'] = $custom_code;
       return $custom_code;
     }
     // Get options.
@@ -143,7 +147,6 @@ class SiteAuditCheckCodebasePhpMessDetection extends SiteAuditCheckAbstract {
       $output = array();
       $exit_code = 0;
       $command = $phpmd_path . ' ' . $path . ' xml' . $option_string;
-      echo $command;
       exec($command, $output, $exit_code);
       if ($exit_code == 1) {
         continue;
