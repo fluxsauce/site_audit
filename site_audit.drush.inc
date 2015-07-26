@@ -98,17 +98,50 @@ function site_audit_drush_command() {
     ),
   );
 
+  $options_codebase = array(
+    'custom_code' => array(
+      'description' => dt('Comma separated the directories/files containing custom code.'),
+      'example-value' => dt('./modules/custom,./modules/features,./code.php'),
+      'value' => 'required',
+    ),
+    'phpmd_ruleset' => array(
+      'description' => dt('phpmd rules to be used, can also be an xml file with custom ruleset'),
+      'example-value' => dt('codesize,naming,design,unusedcode'),
+      'value' => 'optional',
+    ),
+    'phpmd_suffixes' => array(
+      'description' => dt('Comma-separated string of valid source code filename extensions checked by phpmd'),
+      'example-value' => dt('.php,.module,.install,.test,.inc,.profile,.theme'),
+      'value' => 'optional',
+    ),
+    'phpmd_exclude' => array(
+      'description' => dt('Comma-separated string of patterns that are used to ignore directories by phpmd'),
+      'example-value' => dt('*.features.*,*_default.inc,*.ds.inc,*.strongarm.inc,*.panelizer.inc,*_defaults.inc,*.box.inc,*.context.inc,*displays.inc'),
+      'value' => 'optional',
+    ),
+    'phpmd_minimumpriority' => array(
+      'description' => dt('The phpmd rule priority threshold; rules with lower priority than they will not be used; between 1 and 5'),
+      'example-value' => dt('3'),
+      'value' => 'optional',
+    ),
+    'phpmd_strict' => array(
+      'description' => dt('Phpmd also reports those nodes with a @SuppressWarnings annotation'),
+      'value' => 'optional',
+    ),
+  );
+
   $items['audit-codebase'] = array(
     'description' => dt('Audit the codebase.'),
     'aliases' => array('acb'),
     'callback' => 'drush_site_audit_generic_callback',
     'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
-    'options' => site_audit_common_options(),
+    'options' => array_merge(site_audit_common_options(), $options_codebase),
     'checks' => array(
       'SizeFiles',
       'SizeAll',
       'ManagedFileCount',
       'ManagedFileSize',
+      'PhpMessDetection',
     ),
   );
 
@@ -560,9 +593,9 @@ function drush_site_audit_audit_cache_validate() {
 }
 
 /**
- * Audit codebase validation.
+ * Audit  validation.
  */
-function drush_site_audit_audit_codebase_validate() {
+function drush_site_audit_audit__validate() {
   return drush_site_audit_generic_callback_validate();
 }
 

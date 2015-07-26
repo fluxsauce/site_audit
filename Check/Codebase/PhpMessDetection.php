@@ -7,7 +7,7 @@
 /**
  * Class SiteAuditCheckStaticCodeAnalysisPhpMessDetection.
  */
-class SiteAuditCheckStaticCodeAnalysisPhpMessDetection extends SiteAuditCheckAbstract {
+class SiteAuditCheckCodebasePhpMessDetection extends SiteAuditCheckAbstract {
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -33,6 +33,20 @@ class SiteAuditCheckStaticCodeAnalysisPhpMessDetection extends SiteAuditCheckAbs
    * Implements \SiteAudit\Check\Abstract\getResultInfo().
    */
   public function getResultInfo() {
+    return dt('No custom code path specified');
+  }
+
+
+  /**
+   * Implements \SiteAudit\Check\Abstract\getResultPass().
+   */
+  public function getResultPass() {}
+
+
+  /**
+   * Implements \SiteAudit\Check\Abstract\getResultWarn().
+   */
+  public function getResultWarn() {
     $ret_val = '';
 
     if (empty($this->registry['phpmd_out'])) {
@@ -77,24 +91,12 @@ class SiteAuditCheckStaticCodeAnalysisPhpMessDetection extends SiteAuditCheckAbs
           $begin = $violation['beginline'];
           $end = $violation['endline'];
           $rule = $violation['rule'];
-          $ret_val .= "$begin to $end: $rule : $violation";
+          $ret_val .= "$begin to $end:$rule-$violation";
         }
       }
     }
     return $ret_val;
 
-  }
-
-  /**
-   * Implements \SiteAudit\Check\Abstract\getResultPass().
-   */
-  public function getResultPass() {}
-
-  /**
-   * Implements \SiteAudit\Check\Abstract\getResultWarn().
-   */
-  public function getResultWarn() {
-    return dt('No custom code path specified');
   }
 
   /**
@@ -106,35 +108,42 @@ class SiteAuditCheckStaticCodeAnalysisPhpMessDetection extends SiteAuditCheckAbs
    * Implements \SiteAudit\Check\Abstract\calculateScore().
    */
   public function calculateScore() {
-    // Check if phpmd exists.
-    if (!is_file(SITE_AUDIT_BASE_PATH . '/vendor/bin/phpmd') && empty(exec('which phpmd 2>/dev/null'))) {
-      return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
+    // Get the path of phpmd.
+    $phpmd_path = $this->getPhpmd();
+    if ($phpmd_path === SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO) {
+      return $phpmd_path;
     }
     // Get the custom code paths.
-    $custom_code = \Drupal::config('site_audit')->get('custom_code');
-    if ($custom_code == NULL) {
-      $custom_code = drush_get_option('custom_code', '');
-      if (empty($custom_code)) {
-        return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN;
+    $custom_code = $this->getCustomCodePaths();
+    if ($custom_code === SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO) {
+      return $custom_code;
+    }
+    // Get options.
+    $valid_options = array(
+      'minimumpriority' => NULL,
+      'suffixes' => '.php,.module,.install,.test,.inc,.profile,.theme',
+      'exclude' => '*.features.*,*_default.inc,*.ds.inc,*.strongarm.inc,*.panelizer.inc,*_defaults.inc,*.box.inc,*.context.inc,*displays.inc',
+      'strict' => NULL,
+      'ruleset' => 'codesize,naming,design,unusedcode',
+    );
+    $options = $this->getOptions($valid_options, 'phpmd_');
+    $option_string = ' ' . $options['ruleset'];
+    foreach ($options as $option => $value) {
+      if ($option != 'ruleset') {
+        $option_string .= " --$option";
+        if ($value !== TRUE) {
+          $option_string .= "=$value";
+        }
       }
-      $custom_code = explode(',', $custom_code);
-    }
-    $phpmd_path = "";
-    // Get the path of phpmd executable.
-    if (is_file(SITE_AUDIT_BASE_PATH . '/vendor/bin/phpmd')) {
-      $phpmd_path = SITE_AUDIT_BASE_PATH . '/vendor/bin/phpmd';
-    }
-    else {
-      $phpmd_path = exec('which phpmd 2>/dev/null');
     }
     // Supress XML errors which will be handled by try catch instead.
     libxml_use_internal_errors(TRUE);
 
-    $phpmd_rules = drush_get_option('phpmd_rules', 'codesize,naming,design,unusedcode');
     foreach ($custom_code as $path) {
       $output = array();
       $exit_code = 0;
-      $command = $phpmd_path . ' ' . $path . ' xml ' . $phpmd_rules;
+      $command = $phpmd_path . ' ' . $path . ' xml' . $option_string;
+      echo $command;
       exec($command, $output, $exit_code);
       if ($exit_code == 1) {
         continue;
@@ -151,7 +160,70 @@ class SiteAuditCheckStaticCodeAnalysisPhpMessDetection extends SiteAuditCheckAbs
         continue;
       }
     }
+    return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN;
+  }
+
+  /**
+   * Returns the path of the PHPMD executable.
+   *
+   * Checks for phpmd inside the vendor directory of site_audit or in the
+   * global path. Returns AUDIT_CHECK_SCORE_INFO of phpmd is not found.
+   *
+   * @return String|int
+   *   Path of phpmd executable or AUDIT_CHECK_SCORE_INFO if phpmd not found
+   */
+  public function getPhpmd() {
+    // Get the path of phpmd executable.
+    if (is_file(SITE_AUDIT_BASE_PATH . '/vendor/bin/phpmd')) {
+      return SITE_AUDIT_BASE_PATH . '/vendor/bin/phpmd';
+    }
+    $global_phpmd = exec('which phpmd 2>/dev/null');
+    if (!empty($global_phpmd)) {
+      return $global_phpmd;
+    }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
+  }
+
+  /**
+   * Returns an array containing custom code paths or AUDIT_CHECK_SCORE_INFO.
+   *
+   * @return array|int
+   *   An array contaning custom code paths or AUDIT_CHECK_SCORE_INFO if custom
+   *   code paths are not found.
+   */
+  public function getCustomCodePaths() {
+    $custom_code = \Drupal::config('site_audit')->get('custom_code');
+    if ($custom_code == NULL) {
+      $custom_code = drush_get_option('custom_code', '');
+      if (empty($custom_code)) {
+        return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
+      }
+      $custom_code = explode(',', $custom_code);
+    }
+    return $custom_code;
+  }
+
+  /**
+   * Returns the values of the allowed options for phpmd.
+   *
+   * @param array $options
+   *   An array containing the options to be checked and their default values.
+   * @param string $option_prefix
+   *   Prefix for the options.
+   *
+   * @return array
+   *   An associative array containing the value of the options indexed by
+   *   option name.
+   */
+  public function getOptions(array $options, $option_prefix) {
+    $values = array();
+    foreach ($options as $option => $default) {
+      $value = drush_get_option($option_prefix . $option, $default);
+      if ($value !== NULL) {
+        $values[$option] = $value;
+      }
+    }
+    return $values;
   }
 
 }
