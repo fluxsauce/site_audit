@@ -1,11 +1,11 @@
 <?php
 /**
  * @file
- * Contains \SiteAudit\Check\StaticCodeAnalysis\PhpMessDetection.
+ * Contains \SiteAudit\Check\Codebase\PhpMessDetection.
  */
 
 /**
- * Class SiteAuditCheckStaticCodeAnalysisPhpMessDetection.
+ * Class SiteAuditCheckCodebasePhpMessDetection.
  */
 class SiteAuditCheckCodebasePhpMessDetection extends SiteAuditCheckAbstract {
   /**
@@ -41,7 +41,9 @@ class SiteAuditCheckCodebasePhpMessDetection extends SiteAuditCheckAbstract {
   /**
    * Implements \SiteAudit\Check\Abstract\getResultPass().
    */
-  public function getResultPass() {}
+  public function getResultPass() {
+    dt('Custom Code does not violate any PHP Mess Detector rule.');
+  }
 
 
   /**
@@ -49,13 +51,6 @@ class SiteAuditCheckCodebasePhpMessDetection extends SiteAuditCheckAbstract {
    */
   public function getResultWarn() {
     $ret_val = '';
-
-    if (empty($this->registry['phpmd_out'])) {
-      if (drush_get_option('detail')) {
-        return dt('No phpmd violations.');
-      }
-      return $ret_val;
-    }
     if (drush_get_option('html') == TRUE) {
       $ret_val .= '<table class="table table-condensed">';
       $ret_val .= '<thead><tr><th>' . dt('Line') . '</th><th>' . dt('Type') . '</th><th>' . dt('Action') . '</th></tr></thead>';
@@ -104,7 +99,9 @@ class SiteAuditCheckCodebasePhpMessDetection extends SiteAuditCheckAbstract {
   /**
    * Implements \SiteAudit\Check\Abstract\getAction().
    */
-  public function getAction() {}
+  public function getAction() {
+    dt('Fix the PHP Mess Detector violations.');
+  }
 
   /**
    * Implements \SiteAudit\Check\Abstract\calculateScore().
@@ -162,6 +159,9 @@ class SiteAuditCheckCodebasePhpMessDetection extends SiteAuditCheckAbstract {
       catch (Exception $e) {
         continue;
       }
+    }
+    if (empty($this->registry['phpmd_out'])) {
+      return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN;
   }
