@@ -27,12 +27,14 @@ class SiteAuditCheckExtensionsSecurity extends SiteAuditCheckAbstract {
     if (drush_get_option('html')) {
       $ret_val = '<p>' . $ret_val . '</p>';
       $ret_val .= '<table class="table table-condensed">';
-      $ret_val .= '<thead><tr><th>' . dt('Name') . '</th><th>' . dt('Existing') . '</th><th>' . dt('Candidate') . '</th><th>' . dt('Status') . '</th></thead>';
+      $ret_val .= '<thead><tr><th>' . dt('Name') . '</th><th>' . dt('Existing') . '</th><th>' . dt('Candidate') . '</th></thead>';
       $ret_val .= '<tbody>';
       foreach ($this->registry['projects_security'] as $short_info) {
-        $ret_val .= '<tr><td>' . $short_info['label'] . '</td>';
-        $ret_val .= '<tr><td>' . $short_info['existing_version'] . '</td>';
-        $ret_val .= '<tr><td>' . $short_info['candidate_version'] . '</td>';
+        $ret_val .= '<tr>';
+        $ret_val .= '<td>' . $short_info['label'] . '</td>';
+        $ret_val .= '<td>' . $short_info['existing_version'] . '</td>';
+        $ret_val .= '<td>' . $short_info['candidate_version'] . '</td>';
+        $ret_val .= '</tr>';
       }
       $ret_val .= '</tbody>';
       $ret_val .= '</table>';
