@@ -99,9 +99,6 @@ class SiteAuditCheckContentVocabularies extends SiteAuditCheckAbstract {
     $this->registry['vocabulary_counts'] = $this->registry['vocabulary_unused'] = array();
 
     foreach ($result as $row) {
-      if (!drush_get_option('detail')) {
-        continue;
-      }
       $label = $vocabularies[$row->vid]['label'];
       $this->registry['vocabulary_counts'][$label] = $row->count;
     }
