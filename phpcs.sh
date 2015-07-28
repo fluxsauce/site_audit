@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 if [ ! -f "./vendor/bin/phpcs" ]
 then
   echo "phpcs not found; please run 'composer install --dev'"
