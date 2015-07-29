@@ -16,7 +16,14 @@
   "require-dev": {
     "squizlabs/php_codesniffer": "*",
     "drupal/coder": ">8.2.0",
-    "phpunit/phpunit": "4.7.*"
+    "phpunit/phpunit": "4.7.*",
+    "drush/drush": "dev-master",
+    "symfony/process": "2.4.5"
+  },
+  "autoload": {
+    "psr-0": {
+      "Unish": "vendor/drush/drush/tests/"
+    }
   },
   "keywords": ["standards", "audit", "code review", "drupal", "analysis", "reports", "drush"]
 }
