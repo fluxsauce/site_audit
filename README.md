@@ -269,10 +269,10 @@ platform independent functionality of the project.
 
 ### Running the tests
 
-* Run `composer install` to install all the dependencies of site-audit which
-  includes PHPUnit that is used for testing.
-* Export the environment variable `UNISH_DB_URL=mysql://[username]:[password]@127.0.0.1`
-  with correct MySQL username and password for PHPUnit to use for testing
+* Run `composer update` to install all the dependencies of site-audit which
+  includes PHPUnit and drush that is used for testing.
+* Export the environment variable `UNISH_DB_URL=mysql://[username]:[password]@HOST`
+  with correct MySQL username, password and host for PHPUnit to use for testing
 * Run the script `./test.sh` from inside the site_audit directory.
   This will run all the tests.  
 * To run the tests selectively, run `./test.sh --filter="*Extensions*" tests`
