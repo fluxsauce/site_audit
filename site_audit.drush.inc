@@ -138,6 +138,21 @@ function site_audit_drush_command() {
       'example-value' => dt('*.features.*,*_default.inc,*.ds.inc,*.strongarm.inc,*.panelizer.inc,*_defaults.inc,*.box.inc,*.context.inc,*displays.inc'),
       'value' => 'required',
     ),
+    'phpcs_extensions' => array(
+      'description' => dt('A comma separated list of file extensions to be checked by phpcs'),
+      'example-value' => dt('php,module,inc,install,test,profile,theme,css,info,txt'),
+      'value' => 'required',
+    ),
+    'phpcs_ignore' => array(
+      'description' => dt('A comma separated list of patterns for phpcs to ignore files and directories'),
+      'example-value' => dt('*/modules/features/'),
+      'value' => 'required',
+    ),
+    'phpcs_standard' => array(
+      'description' => dt('Name or absolute path of the coding standard to be used by phpcs'),
+      'example-value' => dt('~/.drush/site_audit/vendor/drupal/coder/coder_sniffer/Drupal'),
+      'value' => 'required',
+    ),
   );
 
   $items['audit-codebase'] = array(
@@ -153,6 +168,7 @@ function site_audit_drush_command() {
       'ManagedFileSize',
       'PhpMessDetection',
       'PhpCopyPasteDetection',
+      'PhpCodeSniffer',
     ),
   );
 
