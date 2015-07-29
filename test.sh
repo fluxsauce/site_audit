@@ -28,9 +28,10 @@ fi
 
 # The following line is needed is you use a `drush` that differs from `which drush`
 # export UNISH_DRUSH=$DRUSH_PATH
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 if [ $# = 0 ] ; then
-   phpunit --configuration="$DRUSH_DIRNAME/tests" tests
+   $DIR/vendor/bin/phpunit --configuration="$DRUSH_DIRNAME/tests" tests
 else
    # Pass along any arguments.
-   phpunit --configuration="$DRUSH_DIRNAME/tests" $@
+   $DIR/vendor/bin/phpunit --configuration="$DRUSH_DIRNAME/tests" $@
 fi
