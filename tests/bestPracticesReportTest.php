@@ -29,10 +29,6 @@ class BestPracticesReportCase extends SiteAuditTestAbstract {
     $eval1 = <<<EOT
 \$config = \\Drupal::configFactory()->getEditable('system.performance');
 \$config->set('fast_404.enabled', TRUE);
-\$config->save();
-EOT;
-    $eval1 .= <<<EOT
-\$config = \\Drupal::configFactory()->getEditable('system.performance');
 \$config->set('fast_404.paths', '');
 \$config->save();
 EOT;
@@ -51,10 +47,6 @@ EOT;
     $eval1 = <<<EOT
 \$config = \\Drupal::configFactory()->getEditable('system.performance');
 \$config->set('fast_404.enabled', TRUE);
-\$config->save();
-EOT;
-    $eval1 .= <<<EOT
-\$config = \\Drupal::configFactory()->getEditable('system.performance');
 \$config->set('fast_404.paths', '/\\.(?:txt|png)$/i');
 \$config->save();;
 EOT;
