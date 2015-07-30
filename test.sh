@@ -14,6 +14,11 @@
 # Any parameters that may be passed to `phpunit` may also be used
 # with this script.
 
+if [ ! -f "./vendor/bin/phpunit" ]
+then
+   echo "phpunit not found; please run 'composer install --dev'"
+   exit 1
+fi
 export UNISH_NO_TIMEOUTS=y
 export UNISH_DRUPAL_MAJOR_VERSION=8
 
