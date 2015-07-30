@@ -271,14 +271,15 @@ platform independent functionality of the project.
 
 * Run `composer update` to install all the dependencies of site-audit which
   includes PHPUnit and drush that is used for testing.
-* Export the environment variable `UNISH_DB_URL=mysql://[username]:[password]@HOST`
+* Export the environment variable `UNISH_DB_URL`
   with correct MySQL username, password and host for PHPUnit to use for testing
-* Run the script `./test.sh` from inside the site_audit directory.
-  This will run all the tests.  
-* To run the tests selectively, run `./test.sh --filter="*Extensions*" tests`
-  tests where *Extensions* is the regex matching the class name of tests for the extension report.
-  Similarly for other reports, run `./test.sh --filter="*[Report-name]*" tests`. For a particular test,
-  run `./test.sh --filter="*[test-name]*" tests`
+
+```bash
+export UNISH_DB_URL="mysql://USERNAME:PASSWORD@HOST"
+```
+
+* To run all the tests, execute `./test.sh` from within the site_audit directory.
+* To run the tests selectively, execute `./test.sh --filter="*REPORTNAME*" tests` where `REPORTNAME` is the name of a report, such as `Extensions`
 
 ### Adding more tests
 
