@@ -108,7 +108,7 @@ class SiteAuditCheckCodebasePhpMessDetection extends SiteAuditCheckAbstract {
    */
   public function calculateScore() {
     // Get the path of phpmd.
-    $phpmd_path = $this->getPhpmd();
+    $phpmd_path = $this->getExecPath('phpmd');
     if ($phpmd_path === SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO) {
       $this->registry['phpmd_path'] = $phpmd_path;
       return $phpmd_path;
@@ -164,69 +164,6 @@ class SiteAuditCheckCodebasePhpMessDetection extends SiteAuditCheckAbstract {
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN;
-  }
-
-  /**
-   * Returns the path of the PHPMD executable.
-   *
-   * Checks for phpmd inside the vendor directory of site_audit or in the
-   * global path. Returns AUDIT_CHECK_SCORE_INFO of phpmd is not found.
-   *
-   * @return String|int
-   *   Path of phpmd executable or AUDIT_CHECK_SCORE_INFO if phpmd not found
-   */
-  public function getPhpmd() {
-    // Get the path of phpmd executable.
-    if (is_file(SITE_AUDIT_BASE_PATH . '/vendor/bin/phpmd')) {
-      return SITE_AUDIT_BASE_PATH . '/vendor/bin/phpmd';
-    }
-    $global_phpmd = exec('which phpmd 2>/dev/null');
-    if (!empty($global_phpmd)) {
-      return $global_phpmd;
-    }
-    return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
-  }
-
-  /**
-   * Returns an array containing custom code paths or AUDIT_CHECK_SCORE_INFO.
-   *
-   * @return array|int
-   *   An array contaning custom code paths or AUDIT_CHECK_SCORE_INFO if custom
-   *   code paths are not found.
-   */
-  public function getCustomCodePaths() {
-    $custom_code = \Drupal::config('site_audit')->get('custom_code');
-    if ($custom_code == NULL) {
-      $custom_code = drush_get_option('custom_code', '');
-      if (empty($custom_code)) {
-        return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
-      }
-      $custom_code = explode(',', $custom_code);
-    }
-    return $custom_code;
-  }
-
-  /**
-   * Returns the values of the allowed options for phpmd.
-   *
-   * @param array $options
-   *   An array containing the options to be checked and their default values.
-   * @param string $option_prefix
-   *   Prefix for the options.
-   *
-   * @return array
-   *   An associative array containing the value of the options indexed by
-   *   option name.
-   */
-  public function getOptions(array $options, $option_prefix) {
-    $values = array();
-    foreach ($options as $option => $default) {
-      $value = drush_get_option($option_prefix . $option, $default);
-      if ($value !== NULL) {
-        $values[$option] = $value;
-      }
-    }
-    return $values;
   }
 
 }

@@ -102,7 +102,7 @@ class SiteAuditCheckCodebasePhpCopyPasteDetection extends SiteAuditCheckAbstract
    */
   public function calculateScore() {
     // Get the path of phpcpd.
-    $phpcpd_path = $this->getPhpcpd();
+    $phpcpd_path = $this->getExecPath('phpcpd');
     if ($phpcpd_path === SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO) {
       $this->registry['phpcpd_path'] = $phpcpd_path;
       return $phpcpd_path;
@@ -149,69 +149,6 @@ class SiteAuditCheckCodebasePhpCopyPasteDetection extends SiteAuditCheckAbstract
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN;
-  }
-
-  /**
-   * Returns the path of the PHPCPD executable.
-   *
-   * Checks for phpcpd inside the vendor directory of site_audit or in the
-   * global path. Returns AUDIT_CHECK_SCORE_INFO of phpcpd is not found.
-   *
-   * @return String|int
-   *   Path of phpcpd executable or AUDIT_CHECK_SCORE_INFO if phpcpd not found
-   */
-  public function getPhpcpd() {
-    // Get the path of phpcpd executable.
-    if (is_file(SITE_AUDIT_BASE_PATH . '/vendor/bin/phpcpd')) {
-      return SITE_AUDIT_BASE_PATH . '/vendor/bin/phpcpd';
-    }
-    $global_phpcpd = exec('which phpcpd 2>/dev/null');
-    if (!empty($global_phpcpd)) {
-      return $global_phpcpd;
-    }
-    return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
-  }
-
-  /**
-   * Returns an array containing custom code paths or AUDIT_CHECK_SCORE_INFO.
-   *
-   * @return array|int
-   *   An array contaning custom code paths or AUDIT_CHECK_SCORE_INFO if custom
-   *   code paths are not found.
-   */
-  public function getCustomCodePaths() {
-    $custom_code = \Drupal::config('site_audit')->get('custom_code');
-    if ($custom_code == NULL) {
-      $custom_code = drush_get_option('custom_code', '');
-      if (empty($custom_code)) {
-        return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
-      }
-      $custom_code = explode(',', $custom_code);
-    }
-    return $custom_code;
-  }
-
-  /**
-   * Returns the values of the allowed options for phpcpd.
-   *
-   * @param array $options
-   *   An array containing the options to be checked and their default values.
-   * @param string $option_prefix
-   *   Prefix for the options.
-   *
-   * @return array
-   *   An associative array containing the value of the options indexed by
-   *   option name.
-   */
-  public function getOptions(array $options, $option_prefix) {
-    $values = array();
-    foreach ($options as $option => $default) {
-      $value = drush_get_option($option_prefix . $option, $default);
-      if ($value !== NULL) {
-        $values[$option] = $value;
-      }
-    }
-    return $values;
   }
 
 }

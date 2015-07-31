@@ -279,4 +279,67 @@ abstract class SiteAuditCheckAbstract {
     return $this->percentOverride;
   }
 
+  /**
+   * Returns the values of the valid options for a command.
+   *
+   * This function is used by the codebase report where it needs to get the
+   * value of options for different tools it uses. The function takes an
+   * array of valid options to check and a prefix for those options.
+   *
+   * @param array $options
+   *   An array containing the options to be checked and their default values.
+   * @param string $option_prefix
+   *   Prefix for the options.
+   *
+   * @return array
+   *   An associative array containing the value of the options indexed by
+   *   option name.
+   */
+  public function getOptions(array $options, $option_prefix) {
+    $values = array();
+    foreach ($options as $option => $default) {
+      $value = drush_get_option($option_prefix . $option, $default);
+      if ($value !== NULL) {
+        $values[$option] = $value;
+      }
+    }
+    return $values;
+  }
+
+  /**
+   * Returns an array containing custom code paths or AUDIT_CHECK_SCORE_INFO.
+   *
+   * @return array|int
+   *   An array contaning custom code paths or AUDIT_CHECK_SCORE_INFO if custom
+   *   code paths are not found.
+   */
+  public function getCustomCodePaths() {
+    $custom_code = \Drupal::config('site_audit')->get('custom_code');
+    if ($custom_code == NULL) {
+      $custom_code = drush_get_option('custom_code', '');
+      if (empty($custom_code)) {
+        return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
+      }
+      $custom_code = explode(',', $custom_code);
+    }
+    return $custom_code;
+  }
+
+  /**
+   * Returns the path of the PHPMD executable.
+   *
+   * Checks for $name inside the vendor directory of site_audit.
+   * Returns AUDIT_CHECK_SCORE_INFO is executable is not found.
+   *
+   * @return String|int
+   *   Path of executable or AUDIT_CHECK_SCORE_INFO if phpmd not found
+   */
+  public function getExecPath($name) {
+    // Get the path of executable.
+    if (is_file(SITE_AUDIT_BASE_PATH . '/vendor/bin/' . $name)) {
+      return SITE_AUDIT_BASE_PATH . '/vendor/bin/' . $name;
+    }
+    return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
+  }
+
 }
