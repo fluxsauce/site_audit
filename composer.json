@@ -16,7 +16,8 @@
     "sebastian/phpcpd": "*",
     "ext-SimpleXML" : "0.1",
     "squizlabs/php_codesniffer": "*",
-    "drupal/coder": "^8.2"
+    "drupal/coder": "^8.2",
+    "phploc/phploc": "*"
   },
   "require-dev": {
     "phpunit/phpunit": "4.7.*",

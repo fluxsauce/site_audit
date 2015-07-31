@@ -104,6 +104,16 @@ function site_audit_drush_command() {
       'example-value' => dt('./modules/custom,./modules/features,./code.php'),
       'value' => 'required',
     ),
+    'phploc_names' => array(
+      'description' => dt('A comma-separated list of file names for phploc to check'),
+      'example-value' => dt('*.php,*.module,*.install,*.test,*.inc,*.profile,*.theme'),
+      'value' => 'required',
+    ),
+    'phploc_names-exclude' => array(
+      'description' => dt('A comma-separated list of file names for phploc to exclude'),
+      'example-value' => dt('*.features.*,*_default.inc,*.ds.inc,*.strongarm.inc,*.panelizer.inc,*_defaults.inc,*.box.inc,*.context.inc,*displays.inc'),
+      'value' => 'required',
+    ),
     'phpmd_ruleset' => array(
       'description' => dt('phpmd rules to be used, can also be an xml file with custom ruleset'),
       'example-value' => dt('codesize,naming,design,unusedcode'),
@@ -166,6 +176,7 @@ function site_audit_drush_command() {
       'SizeAll',
       'ManagedFileCount',
       'ManagedFileSize',
+      'PhpLOC',
       'PhpMessDetection',
       'PhpCopyPasteDetection',
       'PhpCodeSniffer',
