@@ -4,6 +4,8 @@
  * Contains \SiteAudit\Check\Codebase\PhpLOC.
  */
 
+use Symfony\Component\Process\Process;
+
 /**
  * Class SiteAuditCheckCodebasePhpLOC.
  */
@@ -140,10 +142,9 @@ class SiteAuditCheckCodebasePhpLOC extends SiteAuditCheckAbstract {
     libxml_use_internal_errors(TRUE);
 
     foreach ($custom_code as $path) {
-      $output = array();
-      $exit_code = 0;
       $command = $phploc_path . ' ' . $path . $option_string;
-      exec($command, $output, $exit_code);
+      $process = new Process($command);
+      $process->run();
       try {
         $output = simplexml_load_file($temp_file);
         $this->registry['phploc_out'][$path] = $output;

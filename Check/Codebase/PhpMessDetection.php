@@ -4,6 +4,8 @@
  * Contains \SiteAudit\Check\Codebase\PhpMessDetection.
  */
 
+use Symfony\Component\Process\Process;
+
 /**
  * Class SiteAuditCheckCodebasePhpMessDetection.
  */
@@ -141,15 +143,14 @@ class SiteAuditCheckCodebasePhpMessDetection extends SiteAuditCheckAbstract {
     libxml_use_internal_errors(TRUE);
 
     foreach ($custom_code as $path) {
-      $output = array();
-      $exit_code = 0;
       $command = $phpmd_path . ' ' . $path . ' xml' . $option_string;
-      exec($command, $output, $exit_code);
-      if ($exit_code == 1) {
+      $process = new Process($command);
+      $process->run();
+      if ($process->getExitCode() == 1) {
         continue;
       }
       try {
-        $output = new SimpleXMLElement(implode("\n", $output));
+        $output = new SimpleXMLElement($process->getOutput());
         foreach ($output as $file) {
           foreach ($file as $violation) {
             $this->registry['phpmd_out'][(String) $file[0]['name']][] = $violation;

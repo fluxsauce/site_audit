@@ -189,8 +189,8 @@ function site_audit_drush_command() {
       'ManagedFileSize',
       'PhpLOC',
       'PhpMessDetection',
-      'PhpCopyPasteDetection',
       'PhpCodeSniffer',
+      'PhpCopyPasteDetection',
       'PhpDeadCodeDetection',
     ),
   );

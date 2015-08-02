@@ -4,6 +4,7 @@
  * Contains \SiteAudit\Check\Codebase\PhpCodeSniffer.
  */
 
+use Symfony\Component\Process\Process;
 /**
  * Class SiteAuditCheckCodebasePhpCodeSniffer.
  */
@@ -146,12 +147,11 @@ class SiteAuditCheckCodebasePhpCodeSniffer extends SiteAuditCheckAbstract {
     libxml_use_internal_errors(TRUE);
 
     foreach ($custom_code as $path) {
-      $output = array();
-      $exit_code = 0;
       $command = $phpcs_path . ' ' . $path . $option_string;
-      exec($command, $output, $exit_code);
+      $process = new Process($command);
+      $process->run();
       try {
-        $output = new SimpleXMLElement(implode("\n", $output));
+        $output = new SimpleXMLElement($process->getOutput());
         foreach ($output as $file) {
           foreach ($file as $violation) {
             $this->registry['phpcs_out'][(String) $file[0]['name']][] = $violation;

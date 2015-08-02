@@ -4,6 +4,7 @@
  * Contains \SiteAudit\Check\Codebase\PhpMessDetection.
  */
 
+use Symfony\Component\Process\Process;
 /**
  * Class SiteAuditCheckCodebasePhpCopyPasteDetection.
  */
@@ -131,10 +132,9 @@ class SiteAuditCheckCodebasePhpCopyPasteDetection extends SiteAuditCheckAbstract
     libxml_use_internal_errors(TRUE);
 
     foreach ($custom_code as $path) {
-      $output = array();
-      $exit_code = 0;
       $command = $phpcpd_path . ' ' . $path . $option_string;
-      exec($command, $output, $exit_code);
+      $process = new Process($command);
+      $process->run();
       try {
         $output = simplexml_load_file($temp_file);
         foreach ($output as $duplication) {
