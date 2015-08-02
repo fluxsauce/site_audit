@@ -148,6 +148,17 @@ function site_audit_drush_command() {
       'example-value' => dt('*.features.*,*_default.inc,*.ds.inc,*.strongarm.inc,*.panelizer.inc,*_defaults.inc,*.box.inc,*.context.inc,*displays.inc'),
       'value' => 'required',
     ),
+    'phpdcd_names' => array(
+      'description' => dt('A comma-separated list of file names for phpdcd to check'),
+      'example-value' => dt('*.php,*.module,*.install,*.test,*.inc,*.profile,*.theme'),
+      'value' => 'required',
+    ),
+    'phpdcd_names-exclude' => array(
+      'description' => dt('A comma-separated list of file names for phpdcd to exclude'),
+      'example-value' => dt('*.features.*,*_default.inc,*.ds.inc,*.strongarm.inc,*.panelizer.inc,*_defaults.inc,*.box.inc,*.context.inc,*displays.inc'),
+      'value' => 'required',
+    ),
+
     'phpcs_extensions' => array(
       'description' => dt('A comma separated list of file extensions to be checked by phpcs'),
       'example-value' => dt('php,module,inc,install,test,profile,theme,css,info,txt'),
@@ -180,6 +191,7 @@ function site_audit_drush_command() {
       'PhpMessDetection',
       'PhpCopyPasteDetection',
       'PhpCodeSniffer',
+      'PhpDeadCodeDetection',
     ),
   );
 

@@ -17,7 +17,9 @@
     "ext-SimpleXML" : "0.1",
     "squizlabs/php_codesniffer": "*",
     "drupal/coder": "^8.2",
-    "phploc/phploc": "*"
+    "phploc/phploc": "*",
+    "sebastian/phpdcd": "*",
+    "symfony/process": "^2.7"
   },
   "require-dev": {
     "phpunit/phpunit": "4.7.*",
