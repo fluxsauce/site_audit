@@ -249,6 +249,7 @@ function site_audit_drush_command() {
       'Collation',
       'Engine',
       'RowCount',
+      'Fragmentation',
     ),
   );
 
