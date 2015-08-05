@@ -1,0 +1,11 @@
+example.content:
+  path: '/example'
+  defaults:
+    _controller: 'phpinfo'
+    _title_callback: 'fopen'
+    filename: 'myfile'
+    mode: 'r'
+    what: 1
+    _title: 'Hello World'
+  requirements:
+    _permission: 'access content'
