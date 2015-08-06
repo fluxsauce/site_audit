@@ -36,7 +36,15 @@ or more checks. Site Audit reports include:
 
 Site Audit is not a module; do not install it in your site root.
 
-Copy the entire Site Audit project to either your unified or personal Drush
+Site Audit can be installed using composer.
+
+````
+composer global require drupal/site_audit
+````
+
+Generally, this installs it to `~/.composer/vendor/drupal/site_audit` directory.
+For drush to detect it as a command, either copy or symlink the entire Site Audit
+project to either your unified or personal Drush
 folder in the commands subdirectory, like
 
 ````
@@ -47,6 +55,13 @@ then clear Drush's cache:
 
 ````
 drush cc drush
+````
+
+Site Audit depends on many third party tools which should be present inside `vendor`
+directory inside Site Audit. Run `composer install` inside site_audit directory to install these.
+
+````
+composer install
 ````
 
 See http://docs.drush.org/en/master/commands/ to learn more about installing
@@ -119,6 +134,25 @@ have explicit support that will be helpful to other developers.
 ````
 drush @pantheon.SITENAME.ENV --vendor=pantheon --detail ac
 ````
+
+## Custom Code Paths
+
+Codebase report runs some third party tools on custom code the the drupal site.
+For this, paths containing custom code should be specified while running site_audit.
+This can be done in two ways.
+
+* Provide a comma separated list of paths (files or directories) in `custom-code` option
+ ````
+ drush audit-codebase --custom-code="modules/custom, modules/features"
+ ````
+
+* Provide an array of custom code paths in $conf array in settings.php
+ ````
+ $conf['site_audit']['custom-code'] = array(
+    'modules/custom',
+    'modules/features',
+ );
+ ````
 
 # Adding Reports and Checks
 
