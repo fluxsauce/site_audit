@@ -19,7 +19,7 @@ class SiteAuditCheckDatabaseFragmentation extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getDescription().
    */
   public function getDescription() {
-    return dt("Reports all the tables with fragmentation greater than 5%");
+    return dt("Detect table fragmentation which increases storage space and decreases I/O efficiency.");
   }
 
   /**
@@ -79,7 +79,7 @@ class SiteAuditCheckDatabaseFragmentation extends SiteAuditCheckAbstract {
    */
   public function getAction() {
     if ($this->getScore() == SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN) {
-      return dt('Run "OPTIMIZE TABLE" on the fragmented tables. Refer to https://dev.mysql.com/doc/refman/5.5/en/optimize-table.html for more details.');
+      return dt('Run "OPTIMIZE TABLE" on the fragmented tables. Refer to https://dev.mysql.com/doc/en/optimize-table.html for more details.');
     }
   }
 
@@ -95,9 +95,9 @@ class SiteAuditCheckDatabaseFragmentation extends SiteAuditCheckAbstract {
       $db_spec = _drush_sql_get_db_spec();
     }
     $sql_query  = 'SELECT TABLE_NAME AS name ';
-    $sql_query .= ', Round(DATA_LENGTH/1024/1024) as data_length ';
-    $sql_query .= ', Round(INDEX_LENGTH/1024/1024) as index_length ';
-    $sql_query .= ', Round(DATA_FREE/ 1024/1024) as data_free ';
+    $sql_query .= ', Round(DATA_LENGTH/1024/1024) AS data_length ';
+    $sql_query .= ', Round(INDEX_LENGTH/1024/1024) AS index_length ';
+    $sql_query .= ', Round(DATA_FREE/ 1024/1024) AS data_free ';
     $sql_query .= 'FROM information_schema.TABLES ';
     $sql_query .= 'WHERE TABLES.DATA_FREE > 0 ';
     $sql_query .= 'AND TABLES.table_schema = :dbname ';
@@ -107,7 +107,7 @@ class SiteAuditCheckDatabaseFragmentation extends SiteAuditCheckAbstract {
     foreach ($result as $row) {
       $data = $row->data_length + $row->index_length;
       $free = $row->data_free;
-      $fragmentation_ratio = ($free / $data) * 100;
+      $fragmentation_ratio = ($free / ($data + $free)) * 100;
       if ($fragmentation_ratio > 5) {
         $this->registry['database_fragmentation'][$row->name] = $fragmentation_ratio;
       }
