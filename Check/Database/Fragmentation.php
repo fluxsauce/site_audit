@@ -19,7 +19,7 @@ class SiteAuditCheckDatabaseFragmentation extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getDescription().
    */
   public function getDescription() {
-    return dt("Detect table fragmentation which increases storage space and decreases I/O efficiency.");
+    return dt('Detect table fragmentation which increases storage space and decreases I/O efficiency.');
   }
 
   /**
@@ -36,7 +36,7 @@ class SiteAuditCheckDatabaseFragmentation extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getResultPass().
    */
   public function getResultPass() {
-    return dt('None of the tables has fragmentation of more than 5%');
+    return dt('None of the tables has fragmentation ration greater than 5.');
   }
 
   /**
