@@ -46,7 +46,7 @@ class SiteAuditCheckDatabaseFragmentation extends SiteAuditCheckAbstract {
     arsort($this->registry['database_fragmentation']);
     if (drush_get_option('html')) {
       $ret_val = '<table class="table table-condensed">';
-      $ret_val .= '<thead><tr><th>' . dt('Table Name') . '</th><th>' . dt('Fragmentation Percentage') . '</th></tr></thead>';
+      $ret_val .= '<thead><tr><th>' . dt('Table Name') . '</th><th>' . dt('Fragmentation Ratio') . '</th></tr></thead>';
       $ret_val .= '<tbody>';
       foreach ($this->registry['database_fragmentation'] as $name => $ratio) {
         $ret_val .= '<tr>';
@@ -58,7 +58,7 @@ class SiteAuditCheckDatabaseFragmentation extends SiteAuditCheckAbstract {
       $ret_val .= '</table>';
     }
     else {
-      $ret_val  = dt('Table Name: Fragmentation Percentage') . PHP_EOL;
+      $ret_val  = dt('Table Name: Fragmentation Ratio') . PHP_EOL;
       if (!drush_get_option('json')) {
         $ret_val .= str_repeat(' ', 4);
       }
@@ -94,21 +94,21 @@ class SiteAuditCheckDatabaseFragmentation extends SiteAuditCheckAbstract {
     else {
       $db_spec = _drush_sql_get_db_spec();
     }
-    $sql_query  = 'SELECT TABLE_NAME AS name ';
-    $sql_query .= ', Round(DATA_LENGTH/1024/1024) AS data_length ';
-    $sql_query .= ', Round(INDEX_LENGTH/1024/1024) AS index_length ';
-    $sql_query .= ', Round(DATA_FREE/ 1024/1024) AS data_free ';
-    $sql_query .= 'FROM information_schema.TABLES ';
-    $sql_query .= 'WHERE TABLES.DATA_FREE > 0 ';
-    $sql_query .= 'AND TABLES.table_schema = :dbname ';
+    $sql_query  = 'SELECT TABLE_NAME AS name';
+    $sql_query .= ', Round(DATA_LENGTH/1024/1024) AS data_length';
+    $sql_query .= ', Round(INDEX_LENGTH/1024/1024) AS index_length';
+    $sql_query .= ', Round(DATA_FREE/1024/1024) AS data_free';
+    $sql_query .= ' FROM information_schema.TABLES ';
+    $sql_query .= ' WHERE TABLES.DATA_FREE > 0 ';
+    $sql_query .= ' AND TABLES.table_schema = :dbname ';
     $result = db_query($sql_query, array(
       ':dbname' => $db_spec['database'],
     ));
     foreach ($result as $row) {
       $data = $row->data_length + $row->index_length;
       $free = $row->data_free;
-      $fragmentation_ratio = ($free / ($data + $free)) * 100;
-      if ($fragmentation_ratio > 5) {
+      $fragmentation_ratio = $free / $data;
+      if ($fragmentation_ratio > 0.05) {
         $this->registry['database_fragmentation'][$row->name] = $fragmentation_ratio;
       }
     }
