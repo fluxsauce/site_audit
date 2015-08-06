@@ -89,11 +89,8 @@ class SiteAuditCheckCodebasePhpCodeSniffer extends SiteAuditCheckAbstract {
           if (!drush_get_option('json')) {
             $ret_val .= str_repeat(' ', 6);
           }
-          $line = $violation['line'];
-          $column = $violation['column'];
-          $severity = $violation['severity'];
-          $message = $violation['message'];
-          $ret_val .= "$line, $column : $severity - $message";
+          $ret_val .= $violation['line'] . ', ' . $violation['column'] . ' : ';
+          $ret_val .= $violation['severity'] . ' - ' . $violation['message'];
         }
       }
     }
@@ -127,10 +124,9 @@ class SiteAuditCheckCodebasePhpCodeSniffer extends SiteAuditCheckAbstract {
       return $custom_code;
     }
     // Get options.
-    // TODO: put in exhaustive list of ignore patterns.
     $valid_options = array(
       'extensions' => 'php,module,inc,install,test,profile,theme,css,info,txt',
-      'ignore' => '*/modules/features/',
+      'ignore' => '*.features.*,*_default.inc,*.ds.inc,*.strongarm.inc,*.panelizer.inc,*_defaults.inc,*.box.inc,*.context.inc,*displays.inc',
       'standard' => SITE_AUDIT_BASE_PATH . '/vendor/drupal/coder/coder_sniffer/Drupal',
     );
     $options = $this->getOptions($valid_options, 'phpcs-');

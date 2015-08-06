@@ -49,6 +49,13 @@ abstract class SiteAuditCheckAbstract {
   protected $registry;
 
   /**
+   * Use for checking whether custom code paths have been validated.
+   *
+   * @var bool
+   */
+  private static $checkedCustomcodePath = FALSE;
+
+  /**
    * Constructor.
    *
    * @param array $registry
@@ -318,9 +325,22 @@ abstract class SiteAuditCheckAbstract {
     if ($custom_code == NULL) {
       $custom_code = drush_get_option('custom-code', '');
       if (empty($custom_code)) {
-        return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
+        $custom_code = array();
       }
-      $custom_code = explode(',', $custom_code);
+      else {
+        $custom_code = explode(',', $custom_code);
+      }
+    }
+    if (!SiteAuditCheckAbstract::$checkedCustomcodePath) {
+      foreach ($custom_code as $path) {
+        if (!is_dir($path) && !is_file($path)) {
+          drush_set_error(dt('@path given in custom-code option is not a valid file or directory', array(
+            '@path' => $path,
+          )));
+          exit();
+        }
+      }
+      SiteAuditCheckAbstract::$checkedCustomcodePath = TRUE;
     }
     return $custom_code;
   }
@@ -359,4 +379,5 @@ abstract class SiteAuditCheckAbstract {
       '@tool' => $tool,
     )), 'error');
   }
+
 }
