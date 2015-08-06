@@ -60,7 +60,7 @@ class SiteAuditCheckCodebasePhpCodeSniffer extends SiteAuditCheckAbstract {
       $ret_val .= '<thead><tr><th>' . dt('Line, Column') . '</th><th>' . dt('Severity') . '</th><th>' . dt('Action') . '</th></tr></thead>';
       foreach ($this->registry['phpcs_out'] as $filename => $violations) {
         $num_violations = count($violations);
-        $ret_val .= "<tr align='center'><td colspan='3'><a href='file:///$filename'>File: $filename</a> Violations: $num_violations</td></tr>";
+        $ret_val .= "<tr align='center'><td colspan='3'>File: $filename Violations: $num_violations</td></tr>";
         foreach ($violations as $violation) {
           $line = $violation['line'];
           $column = $violation['column'];

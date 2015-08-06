@@ -57,7 +57,7 @@ class SiteAuditCheckCodebasePhpMessDetection extends SiteAuditCheckAbstract {
       $ret_val .= '<table class="table table-condensed">';
       $ret_val .= '<thead><tr><th>' . dt('Line') . '</th><th>' . dt('Type') . '</th><th>' . dt('Action') . '</th></tr></thead>';
       foreach ($this->registry['phpmd_out'] as $filename => $violations) {
-        $ret_val .= "<tr align='center'><td colspan='3'><a href='file:///$filename'>File: $filename</a></td></tr>";
+        $ret_val .= "<tr align='center'><td colspan='3'>File: $filename</td></tr>";
         foreach ($violations as $violation) {
           $begin = $violation['beginline'];
           $end = $violation['endline'];

@@ -60,7 +60,7 @@ class SiteAuditCheckCodebasePhpDeadCodeDetection extends SiteAuditCheckAbstract 
       $ret_val .= '<table class="table table-condensed">';
       $ret_val .= '<thead><tr><th>' . dt('Lines Of Code') . '</th><th>' . dt('Starting Line Number') . '</th></tr></thead>';
       foreach ($this->registry['phpdcd_out'] as $filename => $violations) {
-        $ret_val .= "<tr align='center'><td colspan='3'><a href='file:///$filename'>File: $filename</a></td></tr>";
+        $ret_val .= "<tr align='center'><td colspan='3'>File: $filename</td></tr>";
         foreach ($violations as $violation) {
           $loc = $violation->loc;
           $line = $violation->line;

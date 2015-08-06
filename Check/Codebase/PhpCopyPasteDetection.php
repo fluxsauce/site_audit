@@ -62,7 +62,7 @@ class SiteAuditCheckCodebasePhpCopyPasteDetection extends SiteAuditCheckAbstract
           $path = $file['path'];
           $line_start = (int) $file['line'];
           $line_end = $line_start + $lines;
-          $ret_val .= "<a href='file:///$path'>$path</a>: $line_start-$line_end<br>";
+          $ret_val .= "$path: $line_start-$line_end<br>";
         }
         $ret_val .= '</tr></td>';
       }
