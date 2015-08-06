@@ -126,7 +126,7 @@ class SiteAuditCheckCodebasePhpDeadCodeDetection extends SiteAuditCheckAbstract 
       'names' => '*.php,*.module,*.install,*.test,*.inc,*.profile,*.theme',
       'names-exclude' => '*.features.*,*_default.inc,*.ds.inc,*.strongarm.inc,*.panelizer.inc,*_defaults.inc,*.box.inc,*.context.inc,*displays.inc',
     );
-    $options = $this->getOptions($valid_options, 'phpdcd_');
+    $options = $this->getOptions($valid_options, 'phpdcd-');
     $temp_file = tempnam(sys_get_temp_dir(), 'site_audit');
     $option_string = " --log-xml=$temp_file";
     foreach ($options as $option => $value) {

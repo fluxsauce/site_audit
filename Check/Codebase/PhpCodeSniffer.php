@@ -133,7 +133,7 @@ class SiteAuditCheckCodebasePhpCodeSniffer extends SiteAuditCheckAbstract {
       'ignore' => '*/modules/features/',
       'standard' => SITE_AUDIT_BASE_PATH . '/vendor/drupal/coder/coder_sniffer/Drupal',
     );
-    $options = $this->getOptions($valid_options, 'phpcs_');
+    $options = $this->getOptions($valid_options, 'phpcs-');
     // Check if 'standard' is a valid directory.
     if (!is_dir($options['standard'])) {
       $this->registry['phpcs_standard'] = $options['standard'];

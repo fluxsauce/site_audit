@@ -314,9 +314,9 @@ abstract class SiteAuditCheckAbstract {
    *   code paths are not found.
    */
   public function getCustomCodePaths() {
-    $custom_code = \Drupal::config('site_audit')->get('custom_code');
+    $custom_code = \Drupal::config('site_audit')->get('custom-code');
     if ($custom_code == NULL) {
-      $custom_code = drush_get_option('custom_code', '');
+      $custom_code = drush_get_option('custom-code', '');
       if (empty($custom_code)) {
         return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
       }

@@ -76,7 +76,7 @@ class SiteAuditCheckCodebasePhpCopyPasteDetection extends SiteAuditCheckAbstract
         foreach ($duplication->file as $file) {
           $ret_val .= PHP_EOL;
           if ($rows++ == 0) {
-            $ret_val .= ' -  ';
+            $ret_val .= ' - ';
           }
           else {
             if (!drush_get_option('json')) {
@@ -123,7 +123,7 @@ class SiteAuditCheckCodebasePhpCopyPasteDetection extends SiteAuditCheckAbstract
       'names' => '*.php,*.module,*.install,*.test,*.inc,*.profile,*.theme',
       'names-exclude' => '*.features.*,*_default.inc,*.ds.inc,*.strongarm.inc,*.panelizer.inc,*_defaults.inc,*.box.inc,*.context.inc,*displays.inc',
     );
-    $options = $this->getOptions($valid_options, 'phpcpd_');
+    $options = $this->getOptions($valid_options, 'phpcpd-');
     $temp_file = tempnam(sys_get_temp_dir(), 'site_audit');
     $option_string = " --log-pmd=$temp_file";
     foreach ($options as $option => $value) {

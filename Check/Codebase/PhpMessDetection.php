@@ -134,7 +134,7 @@ class SiteAuditCheckCodebasePhpMessDetection extends SiteAuditCheckAbstract {
       'strict' => NULL,
       'ruleset' => 'codesize,naming,design,unusedcode',
     );
-    $options = $this->getOptions($valid_options, 'phpmd_');
+    $options = $this->getOptions($valid_options, 'phpmd-');
     $option_string = ' ' . $options['ruleset'];
     foreach ($options as $option => $value) {
       if ($option != 'ruleset') {
