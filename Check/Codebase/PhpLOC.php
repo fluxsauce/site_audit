@@ -152,6 +152,7 @@ class SiteAuditCheckCodebasePhpLOC extends SiteAuditCheckAbstract {
         $this->registry['phploc_out'][$path] = $output;
       }
       catch (Exception $e) {
+        $this->logXmlError($path, 'phploc');
         continue;
       }
     }

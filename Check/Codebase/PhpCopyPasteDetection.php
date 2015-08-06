@@ -43,7 +43,7 @@ class SiteAuditCheckCodebasePhpCopyPasteDetection extends SiteAuditCheckAbstract
    * Implements \SiteAudit\Check\Abstract\getResultPass().
    */
   public function getResultPass() {
-    return dt('No copy-pasted code found by PHP Copy/Paste Detector');
+    return dt('No duplicate code found by PHP Copy/Paste Detector');
   }
 
 
@@ -146,6 +146,7 @@ class SiteAuditCheckCodebasePhpCopyPasteDetection extends SiteAuditCheckAbstract
         }
       }
       catch (Exception $e) {
+        $this->logXmlError($path, 'phpcpd');
         continue;
       }
     }

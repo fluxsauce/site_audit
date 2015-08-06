@@ -163,6 +163,7 @@ class SiteAuditCheckCodebasePhpMessDetection extends SiteAuditCheckAbstract {
         }
       }
       catch (Exception $e) {
+        $this->logXmlError($path, 'phpmd');
         continue;
       }
     }

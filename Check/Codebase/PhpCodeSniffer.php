@@ -163,6 +163,7 @@ class SiteAuditCheckCodebasePhpCodeSniffer extends SiteAuditCheckAbstract {
         }
       }
       catch (Exception $e) {
+        $this->logXmlError($path, 'phpcs');
         continue;
       }
     }

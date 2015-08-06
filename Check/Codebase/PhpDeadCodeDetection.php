@@ -153,6 +153,7 @@ class SiteAuditCheckCodebasePhpDeadCodeDetection extends SiteAuditCheckAbstract 
         }
       }
       catch (Exception $e) {
+        $this->logXmlError($path, 'phpdcd');
         continue;
       }
     }
