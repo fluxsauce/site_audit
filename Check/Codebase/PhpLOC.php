@@ -33,8 +33,8 @@ class SiteAuditCheckCodebasePhpLOC extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getResultInfo().
    */
   public function getResultInfo() {
-    if (isset($this->registry['phploc_path'])) {
-      return dt('Cannot find phploc in path. Make sure that phploc is present in the PATH or run composer install inside the site_audit directory to install all the dependencies');
+    if (isset($this->registry['phploc_path_error'])) {
+      return dt('Cannot find phploc in site_audit installation.');
     }
     if (isset($this->registry['custom_code'])) {
       return dt('No custom code path specified');
@@ -99,14 +99,16 @@ class SiteAuditCheckCodebasePhpLOC extends SiteAuditCheckAbstract {
   /**
    * Implements \SiteAudit\Check\Abstract\getResultWarn().
    */
-  public function getResultWarn() {
-
-  }
+  public function getResultWarn() {}
 
   /**
    * Implements \SiteAudit\Check\Abstract\getAction().
    */
-  public function getAction() {}
+  public function getAction() {
+    if ($this->registry['phploc_path_error'] === TRUE) {
+      return dt('Make sure that phploc in site_audit installation. Run composer install inside site_audit directory to install all the dependencies');
+    }
+  }
 
   /**
    * Implements \SiteAudit\Check\Abstract\calculateScore().
@@ -114,9 +116,9 @@ class SiteAuditCheckCodebasePhpLOC extends SiteAuditCheckAbstract {
   public function calculateScore() {
     // Get the path of phploc.
     $phploc_path = $this->getExecPath('phploc');
-    if ($phploc_path === SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO) {
-      $this->registry['phploc_path'] = $phploc_path;
-      return $phploc_path;
+    if ($phploc_path === '') {
+      $this->registry['phploc_path_error'] = TRUE;
+      return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
     }
     // Get the custom code paths.
     $custom_code = $this->getCustomCodePaths();

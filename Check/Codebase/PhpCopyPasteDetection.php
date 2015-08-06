@@ -32,8 +32,8 @@ class SiteAuditCheckCodebasePhpCopyPasteDetection extends SiteAuditCheckAbstract
    * Implements \SiteAudit\Check\Abstract\getResultInfo().
    */
   public function getResultInfo() {
-    if (isset($this->registry['phpcpd_path'])) {
-      return dt('Cannot find phpcpd in path. Make sure that phpcpd is present in the PATH or run composer install inside the site_audit directory to install all the dependencies');
+    if (isset($this->registry['phpcpd_path_error'])) {
+      return dt('Cannot find phpcpd in path.');
     }
     return dt('No custom code path specified');
   }
@@ -96,7 +96,11 @@ class SiteAuditCheckCodebasePhpCopyPasteDetection extends SiteAuditCheckAbstract
   /**
    * Implements \SiteAudit\Check\Abstract\getAction().
    */
-  public function getAction() {}
+  public function getAction() {
+    if ($this->registry['phpcpd_path_error'] === TRUE) {
+      return dt('Make sure that phpcpd in site_audit installation. Run composer install inside site_audit directory to install all the dependencies');
+    }
+  }
 
   /**
    * Implements \SiteAudit\Check\Abstract\calculateScore().
@@ -104,9 +108,9 @@ class SiteAuditCheckCodebasePhpCopyPasteDetection extends SiteAuditCheckAbstract
   public function calculateScore() {
     // Get the path of phpcpd.
     $phpcpd_path = $this->getExecPath('phpcpd');
-    if ($phpcpd_path === SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO) {
-      $this->registry['phpcpd_path'] = $phpcpd_path;
-      return $phpcpd_path;
+    if ($phpcpd_path === '') {
+      $this->registry['phpcpd_path'] = TRUE;
+      return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
     }
     // Get the custom code paths.
     $custom_code = $this->getCustomCodePaths();

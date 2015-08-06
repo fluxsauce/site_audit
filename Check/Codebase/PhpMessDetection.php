@@ -33,8 +33,8 @@ class SiteAuditCheckCodebasePhpMessDetection extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getResultInfo().
    */
   public function getResultInfo() {
-    if (isset($this->registry['phpmd_path'])) {
-      return dt('Cannot find phpmd in path. Make sure that phpmd is present in the PATH or run composer install inside the site_audit directory to install all the dependencies');
+    if (isset($this->registry['phpmd_path_error'])) {
+      return dt('Cannot find phpmd in site_audit installation.');
     }
     return dt('No custom code path specified');
   }
@@ -102,7 +102,12 @@ class SiteAuditCheckCodebasePhpMessDetection extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getAction().
    */
   public function getAction() {
-    dt('Fix the PHP Mess Detector violations.');
+    if ($this->registry['phpmd_path_error'] === TRUE) {
+      return dt('Make sure that phpmd in site_audit installation. Run composer install inside site_audit directory to install all the dependencies');
+    }
+    if ($this->getScore() == SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN) {
+      return dt('Fix the PHP Mess Detector violations.');
+    }
   }
 
   /**
@@ -111,9 +116,9 @@ class SiteAuditCheckCodebasePhpMessDetection extends SiteAuditCheckAbstract {
   public function calculateScore() {
     // Get the path of phpmd.
     $phpmd_path = $this->getExecPath('phpmd');
-    if ($phpmd_path === SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO) {
-      $this->registry['phpmd_path'] = $phpmd_path;
-      return $phpmd_path;
+    if ($phpmd_path === '') {
+      $this->registry['phpmd_path_error'] = TRUE;
+      return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
     }
     // Get the custom code paths.
     $custom_code = $this->getCustomCodePaths();

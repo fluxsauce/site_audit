@@ -326,20 +326,20 @@ abstract class SiteAuditCheckAbstract {
   }
 
   /**
-   * Returns the path of the PHPMD executable.
+   * Returns the path of the executable.
    *
-   * Checks for $name inside the vendor directory of site_audit.
-   * Returns AUDIT_CHECK_SCORE_INFO is executable is not found.
+   * Checks for a third-party vendor executable within the site_audit
+   * installation. Returns empty string if the executable is not found.
    *
-   * @return String|int
-   *   Path of executable or AUDIT_CHECK_SCORE_INFO if phpmd not found
+   * @return string
+   *   Path of executable or empty string if executable not found
    */
   public function getExecPath($name) {
     // Get the path of executable.
     if (is_file(SITE_AUDIT_BASE_PATH . '/vendor/bin/' . $name)) {
       return SITE_AUDIT_BASE_PATH . '/vendor/bin/' . $name;
     }
-    return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
+    return '';
   }
 
 }
