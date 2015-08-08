@@ -53,7 +53,7 @@ abstract class SiteAuditCheckAbstract {
    *
    * @var bool
    */
-  private static $checkedCustomcodePath = FALSE;
+  private static $customCode = NULL;
 
   /**
    * Constructor.
@@ -316,33 +316,33 @@ abstract class SiteAuditCheckAbstract {
   /**
    * Returns an array containing custom code paths or AUDIT_CHECK_SCORE_INFO.
    *
-   * @return array|int
-   *   An array contaning custom code paths or AUDIT_CHECK_SCORE_INFO if custom
-   *   code paths are not found.
+   * @return array|bool
+   *   An array containing custom code paths or an empty array if custom
+   *   code paths are not found. If any of the custom code paths is invalid, it
+   *   returns FALSE.
    */
   public function getCustomCodePaths() {
-    $custom_code = \Drupal::config('site_audit')->get('custom-code');
-    if ($custom_code == NULL) {
-      $custom_code = drush_get_option('custom-code', '');
-      if (empty($custom_code)) {
-        $custom_code = array();
-      }
-      else {
-        $custom_code = explode(',', $custom_code);
-      }
-    }
-    if (!SiteAuditCheckAbstract::$checkedCustomcodePath) {
-      foreach ($custom_code as $path) {
-        if (!is_dir($path) && !is_file($path)) {
-          drush_set_error(dt('@path given in custom-code option is not a valid file or directory', array(
-            '@path' => $path,
-          )));
-          exit();
+    if (SiteAuditCheckAbstract::$customCode === NULL) {
+      $custom_code = \Drupal::config('site_audit')->get('custom-code');
+      if ($custom_code == NULL) {
+        $custom_code = drush_get_option('custom-code', '');
+        if (empty($custom_code)) {
+          $custom_code = array();
+        }
+        else {
+          $custom_code = explode(',', $custom_code);
         }
       }
-      SiteAuditCheckAbstract::$checkedCustomcodePath = TRUE;
+      foreach ($custom_code as $path) {
+        if (!is_dir($path) && !is_file($path)) {
+          return drush_set_error(dt('@path given in custom-code option is not a valid file or directory', array(
+            '@path' => $path,
+          )));
+        }
+      }
+      SiteAuditCheckAbstract::$customCode = $custom_code;
     }
-    return $custom_code;
+    return SiteAuditCheckAbstract::$customCode;
   }
 
   /**

@@ -149,8 +149,8 @@ This can be done in two ways.
 * Provide an array of custom code paths in $conf array in settings.php
  ````
  $conf['site_audit']['custom-code'] = array(
-    'modules/custom',
-    'modules/features',
+  'modules/custom',
+  'modules/features',
  );
  ````
 

@@ -27,7 +27,9 @@ class SiteAuditCheckCodebasePhpLOC extends SiteAuditCheckAbstract {
   /**
    * Implements \SiteAudit\Check\Abstract\getResultFail().
    */
-  public function getResultFail() {}
+  public function getResultFail() {
+    return dt('Non-existent paths found in custom code');
+  }
 
   /**
    * Implements \SiteAudit\Check\Abstract\getResultInfo().
@@ -121,8 +123,13 @@ class SiteAuditCheckCodebasePhpLOC extends SiteAuditCheckAbstract {
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
     }
     // Get the custom code paths.
+    // Get the custom code paths.
     $custom_code = $this->getCustomCodePaths();
-    if ($custom_code === SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO) {
+    if (!$custom_code) {
+      $this->abort = TRUE;
+      return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
+    }
+    if (empty($custom_code)) {
       $this->registry['custom_code'] = $custom_code;
       return $custom_code;
     }
