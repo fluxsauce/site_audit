@@ -109,7 +109,7 @@ function site_audit_drush_command() {
       'SizeAll',
       'ManagedFileCount',
       'ManagedFileSize',
-      'GitContributor',
+      'GitContributions',
     ),
   );
 

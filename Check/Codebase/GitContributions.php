@@ -1,18 +1,18 @@
 <?php
 /**
  * @file
- * Contains \SiteAudit\Check\Codebase\GitContributor.
+ * Contains \SiteAudit\Check\Codebase\GitContributions.
  */
 
 /**
- * Class SiteAuditCheckCodebaseGitContributor.
+ * Class SiteAuditCheckCodebaseGitContributions.
  */
-class SiteAuditCheckCodebaseGitContributor extends SiteAuditCheckAbstract {
+class SiteAuditCheckCodebaseGitContributions extends SiteAuditCheckAbstract {
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
   public function getLabel() {
-    return dt('Git Contributors');
+    return dt('Git Contributions');
   }
 
   /**
@@ -34,6 +34,9 @@ class SiteAuditCheckCodebaseGitContributor extends SiteAuditCheckAbstract {
     if (isset($this->registry['not_git'])) {
       return dt('Site is not under git source control');
     }
+    if (isset($this->registry['git_remote'])) {
+      return dt("The repository has whole of drupal's git history. Reporting contrinutions of users will not be helpful in this case.");
+    }
     $ret_val = '';
     if (drush_get_option('html') == TRUE) {
       $ret_val .= '<table class="table table-condensed">';
@@ -41,7 +44,7 @@ class SiteAuditCheckCodebaseGitContributor extends SiteAuditCheckAbstract {
       foreach ($this->registry['git_contribution_percentage'] as $user => $percentage) {
         $added = $this->registry['git_contribution'][$user]['inserted'];
         $deleted = $this->registry['git_contribution'][$user]['deleted'];
-        $ret_val .= "<tr><td>$user</td><td>$added</td><td>$deleted</td><td>$percentage</td></tr>";
+        $ret_val .= "<tr><td>$user</td><td>$added</td><td>$deleted</td><td>$percentage%</td></tr>";
       }
       $ret_val .= '</table>';
     }
@@ -58,7 +61,7 @@ class SiteAuditCheckCodebaseGitContributor extends SiteAuditCheckAbstract {
         }
         $added = $this->registry['git_contribution'][$user]['inserted'];
         $deleted = $this->registry['git_contribution'][$user]['deleted'];
-        $ret_val .= "$user: $added, $deleted, $percentage";
+        $ret_val .= "$user: $added, $deleted, $percentage%";
       }
     }
     return $ret_val;
@@ -89,6 +92,24 @@ class SiteAuditCheckCodebaseGitContributor extends SiteAuditCheckAbstract {
     if ($is_git !== 'true') {
       $this->registry['not_git'] = TRUE;
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
+    }
+    // Check if the repository is from drupal.org
+    $output = array();
+    $remote_url = array(
+      'http://git.drupal.org/project/drupal',
+      'github.com/drupal/drupal',
+      'github.com/pressflow',
+      'github.com/pantheon-systems/drops-7/',
+    );
+    exec('git remote -v', $output);
+    foreach ($output as $line) {
+      $line = explode("\t", $line);
+      foreach ($remote_url as $url) {
+        if (strpos($line, $url) !== FALSE) {
+          $this->registry['git_remote'] = TRUE;
+          return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
+        }
+      }
     }
     // Get all users.
     $users = array();
