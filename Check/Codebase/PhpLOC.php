@@ -41,21 +41,23 @@ class SiteAuditCheckCodebasePhpLOC extends SiteAuditCheckAbstract {
     if (isset($this->registry['custom_code'])) {
       return dt('No custom code path specified');
     }
+    $human_readable = array(
+      'directories'                 => 'Directories',
+      'files'                       => 'Files',
+      'loc'                         => 'Lines of Code (LOC)',
+      'functions'                   => 'Functions',
+      'namespaces'                  => 'Namespaces',
+      'methods'                     => 'Methods',
+    );
     $ret_val = '';
     if (drush_get_option('html') == TRUE) {
       $ret_val .= '<table class="table table-condensed">';
       $ret_val .= '<thead><tr><th>' . dt('Metric') . '</th><th>' . dt('Value') . '</th></tr></thead>';
       foreach ($this->registry['phploc_out'] as $filename => $metrics) {
         $ret_val .= "<tr align='center'><td colspan='3'><b>File/Directory</b>: $filename</td></tr>";
-        foreach ($metrics as $metric) {
-          $name = '';
-          if (isset($metric['name'])) {
-            $name = $metric['name'];
-          }
-          else {
-            $name = $metric->getName();
-          }
-          $ret_val .= "<tr><td>$name</td><td>$metric</td></tr>";
+        foreach ($human_readable as $metric => $name) {
+          $e = $metrics->xpath('//' . $metric);
+          $ret_val .= "<tr><td>$name</td><td>" . (String) $e[0] . "</td></tr>";
         }
       }
       $ret_val .= '</table>';
@@ -72,18 +74,13 @@ class SiteAuditCheckCodebasePhpLOC extends SiteAuditCheckAbstract {
         $ret_val .= dt('File/Directory: @filename', array(
           '@filename' => $filename,
         ));
-        foreach ($metrics as $metric) {
+        foreach ($human_readable as $metric => $name) {
           $ret_val .= PHP_EOL;
           if (!drush_get_option('json')) {
             $ret_val .= str_repeat(' ', 6);
           }
-          if (isset($metric['name'])) {
-            $name = $metric['name'];
-          }
-          else {
-            $name = $metric->getName();
-          }
-          $ret_val .= "$name : $metric";
+          $e = $metrics->xpath('//' . $metric);
+          $ret_val .= "$name : " . (String) $e[0];
         }
       }
     }
