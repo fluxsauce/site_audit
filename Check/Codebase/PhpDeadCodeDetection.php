@@ -155,7 +155,8 @@ class SiteAuditCheckCodebasePhpDeadCodeDetection extends SiteAuditCheckAbstract 
       try {
         $output = simplexml_load_file($temp_file);
         foreach ($output as $data) {
-          $this->registry['phpdcd_out'][(String) $data->file][] = $data;
+          $filename = $this->getRelativePath((String) $data->file);
+          $this->registry['phpdcd_out'][$filename][] = $data;
         }
       }
       catch (Exception $e) {

@@ -380,4 +380,21 @@ abstract class SiteAuditCheckAbstract {
     )), 'error');
   }
 
+  /**
+   * Gives path relative to DRUPAL_ROOT of the path is inside Drupal.
+   *
+   * @param string $filename
+   *   Absolute path of a file or directory.
+   *
+   * @return string
+   *   Path relative to Drupal root path.
+   */
+  public function getRelativePath($filename) {
+    $pos = strpos($filename, DRUPAL_ROOT);
+    if ($pos !== FALSE) {
+      $filename = substr($filename, $pos + strlen(DRUPAL_ROOT) + 1);
+    }
+    return $filename;
+  }
+
 }

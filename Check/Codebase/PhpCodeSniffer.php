@@ -160,7 +160,8 @@ class SiteAuditCheckCodebasePhpCodeSniffer extends SiteAuditCheckAbstract {
         $output = new SimpleXMLElement($process->getOutput());
         foreach ($output as $file) {
           foreach ($file as $violation) {
-            $this->registry['phpcs_out'][(String) $file[0]['name']][] = $violation;
+            $filename = $this->getRelativePath((String) $file[0]['name']);
+            $this->registry['phpcs_out'][$filename][] = $violation;
           }
         }
       }

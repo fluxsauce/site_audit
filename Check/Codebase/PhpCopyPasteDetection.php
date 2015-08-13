@@ -61,7 +61,7 @@ class SiteAuditCheckCodebasePhpCopyPasteDetection extends SiteAuditCheckAbstract
         $lines = (int) $duplication['lines'];
         $ret_val .= '<tr><td>';
         foreach ($duplication->file as $file) {
-          $path = $file['path'];
+          $path = $this->getRelativePath($file['path']);
           $line_start = (int) $file['line'];
           $line_end = $line_start + $lines;
           $ret_val .= "$path: $line_start-$line_end<br>";

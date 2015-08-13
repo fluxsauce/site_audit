@@ -165,7 +165,8 @@ class SiteAuditCheckCodebasePhpMessDetection extends SiteAuditCheckAbstract {
         $output = new SimpleXMLElement($process->getOutput());
         foreach ($output as $file) {
           foreach ($file as $violation) {
-            $this->registry['phpmd_out'][(String) $file[0]['name']][] = $violation;
+            $filename = $this->getRelativePath((String) $file[0]['name']);
+            $this->registry['phpmd_out'][$filename][] = $violation;
           }
         }
       }
