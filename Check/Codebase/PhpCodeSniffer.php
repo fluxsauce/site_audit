@@ -35,7 +35,7 @@ class SiteAuditCheckCodebasePhpCodeSniffer extends SiteAuditCheckAbstract {
    */
   public function getResultInfo() {
     if (isset($this->registry['phpcs_path_error'])) {
-      return dt('Cannot find phpcs in path.');
+      return dt('Missing phpcs.');
     }
     if (isset($this->registry['custom_code'])) {
       return dt('No custom code path specified');
@@ -68,7 +68,7 @@ class SiteAuditCheckCodebasePhpCodeSniffer extends SiteAuditCheckAbstract {
           $column = $violation['column'];
           $severity = $violation['severity'];
           $message = $violation['message'];
-          $ret_val .= "<tr><td>$line, $column</td><td>$severity</td><td>$message</td></tr>";
+          $ret_val .= "<tr><td>Line $line, Column $column</td><td>$severity</td><td>$message</td></tr>";
         }
       }
       $ret_val .= '</table>';
@@ -91,7 +91,7 @@ class SiteAuditCheckCodebasePhpCodeSniffer extends SiteAuditCheckAbstract {
           if (!drush_get_option('json')) {
             $ret_val .= str_repeat(' ', 6);
           }
-          $ret_val .= $violation['line'] . ', ' . $violation['column'] . ' : ';
+          $ret_val .= 'Line ' . $violation['line'] . ', Column ' . $violation['column'] . ' : ';
           $ret_val .= $violation['severity'] . ' - ' . $violation['message'];
         }
       }
@@ -105,7 +105,7 @@ class SiteAuditCheckCodebasePhpCodeSniffer extends SiteAuditCheckAbstract {
    */
   public function getAction() {
     if ($this->registry['phpcs_path_error'] === TRUE) {
-      return dt('Make sure that phpcs in site_audit installation. Run composer install inside site_audit directory to install all the dependencies');
+      return dt('Run "composer install" from site_audit root to install missing dependencies.');
     }
   }
 

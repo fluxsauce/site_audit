@@ -14,7 +14,7 @@ class SiteAuditCheckCodebasePhpLOC extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
   public function getLabel() {
-    return dt('PHP Lines Of Code');
+    return dt('PHP Lines of Code');
   }
 
   /**
@@ -36,7 +36,7 @@ class SiteAuditCheckCodebasePhpLOC extends SiteAuditCheckAbstract {
    */
   public function getResultInfo() {
     if (isset($this->registry['phploc_path_error'])) {
-      return dt('Cannot find phploc in site_audit installation.');
+      return dt('Missing phploc.');
     }
     if (isset($this->registry['custom_code'])) {
       return dt('No custom code path specified');
@@ -108,7 +108,7 @@ class SiteAuditCheckCodebasePhpLOC extends SiteAuditCheckAbstract {
    */
   public function getAction() {
     if ($this->registry['phploc_path_error'] === TRUE) {
-      return dt('Make sure that phploc in site_audit installation. Run composer install inside site_audit directory to install all the dependencies');
+      return dt('Run "composer install" from site_audit root to install missing dependencies.');
     }
   }
 

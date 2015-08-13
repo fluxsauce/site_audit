@@ -35,7 +35,7 @@ class SiteAuditCheckCodebasePhpCopyPasteDetection extends SiteAuditCheckAbstract
    */
   public function getResultInfo() {
     if (isset($this->registry['phpcpd_path_error'])) {
-      return dt('Cannot find phpcpd in path.');
+      return dt('Missing phpcpd.');
     }
     return dt('No custom code path specified');
   }
@@ -100,7 +100,7 @@ class SiteAuditCheckCodebasePhpCopyPasteDetection extends SiteAuditCheckAbstract
    */
   public function getAction() {
     if ($this->registry['phpcpd_path_error'] === TRUE) {
-      return dt('Make sure that phpcpd in site_audit installation. Run composer install inside site_audit directory to install all the dependencies');
+      return dt('Run "composer install" from site_audit root to install missing dependencies.');
     }
   }
 
