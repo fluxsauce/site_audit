@@ -28,7 +28,7 @@ class SiteAuditCheckCodebasePhpMessDetection extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getResultFail().
    */
   public function getResultFail() {
-    return dt('Non-existent paths found in custom code');
+    return dt('No valid custom code paths found.');
   }
 
   /**
