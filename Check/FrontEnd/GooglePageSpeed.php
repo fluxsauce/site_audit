@@ -44,13 +44,13 @@ class SiteAuditCheckFrontEndGooglePageSpeed extends SiteAuditCheckAbstract {
   public function getResultInfo() {}
 
   /**
-   * Returns the rendered result from decoded json object.
+   * Returns the rendered result from JSON decoded object.
    *
    * @param mixed $json_result
    *   Json decodes object.
    *
    * @return string
-   *   Returns the rendered output.
+   *   Rendered Output.
    */
   public function renderResults($json_result) {
     $ret_val = '';
@@ -82,7 +82,7 @@ class SiteAuditCheckFrontEndGooglePageSpeed extends SiteAuditCheckAbstract {
         if (!drush_get_option('json')) {
           $ret_val .= str_repeat(' ', 8);
         }
-        $ret_val .= '- ' . $name . ': ' . $count;
+        $ret_val .= '* ' . $name . ': ' . $count;
       }
     }
 
@@ -93,7 +93,7 @@ class SiteAuditCheckFrontEndGooglePageSpeed extends SiteAuditCheckAbstract {
       $ret_val .= '<h3>' . dt('Detailed results') . '</h3>';
     }
     else {
-      $ret_val .= PHP_EOL . str_repeat(' ', 8) . dt('Detailed results:');
+      $ret_val .= PHP_EOL . str_repeat(' ', 6) . dt('Detailed results:');
     }
     $rendered_result_count = 0;
     // @codingStandardsIgnoreStart
@@ -139,7 +139,7 @@ class SiteAuditCheckFrontEndGooglePageSpeed extends SiteAuditCheckAbstract {
       else {
         $ret_val .= PHP_EOL;
         if (!drush_get_option('json')) {
-          $ret_val .= str_repeat(' ', 10);
+          $ret_val .= str_repeat(' ', 8);
         }
         $ret_val .= $rule_score_impact;
       }
@@ -158,7 +158,7 @@ class SiteAuditCheckFrontEndGooglePageSpeed extends SiteAuditCheckAbstract {
       else {
         $ret_val .= PHP_EOL;
         if (!drush_get_option('json')) {
-          $ret_val .= str_repeat(' ', 12);
+          $ret_val .= str_repeat(' ', 10);
         }
         $ret_val .= $header;
       }
@@ -189,7 +189,7 @@ class SiteAuditCheckFrontEndGooglePageSpeed extends SiteAuditCheckAbstract {
           else {
             $ret_val .= PHP_EOL;
             if (!drush_get_option('json')) {
-              $ret_val .= str_repeat(' ', 12);
+              $ret_val .= str_repeat(' ', 10);
             }
             $ret_val .= $header;
           }
@@ -215,7 +215,7 @@ class SiteAuditCheckFrontEndGooglePageSpeed extends SiteAuditCheckAbstract {
               foreach ($urls as $url) {
                 $ret_val .= PHP_EOL;
                 if (!drush_get_option('json')) {
-                  $ret_val .= str_repeat(' ', 14);
+                  $ret_val .= str_repeat(' ', 12);
                 }
                 $ret_val .= $url;
               }
@@ -375,7 +375,7 @@ class SiteAuditCheckFrontEndGooglePageSpeed extends SiteAuditCheckAbstract {
       $score += $group->score;
       $count++;
     }
-    $score = $score / $count;
+    $score = intval($score / $count);
     if ($score > 80) {
       $this->percentOverride = $score;
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
