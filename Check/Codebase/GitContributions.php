@@ -32,10 +32,10 @@ class SiteAuditCheckCodebaseGitContributions extends SiteAuditCheckAbstract {
    */
   public function getResultInfo() {
     if (isset($this->registry['not_git'])) {
-      return dt('Site is not under git source control');
+      return dt('The site is not stored in Git.');
     }
     if (isset($this->registry['git_remote'])) {
-      return dt("The repository has whole of drupal's git history. Reporting contrinutions of users will not be helpful in this case.");
+      return dt("The repository contains the entire Drupal contribution history and will be ignored.");
     }
     $ret_val = '';
     if (drush_get_option('html') == TRUE) {
@@ -118,7 +118,9 @@ class SiteAuditCheckCodebaseGitContributions extends SiteAuditCheckAbstract {
     // Get the lines of code for each user.
     $total = 0;
     foreach ($users as $user) {
-      $command = "git log --no-merges --shortstat --author '$user' 2> /dev/null | grep 'files\\? changed' 2> /dev/null | awk '{inserted+=$4; deleted+=$6} END {print inserted, deleted}' 2> /dev/null";
+      $command = "git log --no-merges --shortstat --author '$user' 2> /dev/null ";
+      $command .= "| grep 'files\\? changed' 2> /dev/null ";
+      $command .= "| awk {if ($5==\"insertions(+)\" || $5==\"insertion(+)\") inserted+=$4; else deleted+=$4; deleted+=$6} END {print inserted, deleted}' 2> /dev/null";
       $output = explode(' ', exec($command));
       $this->registry['git_contribution'][$user] = array(
         'inserted' => $output[0],
