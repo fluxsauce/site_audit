@@ -46,7 +46,7 @@ class SiteAuditCheckCodebasePhpMessDetection extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getResultPass().
    */
   public function getResultPass() {
-    dt('Custom Code does not violate any PHP Mess Detector rule.');
+    return dt('Custom Code does not violate any PHP Mess Detector rule.');
   }
 
 
@@ -104,7 +104,7 @@ class SiteAuditCheckCodebasePhpMessDetection extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getAction().
    */
   public function getAction() {
-    if ($this->registry['phpmd_path_error'] === TRUE) {
+    if (isset($this->registry['phpmd_path_error'])) {
       return dt('Run "composer install" from site_audit root to install missing dependencies.');
     }
     if ($this->getScore() == SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN) {

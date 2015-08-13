@@ -102,7 +102,7 @@ class SiteAuditCheckCodebasePhpDeadCodeDetection extends SiteAuditCheckAbstract 
    * Implements \SiteAudit\Check\Abstract\getAction().
    */
   public function getAction() {
-    if ($this->registry['phpdcd_path_error'] === TRUE) {
+    if (isset($this->registry['phpdcd_path_error'])) {
       return dt('Run "composer install" from site_audit root to install missing dependencies.');
     }
   }

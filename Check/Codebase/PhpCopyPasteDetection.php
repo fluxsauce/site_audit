@@ -78,7 +78,7 @@ class SiteAuditCheckCodebasePhpCopyPasteDetection extends SiteAuditCheckAbstract
         foreach ($duplication->file as $file) {
           $ret_val .= PHP_EOL;
           if ($rows++ == 0) {
-            $ret_val .= ' - ';
+            $ret_val .= ' -  ';
           }
           else {
             if (!drush_get_option('json')) {
@@ -99,7 +99,7 @@ class SiteAuditCheckCodebasePhpCopyPasteDetection extends SiteAuditCheckAbstract
    * Implements \SiteAudit\Check\Abstract\getAction().
    */
   public function getAction() {
-    if ($this->registry['phpcpd_path_error'] === TRUE) {
+    if (isset($this->registry['phpcpd_path_error'])) {
       return dt('Run "composer install" from site_audit root to install missing dependencies.');
     }
   }
