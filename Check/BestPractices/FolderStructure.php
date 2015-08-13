@@ -44,13 +44,13 @@ class SiteAuditCheckBestPracticesFolderStructure extends SiteAuditCheckAbstract 
    */
   public function getResultWarn() {
     if (!$this->registry['contrib'] && !$this->registry['custom']) {
-      return dT('Both modules/contrib and modules/custom directories are not present');
+      return dt('Neither modules/contrib nor modules/custom directories are present!');
     }
     if (!$this->registry['contrib']) {
-      return dt('modules/contrib directory is not present.');
+      return dt('modules/contrib directory is not present!');
     }
     if (!$this->registry['custom']) {
-      return dt('modules/custom directory is not present');
+      return dt('modules/custom directory is not present!');
     }
   }
 
@@ -58,8 +58,18 @@ class SiteAuditCheckBestPracticesFolderStructure extends SiteAuditCheckAbstract 
    * Implements \SiteAudit\Check\Abstract\getAction().
    */
   public function getAction() {
+    $message = "";
     if ($this->score == SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN) {
-      return dt('Put all the contrib modules inside modules/contrib directory and custom modules inside modules/custom directory');
+      if (!$this->registry['contrib'] && !$this->registry['custom']) {
+        $message .= 'Put all the contrib modules inside modules/contrib directory and custom modules inside modules/custom directory.';
+      }
+      elseif (!$this->registry['contrib']) {
+        $message .= 'Put all the contrib modules inside modules/contrib directory.';
+      }
+      elseif (!$this->registry['custom']) {
+        $message .= 'Put all the custom modules inside modules/custom directory.';
+      }
+      return dt($message . ' Moving modules may cause errors. Refer to https://www.drupal.org/node/183681 for information on how to move modules.');
     }
   }
 
