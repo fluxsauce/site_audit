@@ -240,9 +240,21 @@ class SiteAuditCheckFrontEndGooglePageSpeed extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\calculateScore().
    */
   public function calculateScore() {
+    $this->registry['errors'] = array();
+    $key = drush_get_option('gi-key');
+    $url = drush_get_option('url');
+    if ($key == NULL) {
+      $this->registry['errors'][] = dt('No API key provided.');
+      return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
+    }
+    if ($url == NULL) {
+      $this->registry['errors'][] = dt('No url provided.');
+      return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
+    }
+
     $pso_url = 'https://www.googleapis.com/pagespeedonline/v1/runPagespeed';
-    $pso_url .= '?url=' . $this->registry['url'];
-    $pso_url .= '&key=' . $this->registry['key'];
+    $pso_url .= '?url=' . $url;
+    $pso_url .= '&key=' . $key;
 
     $ch = curl_init($pso_url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
@@ -252,7 +264,6 @@ class SiteAuditCheckFrontEndGooglePageSpeed extends SiteAuditCheckAbstract {
     // Network connection or any other problem.
     if (is_null($this->registry['json_result'])) {
       $this->abort = TRUE;
-      $this->registry['errors'] = array();
       $this->registry['errors'][] = dt('www.googleapis.com did not provide valid json; raw result: @message', array(
         '@message' => $result,
       ));
@@ -283,14 +294,11 @@ class SiteAuditCheckFrontEndGooglePageSpeed extends SiteAuditCheckAbstract {
       ));
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
     }
-
     // Overview.
     if ($this->registry['json_result']->score > 80) {
-      $this->percentOverride = $this->registry['json_result']->score;
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
     }
     elseif ($this->registry['json_result']->score > 60) {
-      $this->percentOverride = $this->registry['json_result']->score;
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN;
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;

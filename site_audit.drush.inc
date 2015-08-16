@@ -186,12 +186,7 @@ function site_audit_drush_command() {
     'value' => 'required',
   );
 
-  $arguments_gi = array(
-    'url' => dt('The URL that you wish to test.'),
-    'key' => dt('Google Code API Key - see https://developers.google.com/speed/docs/insights/v1/getting_started#auth'),
-  );
-  $arguments_all = array_merge($arguments_all, $arguments_gi);
-  $options_gi = array(
+  $options_fe = array(
     'impact' => array(
       'description' => dt('Only show results with an impact greater than what\'s specified. 3 is considered high impact.'),
       'example-value' => dt('3'),
@@ -202,16 +197,30 @@ function site_audit_drush_command() {
       'example-value' => dt('3'),
       'value' => 'required',
     ),
+    'wpt-key' => array(
+      'description' => dt('WebPageTest API Key - see http://www.webpagetest.org/getkey.php'),
+      'example-value' => dt('3'),
+      'value' => 'required',
+    ),
+    'gi-key' => array(
+      'description' => dt('Google Code API Key - see https://developers.google.com/speed/docs/insights/v1/getting_started#auth'),
+      'value' => 'required',
+    ),
+    'url' => array(
+      'description' => dt('Limit the number of records shown for each item.'),
+      'example-value' => dt('3'),
+      'value' => 'required',
+    ),
   );
-  $options_all = array_merge($options_all, $options_gi);
+  $options_all = array_merge($options_all, $options_fe);
   $items['audit-front-end'] = array(
     'description' => dt("Analyze a site's front end performance."),
     'aliases' => array('afe'),
-    'bootstrap' => DRUSH_BOOTSTRAP_NONE,
-    'arguments' => $arguments_gi,
-    'options' => array_merge(site_audit_common_options(), $options_gi),
+    'bootstrap' => DRUSH_BOOTSTRAP_FULL,
+    'options' => array_merge(site_audit_common_options(), $options_fe),
     'checks' => array(
       'GooglePageSpeed',
+      'WebPageTest',
     ),
   );
 
@@ -585,13 +594,9 @@ function drush_site_audit_audit_extensions_validate() {
  * @param string $key
  *   Google API key.
  */
-function drush_site_audit_audit_front_end_validate($url = '', $key = '') {
-  // Ensure the API key exists.
-  if (!$key) {
-    drush_set_error('SITE_AUDIT_GOOGLE_INSIGHTS_NO_KEY', dt('An API key is required; see https://developers.google.com/speed/docs/insights/v1/getting_started#auth'));
-  }
-
+function drush_site_audit_audit_front_end_validate() {
   // Check for a valid URL.
+  $url = drush_get_option('url');
   if (filter_var($url, FILTER_VALIDATE_URL) === FALSE) {
     drush_set_error('SITE_AUDIT_GOOGLE_INSIGHTS_NO_URL', dt('A valid URL is required.'));
   }
@@ -622,7 +627,7 @@ function drush_site_audit_audit_front_end_validate($url = '', $key = '') {
  *   Google API key.
  */
 function drush_site_audit_audit_front_end($url, $key) {
-  $report = new SiteAuditReportFrontEnd($url, $key);
+  $report = new SiteAuditReportFrontEnd();
   $report->render();
 }
 
