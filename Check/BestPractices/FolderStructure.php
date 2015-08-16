@@ -61,15 +61,15 @@ class SiteAuditCheckBestPracticesFolderStructure extends SiteAuditCheckAbstract 
     $message = "";
     if ($this->score == SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN) {
       if (!$this->registry['contrib'] && !$this->registry['custom']) {
-        $message .= 'Put all the contrib modules inside modules/contrib directory and custom modules inside modules/custom directory.';
+        $message .= dt('Put all the contrib modules inside modules/contrib directory and custom modules inside modules/custom directory.');
       }
       elseif (!$this->registry['contrib']) {
-        $message .= 'Put all the contrib modules inside modules/contrib directory.';
+        $message .= dt('Put all the contrib modules inside modules/contrib directory.');
       }
       elseif (!$this->registry['custom']) {
-        $message .= 'Put all the custom modules inside modules/custom directory.';
+        $message .= dt('Put all the custom modules inside modules/custom directory.');
       }
-      return dt($message . ' Moving modules may cause errors. Refer to https://www.drupal.org/node/183681 for information on how to move modules.');
+      return $message . dt(' Moving modules may cause errors. Refer to https://www.drupal.org/node/183681 for information on how to move modules.');
     }
   }
 
