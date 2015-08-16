@@ -95,9 +95,9 @@ class SiteAuditCheckDatabaseFragmentation extends SiteAuditCheckAbstract {
       $db_spec = _drush_sql_get_db_spec();
     }
     $sql_query  = 'SELECT TABLE_NAME AS name';
-    $sql_query .= ', Round(DATA_LENGTH/1024/1024) AS data_length';
-    $sql_query .= ', Round(INDEX_LENGTH/1024/1024) AS index_length';
-    $sql_query .= ', Round(DATA_FREE/1024/1024) AS data_free';
+    $sql_query .= ', ROUND(DATA_LENGTH / 1024 / 1024) AS data_length';
+    $sql_query .= ', ROUND(INDEX_LENGTH / 1024 / 1024) AS index_length';
+    $sql_query .= ', ROUND(DATA_FREE / 1024 / 1024) AS data_free';
     $sql_query .= ' FROM information_schema.TABLES ';
     $sql_query .= ' WHERE TABLES.DATA_FREE > 0 ';
     $sql_query .= ' AND TABLES.table_schema = :dbname ';
