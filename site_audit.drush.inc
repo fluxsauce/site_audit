@@ -216,7 +216,8 @@ function site_audit_drush_command() {
   $items['audit-front-end'] = array(
     'description' => dt("Analyze a site's front end performance."),
     'aliases' => array('afe'),
-    'bootstrap' => DRUSH_BOOTSTRAP_FULL,
+    'callback' => 'drush_site_audit_generic_callback',
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
     'options' => array_merge(site_audit_common_options(), $options_fe),
     'checks' => array(
       'GooglePageSpeed',
@@ -588,11 +589,6 @@ function drush_site_audit_audit_extensions_validate() {
 
 /**
  * Audit front end validation.
- *
- * @param string $url
- *   URL to check.
- * @param string $key
- *   Google API key.
  */
 function drush_site_audit_audit_front_end_validate() {
   // Check for a valid URL.
@@ -616,19 +612,6 @@ function drush_site_audit_audit_front_end_validate() {
       drush_set_error('SITE_AUDIT_GOOGLE_INSIGHTS_BAD_LIMIT', dt('Limit must be an integer greater than 0.'));
     }
   }
-}
-
-/**
- * Render a Google PageSpeed Insight report.
- *
- * @param string $url
- *   URL to check.
- * @param string $key
- *   Google API key.
- */
-function drush_site_audit_audit_front_end($url, $key) {
-  $report = new SiteAuditReportFrontEnd();
-  $report->render();
 }
 
 /**
