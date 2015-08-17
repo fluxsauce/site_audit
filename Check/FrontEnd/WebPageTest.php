@@ -92,7 +92,7 @@ class SiteAuditCheckFrontEndWebPageTest extends SiteAuditCheckAbstract {
       $ret_val .= '</ul>';
     }
     else {
-      $ret_val .= $this->addSpaces(4) . 'Full Report: ' . $this->registry['webpagetest']['data']->data->summary;
+      $ret_val .= 'Full Report: ' . $this->registry['webpagetest']['data']->data->summary;
       $ret_val .= PHP_EOL . $this->addSpaces(4) . 'Location: ' . $this->registry['webpagetest']['data']->data->location;
       $ret_val .= PHP_EOL . $this->addSpaces(4) . 'Connectivity: ' . $this->registry['webpagetest']['data']->data->connectivity;
 
