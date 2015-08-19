@@ -120,7 +120,7 @@ class SiteAuditCheckCodebaseGitContributions extends SiteAuditCheckAbstract {
     foreach ($users as $user) {
       $command = "git log --no-merges --shortstat --author '$user' 2> /dev/null ";
       $command .= "| grep 'files\\? changed' 2> /dev/null ";
-      $command .= "| awk {if ($5==\"insertions(+)\" || $5==\"insertion(+)\") inserted+=$4; else deleted+=$4; deleted+=$6} END {print inserted, deleted}' 2> /dev/null";
+      $command .= "| awk '{if ($5==\"insertions(+)\" || $5==\"insertion(+)\") inserted+=$4; else deleted+=$4; deleted+=$6} END {print inserted, deleted}' 2> /dev/null";
       $output = explode(' ', exec($command));
       $this->registry['git_contribution'][$user] = array(
         'inserted' => $output[0],
