@@ -69,7 +69,7 @@ class SiteAuditCheckBestPracticesFolderStructure extends SiteAuditCheckAbstract 
       elseif (!$this->registry['custom']) {
         $message .= dt('Put all the custom modules inside modules/custom directory.');
       }
-      return $message . dt(' Moving modules may cause errors. Refer to https://www.drupal.org/node/183681 for information on how to move modules.');
+      return $message . ' ' . dt('Moving modules may cause errors. Refer to https://www.drupal.org/node/183681 for information on how to move modules.');
     }
   }
 
