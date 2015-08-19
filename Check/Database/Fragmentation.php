@@ -106,10 +106,12 @@ class SiteAuditCheckDatabaseFragmentation extends SiteAuditCheckAbstract {
     ));
     foreach ($result as $row) {
       $data = $row->data_length + $row->index_length;
-      $free = $row->data_free;
-      $fragmentation_ratio = $free / $data;
-      if ($fragmentation_ratio > 0.05) {
-        $this->registry['database_fragmentation'][$row->name] = $fragmentation_ratio;
+      if ($data != 0) {
+        $free = $row->data_free;
+        $fragmentation_ratio = $free / $data;
+        if ($fragmentation_ratio > 0.05) {
+          $this->registry['database_fragmentation'][$row->name] = $fragmentation_ratio;
+        }
       }
     }
     if (empty($this->registry['database_fragmentation'])) {
