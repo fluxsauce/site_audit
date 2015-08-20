@@ -78,14 +78,14 @@ class SiteAuditCheckCodebasePhpCopyPasteDetection extends SiteAuditCheckAbstract
         foreach ($duplication->file as $file) {
           $ret_val .= PHP_EOL;
           if ($rows++ == 0) {
-            $ret_val .= ' -  ';
+            $ret_val .= '    - ';
           }
           else {
             if (!drush_get_option('json')) {
-              $ret_val .= str_repeat(' ', 4);
+              $ret_val .= str_repeat(' ', 6);
             }
           }
-          $path = $file['path'];
+          $path = $this->getRelativePath((String) $file['path']);
           $line_start = (int) $file['line'];
           $line_end = $line_start + $lines;
           $ret_val .= "$path: $line_start-$line_end";
