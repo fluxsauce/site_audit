@@ -187,6 +187,7 @@ function site_audit_drush_command() {
       'SizeAll',
       'ManagedFileCount',
       'ManagedFileSize',
+      'GitContributions',
       'PhpLOC',
       'PhpMessDetection',
       'PhpCodeSniffer',
@@ -383,7 +384,6 @@ function site_audit_drush_command() {
       'Status',
       'Watchdog',
       'Views',
-      'StaticCodeAnalysis',
     ),
   );
 
