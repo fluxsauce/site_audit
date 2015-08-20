@@ -13,21 +13,21 @@ class SiteAuditCheckCodebasePhpCodeSniffer extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
   public function getLabel() {
-    return dt('PHP Code Sniffer Violations');
+    return dt('PHP Code Sniffer');
   }
 
   /**
    * Implements \SiteAudit\Check\Abstract\getDescription().
    */
   public function getDescription() {
-    return dt('Run phpcs on custom code.');
+    return dt('Check custom code for Drupal coding standards.');
   }
 
   /**
    * Implements \SiteAudit\Check\Abstract\getResultFail().
    */
   public function getResultFail() {
-    return dt('Invalid custom code paths found.');
+    return dt('Cannot check for coding standard violations; an invalid custom code path was specified!');
   }
 
   /**
@@ -38,11 +38,10 @@ class SiteAuditCheckCodebasePhpCodeSniffer extends SiteAuditCheckAbstract {
       return dt('Missing phpcs.');
     }
     if (isset($this->registry['custom_code'])) {
-      return dt('No custom code path specified');
+      return dt('Cannot check for coding standard violations; no custom code path specified.');
     }
     return dt('Cannot find coding standards inside ' . $this->registry['phpcs_standard']);
   }
-
 
   /**
    * Implements \SiteAudit\Check\Abstract\getResultPass().
@@ -50,7 +49,6 @@ class SiteAuditCheckCodebasePhpCodeSniffer extends SiteAuditCheckAbstract {
   public function getResultPass() {
     return dt('No PHP code_sniffer violations.');
   }
-
 
   /**
    * Implements \SiteAudit\Check\Abstract\getResultWarn().
@@ -105,7 +103,7 @@ class SiteAuditCheckCodebasePhpCodeSniffer extends SiteAuditCheckAbstract {
    */
   public function getAction() {
     if (isset($this->registry['phpcs_path_error'])) {
-      return dt('Run "composer install" from site_audit root to install missing dependencies.');
+      return dt('Run "composer install" from the site_audit installation root to install missing dependencies.');
     }
     if (isset($this->registry['custom_code'])) {
       return dt('Use the --custom-code option.');

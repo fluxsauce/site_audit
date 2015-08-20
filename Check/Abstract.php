@@ -335,9 +335,10 @@ abstract class SiteAuditCheckAbstract {
       }
       foreach ($custom_code as $path) {
         if (!is_dir($path) && !is_file($path)) {
-          return drush_set_error(dt('@path given in custom-code option is not a valid file or directory', array(
+          drush_log(dt('"@path" given in custom-code option is not a valid file or directory.', array(
             '@path' => $path,
           )));
+          return FALSE;
         }
       }
       SiteAuditCheckAbstract::$customCode = $custom_code;

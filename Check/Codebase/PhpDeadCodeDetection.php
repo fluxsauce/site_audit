@@ -28,7 +28,7 @@ class SiteAuditCheckCodebasePhpDeadCodeDetection extends SiteAuditCheckAbstract 
    * Implements \SiteAudit\Check\Abstract\getResultFail().
    */
   public function getResultFail() {
-    return dt('Invalid custom code paths found.');
+    return dt('Cannot check for unreachable code; an invalid custom code path was specified!');
   }
 
   /**
@@ -39,9 +39,9 @@ class SiteAuditCheckCodebasePhpDeadCodeDetection extends SiteAuditCheckAbstract 
       return dt('Missing phpdcd.');
     }
     elseif (isset($this->registry['custom_code'])) {
-      return dt('No custom code path specified');
+      return dt('Cannot check for unreachable code; no custom code path specified.');
     }
-    return dt('phpdcd does not provide xml output yet. Waiting for https://github.com/sebastianbergmann/phpdcd/pull/58 to be merged.');
+    return dt('phpdcd does not support XML output yet; please request support in https://github.com/sebastianbergmann/phpdcd/pull/58');
   }
 
 
@@ -103,7 +103,7 @@ class SiteAuditCheckCodebasePhpDeadCodeDetection extends SiteAuditCheckAbstract 
    */
   public function getAction() {
     if (isset($this->registry['phpdcd_path_error'])) {
-      return dt('Run "composer install" from site_audit root to install missing dependencies.');
+      return dt('Run "composer install" from the site_audit installation root to install missing dependencies.');
     }
     if (isset($this->registry['custom_code'])) {
       return dt('Use the --custom-code option.');

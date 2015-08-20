@@ -13,21 +13,21 @@ class SiteAuditCheckCodebasePhpCopyPasteDetection extends SiteAuditCheckAbstract
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
   public function getLabel() {
-    return dt('PHP Copy/Paste Detector Violations');
+    return dt('PHP Copy/Paste Detector');
   }
 
   /**
    * Implements \SiteAudit\Check\Abstract\getDescription().
    */
   public function getDescription() {
-    return dt('Run phpcpd on custom code.');
+    return dt('Check for lazily duplicated custom code.');
   }
 
   /**
    * Implements \SiteAudit\Check\Abstract\getResultFail().
    */
   public function getResultFail() {
-    return dt('Invalid custom code paths found.');
+    return dt('Cannot check for copy/pasted code; an invalid custom code path was specified!');
   }
 
   /**
@@ -37,7 +37,7 @@ class SiteAuditCheckCodebasePhpCopyPasteDetection extends SiteAuditCheckAbstract
     if (isset($this->registry['phpcpd_path_error'])) {
       return dt('Missing phpcpd.');
     }
-    return dt('No custom code path specified');
+    return dt('Cannot check for copy/pasted code; no custom code path specified.');
   }
 
 
@@ -78,11 +78,11 @@ class SiteAuditCheckCodebasePhpCopyPasteDetection extends SiteAuditCheckAbstract
         foreach ($duplication->file as $file) {
           $ret_val .= PHP_EOL;
           if ($rows++ == 0) {
-            $ret_val .= '    - ';
+            $ret_val .= str_repeat(' ', 6) . '- ';
           }
           else {
             if (!drush_get_option('json')) {
-              $ret_val .= str_repeat(' ', 6);
+              $ret_val .= str_repeat(' ', 8);
             }
           }
           $path = $this->getRelativePath((String) $file['path']);
@@ -100,7 +100,7 @@ class SiteAuditCheckCodebasePhpCopyPasteDetection extends SiteAuditCheckAbstract
    */
   public function getAction() {
     if (isset($this->registry['phpcpd_path_error'])) {
-      return dt('Run "composer install" from site_audit root to install missing dependencies.');
+      return dt('Run "composer install" from the site_audit installation root to install missing dependencies.');
     }
     if (isset($this->registry['custom_code'])) {
       return dt('Use the --custom-code option.');

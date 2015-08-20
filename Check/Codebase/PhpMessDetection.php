@@ -14,21 +14,21 @@ class SiteAuditCheckCodebasePhpMessDetection extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
   public function getLabel() {
-    return dt('PHP Mess Detection Violations');
+    return dt('PHP Mess Detection');
   }
 
   /**
    * Implements \SiteAudit\Check\Abstract\getDescription().
    */
   public function getDescription() {
-    return dt('Run phpmd on custom code.');
+    return dt('Check custom code for possible bugs and other suboptimal code.');
   }
 
   /**
    * Implements \SiteAudit\Check\Abstract\getResultFail().
    */
   public function getResultFail() {
-    return dt('Invalid custom code paths found.');
+    return dt('Cannot check for suboptimal code; an invalid custom code path was specified!');
   }
 
   /**
@@ -38,7 +38,7 @@ class SiteAuditCheckCodebasePhpMessDetection extends SiteAuditCheckAbstract {
     if (isset($this->registry['phpmd_path_error'])) {
       return dt('Missing phpmd.');
     }
-    return dt('No custom code path specified');
+    return dt('Cannot check for suboptimal code; no custom code path specified.');
   }
 
 
@@ -105,7 +105,7 @@ class SiteAuditCheckCodebasePhpMessDetection extends SiteAuditCheckAbstract {
    */
   public function getAction() {
     if (isset($this->registry['phpmd_path_error'])) {
-      return dt('Run "composer install" from site_audit root to install missing dependencies.');
+      return dt('Run "composer install" from the site_audit installation root to install missing dependencies.');
     }
     if (isset($this->registry['custom_code'])) {
       return dt('Use the --custom-code option.');

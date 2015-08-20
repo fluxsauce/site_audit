@@ -21,14 +21,14 @@ class SiteAuditCheckCodebasePhpLOC extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\getDescription().
    */
   public function getDescription() {
-    return dt('Run phploc on custom code.');
+    return dt('Measure the size of custom code.');
   }
 
   /**
    * Implements \SiteAudit\Check\Abstract\getResultFail().
    */
   public function getResultFail() {
-    return dt('Invalid custom code paths found.');
+    return dt('Cannot measure the size of the project; an invalid custom code path was specified!');
   }
 
   /**
@@ -39,16 +39,18 @@ class SiteAuditCheckCodebasePhpLOC extends SiteAuditCheckAbstract {
       return dt('Missing phploc.');
     }
     if (isset($this->registry['custom_code'])) {
-      return dt('No custom code path specified');
+      return dt('Cannot measure the size of the project; no custom code path specified.');
     }
+
     $human_readable = array(
-      'directories'                 => 'Directories',
-      'files'                       => 'Files',
-      'loc'                         => 'Lines of Code (LOC)',
-      'functions'                   => 'Functions',
-      'namespaces'                  => 'Namespaces',
-      'methods'                     => 'Methods',
+      'loc' => 'Lines of Code (LOC)',
+      'files' => 'Files',
+      'directories' => 'Directories',
+      'functions' => 'Functions',
+      'namespaces' => 'Namespaces',
+      'methods' => 'Methods',
     );
+
     $ret_val = '';
     if (drush_get_option('html') == TRUE) {
       $ret_val .= '<table class="table table-condensed">';
@@ -80,7 +82,7 @@ class SiteAuditCheckCodebasePhpLOC extends SiteAuditCheckAbstract {
             $ret_val .= str_repeat(' ', 6);
           }
           $e = $metrics->xpath('//' . $metric);
-          $ret_val .= "$name : " . (String) $e[0];
+          $ret_val .= $name . ': ' . (string) $e[0];
         }
       }
     }
@@ -105,7 +107,7 @@ class SiteAuditCheckCodebasePhpLOC extends SiteAuditCheckAbstract {
    */
   public function getAction() {
     if (isset($this->registry['phploc_path_error'])) {
-      return dt('Run "composer install" from site_audit root to install missing dependencies.');
+      return dt('Run "composer install" from the site_audit installation root to install missing dependencies.');
     }
     if (isset($this->registry['custom_code'])) {
       return dt('Use the --custom-code option.');
