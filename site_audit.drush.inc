@@ -79,6 +79,7 @@ function site_audit_drush_command() {
       'Services',
       'SitesDefault',
       'SitesSuperfluous',
+      'FolderStructure',
     ),
   );
 
@@ -248,6 +249,7 @@ function site_audit_drush_command() {
       'Collation',
       'Engine',
       'RowCount',
+      'Fragmentation',
     ),
   );
 
