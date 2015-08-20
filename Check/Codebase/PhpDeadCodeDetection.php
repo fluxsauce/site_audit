@@ -28,7 +28,7 @@ class SiteAuditCheckCodebasePhpDeadCodeDetection extends SiteAuditCheckAbstract 
    * Implements \SiteAudit\Check\Abstract\getResultFail().
    */
   public function getResultFail() {
-    return dt('No valid custom code paths found.');
+    return dt('Invalid custom code paths found.');
   }
 
   /**
@@ -105,6 +105,9 @@ class SiteAuditCheckCodebasePhpDeadCodeDetection extends SiteAuditCheckAbstract 
     if (isset($this->registry['phpdcd_path_error'])) {
       return dt('Run "composer install" from site_audit root to install missing dependencies.');
     }
+    if (isset($this->registry['custom_code'])) {
+      return dt('Use the --custom-code option.');
+    }
   }
 
   /**
@@ -119,13 +122,12 @@ class SiteAuditCheckCodebasePhpDeadCodeDetection extends SiteAuditCheckAbstract 
     }
     // Get the custom code paths.
     $custom_code = $this->getCustomCodePaths();
-    if (!$custom_code) {
-      $this->abort = TRUE;
+    if ($custom_code === FALSE) {
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
     }
     if (empty($custom_code)) {
-      $this->registry['custom_code'] = $custom_code;
-      return $custom_code;
+      $this->registry['custom_code'] = TRUE;
+      return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
     }
     // Get options.
     $valid_options = array(
