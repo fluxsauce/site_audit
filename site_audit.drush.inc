@@ -384,7 +384,6 @@ function site_audit_drush_command() {
       'Status',
       'Watchdog',
       'Views',
-      'StaticCodeAnalysis',
     ),
   );
 
