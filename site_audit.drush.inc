@@ -98,17 +98,100 @@ function site_audit_drush_command() {
     ),
   );
 
+  $options_codebase = array(
+    'custom-code' => array(
+      'description' => dt('Comma separated the directories/files containing custom code.'),
+      'example-value' => dt('./modules/custom,./modules/features,./code.php'),
+      'value' => 'required',
+    ),
+    'phploc-names' => array(
+      'description' => dt('A comma-separated list of file names for phploc to check'),
+      'example-value' => dt('*.php,*.module,*.install,*.test,*.inc,*.profile,*.theme'),
+      'value' => 'required',
+    ),
+    'phploc-names-exclude' => array(
+      'description' => dt('A comma-separated list of file names for phploc to exclude'),
+      'example-value' => dt('*.features.*,*_default.inc,*.ds.inc,*.strongarm.inc,*.panelizer.inc,*_defaults.inc,*.box.inc,*.context.inc,*displays.inc'),
+      'value' => 'required',
+    ),
+    'phpmd-ruleset' => array(
+      'description' => dt('phpmd rules to be used, can also be an xml file with custom ruleset'),
+      'example-value' => dt('codesize,naming,design,unusedcode'),
+      'value' => 'required',
+    ),
+    'phpmd-suffixes' => array(
+      'description' => dt('Comma-separated string of valid source code filename extensions checked by phpmd'),
+      'example-value' => dt('.php,.module,.install,.test,.inc,.profile,.theme'),
+      'value' => 'required',
+    ),
+    'phpmd-exclude' => array(
+      'description' => dt('Comma-separated string of patterns that are used to ignore directories by phpmd'),
+      'example-value' => dt('*.features.*,*_default.inc,*.ds.inc,*.strongarm.inc,*.panelizer.inc,*_defaults.inc,*.box.inc,*.context.inc,*displays.inc'),
+      'value' => 'required',
+    ),
+    'phpmd-minimumpriority' => array(
+      'description' => dt('The phpmd rule priority threshold; rules with lower priority than they will not be used; between 1 and 5'),
+      'example-value' => dt('3'),
+      'value' => 'required',
+    ),
+    'phpmd-strict' => array(
+      'description' => dt('Phpmd also reports those nodes with a @SuppressWarnings annotation'),
+      'value' => 'optional',
+    ),
+    'phpcpd-names' => array(
+      'description' => dt('A comma-separated list of file names for phpcpd to check'),
+      'example-value' => dt('*.php,*.module,*.install,*.test,*.inc,*.profile,*.theme'),
+      'value' => 'required',
+    ),
+    'phpcpd-names-exclude' => array(
+      'description' => dt('A comma-separated list of file names for phpcpd to exclude'),
+      'example-value' => dt('*.features.*,*_default.inc,*.ds.inc,*.strongarm.inc,*.panelizer.inc,*_defaults.inc,*.box.inc,*.context.inc,*displays.inc'),
+      'value' => 'required',
+    ),
+    'phpdcd-names' => array(
+      'description' => dt('A comma-separated list of file names for phpdcd to check'),
+      'example-value' => dt('*.php,*.module,*.install,*.test,*.inc,*.profile,*.theme'),
+      'value' => 'required',
+    ),
+    'phpdcd-names-exclude' => array(
+      'description' => dt('A comma-separated list of file names for phpdcd to exclude'),
+      'example-value' => dt('*.features.*,*_default.inc,*.ds.inc,*.strongarm.inc,*.panelizer.inc,*_defaults.inc,*.box.inc,*.context.inc,*displays.inc'),
+      'value' => 'required',
+    ),
+
+    'phpcs-extensions' => array(
+      'description' => dt('A comma separated list of file extensions to be checked by phpcs'),
+      'example-value' => dt('php,module,inc,install,test,profile,theme,css,info,txt'),
+      'value' => 'required',
+    ),
+    'phpcs-ignore' => array(
+      'description' => dt('A comma separated list of patterns for phpcs to ignore files and directories'),
+      'example-value' => dt('*/modules/features/'),
+      'value' => 'required',
+    ),
+    'phpcs-standard' => array(
+      'description' => dt('Name or absolute path of the coding standard to be used by phpcs'),
+      'example-value' => dt('~/.drush/site_audit/vendor/drupal/coder/coder_sniffer/Drupal'),
+      'value' => 'required',
+    ),
+  );
+
   $items['audit-codebase'] = array(
     'description' => dt('Audit the codebase.'),
     'aliases' => array('acb'),
     'callback' => 'drush_site_audit_generic_callback',
     'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
-    'options' => site_audit_common_options(),
+    'options' => array_merge(site_audit_common_options(), $options_codebase),
     'checks' => array(
       'SizeFiles',
       'SizeAll',
       'ManagedFileCount',
       'ManagedFileSize',
+      'PhpLOC',
+      'PhpMessDetection',
+      'PhpCodeSniffer',
+      'PhpCopyPasteDetection',
+      'PhpDeadCodeDetection',
     ),
   );
 
@@ -300,6 +383,7 @@ function site_audit_drush_command() {
       'Status',
       'Watchdog',
       'Views',
+      'StaticCodeAnalysis',
     ),
   );
 

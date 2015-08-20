@@ -11,14 +11,19 @@
     "issues": "https://www.drupal.org/project/issues/site_audit"
   },
   "require": {
-    "php": ">5.5.0"
+    "php": ">5.5.0",
+    "phpmd/phpmd" : "@stable",
+    "sebastian/phpcpd": "*",
+    "ext-SimpleXML" : "0.1",
+    "squizlabs/php_codesniffer": "*",
+    "drupal/coder": "^8.2",
+    "phploc/phploc": "*",
+    "sebastian/phpdcd": "*",
+    "symfony/process": "^2.7"
   },
   "require-dev": {
-    "squizlabs/php_codesniffer": "*",
-    "drupal/coder": ">8.2.0",
     "phpunit/phpunit": "4.7.*",
-    "drush/drush": "dev-master",
-    "symfony/process": "2.4.5"
+    "drush/drush": "dev-master"
   },
   "autoload": {
     "psr-0": {
