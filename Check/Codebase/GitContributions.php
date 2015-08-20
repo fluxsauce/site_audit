@@ -42,14 +42,14 @@ class SiteAuditCheckCodebaseGitContributions extends SiteAuditCheckAbstract {
       $ret_val .= '<table class="table table-condensed">';
       $ret_val .= '<thead><tr><th>' . dt('Author') . '</th><th>' . dt('Lines Inserted') . '</th><th>' . dt('Lines Deleted') . '</th><th>' . dt('Percentage Contribution') . '</th></tr></thead>';
       foreach ($this->registry['git_contribution_percentage'] as $user => $percentage) {
-        $added = $this->registry['git_contribution'][$user]['inserted'];
-        $deleted = $this->registry['git_contribution'][$user]['deleted'];
+        $added = number_format($this->registry['git_contribution'][$user]['inserted']);
+        $deleted = number_format($this->registry['git_contribution'][$user]['deleted']);
         $ret_val .= "<tr><td>$user</td><td>$added</td><td>$deleted</td><td>$percentage%</td></tr>";
       }
       $ret_val .= '</table>';
     }
     else {
-      $ret_val  = dt('Author: Inserted, Deleted, Percentage') . PHP_EOL;
+      $ret_val  = dt('Author: Inserted | Deleted | Percentage') . PHP_EOL;
       if (!drush_get_option('json')) {
         $ret_val .= str_repeat(' ', 4);
       }
@@ -59,9 +59,9 @@ class SiteAuditCheckCodebaseGitContributions extends SiteAuditCheckAbstract {
         if (!drush_get_option('json')) {
           $ret_val .= str_repeat(' ', 4);
         }
-        $added = $this->registry['git_contribution'][$user]['inserted'];
-        $deleted = $this->registry['git_contribution'][$user]['deleted'];
-        $ret_val .= "$user: $added, $deleted, $percentage%";
+        $added = number_format($this->registry['git_contribution'][$user]['inserted']);
+        $deleted = number_format($this->registry['git_contribution'][$user]['deleted']);
+        $ret_val .= "$user: $added | $deleted | $percentage%";
       }
     }
     return $ret_val;
