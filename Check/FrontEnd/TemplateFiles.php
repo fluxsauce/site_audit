@@ -88,7 +88,7 @@ class SiteAuditCheckFrontEndTemplateFiles extends SiteAuditCheckAbstract {
    */
   public function getAction() {
     if ($this->score == SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN) {
-      return dt('Business logic in template files degrades performance. Remove it.');
+      return dt('Business logic in template files degrades performance. Move PHP into pre-processors and JavaScript into JavaScript files.');
     }
   }
 
@@ -103,7 +103,7 @@ class SiteAuditCheckFrontEndTemplateFiles extends SiteAuditCheckAbstract {
     exec($command, $output);
     foreach ($output as $line) {
       $line = explode(':', $line);
-      $this->registry['template_logic'][$line[0]][] = array($line[1], $line[2]);
+      $this->registry['template_logic'][$this->getRelativePath($line[0])][] = array($line[1], $line[2]);
     }
     if (!empty($this->registry['template_logic'])) {
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN;
