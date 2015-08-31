@@ -227,6 +227,16 @@ function site_audit_drush_command() {
     ),
   );
 
+  $items['audit_front_end'] = array(
+    'description' => dt("Analyze a site's front end performance."),
+    'aliases' => array('afe'),
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
+    'options' => site_audit_common_options(),
+    'checks' => array(
+      'TemplateFiles',
+    ),
+  );
+
   $items['audit_security'] = array(
     'description' => dt('Audit the site for known security vulnerabilities.'),
     'aliases' => array('asec'),
@@ -750,6 +760,21 @@ function drush_site_audit_audit_security_validate() {
  */
 function drush_site_audit_audit_security() {
   $report = new SiteAuditReportSecurity();
+  $report->render();
+}
+
+/**
+ * Audit Front End validation.
+ */
+function drush_site_audit_audit_front_end_validate() {
+  return site_audit_version_check();
+}
+
+/**
+ * Render a Front End Report.
+ */
+function drush_site_audit_audit_front_end() {
+  $report = new SiteAuditReportFrontEnd();
   $report->render();
 }
 
