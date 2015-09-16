@@ -102,6 +102,11 @@ class SiteAuditCheckExtensionsUnrecommended extends SiteAuditCheckAbstract {
         continue;
       }
 
+      // Special check for APC; if PHP 5.5 and above, allow.
+      if ($extension->name == 'apc' && version_compare(phpversion(), '5.5.0', '>=')) {
+        continue;
+      }
+
       // Name.
       $row[] = $extension->label;
       // Reason.

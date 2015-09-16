@@ -153,6 +153,7 @@ class SiteAuditCheckExtensionsDev extends SiteAuditCheckAbstract {
       'drupalforfirebug' => dt('Development utility for browser debugging.'),
       'dummy_content' => dt('Development utility to generate random content.'),
       'form' => dt('Development utility.'),
+      'generate_errors' => dt('Development utility that intentionally creates errors.'),
       'hacked' => dt('Development utility for detecting altered code.'),
       'module_builder' => dt('Development utility.'),
       'path_redirect_generate' => dt('Development utility for generating redirects.'),

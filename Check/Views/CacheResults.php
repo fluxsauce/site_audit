@@ -116,12 +116,16 @@ class SiteAuditCheckViewsCacheResults extends SiteAuditCheckAbstract {
               }
             }
             else {
-              if ($display->display_options['cache']['results_lifespan'] == 'custom') {
+              if ($display->display_options['cache']['type'] == 'views_content_cache') {
+                $lifespan = $display->display_options['cache']['results_min_lifespan'];
+              }
+              elseif ($display->display_options['cache']['results_lifespan'] == 'custom') {
                 $lifespan = $display->display_options['cache']['results_lifespan_custom'];
               }
               else {
                 $lifespan = $display->display_options['cache']['results_lifespan'];
               }
+              // Normalize.
               if ($lifespan < 1) {
                 $lifespan = 'none';
               }

@@ -68,8 +68,12 @@ class SiteAuditCheckWatchdogPhp extends SiteAuditCheckAbstract {
     $this->registry['php_count_total'] = 0;
     $this->registry['percent_php'] = 0;
 
-    $types = drush_watchdog_message_types();
-    if (array_search('php', $types) === FALSE) {
+    $sql_query  = 'SELECT COUNT(wid) ';
+    $sql_query .= 'FROM {watchdog} ';
+    $sql_query .= 'WHERE type = :type ';
+    $php_count = db_query($sql_query, array(':type' => 'php'))->fetchField();
+
+    if (!$php_count) {
       $this->abort = TRUE;
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
     }
