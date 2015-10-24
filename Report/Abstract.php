@@ -64,8 +64,6 @@ abstract class SiteAuditReportAbstract {
    * Constructor; loads and executes checks based on the name of this report.
    */
   public function __construct() {
-    global $conf;
-
     $base_class_name = 'SiteAuditCheck' . $this->getReportName();
     $percent_override = NULL;
 
@@ -90,10 +88,11 @@ abstract class SiteAuditReportAbstract {
       }
       return drush_set_error('SITE_AUDIT_NO_CHECKS', dt('No checks are available!'));
     }
-
+    $config = \Drupal::config('site_audit');
     foreach ($checks_to_perform as $check_name) {
       $class_name = $base_class_name . $check_name;
-      $check = new $class_name($this->registry, isset($conf['site_audit']['opt_out'][$this->getReportName() . $check_name]));
+      $opt_out = $config->get('opt_out.' . $this->getReportName() . $check_name) != NULL;
+      $check = new $class_name($this->registry, $opt_out);
 
       // Calculate score.
       if ($check->getScore() != SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO) {
