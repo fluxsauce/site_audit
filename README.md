@@ -115,13 +115,13 @@ System check in the Status report, use the following convention:
 
 Multiple skip values can be used, comma separated.
 
-If you want to permanently opt-out of a check, use the $conf array in
+If you want to permanently opt-out of a check, use the $config array in
 settings.php with the individual check names in the same format as the skip
 option. For example, to permanently opt-out of the PageCompression check in the
 Cache report:
 
 ```php
-$conf['site_audit']['opt_out']['CachePageCompression'] = TRUE;
+$config['site_audit']['opt_out']['CachePageCompression'] = TRUE;
 ```
 
 ## Vendor specific options
@@ -148,10 +148,10 @@ Provide a comma separated list of paths (files or directories) in the option
 drush audit-codebase --custom-code="modules/custom,modules/features"
 ```
 
-Or provide an array of custom code paths in `$conf` array in `settings.php`:
+Or provide an array of custom code paths in `$config` array in `settings.php`:
 
 ```php
-$conf['site_audit']['custom-code'] = array(
+$config['site_audit']['custom-code'] = array(
   'modules/custom',
   'modules/features',
 );
