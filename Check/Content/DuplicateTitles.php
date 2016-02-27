@@ -100,7 +100,7 @@ class SiteAuditCheckContentDuplicateTitles extends SiteAuditCheckAbstract {
     $sql_query  = 'SELECT title, type, COUNT(0) AS duplicate_count ';
     $sql_query .= 'FROM {node} ';
     $sql_query .= 'GROUP BY title, type ';
-    $sql_query .= 'HAVING (duplicate_count > 1) ';
+    $sql_query .= 'HAVING (COUNT(0) > 1) ';
     $sql_query .= 'ORDER BY duplicate_count DESC, title ASC ';
 
     $result = db_query($sql_query);

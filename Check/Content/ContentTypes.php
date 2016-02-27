@@ -93,7 +93,7 @@ class SiteAuditCheckContentContentTypes extends SiteAuditCheckAbstract {
     $sql_query  = 'SELECT COUNT({node}.nid) AS count, {node_type}.type ';
     $sql_query .= 'FROM {node_type} ';
     $sql_query .= 'LEFT JOIN {node} ON {node}.type = {node_type}.type ';
-    $sql_query .= 'GROUP BY type ';
+    $sql_query .= 'GROUP BY {node_type}.type ';
     $sql_query .= 'ORDER BY count DESC ';
 
     $result = db_query($sql_query);
