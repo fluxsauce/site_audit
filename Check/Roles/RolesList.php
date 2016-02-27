@@ -62,11 +62,12 @@ class SiteAuditCheckRolesRolesList extends SiteAuditCheckAbstract {
     $sql_query .= 'ORDER BY name ASC ';
     $result = db_query($sql_query);
     foreach ($result as $row) {
-      if($row->name === 'authenticated user') {
-        $sql_query = 'SELECT count(*) as count from {users}';
+      if ($row->name === 'authenticated user') {
+        $sql_query = 'SELECT COUNT(uid) AS count from {users}';
         $count = db_query($sql_query)->fetchField();
         $this->registry['roles'][$row->name] = $count;
-      } else {
+      }
+      else {
         $this->registry['roles'][$row->name] = $row->count_users;
       }
     }
