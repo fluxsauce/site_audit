@@ -265,9 +265,19 @@ function site_audit_drush_command() {
     'checks' => array(
       'CountAll',
       'CountBlocked',
-      'RolesList',
       'WhoIsNumberOne',
       'BlockedNumberOne',
+    ),
+  );
+
+  $items['audit_roles'] = array(
+    'description' => dt('Audit Roles.'),
+    'aliases' => array('ar'),
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
+    'options' => site_audit_common_options(),
+    'checks' => array(
+      'RolesList',
+      'RolesPermissions',
     ),
   );
 
@@ -730,6 +740,21 @@ function drush_site_audit_audit_users_validate() {
  */
 function drush_site_audit_audit_users() {
   $report = new SiteAuditReportUsers();
+  $report->render();
+}
+
+/**
+ * Audit Roles validation.
+ */
+function drush_site_audit_audit_roles_validate() {
+  return site_audit_version_check();
+}
+
+/**
+ * Render a Users report.
+ */
+function drush_site_audit_audit_roles() {
+  $report = new SiteAuditReportRoles();
   $report->render();
 }
 
