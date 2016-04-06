@@ -205,6 +205,67 @@ abstract class Report {
   }
 
   /**
+   * Render response through Drupal Console.
+   */
+  public function toConsole($output) {
+    if ($this->percent == Check::AUDIT_CHECK_SCORE_INFO) {
+      $output->info($this->t('!label: Info', array(
+        '!label' => $this->getLabel(),
+      )));
+    }
+    else {
+      $output->info($this->t('!label: @percent%', array(
+        '!label' => $this->getLabel(),
+        '@percent' => $this->percent,
+      )));
+    }
+    if ($this->percent == 100) {
+      drush_log(str_repeat(' ', 2) . $this->t('No action required.'), 'success');
+    }
+    if (TRUE || $this->percent != 100) {
+      foreach ($this->checks as $check) {
+        if (TRUE || $check->getScore() != Check::AUDIT_CHECK_SCORE_PASS || $this->percent == Check::AUDIT_CHECK_SCORE_INFO) {
+          if (TRUE) {
+            $output->info(str_repeat(' ', 2) . $this->t('!label: !description', array(
+                '!label' => $check->getLabel(),
+                '!description' => $check->getDescription(),
+              )));
+          }
+          else {
+            if ($check->getScore() != Check::AUDIT_CHECK_SCORE_INFO) {
+              $output->info(str_repeat(' ', 2) . $this->t('!label', array(
+                  '!label' => $check->getLabel(),
+                )));
+            }
+          }
+          if ($this->percent == Check::AUDIT_CHECK_SCORE_INFO || TRUE) {
+            if (($check->getScore() != Check::AUDIT_CHECK_SCORE_INFO) || TRUE) {
+              $output->info(str_repeat(' ', 4) . $this->t('!result', array(
+                  '!result' => $check->getResult(),
+                )));
+            }
+            else {
+              $output->info(str_repeat(' ', 2) . $this->t('!result', array(
+                  '!result' => $check->getResult(),
+                )));
+            }
+          }
+          else {
+            $output->info(str_repeat(' ', 4) . $this->t('!result', array(
+                '!result' => $check->getResult(),
+              )));
+          }
+          if ($check->renderAction()) {
+            $output->info(str_repeat(' ', 6) . $this->t('!action', array(
+                '!action' => $check->renderAction(),
+              )));
+          }
+        }
+      }
+    }
+  }
+
+  /**
    * Get the calculated percentage.
    *
    * @return int
