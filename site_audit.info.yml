@@ -1,0 +1,5 @@
+name: Site Audit
+type: module
+description: Site Audit is a Drupal static site analysis platform that generates reports with actionable best practice recommendations.
+core: 8.x
+package: Development

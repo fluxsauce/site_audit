@@ -1,17 +1,14 @@
 {
   "name": "drupal/site_audit",
-  "type": "project",
-  "description": "Drupal static site analysis platform",
+  "type": "drupal-module",
+  "description": "Site Audit is a Drupal static site analysis platform that generates reports with actionable best practice recommendations.",
+  "keywords": ["Drupal"],
+  "license": "GPL-2.0+",
   "homepage": "https://www.drupal.org/project/site_audit",
-  "license": "GLP-2.0+",
-  "authors": [
-    { "name": "Jon Peck", "email": "jpeck@fluxsauce.com" }
-  ],
+  "minimum-stability": "dev",
   "support": {
-    "issues": "https://www.drupal.org/project/issues/site_audit"
+    "issues": "http://drupal.org/project/issues/site_audit",
+    "source": "http://cgit.drupalcode.org/site_audit"
   },
-  "require": {
-    "php": ">5.3.0"
-  },
-  "keywords": ["standards", "audit", "code review", "drupal", "analysis", "reports", "drush"]
+  "require": { }
 }

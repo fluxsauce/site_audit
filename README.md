@@ -25,40 +25,11 @@ checks.
 Site Audit includes a number of comprehensive reports, each consisting of one
 or more checks. Site Audit reports include:
 
-* Best Practices - structural recommendations
-* Block - caching
 * Cache - optimal Drupal caching settings
-* Codebase - size of the site; size and count of managed files
-* Content - checks for unused content types, vocabularies
-* Cron - Drupal's built-in cron
-* Database - collation, engine, row counts, and size
-* Extensions - count, development modules, duplicates, missing
-* Insights - Analyze site with Google PageSpeed Insights
-* Status - check for failures in Drupal's built-in status report
-* Users - blocked user #1, number of normal and blocked users
-* Roles - list of roles, percentage of permissions assigned to roles
-* Views - caching settings
-* Watchdog - 404 error count, age, number of entries, enabled, PHP errors
 
 # Installation
 
-Site Audit is not a module; do not install it in your site root.
-
-Copy the entire Site Audit project to either your unified or personal Drush
-folder in the commands subdirectory, like
-
-````
-~/.drush/commands
-````
-
-then clear Drush's cache:
-
-````
-drush cc drush
-````
-
-See https://github.com/drush-ops/drush#commands to learn more about installing
-commands into Drush.
+...
 
 # Usage
 

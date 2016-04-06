@@ -7,12 +7,15 @@ root = true
 
 # All files.
 [*]
-indent_style = space
-indent_size = 2
-end_of_line = LF
 charset = utf-8
-trim_trailing_whitespace = true
+end_of_line = LF
+indent_size = 2
+indent_style = space
 insert_final_newline = true
+trim_trailing_whitespace = true
 
 [*.md]
 trim_trailing_whitespace = false
+
+[composer.json]
+indent_size = 4

@@ -1,0 +1,43 @@
+<?php
+
+/**
+ * @file
+ * Contains site_audit.module..
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function site_audit_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the site_audit module.
+    case 'help.page.site_audit':
+      $output = '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Site Audit is a Drupal static site analysis platform that generates reports with actionable best practice recommendations.') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Determine if in a development environment.
+ *
+ * @return bool
+ *   Whether the site is in a development environment.
+ */
+function site_audit_env_is_dev() {
+  // Acquia.
+  if (defined('AH_SITE_ENVIRONMENT')) {
+    return !in_array(PANTHEON_ENVIRONMENT, array('test', 'prod'));
+  }
+
+  // Pantheon.
+  if (defined('PANTHEON_ENVIRONMENT')) {
+    return !in_array(PANTHEON_ENVIRONMENT, array('test', 'live'));
+  }
+
+  return FALSE;
+}
