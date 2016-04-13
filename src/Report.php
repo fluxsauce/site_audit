@@ -6,7 +6,9 @@
 
 namespace Drupal\site_audit;
 
+use Drupal\Console\Style\DrupalStyle;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Symfony\Component\Console\Input\ArgvInput;
 
 /**
  * Class Report.
@@ -86,12 +88,7 @@ abstract class Report {
     }
 
     if (empty($checks_to_perform)) {
-      // No message for audit_all.
-      $command = drush_parse_command();
-      if ($command['command'] == 'audit_all') {
-        return FALSE;
-      }
-      return drush_set_error('SITE_AUDIT_NO_CHECKS', $this->t('No checks are available!'));
+      throw new \RuntimeException($this->t('No checks are available!'));
     }
 
     $config = \Drupal::config('site_audit');
@@ -207,58 +204,61 @@ abstract class Report {
   /**
    * Render response through Drupal Console.
    */
-  public function toConsole($output) {
+  public function toConsole(ArgvInput $input, DrupalStyle $output) {
     if ($this->percent == Check::AUDIT_CHECK_SCORE_INFO) {
       $output->info($this->t('!label: Info', array(
         '!label' => $this->getLabel(),
       )));
     }
     else {
-      $output->info($this->t('!label: @percent%', array(
+      $method = $this->getPercentSymphonyStyleMethod();
+      $output->$method($this->t('!label: @percent%', array(
         '!label' => $this->getLabel(),
         '@percent' => $this->percent,
       )));
     }
     if ($this->percent == 100) {
-      drush_log(str_repeat(' ', 2) . $this->t('No action required.'), 'success');
+      $output->block($this->t('No action required.'), 'OK', 'fg=black;bg=green', str_repeat(' ', 2));
     }
-    if (TRUE || $this->percent != 100) {
+    $detail = $input->getOption('detail');
+
+    if ($detail || $this->percent != 100) {
       foreach ($this->checks as $check) {
-        if (TRUE || $check->getScore() != Check::AUDIT_CHECK_SCORE_PASS || $this->percent == Check::AUDIT_CHECK_SCORE_INFO) {
-          if (TRUE) {
+        if ($detail || $check->getScore() != Check::AUDIT_CHECK_SCORE_PASS || $this->percent == Check::AUDIT_CHECK_SCORE_INFO) {
+          if ($detail) {
             $output->info(str_repeat(' ', 2) . $this->t('!label: !description', array(
-                '!label' => $check->getLabel(),
-                '!description' => $check->getDescription(),
-              )));
+              '!label' => $check->getLabel(),
+              '!description' => $check->getDescription(),
+            )));
           }
           else {
             if ($check->getScore() != Check::AUDIT_CHECK_SCORE_INFO) {
               $output->info(str_repeat(' ', 2) . $this->t('!label', array(
-                  '!label' => $check->getLabel(),
-                )));
+                '!label' => $check->getLabel(),
+              )));
             }
           }
-          if ($this->percent == Check::AUDIT_CHECK_SCORE_INFO || TRUE) {
-            if (($check->getScore() != Check::AUDIT_CHECK_SCORE_INFO) || TRUE) {
+          if ($this->percent == Check::AUDIT_CHECK_SCORE_INFO || $detail) {
+            if (($check->getScore() != Check::AUDIT_CHECK_SCORE_INFO) || $detail) {
               $output->info(str_repeat(' ', 4) . $this->t('!result', array(
-                  '!result' => $check->getResult(),
-                )));
+                '!result' => $check->getResult(),
+              )));
             }
             else {
               $output->info(str_repeat(' ', 2) . $this->t('!result', array(
-                  '!result' => $check->getResult(),
-                )));
+                '!result' => $check->getResult(),
+              )));
             }
           }
           else {
             $output->info(str_repeat(' ', 4) . $this->t('!result', array(
-                '!result' => $check->getResult(),
-              )));
+              '!result' => $check->getResult(),
+            )));
           }
           if ($check->renderAction()) {
             $output->info(str_repeat(' ', 6) . $this->t('!action', array(
-                '!action' => $check->renderAction(),
-              )));
+              '!action' => $check->renderAction(),
+            )));
           }
         }
       }
@@ -286,12 +286,31 @@ abstract class Report {
       return 'success';
     }
     if ($this->percent > 65) {
+      return 'error';
+    }
+    if ($this->percent >= 0) {
+      return 'caution';
+    }
+    return 'info';
+  }
+
+  /**
+   * Get the SymfonyStyle method assiociated with a percentage.
+   *
+   * @return string
+   *   Symfony\Component\Console\Style method.
+   */
+  public function getPercentSymphonyStyleMethod() {
+    if ($this->percent > 80) {
+      return 'success';
+    }
+    if ($this->percent > 65) {
       return 'warning';
     }
     if ($this->percent >= 0) {
-      return 'danger';
+      return 'error';
     }
-    return 'info';
+    return 'note';
   }
 
   /**
