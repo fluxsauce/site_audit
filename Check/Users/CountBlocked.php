@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Users\CountBlocked.
  */
 
+/**
+ * Class SiteAuditCheckUsersCountBlocked.
+ */
 class SiteAuditCheckUsersCountBlocked extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -65,4 +69,5 @@ class SiteAuditCheckUsersCountBlocked extends SiteAuditCheckAbstract {
     $this->registry['count_users_blocked'] = db_query($sql_query)->fetchField();
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
   }
+
 }

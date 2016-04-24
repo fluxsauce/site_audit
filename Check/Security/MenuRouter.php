@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Security\MenuRouter.
  */
 
+/**
+ * Class SiteAuditCheckSecurityMenuRouter.
+ */
 class SiteAuditCheckSecurityMenuRouter extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -289,4 +293,5 @@ class SiteAuditCheckSecurityMenuRouter extends SiteAuditCheckAbstract {
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
   }
+
 }

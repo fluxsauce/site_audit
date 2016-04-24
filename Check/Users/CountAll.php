@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Users\CountAll.
  */
 
+/**
+ * Class SiteAuditCheckUsersCountAll.
+ */
 class SiteAuditCheckUsersCountAll extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -67,4 +71,5 @@ class SiteAuditCheckUsersCountAll extends SiteAuditCheckAbstract {
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
   }
+
 }

@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Users\BlockedNumberOne.
  */
 
+/**
+ * Class SiteAuditCheckUsersBlockedNumberOne.
+ */
 class SiteAuditCheckUsersBlockedNumberOne extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -61,4 +65,5 @@ class SiteAuditCheckUsersBlockedNumberOne extends SiteAuditCheckAbstract {
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
   }
+
 }

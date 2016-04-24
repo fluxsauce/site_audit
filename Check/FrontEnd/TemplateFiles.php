@@ -8,6 +8,7 @@
  * Class SiteAuditCheckFrontEndTemplateFiles.
  */
 class SiteAuditCheckFrontEndTemplateFiles extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -25,14 +26,12 @@ class SiteAuditCheckFrontEndTemplateFiles extends SiteAuditCheckAbstract {
   /**
    * Implements \SiteAudit\Check\Abstract\getResultFail().
    */
-  public function getResultFail() {
-  }
+  public function getResultFail() {}
 
   /**
    * Implements \SiteAudit\Check\Abstract\getResultInfo().
    */
-  public function getResultInfo() {
-  }
+  public function getResultInfo() {}
 
   /**
    * Implements \SiteAudit\Check\Abstract\getResultPass().

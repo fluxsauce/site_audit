@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Users\RolesPermissions.
  */
 
+/**
+ * Class SiteAuditCheckRolesRolesPermissions.
+ */
 class SiteAuditCheckRolesRolesPermissions extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -31,7 +35,7 @@ class SiteAuditCheckRolesRolesPermissions extends SiteAuditCheckAbstract {
     $roles = array();
     $total = array_sum($this->registry['roles']);
     foreach ($this->registry['roles'] as $name => $count_permissions) {
-      $percentage = number_format(($count_permissions/$total)*100,0);
+      $percentage = number_format(($count_permissions / $total) * 100, 0);
       $roles[] = "$name: $count_permissions ($percentage%)";
     }
     return implode(', ', $roles);
@@ -44,7 +48,8 @@ class SiteAuditCheckRolesRolesPermissions extends SiteAuditCheckAbstract {
 
   /**
    * Implements \SiteAudit\Check\Abstract\getResultWarn().
-   * TODO: do we check for admin perms in roles here?
+   *
+   * @TODO: do we check for admin perms in roles here?
    */
   public function getResultWarn() {}
 
@@ -69,4 +74,5 @@ class SiteAuditCheckRolesRolesPermissions extends SiteAuditCheckAbstract {
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
   }
+
 }

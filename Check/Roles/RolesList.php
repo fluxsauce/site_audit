@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Users\RolesList.
  */
 
+/**
+ * Class SiteAuditCheckRolesRolesList.
+ */
 class SiteAuditCheckRolesRolesList extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -73,4 +77,5 @@ class SiteAuditCheckRolesRolesList extends SiteAuditCheckAbstract {
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
   }
+
 }

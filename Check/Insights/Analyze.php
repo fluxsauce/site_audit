@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Insights\Analyze.
  */
 
+/**
+ * Class SiteAuditCheckInsightsAnalyze.
+ */
 class SiteAuditCheckInsightsAnalyze extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -282,6 +286,7 @@ class SiteAuditCheckInsightsAnalyze extends SiteAuditCheckAbstract {
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
   }
+
 }
 
 /**

@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Views\Count.
  */
 
+/**
+ * Class SiteAuditCheckViewsCount.
+ */
 class SiteAuditCheckViewsCount extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -77,4 +81,5 @@ class SiteAuditCheckViewsCount extends SiteAuditCheckAbstract {
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
   }
+
 }

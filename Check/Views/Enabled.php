@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Views\Enabled.
  */
 
+/**
+ * Class SiteAuditCheckViewsEnabled.
+ */
 class SiteAuditCheckViewsEnabled extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -64,4 +68,5 @@ class SiteAuditCheckViewsEnabled extends SiteAuditCheckAbstract {
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN;
   }
+
 }

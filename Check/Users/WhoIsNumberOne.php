@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Users\WhoIsNumberOne.
  */
 
+/**
+ * Class SiteAuditCheckUsersWhoIsNumberOne.
+ */
 class SiteAuditCheckUsersWhoIsNumberOne extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -63,4 +67,5 @@ class SiteAuditCheckUsersWhoIsNumberOne extends SiteAuditCheckAbstract {
     $this->registry['uid_1'] = $uid_1;
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
   }
+
 }

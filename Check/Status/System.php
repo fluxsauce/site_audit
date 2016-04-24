@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Status\System.
  */
 
+/**
+ * Class SiteAuditCheckStatusSystem.
+ */
 class SiteAuditCheckStatusSystem extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -186,4 +190,5 @@ class SiteAuditCheckStatusSystem extends SiteAuditCheckAbstract {
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
   }
+
 }

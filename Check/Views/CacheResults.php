@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Views\CacheResults.
  */
 
+/**
+ * Class SiteAuditCheckViewsCacheResults.
+ */
 class SiteAuditCheckViewsCacheResults extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -201,4 +205,5 @@ class SiteAuditCheckViewsCacheResults extends SiteAuditCheckAbstract {
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN;
   }
+
 }
