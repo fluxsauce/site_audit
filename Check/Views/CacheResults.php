@@ -40,7 +40,7 @@ class SiteAuditCheckViewsCacheResults extends SiteAuditCheckAbstract {
     if ($this->registry['views_cache_bully_results']) {
       return dt('Views Cache Bully is enforcing query result caching.');
     }
-    return dt('Every View is caching query results.');
+    return dt('Caching query results for all applicable Views.');
   }
 
   /**
@@ -104,7 +104,10 @@ class SiteAuditCheckViewsCacheResults extends SiteAuditCheckAbstract {
         continue;
       }
       foreach ($view->display as $display_name => $display) {
-        if (!isset($display->disabled) || !$display->disabled) {
+        // Special case - Views Bulk Operations cannot be cached.
+        // See https://www.drupal.org/node/1307360#comment-10882272 for details.
+        $has_vbo = isset($display->display_options['fields']['views_bulk_operations']);
+        if ((!isset($display->disabled) || !$display->disabled) && !$has_vbo) {
           // Default display OR overriding display.
           if (isset($display->display_options['cache'])) {
             if ($display->display_options['cache']['type'] == 'none' || ($display->display_options['cache'] == '')) {
