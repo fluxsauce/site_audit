@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Block\CacheReport.
  */
 
+/**
+ * Class SiteAuditCheckBlockCacheReport.
+ */
 class SiteAuditCheckBlockCacheReport extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -148,4 +152,5 @@ class SiteAuditCheckBlockCacheReport extends SiteAuditCheckAbstract {
     }
     return $label;
   }
+
 }

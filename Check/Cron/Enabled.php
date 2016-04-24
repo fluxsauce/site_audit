@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Cron\Enabled.
  */
 
+/**
+ * Class SiteAuditCheckCronEnabled.
+ */
 class SiteAuditCheckCronEnabled extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -107,4 +111,5 @@ class SiteAuditCheckCronEnabled extends SiteAuditCheckAbstract {
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
   }
+
 }

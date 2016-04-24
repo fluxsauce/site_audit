@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Cache\Lock.
  */
 
+/**
+ * Class SiteAuditCheckCacheLock.
+ */
 class SiteAuditCheckCacheLock extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -70,4 +74,5 @@ class SiteAuditCheckCacheLock extends SiteAuditCheckAbstract {
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
   }
+
 }

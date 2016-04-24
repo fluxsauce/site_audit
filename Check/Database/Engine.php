@@ -4,6 +4,9 @@
  * Contains \SiteAudit\Check\Database\Engine.
  */
 
+/**
+ * Class SiteAuditCheckDatabaseEngine.
+ */
 class SiteAuditCheckDatabaseEngine extends SiteAuditCheckAbstract {
 
   /**
@@ -111,4 +114,5 @@ class SiteAuditCheckDatabaseEngine extends SiteAuditCheckAbstract {
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
   }
+
 }

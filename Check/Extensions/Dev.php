@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Extensions\Dev.
  */
 
+/**
+ * Class SiteAuditCheckExtensionsDev.
+ */
 class SiteAuditCheckExtensionsDev extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -142,6 +146,7 @@ class SiteAuditCheckExtensionsDev extends SiteAuditCheckAbstract {
 
   /**
    * Get a list of development extension names and reasons.
+   *
    * @return array
    *   Keyed by module machine name, value is explanation.
    */
@@ -232,4 +237,5 @@ class SiteAuditCheckExtensionsDev extends SiteAuditCheckAbstract {
 
     return array_merge($admin_menu_developer_modules, $developer_modules);
   }
+
 }

@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Cache\DefaultClass.
  */
 
+/**
+ * Class SiteAuditCheckCacheDefaultClass.
+ */
 class SiteAuditCheckCacheDefaultClass extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -60,4 +64,5 @@ class SiteAuditCheckCacheDefaultClass extends SiteAuditCheckAbstract {
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
   }
+
 }

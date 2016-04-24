@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Database\Collation.
  */
 
+/**
+ * Class SiteAuditCheckDatabaseCollation.
+ */
 class SiteAuditCheckDatabaseCollation extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -120,4 +124,5 @@ class SiteAuditCheckDatabaseCollation extends SiteAuditCheckAbstract {
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
   }
+
 }

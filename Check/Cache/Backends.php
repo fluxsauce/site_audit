@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Cache\Backends.
  */
 
+/**
+ * Class SiteAuditCheckCacheBackends.
+ */
 class SiteAuditCheckCacheBackends extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -78,4 +82,5 @@ class SiteAuditCheckCacheBackends extends SiteAuditCheckAbstract {
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
   }
+
 }

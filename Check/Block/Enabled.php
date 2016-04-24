@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Block\Enabled.
  */
 
+/**
+ * Class SiteAuditCheckBlockEnabled.
+ */
 class SiteAuditCheckBlockEnabled extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -64,4 +68,5 @@ class SiteAuditCheckBlockEnabled extends SiteAuditCheckAbstract {
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
   }
+
 }

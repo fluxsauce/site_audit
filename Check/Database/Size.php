@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Database\Size.
  */
 
+/**
+ * Class SiteAuditCheckDatabaseSize.
+ */
 class SiteAuditCheckDatabaseSize extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -86,4 +90,5 @@ class SiteAuditCheckDatabaseSize extends SiteAuditCheckAbstract {
     $this->abort = TRUE;
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
   }
+
 }

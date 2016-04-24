@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Content\DuplicateTitles.
  */
 
+/**
+ * Class SiteAuditCheckContentDuplicateTitles.
+ */
 class SiteAuditCheckContentDuplicateTitles extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -119,4 +123,5 @@ class SiteAuditCheckContentDuplicateTitles extends SiteAuditCheckAbstract {
 
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
   }
+
 }

@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Cache\Lifetime.
  */
 
+/**
+ * Class SiteAuditCheckCacheLifetime.
+ */
 class SiteAuditCheckCacheLifetime extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -65,4 +69,5 @@ class SiteAuditCheckCacheLifetime extends SiteAuditCheckAbstract {
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN;
   }
+
 }

@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Cache\Bins.
  */
 
+/**
+ * Class SiteAuditCheckCacheBins.
+ */
 class SiteAuditCheckCacheBins extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -89,4 +93,5 @@ class SiteAuditCheckCacheBins extends SiteAuditCheckAbstract {
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
   }
+
 }

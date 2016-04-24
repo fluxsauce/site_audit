@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\BestPractices\PhpFilter.
  */
 
+/**
+ * Class SiteAuditCheckBestPracticesPhpFilter.
+ */
 class SiteAuditCheckBestPracticesPhpFilter extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -66,4 +70,5 @@ class SiteAuditCheckBestPracticesPhpFilter extends SiteAuditCheckAbstract {
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
   }
+
 }

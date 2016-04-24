@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Extensions\Unrecommended.
  */
 
+/**
+ * Class SiteAuditCheckExtensionsUnrecommended.
+ */
 class SiteAuditCheckExtensionsUnrecommended extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -123,6 +127,7 @@ class SiteAuditCheckExtensionsUnrecommended extends SiteAuditCheckAbstract {
 
   /**
    * Get a list of unrecommended extension names and reasons.
+   *
    * @return array
    *   Keyed by module machine name, value is explanation.
    */
@@ -159,4 +164,5 @@ class SiteAuditCheckExtensionsUnrecommended extends SiteAuditCheckAbstract {
 
     return $unrecommended_modules;
   }
+
 }

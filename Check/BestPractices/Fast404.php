@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\BestPractices\Fast404.
  */
 
+/**
+ * Class SiteAuditCheckBestPracticesFast404.
+ */
 class SiteAuditCheckBestPracticesFast404 extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -62,4 +66,5 @@ class SiteAuditCheckBestPracticesFast404 extends SiteAuditCheckAbstract {
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN;
   }
+
 }

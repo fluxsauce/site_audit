@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Cron\Last.
  */
 
+/**
+ * Class SiteAuditCheckCronLast.
+ */
 class SiteAuditCheckCronLast extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -58,4 +62,5 @@ class SiteAuditCheckCronLast extends SiteAuditCheckAbstract {
   public function calculateScore() {
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
   }
+
 }

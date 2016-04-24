@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Extensions\Duplicate.
  */
 
+/**
+ * Class SiteAuditCheckExtensionsDuplicate.
+ */
 class SiteAuditCheckExtensionsDuplicate extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -116,7 +120,7 @@ class SiteAuditCheckExtensionsDuplicate extends SiteAuditCheckAbstract {
 
       $extension_info = array(
         'path' => substr($path, strlen($drupal_root) + 1),
-        'version' => NULL
+        'version' => NULL,
       );
       $info = file($drupal_root . '/' . $extension_info['path']);
       foreach ($info as $line) {
@@ -186,4 +190,5 @@ class SiteAuditCheckExtensionsDuplicate extends SiteAuditCheckAbstract {
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
   }
+
 }

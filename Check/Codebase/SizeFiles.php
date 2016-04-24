@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Codebase\SizeFiles.
  */
 
+/**
+ * Class SiteAuditCheckCodebaseSizeFiles.
+ */
 class SiteAuditCheckCodebaseSizeFiles extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -69,4 +73,5 @@ class SiteAuditCheckCodebaseSizeFiles extends SiteAuditCheckAbstract {
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
   }
+
 }

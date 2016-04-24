@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Content\FieldEnabled.
  */
 
+/**
+ * Class SiteAuditCheckContentFieldEnabled.
+ */
 class SiteAuditCheckContentFieldEnabled extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -58,4 +62,5 @@ class SiteAuditCheckContentFieldEnabled extends SiteAuditCheckAbstract {
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
   }
+
 }

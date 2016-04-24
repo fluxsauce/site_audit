@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Content\Vocabularies.
  */
 
+/**
+ * Class SiteAuditCheckContentVocabularies.
+ */
 class SiteAuditCheckContentVocabularies extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -115,4 +119,5 @@ class SiteAuditCheckContentVocabularies extends SiteAuditCheckAbstract {
 
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
   }
+
 }

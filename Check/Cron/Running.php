@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Cron\Running.
  */
 
+/**
+ * Class SiteAuditCheckCronRunning.
+ */
 class SiteAuditCheckCronRunning extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -61,11 +65,11 @@ class SiteAuditCheckCronRunning extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\calculateScore().
    */
   public function calculateScore() {
-    global $conf;
     $this->registry['cron_semaphore'] = variable_get('cron_semaphore');
     if ($this->registry['cron_semaphore'] && ((time() - $this->registry['cron_semaphore'] > 3600))) {
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN;
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
   }
+
 }

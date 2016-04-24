@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Content\ContentTypes.
  */
 
+/**
+ * Class SiteAuditCheckContentContentTypes.
+ */
 class SiteAuditCheckContentContentTypes extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -117,4 +121,5 @@ class SiteAuditCheckContentContentTypes extends SiteAuditCheckAbstract {
 
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
   }
+
 }

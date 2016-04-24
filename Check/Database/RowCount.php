@@ -4,6 +4,9 @@
  * Contains \SiteAudit\Check\Database\RowCount.
  */
 
+/**
+ * Class SiteAuditCheckDatabaseRowCount.
+ */
 class SiteAuditCheckDatabaseRowCount extends SiteAuditCheckAbstract {
   const AUDIT_CHECK_DB_ROW_MIN_DEFAULT = 1000;
 
@@ -120,4 +123,5 @@ class SiteAuditCheckDatabaseRowCount extends SiteAuditCheckAbstract {
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
   }
+
 }

@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Extensions\Missing.
  */
 
+/**
+ * Class SiteAuditCheckExtensionsMissing.
+ */
 class SiteAuditCheckExtensionsMissing extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -76,4 +80,5 @@ class SiteAuditCheckExtensionsMissing extends SiteAuditCheckAbstract {
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
   }
+
 }

@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Cache\Anon.
  */
 
+/**
+ * Class SiteAuditCheckCacheAnon.
+ */
 class SiteAuditCheckCacheAnon extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -67,4 +71,5 @@ class SiteAuditCheckCacheAnon extends SiteAuditCheckAbstract {
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
   }
+
 }

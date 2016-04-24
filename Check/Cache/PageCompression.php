@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Cache\PageCompression.
  */
 
+/**
+ * Class SiteAuditCheckCachePageCompression.
+ */
 class SiteAuditCheckCachePageCompression extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -88,4 +92,5 @@ class SiteAuditCheckCachePageCompression extends SiteAuditCheckAbstract {
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
   }
+
 }

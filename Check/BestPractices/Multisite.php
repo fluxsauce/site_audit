@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\BestPractices\Multisite.
  */
 
+/**
+ * Class SiteAuditCheckBestPracticesMultisite.
+ */
 class SiteAuditCheckBestPracticesMultisite extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -88,4 +92,5 @@ class SiteAuditCheckBestPracticesMultisite extends SiteAuditCheckAbstract {
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
   }
+
 }

@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Content\FieldInstances.
  */
 
+/**
+ * Class SiteAuditCheckContentFieldInstances.
+ */
 class SiteAuditCheckContentFieldInstances extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -122,4 +126,5 @@ class SiteAuditCheckContentFieldInstances extends SiteAuditCheckAbstract {
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
   }
+
 }

@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Extensions\Redundant.
  */
 
+/**
+ * Class SiteAuditCheckExtensionsRedundant.
+ */
 class SiteAuditCheckExtensionsRedundant extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -84,13 +88,13 @@ class SiteAuditCheckExtensionsRedundant extends SiteAuditCheckAbstract {
     $this->registry['extensions_redundant'] = array();
     $extension_info = $this->registry['extensions'];
     uasort($extension_info, '_drush_pm_sort_extensions');
-    $Redundant_extensions = $this->getExtensions();
+    $redundant_extensions = $this->getExtensions();
 
     foreach ($extension_info as $extension) {
       $row = array();
 
       // Not in the list of known redundant modules.
-      if (!array_key_exists($extension->name, $Redundant_extensions)) {
+      if (!array_key_exists($extension->name, $redundant_extensions)) {
         continue;
       }
 
@@ -105,7 +109,7 @@ class SiteAuditCheckExtensionsRedundant extends SiteAuditCheckAbstract {
       // Name.
       $row[] = $extension->label;
       // Reason.
-      $row[] = $Redundant_extensions[$extension->name];
+      $row[] = $redundant_extensions[$extension->name];
 
       $this->registry['extensions_redundant'][$extension->name] = $row;
     }
@@ -135,4 +139,5 @@ class SiteAuditCheckExtensionsRedundant extends SiteAuditCheckAbstract {
 
     return $redundant_modules;
   }
+
 }

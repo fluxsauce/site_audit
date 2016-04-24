@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Cache\PageExpire.
  */
 
+/**
+ * Class SiteAuditCheckCachePageExpire.
+ */
 class SiteAuditCheckCachePageExpire extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -78,4 +82,5 @@ class SiteAuditCheckCachePageExpire extends SiteAuditCheckAbstract {
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN;
   }
+
 }

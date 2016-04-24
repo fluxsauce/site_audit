@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Content\FieldsUnused.
  */
 
+/**
+ * Class SiteAuditCheckContentFieldsUnused.
+ */
 class SiteAuditCheckContentFieldsUnused extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -79,4 +83,5 @@ class SiteAuditCheckContentFieldsUnused extends SiteAuditCheckAbstract {
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
   }
+
 }

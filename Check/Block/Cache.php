@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Block\Cache.
  */
 
+/**
+ * Class SiteAuditCheckBlockCache.
+ */
 class SiteAuditCheckBlockCache extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -74,4 +78,5 @@ class SiteAuditCheckBlockCache extends SiteAuditCheckAbstract {
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
   }
+
 }

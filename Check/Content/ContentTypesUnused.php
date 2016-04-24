@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Content\ContentTypesUnused.
  */
 
+/**
+ * Class SiteAuditCheckContentContentTypesUnused.
+ */
 class SiteAuditCheckContentContentTypesUnused extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -63,4 +67,5 @@ class SiteAuditCheckContentContentTypesUnused extends SiteAuditCheckAbstract {
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN;
   }
+
 }

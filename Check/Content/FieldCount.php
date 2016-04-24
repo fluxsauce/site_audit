@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Content\FieldCount.
  */
 
+/**
+ * Class SiteAuditCheckContentFieldCount.
+ */
 class SiteAuditCheckContentFieldCount extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -114,4 +118,5 @@ class SiteAuditCheckContentFieldCount extends SiteAuditCheckAbstract {
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
   }
+
 }

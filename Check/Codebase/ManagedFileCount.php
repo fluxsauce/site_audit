@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Codebase\ManagedFileCount.
  */
 
+/**
+ * Class SiteAuditCheckCodebaseManagedFileCount.
+ */
 class SiteAuditCheckCodebaseManagedFileCount extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -58,4 +62,5 @@ class SiteAuditCheckCodebaseManagedFileCount extends SiteAuditCheckAbstract {
     $this->registry['managed_file_count'] = db_query($sql_query)->fetchField();
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
   }
+
 }
