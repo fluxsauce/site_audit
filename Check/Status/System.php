@@ -115,11 +115,8 @@ class SiteAuditCheckStatusSystem extends SiteAuditCheckAbstract {
     }
     elseif (drush_get_option('json')) {
       foreach ($items as $item) {
-        $ret_val[] = array(
-          'Title' => $item['title'],
-          'Severity' => $item['severity'],
-          'Value' => $item['value'],
-        );
+        unset($item['class']);
+        $ret_val[] = $item;
       }
     }
     else {
