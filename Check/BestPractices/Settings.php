@@ -22,12 +22,16 @@ class SiteAuditCheckBestPracticesSettings extends SiteAuditCheckAbstract {
   /**
    * Implements \SiteAudit\Check\Abstract\getResultFail().
    */
-  public function getResultFail() {}
+  public function getResultFail() {
+    return dt('No settings.php found!');
+  }
 
   /**
    * Implements \SiteAudit\Check\Abstract\getResultInfo().
    */
-  public function getResultInfo() {}
+  public function getResultInfo() {
+    return dt('settings.php does not exist, but this is a multi-site configuration.');
+  }
 
   /**
    * Implements \SiteAudit\Check\Abstract\getResultPass().
@@ -65,6 +69,9 @@ class SiteAuditCheckBestPracticesSettings extends SiteAuditCheckAbstract {
         return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_WARN;
       }
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
+    }
+    if (isset($this->registry['multisites']) && !empty($this->registry['multisites'])) {
+      return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
   }

@@ -71,10 +71,10 @@ function site_audit_drush_command() {
     'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
     'options' => array_merge(site_audit_common_options(), $vendor_options),
     'checks' => array(
+      'Multisite',
       'Settings',
       'SitesDefault',
       'SitesAll',
-      'Multisite',
       'SitesSuperfluous',
       'Fast404',
       'PhpFilter',
