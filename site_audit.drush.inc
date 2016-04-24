@@ -185,6 +185,7 @@ function site_audit_drush_command() {
       'Count',
       'Dev',
       'Unrecommended',
+      'Redundant',
       'Duplicate',
       'Missing',
       'Disabled',
@@ -520,7 +521,7 @@ function site_audit_env_is_dev() {
 function site_audit_version_check() {
   $drupal_major_version = drush_drupal_major_version();
   if ($drupal_major_version < 7 || $drupal_major_version >= 8) {
-    return drush_set_error('SITE_AUDIT_DRUPAL_7_ONLY', dt('Site Audit only supports Drupal 7.'));
+    return drush_set_error('SITE_AUDIT_DRUPAL_7_ONLY', dt('This version of Site Audit only supports Drupal 7.'));
   }
   return TRUE;
 }
