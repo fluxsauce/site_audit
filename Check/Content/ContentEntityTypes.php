@@ -109,7 +109,11 @@ class SiteAuditCheckContentContentEntityTypes extends SiteAuditCheckAbstract {
               ->condition($bundle_column_name, $bundle)
               ->count();
             $field_count = $query->execute();
-            $this->registry['content_entity_type_counts'][$entity_type][$info['label']] = $field_count;
+            $label = $info['label'];
+            if(is_object($label)){
+              $label .= "";
+            }
+            $this->registry['content_entity_type_counts'][$entity_type][$label] = $field_count;
             $this->registry['entity_count'][$entity_type] += $field_count;
             if ($field_count == 0) {
               $this->registry['content_types_unused'][$entity_type][] = $info['label'];

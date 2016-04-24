@@ -4,6 +4,8 @@
  * Drupal site auditing commands.
  */
 
+use Drupal\Core\Url;
+
 // Avoid loading multiple versions of site_audit.
 if (class_exists('SiteAuditReportAbstract')) {
   return;
@@ -63,7 +65,6 @@ function site_audit_drush_command() {
   );
 
   $options_all = array_merge(site_audit_common_options(), $vendor_options);
-  $arguments_all = array();
 
   $items['audit-best-practices'] = array(
     'description' => dt('Audit best practices used.'),
@@ -382,7 +383,7 @@ function site_audit_drush_command() {
     'description' => dt('Executes every Site Audit Report'),
     'aliases' => array('aa'),
     'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
-    'arguments' => $arguments_all,
+    'options' => $options_all,
     'reports' => array(
       'BestPractices',
       'Cache',
@@ -538,10 +539,11 @@ function drush_site_audit_audit_all($url = '', $key = '') {
     }
     // Prepare HTML format.
     elseif (drush_get_option('html')) {
-      $report_title = l(dt('Site Audit'), 'https://drupal.org/project/site_audit');
+      $site_audit_url = Url::fromUri('https://drupal.org/project/site_audit');
+      $report_title = \Drupal::l(dt('Site Audit'), $site_audit_url);
       if ($url) {
         $report_title .= ' ' . dt('report for !url', array(
-            '!url' => l($url, $url),
+            '!url' => Url::fromUri($url),
           ));
       }
       echo '<div class="page-header">';
@@ -574,7 +576,7 @@ function drush_site_audit_audit_all($url = '', $key = '') {
         else {
           $button_text .= ' (' . dt('Info') . ')';
         }
-        $buttons[] = l($button_text, '', array(
+        $buttons[] = \Drupal::l($button_text, Url::fromUserInput('#'), array(
           'fragment' => get_class($report),
           'external' => TRUE,
           'attributes' => array(
@@ -598,7 +600,7 @@ function drush_site_audit_audit_all($url = '', $key = '') {
         $report->render();
       }
       if (drush_get_option('html') && !drush_get_option('json')) {
-        echo '<div>' . l(dt('Back to top'), '', array(
+        echo '<div>' . \Drupal::l(dt('Back to top'), Url::fromUserInput('#'), array(
             'fragment' => 'top',
             'external' => TRUE,
             'attributes' => array(
