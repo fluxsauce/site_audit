@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Report\Insights.
  */
 
+/**
+ * Class SiteAuditReportInsights.
+ */
 class SiteAuditReportInsights extends SiteAuditReportAbstract {
+
   /**
    * Override parent constructor to provide argument support.
    *
@@ -25,4 +29,5 @@ class SiteAuditReportInsights extends SiteAuditReportAbstract {
   public function getLabel() {
     return dt('Google PageSpeed Insights');
   }
+
 }

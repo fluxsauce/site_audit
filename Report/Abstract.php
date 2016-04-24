@@ -4,40 +4,49 @@
  * Contains \SiteAudit\Report\Abstract.
  */
 
+/**
+ * Class SiteAuditReportAbstract.
+ */
 abstract class SiteAuditReportAbstract {
+
   /**
    * Individual check objects.
+   *
    * @var array
    */
   protected $checks;
 
   /**
    * Percentage pass.
+   *
    * @var int
    */
   protected $percent;
 
   /**
    * Maximum score.
+   *
    * @var int
    */
   protected $scoreMax = 0;
 
   /**
    * Total score.
+   *
    * @var int
    */
   protected $scoreTotal = 0;
 
   /**
    * Flag to indicate whether any of the checks are a complete FAIL.
+   *
    * @var boolean
    */
   protected $hasFail = FALSE;
 
   /**
-   * Container that's passed between each SiteAuditCheckAbstract, better than a
-   * global.
+   * Container that's passed between each SiteAuditCheckAbstract.
+   *
    * @var array
    */
   protected $registry = array();
@@ -150,9 +159,6 @@ abstract class SiteAuditReportAbstract {
 
   /**
    * Render response using Drush.
-   *
-   * @return string
-   *   Report using Drush native output functions.
    */
   public function toDrush() {
     if ($this->percent == SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO) {
@@ -282,6 +288,7 @@ abstract class SiteAuditReportAbstract {
 
   /**
    * Get the calculated percentage.
+   *
    * @return int
    *   Calculated percentage.
    */
@@ -291,6 +298,7 @@ abstract class SiteAuditReportAbstract {
 
   /**
    * Get the CSS class associated with a percentage.
+   *
    * @return string
    *   Twitter Bootstrap CSS class.
    */
@@ -355,4 +363,5 @@ abstract class SiteAuditReportAbstract {
 
     return $checks;
   }
+
 }
