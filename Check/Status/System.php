@@ -65,7 +65,7 @@ class SiteAuditCheckStatusSystem extends SiteAuditCheckAbstract {
         $class = 'error';
       }
 
-      if (drush_get_option('html')) {
+      if (drush_get_option('html') || drush_get_option('json')) {
         $value = isset($requirement['value']) && $requirement['value'] ? $requirement['value'] : '&nbsp;';
         $uri = drush_get_context('DRUSH_URI');
         // Unknown URI - strip all links, but leave formatting.
@@ -83,6 +83,11 @@ class SiteAuditCheckStatusSystem extends SiteAuditCheckAbstract {
           'value' => $value,
           'class' => $class,
         );
+        if (drush_get_option('json')) {
+          foreach ($item as $key => $value) {
+            $item[$key] = strip_tags($value);
+          }
+        }
       }
       else {
         $item = strip_tags($requirement['title']) . ': ' . $severity;
@@ -108,11 +113,18 @@ class SiteAuditCheckStatusSystem extends SiteAuditCheckAbstract {
       $ret_val .= '</tbody>';
       $ret_val .= '</table>';
     }
+    elseif (drush_get_option('json')) {
+      foreach ($items as $item) {
+        $ret_val[] = array(
+          'Title' => $item['title'],
+          'Severity' => $item['severity'],
+          'Value' => $item['value'],
+        );
+      }
+    }
     else {
       $separator = PHP_EOL;
-      if (!drush_get_option('json')) {
-        $separator .= str_repeat(' ', 4);
-      }
+      $separator .= str_repeat(' ', 4);
       $ret_val = implode($separator, $items);
     }
     return $ret_val;
