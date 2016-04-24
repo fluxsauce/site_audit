@@ -70,12 +70,16 @@ class SiteAuditCheckViewsCacheResults extends SiteAuditCheckAbstract {
         if (drush_get_option('html')) {
           $ret_val .= '<ol><li>' . implode('</li><li>', $steps) . '</li></ol>';
         }
+        elseif (drush_get_option('json')) {
+          $ret_val = array(
+            'Summary' => $ret_val,
+            'Steps' => $steps,
+          );
+        }
         else {
           foreach ($steps as $step) {
             $ret_val .= PHP_EOL;
-            if (!drush_get_option('json')) {
-              $ret_val .= str_repeat(' ', 8);
-            }
+            $ret_val .= str_repeat(' ', 8);
             $ret_val .= '- ' . $step;
           }
         }
