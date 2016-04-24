@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Watchdog\Php.
  */
 
+/**
+ * Class SiteAuditCheckWatchdogPhp.
+ */
 class SiteAuditCheckWatchdogPhp extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -95,4 +99,5 @@ class SiteAuditCheckWatchdogPhp extends SiteAuditCheckAbstract {
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
   }
+
 }

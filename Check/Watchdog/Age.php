@@ -4,6 +4,9 @@
  * Contains \SiteAudit\Check\Watchdog\Age.
  */
 
+/**
+ * Class SiteAuditCheckWatchdogAge.
+ */
 class SiteAuditCheckWatchdogAge extends SiteAuditCheckAbstract {
   public $ageNewest;
   public $ageOldest;
@@ -81,4 +84,5 @@ class SiteAuditCheckWatchdogAge extends SiteAuditCheckAbstract {
 
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
   }
+
 }

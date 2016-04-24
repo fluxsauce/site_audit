@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Watchdog\Enabled.
  */
 
+/**
+ * Class SiteAuditCheckWatchdogEnabled.
+ */
 class SiteAuditCheckWatchdogEnabled extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -58,4 +62,5 @@ class SiteAuditCheckWatchdogEnabled extends SiteAuditCheckAbstract {
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_PASS;
   }
+
 }

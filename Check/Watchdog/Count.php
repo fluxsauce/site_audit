@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Watchdog\Count.
  */
 
+/**
+ * Class SiteAuditCheckWatchdogCount.
+ */
 class SiteAuditCheckWatchdogCount extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -63,4 +67,5 @@ class SiteAuditCheckWatchdogCount extends SiteAuditCheckAbstract {
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
   }
+
 }

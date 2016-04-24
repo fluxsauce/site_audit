@@ -4,7 +4,11 @@
  * Contains \SiteAudit\Check\Watchdog\404.
  */
 
+/**
+ * Class SiteAuditCheckWatchdog404.
+ */
 class SiteAuditCheckWatchdog404 extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -79,4 +83,5 @@ class SiteAuditCheckWatchdog404 extends SiteAuditCheckAbstract {
     }
     return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
   }
+
 }
