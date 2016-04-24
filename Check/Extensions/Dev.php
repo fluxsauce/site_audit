@@ -8,6 +8,7 @@
  * Class SiteAuditCheckExtensionsDev.
  */
 class SiteAuditCheckExtensionsDev extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */

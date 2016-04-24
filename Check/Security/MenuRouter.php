@@ -8,6 +8,7 @@
  * Class SiteAuditCheckSecurityMenuRouter.
  */
 class SiteAuditCheckSecurityMenuRouter extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */

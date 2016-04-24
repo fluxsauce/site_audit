@@ -8,6 +8,7 @@
  * Class SiteAuditCheckContentFieldsUnused.
  */
 class SiteAuditCheckContentFieldsUnused extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */

@@ -5,10 +5,12 @@
  */
 
 use Symfony\Component\Process\Process;
+
 /**
  * Class SiteAuditCheckCodebasePhpCodeSniffer.
  */
 class SiteAuditCheckCodebasePhpCodeSniffer extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */

@@ -8,6 +8,7 @@
  * Class SiteAuditCheckBestPracticesFolderStructure.
  */
 class SiteAuditCheckBestPracticesFolderStructure extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */

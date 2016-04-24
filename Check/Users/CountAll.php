@@ -4,10 +4,13 @@
  * Contains \SiteAudit\Check\Users\CountAll.
  */
 
+use Drupal\Core\Database\DatabaseExceptionWrapper;
+
 /**
  * Class SiteAuditCheckUsersCountAll.
  */
 class SiteAuditCheckUsersCountAll extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -71,7 +74,7 @@ class SiteAuditCheckUsersCountAll extends SiteAuditCheckAbstract {
       }
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
     }
-    catch (\Drupal\Core\Database\DatabaseExceptionWrapper $e) {
+    catch (DatabaseExceptionWrapper $e) {
       $this->abort = TRUE;
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
     }

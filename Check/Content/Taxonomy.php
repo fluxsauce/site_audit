@@ -8,6 +8,7 @@
  * Class SiteAuditCheckContentTaxonomy.
  */
 class SiteAuditCheckContentTaxonomy extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */

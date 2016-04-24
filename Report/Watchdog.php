@@ -8,6 +8,7 @@
  * Class SiteAuditReportWatchdog.
  */
 class SiteAuditReportWatchdog extends SiteAuditReportAbstract {
+
   /**
    * Implements \SiteAudit\Report\Abstract\getLabel().
    */

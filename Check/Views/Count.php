@@ -8,6 +8,7 @@
  * Class SiteAuditCheckViewsCount.
  */
 class SiteAuditCheckViewsCount extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */

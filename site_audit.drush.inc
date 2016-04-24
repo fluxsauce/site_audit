@@ -543,8 +543,8 @@ function drush_site_audit_audit_all($url = '', $key = '') {
       $report_title = \Drupal::l(dt('Site Audit'), $site_audit_url);
       if ($url) {
         $report_title .= ' ' . dt('report for !url', array(
-            '!url' => Url::fromUri($url),
-          ));
+          '!url' => Url::fromUri($url),
+        ));
       }
       echo '<div class="page-header">';
       echo '<h1>' . $report_title . '<br/><small>' . $report_time . '</small></h1>';
@@ -601,12 +601,12 @@ function drush_site_audit_audit_all($url = '', $key = '') {
       }
       if (drush_get_option('html') && !drush_get_option('json')) {
         echo '<div>' . \Drupal::l(dt('Back to top'), Url::fromUserInput('#'), array(
-            'fragment' => 'top',
-            'external' => TRUE,
-            'attributes' => array(
-              'class' => array('btn', 'btn-default', 'btn-mini'),
-            ),
-          )) . '</div>';
+          'fragment' => 'top',
+          'external' => TRUE,
+          'attributes' => array(
+            'class' => array('btn', 'btn-default', 'btn-mini'),
+          ),
+        )) . '</div>';
       }
     }
     if (drush_get_option('bootstrap')) {

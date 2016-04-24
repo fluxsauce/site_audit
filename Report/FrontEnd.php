@@ -8,6 +8,7 @@
  * Class SiteAuditReportFrontEnd.
  */
 class SiteAuditReportFrontEnd extends SiteAuditReportAbstract {
+
   /**
    * Implements \SiteAudit\Report\Abstract\getLabel().
    */

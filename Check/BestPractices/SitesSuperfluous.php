@@ -8,6 +8,7 @@
  * Class SiteAuditCheckBestPracticesSitesSuperfluous.
  */
 class SiteAuditCheckBestPracticesSitesSuperfluous extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */

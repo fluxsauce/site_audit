@@ -10,6 +10,7 @@ use Symfony\Component\Process\Process;
  * Class SiteAuditCheckCodebasePhpLOC.
  */
 class SiteAuditCheckCodebasePhpLOC extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -90,12 +91,10 @@ class SiteAuditCheckCodebasePhpLOC extends SiteAuditCheckAbstract {
 
   }
 
-
   /**
    * Implements \SiteAudit\Check\Abstract\getResultPass().
    */
   public function getResultPass() {}
-
 
   /**
    * Implements \SiteAudit\Check\Abstract\getResultWarn().

@@ -8,6 +8,7 @@
  * Class SiteAuditReportSecurity.
  */
 class SiteAuditReportSecurity extends SiteAuditReportAbstract {
+
   /**
    * Implements \SiteAudit\Report\Abstract\getLabel().
    */

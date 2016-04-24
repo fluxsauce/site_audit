@@ -8,6 +8,7 @@
  * Class SiteAuditCheckContentContentEntityTypesUnused.
  */
 class SiteAuditCheckContentContentEntityTypesUnused extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */

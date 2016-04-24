@@ -8,6 +8,7 @@
  * Class SiteAuditCheckBestPracticesFast404.
  */
 class SiteAuditCheckBestPracticesFast404 extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */

@@ -8,6 +8,7 @@
  * Class SiteAuditCheckStatusSystem.
  */
 class SiteAuditCheckStatusSystem extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -91,8 +92,8 @@ class SiteAuditCheckStatusSystem extends SiteAuditCheckAbstract {
         $item = strip_tags($requirement['title']) . ': ' . $severity;
         if (isset($requirement['value']) && $requirement['value']) {
           $item .= ' - ' . dt('@value', array(
-              '@value' => strip_tags($requirement['value']),
-            ));
+            '@value' => strip_tags($requirement['value']),
+          ));
         }
       }
       $items[] = $item;

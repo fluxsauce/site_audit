@@ -8,6 +8,7 @@
  * Class SiteAuditReportViews.
  */
 class SiteAuditReportViews extends SiteAuditReportAbstract {
+
   /**
    * Implements \SiteAudit\Report\Abstract\getLabel().
    */

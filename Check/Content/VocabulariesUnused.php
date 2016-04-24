@@ -8,6 +8,7 @@
  * Class SiteAuditCheckContentVocabulariesUnused.
  */
 class SiteAuditCheckContentVocabulariesUnused extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */

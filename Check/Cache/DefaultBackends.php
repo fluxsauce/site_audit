@@ -8,6 +8,7 @@
  * Class SiteAuditCheckCacheDefaultBackends.
  */
 class SiteAuditCheckCacheDefaultBackends extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */

@@ -10,6 +10,7 @@ use Symfony\Component\Process\Process;
  * Class SiteAuditCheckCodebasePhpDeadCodeDetection.
  */
 class SiteAuditCheckCodebasePhpDeadCodeDetection extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -44,14 +45,12 @@ class SiteAuditCheckCodebasePhpDeadCodeDetection extends SiteAuditCheckAbstract 
     return dt('phpdcd does not support XML output yet; please request support in https://github.com/sebastianbergmann/phpdcd/pull/58');
   }
 
-
   /**
    * Implements \SiteAudit\Check\Abstract\getResultPass().
    */
   public function getResultPass() {
     return dt('No dead code code found by PHP Dead Code Detector');
   }
-
 
   /**
    * Implements \SiteAudit\Check\Abstract\getResultWarn().

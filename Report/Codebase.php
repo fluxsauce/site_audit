@@ -8,6 +8,7 @@
  * Class SiteAuditReportCodebase.
  */
 class SiteAuditReportCodebase extends SiteAuditReportAbstract {
+
   /**
    * Implements \SiteAudit\Report\Abstract\getLabel().
    */

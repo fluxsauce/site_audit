@@ -8,6 +8,7 @@
  * Class SiteAuditCheckWatchdogSyslog.
  */
 class SiteAuditCheckWatchdogSyslog extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */

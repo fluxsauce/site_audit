@@ -8,6 +8,7 @@
  * Class SiteAuditCheckBestPracticesServices.
  */
 class SiteAuditCheckBestPracticesServices extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */

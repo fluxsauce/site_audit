@@ -8,6 +8,7 @@
  * Class SiteAuditCheckCodebaseManagedFileCount.
  */
 class SiteAuditCheckCodebaseManagedFileCount extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */

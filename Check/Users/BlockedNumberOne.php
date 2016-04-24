@@ -8,6 +8,7 @@
  * Class SiteAuditCheckUsersBlockedNumberOne.
  */
 class SiteAuditCheckUsersBlockedNumberOne extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */

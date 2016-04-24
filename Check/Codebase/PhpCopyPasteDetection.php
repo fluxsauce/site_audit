@@ -5,10 +5,12 @@
  */
 
 use Symfony\Component\Process\Process;
+
 /**
  * Class SiteAuditCheckCodebasePhpCopyPasteDetection.
  */
 class SiteAuditCheckCodebasePhpCopyPasteDetection extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -40,14 +42,12 @@ class SiteAuditCheckCodebasePhpCopyPasteDetection extends SiteAuditCheckAbstract
     return dt('Cannot check for copy/pasted code; no custom code path specified.');
   }
 
-
   /**
    * Implements \SiteAudit\Check\Abstract\getResultPass().
    */
   public function getResultPass() {
     return dt('No duplicate code found by PHP Copy/Paste Detector');
   }
-
 
   /**
    * Implements \SiteAudit\Check\Abstract\getResultWarn().

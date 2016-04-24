@@ -8,6 +8,7 @@
  * Class SiteAuditCheckCachePreprocessJs.
  */
 class SiteAuditCheckCachePreprocessJs extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */

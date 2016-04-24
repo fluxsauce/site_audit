@@ -8,6 +8,7 @@
  * Class SiteAuditCheckUsersCountBlocked.
  */
 class SiteAuditCheckUsersCountBlocked extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */

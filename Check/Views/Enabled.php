@@ -8,6 +8,7 @@
  * Class SiteAuditCheckViewsEnabled.
  */
 class SiteAuditCheckViewsEnabled extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */

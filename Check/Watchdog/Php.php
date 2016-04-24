@@ -4,11 +4,11 @@
  * Contains \SiteAudit\Check\Watchdog\Php.
  */
 
-use Drupal\Core\Logger\RfcLogLevel;
 /**
  * Class SiteAuditCheckWatchdogPhp.
  */
 class SiteAuditCheckWatchdogPhp extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */

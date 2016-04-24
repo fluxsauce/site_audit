@@ -8,6 +8,7 @@
  * Class SiteAuditReportCache.
  */
 class SiteAuditReportCache extends SiteAuditReportAbstract {
+
   /**
    * Implements \SiteAudit\Report\Abstract\getLabel().
    */

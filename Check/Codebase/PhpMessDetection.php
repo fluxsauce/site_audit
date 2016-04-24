@@ -10,6 +10,7 @@ use Symfony\Component\Process\Process;
  * Class SiteAuditCheckCodebasePhpMessDetection.
  */
 class SiteAuditCheckCodebasePhpMessDetection extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -41,14 +42,12 @@ class SiteAuditCheckCodebasePhpMessDetection extends SiteAuditCheckAbstract {
     return dt('Cannot check for suboptimal code; no custom code path specified.');
   }
 
-
   /**
    * Implements \SiteAudit\Check\Abstract\getResultPass().
    */
   public function getResultPass() {
     return dt('Custom Code does not violate any PHP Mess Detector rule.');
   }
-
 
   /**
    * Implements \SiteAudit\Check\Abstract\getResultWarn().

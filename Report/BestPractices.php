@@ -8,6 +8,7 @@
  * Class SiteAuditReportBestPractices.
  */
 class SiteAuditReportBestPractices extends SiteAuditReportAbstract {
+
   /**
    * Implements \SiteAudit\Report\Abstract\getLabel().
    */

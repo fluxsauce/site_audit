@@ -8,6 +8,7 @@
  * Class SiteAuditCheckCodebaseSizeFiles.
  */
 class SiteAuditCheckCodebaseSizeFiles extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */

@@ -4,10 +4,13 @@
  * Contains \SiteAudit\Check\Database\Size.
  */
 
+use Drupal\Core\Database\DatabaseExceptionWrapper;
+
 /**
  * Class SiteAuditCheckDatabaseSize.
  */
 class SiteAuditCheckDatabaseSize extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -79,7 +82,7 @@ class SiteAuditCheckDatabaseSize extends SiteAuditCheckAbstract {
       }
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
     }
-    catch (\Drupal\Core\Database\DatabaseExceptionWrapper $e) {
+    catch (DatabaseExceptionWrapper $e) {
       // Error executing the query.
       $this->abort = TRUE;
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;

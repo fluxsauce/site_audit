@@ -8,6 +8,7 @@
  * Class SiteAuditCheckExtensionsUnrecommended.
  */
 class SiteAuditCheckExtensionsUnrecommended extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */

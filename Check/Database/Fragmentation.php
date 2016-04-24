@@ -8,6 +8,7 @@
  * Class SiteAuditCheckDatabaseFragmentation.
  */
 class SiteAuditCheckDatabaseFragmentation extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */

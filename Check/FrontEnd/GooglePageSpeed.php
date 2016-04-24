@@ -8,6 +8,7 @@
  * Class SiteAuditCheckFrontEndGooglePageSpeed.
  */
 class SiteAuditCheckFrontEndGooglePageSpeed extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -178,9 +179,9 @@ class SiteAuditCheckFrontEndGooglePageSpeed extends SiteAuditCheckAbstract {
           $limit = drush_get_option('limit', 0);
           if ($limit > 0 && isset($block->urls) && ($limit != count($block->urls)) && ($limit < count($block->urls))) {
             $header .= ' ' . dt('Showing @limit out of @total total:', array(
-                '@limit' => $limit,
-                '@total' => count($block->urls),
-              ));
+              '@limit' => $limit,
+              '@total' => count($block->urls),
+            ));
           }
 
           if (drush_get_option('html')) {
@@ -364,9 +365,8 @@ class SiteAuditCheckFrontEndGooglePageSpeed extends SiteAuditCheckAbstract {
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;
     }
     // Overview.
-    // Average all scores to get the final score,
-    $score = 0;
-    $count = 0;
+    // Average all scores to get the final score.
+    $score = $count = 0;
     foreach ($this->registry['json_mobile_result']->ruleGroups as $group) {
       $score += $group->score;
       $count++;

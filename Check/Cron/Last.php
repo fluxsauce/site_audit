@@ -8,6 +8,7 @@
  * Class SiteAuditCheckCronLast.
  */
 class SiteAuditCheckCronLast extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */

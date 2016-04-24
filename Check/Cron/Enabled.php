@@ -8,6 +8,7 @@
  * Class SiteAuditCheckCronEnabled.
  */
 class SiteAuditCheckCronEnabled extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */

@@ -4,10 +4,13 @@
  * Contains \SiteAudit\Check\Users\WhoIsNumberOne.
  */
 
+use Drupal\user\Entity\User;
+
 /**
  * Class SiteAuditCheckUsersWhoIsNumberOne.
  */
 class SiteAuditCheckUsersWhoIsNumberOne extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -58,7 +61,7 @@ class SiteAuditCheckUsersWhoIsNumberOne extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\calculateScore().
    */
   public function calculateScore() {
-    $uid_1 = \Drupal\user\Entity\User::load(1);
+    $uid_1 = User::load(1);
     if (!$uid_1) {
       $this->abort = TRUE;
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_FAIL;

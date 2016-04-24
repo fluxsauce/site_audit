@@ -8,6 +8,7 @@
  * Class SiteAuditCheckContentFieldCount.
  */
 class SiteAuditCheckContentFieldCount extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */

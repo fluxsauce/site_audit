@@ -8,6 +8,7 @@
  * Class SiteAuditCheckFrontEndWebPageTest.
  */
 class SiteAuditCheckFrontEndWebPageTest extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -53,6 +54,7 @@ class SiteAuditCheckFrontEndWebPageTest extends SiteAuditCheckAbstract {
     }
     return '';
   }
+
   /**
    * Implements \SiteAudit\Check\Abstract\getResultInfo().
    */

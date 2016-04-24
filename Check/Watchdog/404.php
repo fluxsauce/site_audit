@@ -8,6 +8,7 @@
  * Class SiteAuditCheckWatchdog404.
  */
 class SiteAuditCheckWatchdog404 extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */

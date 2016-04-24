@@ -8,6 +8,7 @@
  * Class SiteAuditCheckWatchdogEnabled.
  */
 class SiteAuditCheckWatchdogEnabled extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */

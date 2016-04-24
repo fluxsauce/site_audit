@@ -8,6 +8,7 @@
  * Class SiteAuditCheckContentFieldInstances.
  */
 class SiteAuditCheckContentFieldInstances extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */

@@ -4,10 +4,13 @@
  * Contains \SiteAudit\Check\Content\DuplicateTitles.
  */
 
+use Drupal\Component\Utility\SafeMarkup;
+
 /**
  * Class SiteAuditCheckContentDuplicateTitles.
  */
 class SiteAuditCheckContentDuplicateTitles extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -114,7 +117,7 @@ class SiteAuditCheckContentDuplicateTitles extends SiteAuditCheckAbstract {
     $content_types = $content_types = \Drupal::entityManager()->getBundleInfo("node");
     foreach ($result as $row) {
       $label = $content_types[$row->type]['label'];
-      $title = \Drupal\Component\Utility\SafeMarkup::checkPlain($row->title);
+      $title = SafeMarkup::checkPlain($row->title);
       $this->registry['nodes_duplicate_titles'][$label][$title] = $row->duplicate_count;
       $this->registry['nodes_duplicate_title_count'] += $row->duplicate_count;
     }

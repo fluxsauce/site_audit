@@ -8,6 +8,7 @@
  * Class SiteAuditCheckCodebaseGitContributions.
  */
 class SiteAuditCheckCodebaseGitContributions extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
@@ -93,13 +94,13 @@ class SiteAuditCheckCodebaseGitContributions extends SiteAuditCheckAbstract {
       $this->registry['not_git'] = TRUE;
       return SiteAuditCheckAbstract::AUDIT_CHECK_SCORE_INFO;
     }
-    // Check if the repository is from drupal.org
+
+    // Check if the repository is from drupal.org.
     $output = array();
     $remote_url = array(
       'http://git.drupal.org/project/drupal',
       'github.com/drupal/drupal',
-      'github.com/pressflow',
-      'github.com/pantheon-systems/drops-7/',
+      'github.com/pantheon-systems/drops-8',
     );
     exec('git remote -v', $output);
     foreach ($output as $line) {

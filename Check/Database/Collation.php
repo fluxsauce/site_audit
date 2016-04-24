@@ -8,6 +8,7 @@
  * Class SiteAuditCheckDatabaseCollation.
  */
 class SiteAuditCheckDatabaseCollation extends SiteAuditCheckAbstract {
+
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
