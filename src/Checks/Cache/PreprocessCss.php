@@ -12,6 +12,7 @@ use Drupal\site_audit\Check;
  * Class PreprocessCss.
  */
 class PreprocessCss extends Check {
+
   /**
    * {@inheritdoc}.
    */

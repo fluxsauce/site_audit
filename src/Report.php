@@ -9,6 +9,7 @@ namespace Drupal\site_audit;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Class Report.
@@ -220,41 +221,50 @@ abstract class Report {
     if ($this->percent == 100) {
       $output->block($this->t('No action required.'), 'OK', 'fg=black;bg=green', str_repeat(' ', 2));
     }
-    $detail = $input->getOption('detail');
+    $detail = $output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE;
 
     if ($detail || $this->percent != 100) {
       foreach ($this->checks as $check) {
+        // If detail, not pass, or purely informational.
         if ($detail || $check->getScore() != Check::AUDIT_CHECK_SCORE_PASS || $this->percent == Check::AUDIT_CHECK_SCORE_INFO) {
+          // Label and description.
           if ($detail) {
-            $output->info(str_repeat(' ', 2) . $this->t('!label: !description', array(
+            $output->simple(str_repeat(' ', 2) . $this->t('!label: !description', array(
               '!label' => $check->getLabel(),
               '!description' => $check->getDescription(),
             )));
           }
+          // Only label.
           else {
             if ($check->getScore() != Check::AUDIT_CHECK_SCORE_INFO) {
-              $output->info(str_repeat(' ', 2) . $this->t('!label', array(
+              $output->simple(str_repeat(' ', 2) . $this->t('!label', array(
                 '!label' => $check->getLabel(),
               )));
             }
           }
+          // Info.
           if ($this->percent == Check::AUDIT_CHECK_SCORE_INFO || $detail) {
+            // Display details.
             if (($check->getScore() != Check::AUDIT_CHECK_SCORE_INFO) || $detail) {
-              $output->info(str_repeat(' ', 4) . $this->t('!result', array(
+              $output->simple(str_repeat(' ', 4) . $this->t('!result', array(
                 '!result' => $check->getResult(),
               )));
             }
+            // No details, different indentation.
             else {
-              $output->info(str_repeat(' ', 2) . $this->t('!result', array(
+              $output->simple(str_repeat(' ', 2) . $this->t('!result', array(
                 '!result' => $check->getResult(),
               )));
             }
           }
+          // Error or warning.
           else {
-            $output->info(str_repeat(' ', 4) . $this->t('!result', array(
+            $output->comment(str_repeat(' ', 4) . $this->t('!result', array(
               '!result' => $check->getResult(),
             )));
           }
+
+          // Action.
           if ($check->renderAction()) {
             $output->info(str_repeat(' ', 6) . $this->t('!action', array(
               '!action' => $check->renderAction(),

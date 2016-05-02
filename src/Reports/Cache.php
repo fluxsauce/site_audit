@@ -24,6 +24,7 @@ class Cache extends Report {
    */
   public function getCheckNames() {
     return [
+      'PageExpire',
       'PreprocessCss',
       'PreprocessJs',
     ];

@@ -32,8 +32,7 @@ class SiteAuditCacheCommand extends ContainerAwareCommand {
     $this->report = new Cache();
     $this
       ->setName('audit:cache')
-      ->setDescription($this->report->getLabel())
-      ->addOption('detail', NULL, InputOption::VALUE_NONE, 'If set, will give detailed output.');
+      ->setDescription($this->report->getLabel());
   }
 
   /**

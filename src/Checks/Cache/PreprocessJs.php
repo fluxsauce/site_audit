@@ -12,6 +12,7 @@ use Drupal\site_audit\Check;
  * Class PreprocessJs.
  */
 class PreprocessJs extends Check {
+  
   /**
    * Implements \SiteAudit\Check\Abstract\getLabel().
    */
