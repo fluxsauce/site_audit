@@ -142,6 +142,40 @@ abstract class Check {
     }
   }
 
+  public function getScoreSymfonyStyle() {
+    switch ($this->score) {
+      case Check::AUDIT_CHECK_SCORE_PASS:
+        return 'fg=black;bg=green';
+
+      case Check::AUDIT_CHECK_SCORE_WARN:
+        return 'fg=white;bg=red';
+
+      case Check::AUDIT_CHECK_SCORE_INFO:
+        return 'fg=yellow';
+
+      default:
+        return 'fg=white;bg=red';
+
+    }
+  }
+
+  public function getScoreSymfonyType() {
+    switch ($this->score) {
+      case Check::AUDIT_CHECK_SCORE_PASS:
+        return 'OK';
+
+      case Check::AUDIT_CHECK_SCORE_WARN:
+        return 'WARNING';
+
+      case Check::AUDIT_CHECK_SCORE_INFO:
+        return 'NOTE';
+
+      default:
+        return 'ERROR';
+
+    }
+  }
+
   /**
    * Get the label for the check that describes, high level what is happening.
    *

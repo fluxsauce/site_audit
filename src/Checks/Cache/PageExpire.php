@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Contains \SiteAudit\Check\Cache\PageExpire.
+ * Contains Drupal\site_audit\Checks\Cache\PageExpire.
  */
 
 namespace Drupal\site_audit\Checks\Cache;

@@ -12,49 +12,49 @@ use Drupal\site_audit\Check;
  * Class PreprocessJs.
  */
 class PreprocessJs extends Check {
-  
+
   /**
-   * Implements \SiteAudit\Check\Abstract\getLabel().
+   * {@inheritdoc}.
    */
   public function getLabel() {
     return $this->t('Aggregate JavaScript files in Drupal');
   }
 
   /**
-   * Implements \SiteAudit\Check\Abstract\getDescription().
+   * {@inheritdoc}.
    */
   public function getDescription() {
     return $this->t('Verify that Drupal is aggregating JavaScript.');
   }
 
   /**
-   * Implements \SiteAudit\Check\Abstract\getResultFail().
+   * {@inheritdoc}.
    */
   public function getResultFail() {
     return $this->t('JavaScript aggregation is not enabled!');
   }
 
   /**
-   * Implements \SiteAudit\Check\Abstract\getResultInfo().
+   * {@inheritdoc}.
    */
   public function getResultInfo() {
     return $this->getResultFail();
   }
 
   /**
-   * Implements \SiteAudit\Check\Abstract\getResultPass().
+   * {@inheritdoc}.
    */
   public function getResultPass() {
     return $this->t('JavaScript aggregation is enabled.');
   }
 
   /**
-   * Implements \SiteAudit\Check\Abstract\getResultWarn().
+   * {@inheritdoc}.
    */
   public function getResultWarn() {}
 
   /**
-   * Implements \SiteAudit\Check\Abstract\getAction().
+   * {@inheritdoc}.
    */
   public function getAction() {
     if (!in_array($this->score, array(Check::AUDIT_CHECK_SCORE_PASS))) {
@@ -63,7 +63,7 @@ class PreprocessJs extends Check {
   }
 
   /**
-   * Implements \SiteAudit\Check\Abstract\calculateScore().
+   * {@inheritdoc}.
    */
   public function calculateScore() {
     $config = \Drupal::config('system.performance')->get('js.preprocess');

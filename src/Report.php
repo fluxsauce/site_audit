@@ -223,50 +223,37 @@ abstract class Report {
     }
     $detail = $output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE;
 
+    // Information or a problem.
     if ($detail || $this->percent != 100) {
       foreach ($this->checks as $check) {
-        // If detail, not pass, or purely informational.
         if ($detail || $check->getScore() != Check::AUDIT_CHECK_SCORE_PASS || $this->percent == Check::AUDIT_CHECK_SCORE_INFO) {
-          // Label and description.
+          // Heading.
           if ($detail) {
-            $output->simple(str_repeat(' ', 2) . $this->t('!label: !description', array(
+            $heading = $this->t('!label: !description', array(
               '!label' => $check->getLabel(),
               '!description' => $check->getDescription(),
-            )));
+            ));
           }
-          // Only label.
           else {
-            if ($check->getScore() != Check::AUDIT_CHECK_SCORE_INFO) {
-              $output->simple(str_repeat(' ', 2) . $this->t('!label', array(
-                '!label' => $check->getLabel(),
-              )));
-            }
+            $heading = $this->t('!label', array(
+              '!label' => $check->getLabel(),
+            ));
           }
-          // Info.
-          if ($this->percent == Check::AUDIT_CHECK_SCORE_INFO || $detail) {
-            // Display details.
-            if (($check->getScore() != Check::AUDIT_CHECK_SCORE_INFO) || $detail) {
-              $output->simple(str_repeat(' ', 4) . $this->t('!result', array(
-                '!result' => $check->getResult(),
-              )));
-            }
-            // No details, different indentation.
-            else {
-              $output->simple(str_repeat(' ', 2) . $this->t('!result', array(
-                '!result' => $check->getResult(),
-              )));
-            }
+          $output->block($heading, $check->getScoreSymfonyType(), $check->getScoreSymfonyStyle());
+
+          // Result.
+          $result = $check->getResult();
+          if (is_array($result)) {
+            $output->table($result['headers'], $result['rows']);
           }
-          // Error or warning.
           else {
-            $output->comment(str_repeat(' ', 4) . $this->t('!result', array(
-              '!result' => $check->getResult(),
-            )));
+            $output->simple($result);
           }
 
           // Action.
-          if ($check->renderAction()) {
-            $output->info(str_repeat(' ', 6) . $this->t('!action', array(
+          $action = $check->renderAction();
+          if ($action) {
+            $output->info(str_repeat(' ', 2) . $this->t('!action', array(
               '!action' => $check->renderAction(),
             )));
           }
