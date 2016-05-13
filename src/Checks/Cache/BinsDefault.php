@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Contains Drupal\site_audit\Checks\Cache\BinsAll.
+ * Contains Drupal\site_audit\Checks\Cache\BinsDefault.
  */
 
 namespace Drupal\site_audit\Checks\Cache;
@@ -9,22 +9,22 @@ namespace Drupal\site_audit\Checks\Cache;
 use Drupal\site_audit\Check;
 
 /**
- * Class BinsAll.
+ * Class BinsDefault.
  */
-class BinsAll extends Check {
+class BinsDefault extends Check {
 
   /**
    * {@inheritdoc}.
    */
   public function getLabel() {
-    return $this->t('Available cache bins');
+    return $this->t('Default cache bins');
   }
 
   /**
    * {@inheritdoc}.
    */
   public function getDescription() {
-    return $this->t('All available cache bins.');
+    return $this->t('Default bin per service');
   }
 
   /**
@@ -37,10 +37,10 @@ class BinsAll extends Check {
    */
   public function getResultInfo() {
     $ret_val = array(
-      'headers' => ['Bin', 'Class'],
+      'headers' => ['Service', 'Bin'],
     );
 
-    foreach ($this->registry['bins_all'] as $bin => $class) {
+    foreach ($this->registry['default_backends'] as $bin => $class) {
       $ret_val['rows'][] = [$bin, $class];
     }
 
@@ -67,14 +67,16 @@ class BinsAll extends Check {
    */
   public function calculateScore() {
     $container = \Drupal::getContainer();
-    $services = $container->getServiceIds();
-
-    $this->registry['bins_all'] = [];
-    $back_ends = preg_grep('/^cache\.backend\./', array_values($services));
-    foreach ($back_ends as $backend) {
-      $this->registry['bins_all'][$backend] = get_class($container->get($backend));
+    $defaults = $container->getParameter('cache_default_bin_backends');
+    $this->registry['default_backends'] = array();
+    foreach ($container->getParameter('cache_bins') as $bin) {
+      if (isset($defaults[$bin])) {
+        $this->registry['default_backends'][$bin] = $defaults[$bin];
+      }
+      else {
+        $this->registry['default_backends'][$bin] = 'cache.backend.database';
+      }
     }
-
     return Check::AUDIT_CHECK_SCORE_INFO;
   }
 

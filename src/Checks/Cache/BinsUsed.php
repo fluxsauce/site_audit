@@ -25,7 +25,7 @@ class BinsUsed extends Check {
    * {@inheritdoc}.
    */
   public function getDescription() {
-    return $this->t('Detail cache bins used by each service.');
+    return $this->t('Cache bins used by each service.');
   }
 
   /**
@@ -41,7 +41,7 @@ class BinsUsed extends Check {
       'headers' => ['Service', 'Bin'],
     );
 
-    foreach ($this->registry['used_backends'] as $bin => $class) {
+    foreach ($this->registry['bins_used'] as $bin => $class) {
       $ret_val['rows'][] = [$bin, $class];
     }
 
@@ -71,11 +71,10 @@ class BinsUsed extends Check {
 
     foreach ($container->getParameter('cache_bins') as $bin) {
       $backend_class = get_class($container->get('cache.' . $bin)) . 'Factory';
-      $backend = array_search($backend_class, $this->registry['all_backends']);
-      $this->registry['used_backends'][$bin] = $backend;
+      $backend = array_search($backend_class, $this->registry['bins_all']);
+      $this->registry['bins_used'][$bin] = $backend;
     }
 
-    // No problems, informational.
     return Check::AUDIT_CHECK_SCORE_INFO;
   }
 

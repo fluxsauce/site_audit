@@ -9,6 +9,7 @@ namespace Drupal\site_audit\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 
+use Drupal\site_audit\Renderer\Html;
 use Drupal\site_audit\Reports\Cache;
 
 /**
@@ -25,10 +26,11 @@ class SiteAuditController extends ControllerBase {
    */
   public function audit() {
     $cache = new Cache();
+    $renderer = new Html($cache);
 
     return [
       '#type' => 'markup',
-      '#markup' => $cache->toHtml(),
+      '#markup' => $renderer->render(TRUE),
     ];
   }
 

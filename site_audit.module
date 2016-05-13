@@ -15,7 +15,7 @@ function site_audit_help($route_name, RouteMatchInterface $route_match) {
     // Main module help for the site_audit module.
     case 'help.page.site_audit':
       $output = '<h3>' . t('About') . '</h3>';
-      $output .= '<p>' . t('Site Audit is a Drupal static site analysis platform that generates reports with actionable best practice recommendations.') . '</p>';
+      $output .= '<p>' . t('Site Audit is a Drupal site analysis platform that generates reports with actionable best practice recommendations.') . '</p>';
       return $output;
 
     default:

@@ -14,10 +14,10 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
 abstract class Check {
   use StringTranslationTrait;
 
+  const AUDIT_CHECK_SCORE_INFO = 3;
   const AUDIT_CHECK_SCORE_PASS = 2;
   const AUDIT_CHECK_SCORE_WARN = 1;
   const AUDIT_CHECK_SCORE_FAIL = 0;
-  const AUDIT_CHECK_SCORE_INFO = -1;
 
   /**
    * Quantifiable number associated with result on a scale of 0 to 2.
@@ -115,63 +115,6 @@ abstract class Check {
 
       default:
         return dt('Blocker');
-
-    }
-  }
-
-  /**
-   * Get the CSS class associated with a score.
-   *
-   * @return string
-   *   Name of the Twitter bootstrap class.
-   */
-  public function getScoreCssClass() {
-    switch ($this->score) {
-      case Check::AUDIT_CHECK_SCORE_PASS:
-        return 'success';
-
-      case Check::AUDIT_CHECK_SCORE_WARN:
-        return 'warning';
-
-      case Check::AUDIT_CHECK_SCORE_INFO:
-        return 'info';
-
-      default:
-        return 'danger';
-
-    }
-  }
-
-  public function getScoreSymfonyStyle() {
-    switch ($this->score) {
-      case Check::AUDIT_CHECK_SCORE_PASS:
-        return 'fg=black;bg=green';
-
-      case Check::AUDIT_CHECK_SCORE_WARN:
-        return 'fg=white;bg=red';
-
-      case Check::AUDIT_CHECK_SCORE_INFO:
-        return 'fg=yellow';
-
-      default:
-        return 'fg=white;bg=red';
-
-    }
-  }
-
-  public function getScoreSymfonyType() {
-    switch ($this->score) {
-      case Check::AUDIT_CHECK_SCORE_PASS:
-        return 'OK';
-
-      case Check::AUDIT_CHECK_SCORE_WARN:
-        return 'WARNING';
-
-      case Check::AUDIT_CHECK_SCORE_INFO:
-        return 'NOTE';
-
-      default:
-        return 'ERROR';
 
     }
   }
