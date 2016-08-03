@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains Drupal\site_audit\Renderer\Markdown.
- */
 
 namespace Drupal\site_audit\Renderer;
 

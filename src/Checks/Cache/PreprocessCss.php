@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains Drupal\site_audit\Checks\Cache\PreprocessCss.
- */
 
 namespace Drupal\site_audit\Checks\Cache;
 

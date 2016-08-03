@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains Drupal\site_audit\Renderer\Console.
- */
 
 namespace Drupal\site_audit\Renderer;
 

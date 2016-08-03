@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\site_audit\Controller\SiteAuditController.
- */
-
 namespace Drupal\site_audit\Controller;
 
 use Drupal\Core\Controller\ControllerBase;

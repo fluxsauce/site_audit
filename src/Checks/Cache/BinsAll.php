@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains Drupal\site_audit\Checks\Cache\BinsAll.
- */
 
 namespace Drupal\site_audit\Checks\Cache;
 

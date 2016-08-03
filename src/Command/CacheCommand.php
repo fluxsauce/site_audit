@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\site_audit\Command\CacheCommand.
- */
-
 namespace Drupal\site_audit\Command;
 
 use Drupal\Console\Command\ContainerAwareCommand;

@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains Drupal\site_audit\Check.
- */
 
 namespace Drupal\site_audit;
 
