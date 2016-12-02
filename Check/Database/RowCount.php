@@ -38,7 +38,7 @@ class SiteAuditCheckDatabaseRowCount extends SiteAuditCheckAbstract {
    */
   public function getResultInfo() {
     if (empty($this->registry['rows_by_table'])) {
-      return dt('No tables with less than @min_rows rows.', array(
+      return dt('No tables with more than @min_rows rows.', array(
         '@min_rows' => drush_get_option('min_rows', SiteAuditCheckDatabaseRowCount::AUDIT_CHECK_DB_ROW_MIN_DEFAULT),
       ));
     }
