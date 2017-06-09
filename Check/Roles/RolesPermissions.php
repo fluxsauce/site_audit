@@ -63,7 +63,7 @@ class SiteAuditCheckRolesRolesPermissions extends SiteAuditCheckAbstract {
    */
   public function calculateScore() {
     $sql_query  = 'SELECT name';
-    $sql_query .= ', COUNT(uid) AS count_permissions ';
+    $sql_query .= ', COUNT({role}.rid) AS count_permissions ';
     $sql_query .= 'FROM {role} ';
     $sql_query .= 'LEFT JOIN {role_permission} ON {role}.rid = {role_permission}.rid ';
     $sql_query .= 'GROUP BY {role}.rid ';
