@@ -14,16 +14,16 @@
     "php": ">5.5.0",
     "phpmd/phpmd" : "@stable",
     "sebastian/phpcpd": "*",
-    "ext-SimpleXML" : "0.1",
     "squizlabs/php_codesniffer": "*",
     "drupal/coder": "^8.2",
     "phploc/phploc": "*",
     "sebastian/phpdcd": "*",
-    "symfony/process": "^2.7"
+    "symfony/process": "^2.7",
+    "ext-simplexml": ">5.5"
   },
   "require-dev": {
     "phpunit/phpunit": "4.7.*",
-    "drush/drush": "dev-master"
+    "drush/drush": "^8.1"
   },
   "autoload": {
     "psr-0": {
