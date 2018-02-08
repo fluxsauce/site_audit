@@ -103,9 +103,11 @@ class SiteAuditCheckContentFieldInstances extends SiteAuditCheckAbstract {
           continue;
         }
         foreach ($description['bundles'] as $bundle) {
-          $query = \Drupal::entityQuery($entity)
-            ->condition($bundle_column_name, $bundle)
-            ->exists($field)
+          $query = \Drupal::entityQuery($entity);
+          if (!empty($bundle_column_name)) {
+            $query->condition($bundle_column_name, $bundle);
+          }
+          $query->exists($field)
             ->count();
           $field_count = $query->execute();
           $this->registry['field_instance_counts'][$bundle][$entity][$field] = $field_count;
