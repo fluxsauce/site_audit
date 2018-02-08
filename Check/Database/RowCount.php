@@ -103,7 +103,7 @@ class SiteAuditCheckDatabaseRowCount extends SiteAuditCheckAbstract {
 
     $this->registry['rows_by_table'] = array();
     $warning = FALSE;
-    $sql_query  = 'SELECT TABLE_NAME AS table_name, TABLE_ROWS AS rows ';
+    $sql_query  = 'SELECT TABLE_NAME AS table_name, TABLE_ROWS AS table_rows ';
     $sql_query .= 'FROM information_schema.TABLES ';
     $sql_query .= 'WHERE TABLES.TABLE_SCHEMA = :dbname ';
     $sql_query .= 'AND TABLE_ROWS >= :count ';
