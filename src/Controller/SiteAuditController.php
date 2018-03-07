@@ -6,6 +6,7 @@ use Drupal\Core\Controller\ControllerBase;
 
 use Drupal\site_audit\Renderer\Html;
 use Drupal\site_audit\Reports\Cache;
+use Drupal\site_audit\Reports\Extensions;
 
 /**
  * Class SiteAuditController.
@@ -20,12 +21,21 @@ class SiteAuditController extends ControllerBase {
    *   Rendered report output.
    */
   public function audit() {
-    $cache = new Cache();
-    $renderer = new Html($cache);
+    $reports = [
+      new Cache(),
+      new Extensions(),
+    ];
+
+    $out = '';
+
+    foreach ($reports as $report) {
+      $renderer = new Html($report);
+      $out .= $renderer->render(TRUE);
+    }
 
     return [
       '#type' => 'markup',
-      '#markup' => $renderer->render(TRUE),
+      '#markup' => $out,
     ];
   }
 

@@ -1,2 +1,9 @@
 .idea/
 vendor/
+
+#
+# Dropwhale stuff for testing.
+#
+.dropwhale
+dropwhale.settings
+docker-compose.yml

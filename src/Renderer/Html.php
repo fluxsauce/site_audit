@@ -31,7 +31,7 @@ class Html extends Renderer {
    * @return string
    *   Name of the Twitter bootstrap class.
    */
-  public function getScoreCssClass($score) {
+  public function getScoreCssClass($score = NULL) {
     switch ($score) {
       case Check::AUDIT_CHECK_SCORE_PASS:
         return 'success';
@@ -56,7 +56,7 @@ class Html extends Renderer {
     $percent = $this->report->getPercent();
 
     if ($percent != Check::AUDIT_CHECK_SCORE_INFO) {
-      $ret_val .= ' <span class="label label-' . $this->getPercentCssClass() . '">' . $percent . '%</span>';
+      $ret_val .= ' <span class="label label-' . $this->getPercentCssClass($percent) . '">' . $percent . '%</span>';
     }
     else {
       $ret_val .= ' <span class="label label-info">' . t('Info') . '</span>';
