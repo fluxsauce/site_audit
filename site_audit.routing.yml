@@ -4,4 +4,4 @@ site_audit.site_audit_controller_audit:
     _controller: '\Drupal\site_audit\Controller\SiteAuditController::audit'
     _title: 'Audit'
   requirements:
-    _permission: 'access content'
+    _permission: 'administer site configuration'
