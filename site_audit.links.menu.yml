@@ -1,0 +1,5 @@
+site_audit.report:
+  title: 'Site Audit report'
+  parent: system.admin_reports
+  description: 'View the site audit report for this site.'
+  route_name: site_audit.site_audit_controller_audit
