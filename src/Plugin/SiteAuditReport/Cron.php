@@ -13,6 +13,7 @@ use Drupal\site_audit\Plugin\SiteAuditReportBase;
  *
  * @SiteAuditReport(
  *  id = "cron",
+ *  name = @Translation("Cron"),
  *  description = @Translation("Drupal's Cron")
  * )
  */
