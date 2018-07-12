@@ -1,27 +1,24 @@
 <?php
+/**
+ * @file
+ * Contains Drupal\site_audit\Plugin\SiteAuditCheck\CachePageExpire
+ */
 
-namespace Drupal\site_audit\Checks\Cache;
+namespace Drupal\site_audit\Plugin\SiteAuditCheck;
 
-use Drupal\site_audit\Check;
+use Drupal\site_audit\Plugin\SiteAuditCheckBase;
 
 /**
- * Class PageExpire.
+ * Provides the CachePageExpire Check.
+ *
+ * @SiteAuditCheck(
+ *  id = "cache_page_expire",
+ *  name = @Translation("Expiration of cached pages"),
+ *  description = @Translation("Verify that Drupal\'s cached pages last for at least 15 minutes."),
+ *  report = "cache"
+ * )
  */
-class PageExpire extends Check {
-
-  /**
-   * {@inheritdoc}.
-   */
-  public function getLabel() {
-    return $this->t('Expiration of cached pages');
-  }
-
-  /**
-   * {@inheritdoc}.
-   */
-  public function getDescription() {
-    return $this->t("Verify that Drupal's cached pages last for at least 15 minutes.");
-  }
+class CachePageExpire extends SiteAuditCheckBase {
 
   /**
    * {@inheritdoc}.
@@ -58,11 +55,7 @@ class PageExpire extends Check {
   /**
    * {@inheritdoc}.
    */
-  public function getAction() {
-    if (!in_array($this->score, array(Check::AUDIT_CHECK_SCORE_PASS))) {
-      return $this->t('Go to /admin/config/development/performance and set "Expiration of cached pages" to 15 min or above.');
-    }
-  }
+  public function getAction() {}
 
   /**
    * {@inheritdoc}.
@@ -71,14 +64,14 @@ class PageExpire extends Check {
     $config = \Drupal::config('system.performance')->get('cache.page.max_age');
     if ($config == 0) {
       if (site_audit_env_is_dev()) {
-        return Check::AUDIT_CHECK_SCORE_INFO;
+        return SiteAuditCheckBase::AUDIT_CHECK_SCORE_INFO;
       }
-      return Check::AUDIT_CHECK_SCORE_FAIL;
+      return SiteAuditCheckBase::AUDIT_CHECK_SCORE_FAIL;
     }
     elseif ($config >= 900) {
-      return Check::AUDIT_CHECK_SCORE_PASS;
+      return SiteAuditCheckBase::AUDIT_CHECK_SCORE_PASS;
     }
-    return Check::AUDIT_CHECK_SCORE_WARN;
+    return SiteAuditCheckBase::AUDIT_CHECK_SCORE_WARN;
   }
 
 }

@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Contains Drupal\site_audit\Plugin\SiteAuditCheck\CacheBinsAll
+ * Contains Drupal\site_audit\Plugin\SiteAuditCheck\CacheBinsDefault.
  */
 
 namespace Drupal\site_audit\Plugin\SiteAuditCheck;
@@ -9,16 +9,16 @@ namespace Drupal\site_audit\Plugin\SiteAuditCheck;
 use Drupal\site_audit\Plugin\SiteAuditCheckBase;
 
 /**
- * Provides the CacheBinsAll Check.
+ * Provides the CacheBinsDefault. Check.
  *
  * @SiteAuditCheck(
- *  id = "cache_bins_all",
- *  name = @Translation("Available cache bins"),
- *  description = @Translation("All available cache bins."),
+ *  id = "cache_default_bins",
+ *  name = @Translation("Default Cache Bins"),
+ *  description = @Translation("All default cache bins."),
  *  report = "cache"
  * )
  */
-class CacheBinsAll extends SiteAuditCheckBase {
+class CacheBinsDefault extends SiteAuditCheckBase {
 
   /**
    * {@inheritdoc}.
@@ -33,7 +33,7 @@ class CacheBinsAll extends SiteAuditCheckBase {
       'headers' => ['Bin', 'Class'],
     );
 
-    foreach ($this->registry->cache_bins_all as $bin => $class) {
+    foreach ($this->registry->cache_default_backends as $bin => $class) {
       $ret_val['rows'][] = [$bin, $class];
     }
 
@@ -60,14 +60,16 @@ class CacheBinsAll extends SiteAuditCheckBase {
    */
   public function calculateScore() {
     $container = \Drupal::getContainer();
-    $services = $container->getServiceIds();
-
-    $this->registry->cache_bins_all = [];
-    $back_ends = preg_grep('/^cache\.backend\./', array_values($services));
-    foreach ($back_ends as $backend) {
-      $this->registry->cache_bins_all[$backend] = get_class($container->get($backend));
+    $defaults = $container->getParameter('cache_default_bin_backends');
+    $this->registry->cache_default_backends = [];
+    foreach ($container->getParameter('cache_bins') as $bin) {
+      if (isset($defaults[$bin])) {
+        $this->registry->cache_default_backends[$bin] = $defaults[$bin];
+      }
+      else {
+        $this->registry->cache_default_backends[$bin] = 'cache.backend.database';
+      }
     }
-
     return SiteAuditCheckBase::AUDIT_CHECK_SCORE_INFO;
   }
 

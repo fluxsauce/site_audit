@@ -1,27 +1,24 @@
 <?php
+/**
+ * @file
+ * Contains Drupal\site_audit\Plugin\SiteAuditCheck\CachePreprocessJS
+ */
 
-namespace Drupal\site_audit\Checks\Cache;
+namespace Drupal\site_audit\Plugin\SiteAuditCheck;
 
-use Drupal\site_audit\Check;
+use Drupal\site_audit\Plugin\SiteAuditCheckBase;
 
 /**
- * Class PreprocessJs.
+ * Provides the CachePreprocessJS Check.
+ *
+ * @SiteAuditCheck(
+ *  id = "cache_preprocess_js",
+ *  name = @Translation("Aggregate and compress JavaScript files in Drupal"),
+ *  description = @Translation("Verify that Drupal is aggregating JavaScript."),
+ *  report = "cache"
+ * )
  */
-class PreprocessJs extends Check {
-
-  /**
-   * {@inheritdoc}.
-   */
-  public function getLabel() {
-    return $this->t('Aggregate JavaScript files in Drupal');
-  }
-
-  /**
-   * {@inheritdoc}.
-   */
-  public function getDescription() {
-    return $this->t('Verify that Drupal is aggregating JavaScript.');
-  }
+class CachePreprocessJS extends SiteAuditCheckBase {
 
   /**
    * {@inheritdoc}.
@@ -53,7 +50,7 @@ class PreprocessJs extends Check {
    * {@inheritdoc}.
    */
   public function getAction() {
-    if (!in_array($this->score, array(Check::AUDIT_CHECK_SCORE_PASS))) {
+    if (!in_array($this->score, array(SiteAuditCheckBase::AUDIT_CHECK_SCORE_PASS))) {
       return $this->t('Go to /admin/config/development/performance and check "Aggregate JavaScript files".');
     }
   }
@@ -64,12 +61,12 @@ class PreprocessJs extends Check {
   public function calculateScore() {
     $config = \Drupal::config('system.performance')->get('js.preprocess');
     if ($config) {
-      return Check::AUDIT_CHECK_SCORE_PASS;
+      return SiteAuditCheckBase::AUDIT_CHECK_SCORE_PASS;
     }
     if (site_audit_env_is_dev()) {
-      return Check::AUDIT_CHECK_SCORE_INFO;
+      return SiteAuditCheckBase::AUDIT_CHECK_SCORE_INFO;
     }
-    return Check::AUDIT_CHECK_SCORE_FAIL;
+    return SiteAuditCheckBase::AUDIT_CHECK_SCORE_FAIL;
   }
 
 }
