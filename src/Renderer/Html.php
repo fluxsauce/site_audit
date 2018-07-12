@@ -3,7 +3,8 @@
 namespace Drupal\site_audit\Renderer;
 
 use Drupal\site_audit\Renderer;
-use Drupal\site_audit\Check;
+use Drupal\site_audit\Plugin\SiteAuditCheckBase;
+use Drupal\site_audit\Plugin\SiteAuditReportBase;
 
 class Html extends Renderer {
   /**
@@ -33,13 +34,13 @@ class Html extends Renderer {
    */
   public function getScoreCssClass($score = NULL) {
     switch ($score) {
-      case Check::AUDIT_CHECK_SCORE_PASS:
+      case SiteAuditCheckBase::AUDIT_CHECK_SCORE_PASS:
         return 'success';
 
-      case Check::AUDIT_CHECK_SCORE_WARN:
+      case SiteAuditCheckBase::AUDIT_CHECK_SCORE_WARN:
         return 'warning';
 
-      case Check::AUDIT_CHECK_SCORE_INFO:
+      case SiteAuditCheckBase::AUDIT_CHECK_SCORE_INFO:
         return 'info';
 
       default:
@@ -49,13 +50,10 @@ class Html extends Renderer {
   }
 
   public function render($detail = FALSE) {
-    $name_exploded = explode('\\', get_class($this->report));
-    $id = array_pop($name_exploded);
-
-    $ret_val = '<h2 id="' . $id . '">' . $this->report->getLabel();
+    $ret_val = '<h2 id="' . $this->report->getPluginId() . '">' . $this->report->getLabel();
     $percent = $this->report->getPercent();
 
-    if ($percent != Check::AUDIT_CHECK_SCORE_INFO) {
+    if ($percent != SiteAuditCheckBase::AUDIT_CHECK_SCORE_INFO) {
       $ret_val .= ' <span class="label label-' . $this->getPercentCssClass($percent) . '">' . $percent . '%</span>';
     }
     else {
@@ -70,9 +68,10 @@ class Html extends Renderer {
     }
 
     if ($detail || $percent != 100) {
-      foreach ($this->report->getChecks() as $check) {
+      foreach ($this->report->getCheckObjects() as $check) {
+
         $score = $check->getScore();
-        if ($detail || $score < Check::AUDIT_CHECK_SCORE_PASS || $percent == Check::AUDIT_CHECK_SCORE_INFO) {
+        if ($detail || $score < SiteAuditCheckBase::AUDIT_CHECK_SCORE_PASS || $percent == SiteAuditCheckBase::AUDIT_CHECK_SCORE_INFO) {
           $ret_val .= '<div class="panel panel-' . $this->getScoreCssClass() . '">';
           // Heading.
           $ret_val .= '<div class="panel-heading"><strong>' . $check->getLabel() . '</strong>';
@@ -103,7 +102,7 @@ class Html extends Renderer {
             $ret_val .= '<div class="well well-small">' . $check->renderAction() . '</div>';
           }
           $ret_val .= '</div>';
-        }
+        }/**/
       }
     }
     $ret_val .= "\n";

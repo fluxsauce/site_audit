@@ -1,27 +1,24 @@
 <?php
+/**
+ * @file
+ * Contains Drupal\site_audit\Plugin\SiteAuditCheck\CacheBinsAll
+ */
 
-namespace Drupal\site_audit\Checks\Cache;
+namespace Drupal\site_audit\Plugin\SiteAuditCheck;
 
-use Drupal\site_audit\Check;
+use Drupal\site_audit\Plugin\SiteAuditCheckBase;
 
 /**
- * Class BinsAll.
+ * Provides the CacheBinsAll Check.
+ *
+ * @SiteAuditCheck(
+ *  id = "cache_bins_all",
+ *  name = @Translation("Available cache bins"),
+ *  description = @Translation("All available cache bins."),
+ *  report = "cache"
+ * )
  */
-class BinsAll extends Check {
-
-  /**
-   * {@inheritdoc}.
-   */
-  public function getLabel() {
-    return $this->t('Available cache bins');
-  }
-
-  /**
-   * {@inheritdoc}.
-   */
-  public function getDescription() {
-    return $this->t('All available cache bins.');
-  }
+class CacheBinsAll extends SiteAuditCheckBase {
 
   /**
    * {@inheritdoc}.
@@ -36,7 +33,7 @@ class BinsAll extends Check {
       'headers' => ['Bin', 'Class'],
     );
 
-    foreach ($this->registry['bins_all'] as $bin => $class) {
+    foreach ($this->registry->bins_all as $bin => $class) {
       $ret_val['rows'][] = [$bin, $class];
     }
 
@@ -65,13 +62,13 @@ class BinsAll extends Check {
     $container = \Drupal::getContainer();
     $services = $container->getServiceIds();
 
-    $this->registry['bins_all'] = [];
+    $this->registry->bins_all = [];
     $back_ends = preg_grep('/^cache\.backend\./', array_values($services));
     foreach ($back_ends as $backend) {
-      $this->registry['bins_all'][$backend] = get_class($container->get($backend));
+      $this->registry->bins_all[$backend] = get_class($container->get($backend));
     }
 
-    return Check::AUDIT_CHECK_SCORE_INFO;
+    return SiteAuditCheckBase::AUDIT_CHECK_SCORE_INFO;
   }
 
 }

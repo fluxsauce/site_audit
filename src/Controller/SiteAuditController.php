@@ -21,17 +21,21 @@ class SiteAuditController extends ControllerBase {
    *   Rendered report output.
    */
   public function audit() {
-    $reports = [
-      new Cache(),
-      new Extensions(),
-    ];
+    $reportManager = \Drupal::service('plugin.manager.site_audit_report');
+    $reportDefinitions = $reportManager->getDefinitions();
+    $reports = [];
+
+    foreach ($reportDefinitions AS $reportDefinition) {
+      $reports[] = $reportManager->createInstance($reportDefinition['id']);
+    }
 
     $out = '';
 
     foreach ($reports as $report) {
       $renderer = new Html($report);
       $out .= $renderer->render(TRUE);
-    }
+    }/**/
+    //$out = 'test output';
 
     return [
       '#type' => 'markup',

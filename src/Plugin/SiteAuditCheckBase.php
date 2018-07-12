@@ -1,13 +1,15 @@
 <?php
 
-namespace Drupal\site_audit;
+namespace Drupal\site_audit\Plugin;
 
+use Drupal\Component\Plugin\PluginBase;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
- * Defines a Site Audit Check.
+ * Base class for Site Audit Check plugins.
  */
-abstract class Check {
+abstract class SiteAuditCheckBase extends PluginBase implements SiteAuditCheckInterface {
+
   use StringTranslationTrait;
 
   const AUDIT_CHECK_SCORE_INFO = 3;
@@ -58,11 +60,12 @@ abstract class Check {
    * @param bool $opt_out
    *   If set, will not perform checks.
    */
-  public function __construct(array $registry, $opt_out = FALSE) {
-    $this->registry = $registry;
-    if ($opt_out) {
+  public function __construct($configuration, $plugin_id, $plugin_definition) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->registry = $configuration['registry'];
+    if (isset($configuration['opt_out']) && !empty($configuration['opt_out'])) {
       $this->optOut = TRUE;
-      $this->score = Check::AUDIT_CHECK_SCORE_INFO;
+      $this->score = SiteAuditCheckBase::AUDIT_CHECK_SCORE_INFO;
     }
   }
 
@@ -74,16 +77,16 @@ abstract class Check {
    */
   public function getResult() {
     if ($this->optOut) {
-      return dt('Opted-out in site configuration.');
+      return t('Opted-out in site configuration.');
     }
     switch ($this->score) {
-      case Check::AUDIT_CHECK_SCORE_PASS:
+      case SiteAuditCheckBase::AUDIT_CHECK_SCORE_PASS:
         return $this->getResultPass();
 
-      case Check::AUDIT_CHECK_SCORE_WARN:
+      case SiteAuditCheckBase::AUDIT_CHECK_SCORE_WARN:
         return $this->getResultWarn();
 
-      case Check::AUDIT_CHECK_SCORE_INFO:
+      case SiteAuditCheckBase::AUDIT_CHECK_SCORE_INFO:
         return $this->getResultInfo();
 
       default:
@@ -100,17 +103,17 @@ abstract class Check {
    */
   public function getScoreLabel() {
     switch ($this->score) {
-      case Check::AUDIT_CHECK_SCORE_PASS:
-        return dt('Pass');
+      case SiteAuditCheckBase::AUDIT_CHECK_SCORE_PASS:
+        return $this->t('Pass');
 
-      case Check::AUDIT_CHECK_SCORE_WARN:
-        return dt('Warning');
+      case SiteAuditCheckBase::AUDIT_CHECK_SCORE_WARN:
+        return $this->t('Warning');
 
-      case Check::AUDIT_CHECK_SCORE_INFO:
-        return dt('Information');
+      case SiteAuditCheckBase::AUDIT_CHECK_SCORE_INFO:
+        return $this->t('Information');
 
       default:
-        return dt('Blocker');
+        return $this->t('Blocker');
 
     }
   }
@@ -121,7 +124,9 @@ abstract class Check {
    * @return string
    *   Get the label for the check that describes, high level what is happening.
    */
-  abstract public function getLabel();
+  public function getLabel() {
+    return $this->getPluginDefinition()['name'];
+  }
 
   /**
    * Get a more verbose description of what is being checked.
@@ -129,7 +134,9 @@ abstract class Check {
    * @return string
    *   A sentence describing the check; shown in detail mode.
    */
-  abstract public function getDescription();
+  public function getDescription() {
+    return $this->getPluginDefinition()['description'];
+  }
 
   /**
    * Get the description of what happened in a failed check.

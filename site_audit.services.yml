@@ -1,0 +1,7 @@
+services:
+  plugin.manager.site_audit_check:
+    class: Drupal\site_audit\Plugin\SiteAuditCheckManager
+    parent: default_plugin_manager
+  plugin.manager.site_audit_report:
+    class: Drupal\site_audit\Plugin\SiteAuditReportManager
+    parent: default_plugin_manager
