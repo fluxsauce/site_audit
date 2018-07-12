@@ -104,7 +104,8 @@ abstract class SiteAuditReportBase extends PluginBase implements SiteAuditReport
     }
 
     if (empty($checks_to_perform)) {
-      throw new \RuntimeException(t('No checks are available!'));
+      $this_def = $this->getPluginDefinition();
+      throw new \RuntimeException(t('No checks are available for report \'@id\'!', array('@id' => $this_def['id'])));
     }
 
     $config = \Drupal::config('site_audit');

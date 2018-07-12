@@ -1,0 +1,20 @@
+<?php
+/**
+ * @file
+ * Contains Drupal\site_audit\Plugin\SiteAuditReport\BestPractices
+ */
+
+namespace Drupal\site_audit\Plugin\SiteAuditReport;
+
+use Drupal\site_audit\Plugin\SiteAuditReportBase;
+
+/**
+ * Provides a Cache Report.
+ *
+ * @SiteAuditReport(
+ *  id = "database",
+ *  name = @Translation("Database"),
+ *  description = @Translation("Drupal Database Best Practices and Settings")
+ * )
+ */
+class Database extends SiteAuditReportBase {}
