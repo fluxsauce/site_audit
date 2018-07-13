@@ -108,4 +108,8 @@ class Html extends Renderer {
     $ret_val .= "\n";
     return $ret_val;
   }
+
+  public function escape($text) {
+    return htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
+  }
 }
