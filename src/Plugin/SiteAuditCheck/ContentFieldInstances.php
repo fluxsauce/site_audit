@@ -94,7 +94,7 @@ class ContentFieldInstances extends SiteAuditCheckBase {
   public function calculateScore() {
     if (!isset($this->registry->fields)) {
       // we need to calculate, so call the class that does it
-      \Drupal\site_audit\Plugin\SiteAuditCheck\ContentFieldCount::calculateScore();
+      $this->checkInvokeCalculateScore('content_field_count');
     }
     $entity_manager = \Drupal::entityManager();
     $map = $entity_manager->getFieldMap();

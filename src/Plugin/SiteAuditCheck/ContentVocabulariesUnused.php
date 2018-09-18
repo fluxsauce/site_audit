@@ -61,7 +61,7 @@ class ContentVocabulariesUnused extends SiteAuditCheckBase {
    */
   public function calculateScore() {
     if (!isset($this->registry->vocabulary_unused)) {
-      \Drupal\site_audit\Plugin\SiteAuditCheck\ContentVocabularies::calculateScore();
+      $this->checkInvokeCalculateScore('content_vocabularies');
     }
     if (empty($this->registry->vocabulary_unused)) {
       return SiteAuditCheckBase::AUDIT_CHECK_SCORE_PASS;

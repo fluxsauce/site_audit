@@ -242,4 +242,13 @@ abstract class SiteAuditCheckBase extends PluginBase implements SiteAuditCheckIn
     return $this->percentOverride;
   }
 
+  /**
+   * invoke another check's calculateScore() method if it is needed
+   */
+  protected function checkInvokeCalculateScore($plugin_id) {
+    $checkManager = \Drupal::service('plugin.manager.site_audit_check');
+    $check = $checkManager->createInstance($plugin_id, array('registry' => $this->registry, 'opt_out' => $opt_out));
+    $check->calculateScore();
+  }
+
 }
