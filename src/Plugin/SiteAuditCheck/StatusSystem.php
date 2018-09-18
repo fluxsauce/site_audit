@@ -115,8 +115,8 @@ class StatusSystem extends SiteAuditCheckBase {
         }
         $ret_val = implode($separator, $items);
       }
-      return $ret_val;
     }
+    return $ret_val;
   }
 
   /**
