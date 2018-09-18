@@ -9,7 +9,7 @@ namespace Drupal\site_audit\Plugin\SiteAuditReport;
 use Drupal\site_audit\Plugin\SiteAuditReportBase;
 
 /**
- * Provides a Cache Report.
+ * Provides a BestPractices Report.
  *
  * @SiteAuditReport(
  *  id = "best_practices",

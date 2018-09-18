@@ -26,7 +26,12 @@ class SiteAuditController extends ControllerBase {
     $reports = [];
 
     foreach ($reportDefinitions AS $reportDefinition) {
-      $reports[] = $reportManager->createInstance($reportDefinition['id']);
+      try {
+        $reports[] = $reportManager->createInstance($reportDefinition['id']);
+      }
+      catch (Exception $e) {
+        watchdog_exception('site_audit', $e);
+      }
     }
 
     $out = '';
