@@ -1,0 +1,9 @@
+site_audit.settings_tab:
+  route_name: site_audit.settings
+  base_route: site_audit.report
+  title: 'Settings'
+site_audit.report:
+  route_name: site_audit.report
+  base_route: site_audit.report
+  title: 'Report'
+  weight: 20

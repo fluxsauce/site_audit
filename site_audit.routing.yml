@@ -1,7 +1,15 @@
-site_audit.site_audit_controller_audit:
+site_audit.report:
   path: 'admin/reports/site-audit'
   defaults:
     _controller: '\Drupal\site_audit\Controller\SiteAuditController::audit'
     _title: 'Audit'
+  requirements:
+    _permission: 'administer site configuration'
+
+site_audit.settings:
+  path: 'admin/reports/site-audit/settings'
+  defaults:
+    _form: '\Drupal\site_audit\Form\SiteAuditConfigForm'
+    _title: 'Site Audit Settings'
   requirements:
     _permission: 'administer site configuration'

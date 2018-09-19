@@ -1,5 +1,10 @@
 site_audit.report:
-  title: 'Site Audit report'
+  title: 'Site Audit'
   parent: system.admin_reports
   description: 'View the site audit report for this site.'
-  route_name: site_audit.site_audit_controller_audit
+  route_name: site_audit.report
+site_audit.settings:
+  title: 'Settings'
+  parent: site_audit.report
+  description: 'View the site audit settings.'
+  route_name: site_audit.settings

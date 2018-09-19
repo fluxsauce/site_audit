@@ -23,14 +23,20 @@ class SiteAuditController extends ControllerBase {
   public function audit() {
     $reportManager = \Drupal::service('plugin.manager.site_audit_report');
     $reportDefinitions = $reportManager->getDefinitions();
+    $saved_reports = \Drupal::config('site_audit.settings')->get('reports');
     $reports = [];
-
-    foreach ($reportDefinitions AS $reportDefinition) {
-      try {
-        $reports[] = $reportManager->createInstance($reportDefinition['id']);
+    // check to see if there is anything checked
+    if (!empty($saved_reports) && // the array is empty, so the settings form hasn't been submitted
+        count(array_flip($saved_reports)) > 1) { // they are not all unchecked
+      foreach ($saved_reports as $saved_report) {
+        if ($saved_report) {
+          $reports[] = $reportManager->createInstance($saved_report);
+        }
       }
-      catch (Exception $e) {
-        watchdog_exception('site_audit', $e);
+    }
+    else { // there are no reports selected, so run them all
+       foreach ($reportDefinitions AS $reportDefinition) {
+        $reports[] = $reportManager->createInstance($reportDefinition['id']);
       }
     }
 
@@ -39,8 +45,7 @@ class SiteAuditController extends ControllerBase {
     foreach ($reports as $report) {
       $renderer = new Html($report);
       $out .= $renderer->render(TRUE);
-    }/**/
-    //$out = 'test output';
+    }
 
     return [
       '#type' => 'markup',
