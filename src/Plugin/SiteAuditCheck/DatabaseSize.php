@@ -15,7 +15,8 @@ use Drupal\site_audit\Plugin\SiteAuditCheckBase;
  *  id = "database_size",
  *  name = @Translation("Total size"),
  *  description = @Translation("Determine the size of the database."),
- *  report = "database"
+ *  report = "database",
+ *  weight = -1,
  * )
  */
 class DatabaseSize extends SiteAuditCheckBase {

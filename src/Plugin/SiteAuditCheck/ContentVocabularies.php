@@ -16,7 +16,8 @@ use Drupal\site_audit\Renderer\Html;
  *  id = "content_vocabularies",
  *  name = @Translation("Taxonomy vocabularies"),
  *  description = @Translation("Available vocabularies and term counts"),
- *  report = "content"
+ *  report = "content",
+ *  weight = 6,
  * )
  */
 class ContentVocabularies extends SiteAuditCheckBase {

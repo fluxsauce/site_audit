@@ -16,7 +16,8 @@ use Drupal\site_audit\Renderer\Html;
  *  id = "content_taxonomy",
  *  name = @Translation("Taxonomy status"),
  *  description = @Translation("Check if Taxonomy module is enabled"),
- *  report = "content"
+ *  report = "content",
+ *  weight = 5,
  * )
  */
 class ContentTaxonomy extends SiteAuditCheckBase {

@@ -15,7 +15,8 @@ use Drupal\site_audit\Plugin\SiteAuditCheckBase;
  *  id = "users_count_all",
  *  name = @Translation("Count All"),
  *  description = @Translation("Total number of Drupal users."),
- *  report = "users"
+ *  report = "users",
+ *  weight = -5,
  * )
  */
 class UsersCountAll extends SiteAuditCheckBase {

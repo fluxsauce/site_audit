@@ -152,15 +152,39 @@ abstract class SiteAuditReportBase extends PluginBase implements SiteAuditReport
   public function getChecksList() {
     $this_def = $this->getPluginDefinition();
     $checkManager = \Drupal::service('plugin.manager.site_audit_check');
-    $checkDefinitions = $checkManager->getDefinitions();
-    $checks = [];
+    static $checkDefinitions = NULL;
+    if (empty($checkDefinitions)) {
+      $checkDefinitions = $checkManager->getDefinitions();
+    }
+
+    $checksInReport = [];
     foreach ($checkDefinitions AS $checkDefinition) {
       if ($checkDefinition['report'] == $this_def['id']) {
         // this check belongs to this report
-        $checks[] = $checkDefinition['id'];
+        $checksInReport[$checkDefinition['id']] = $checkDefinition;
       }
     }
+    uasort($checksInReport, array($this, 'weightKeySort'));
+
+    $checks = [];
+    foreach ($checksInReport AS $check) {
+      $checks[] = $check['id'];
+    }
     return $checks;
+  }
+
+  /**
+   * sort by weight
+   */
+  function weightKeySort($a, $b) {
+   if ($a['weight'] > $b['weight']) {
+     return 1;
+   }
+   else if ($a['weight'] < $b['weight']) {
+     return -1;
+   }
+   // they have the same weight, sort by id
+   return strcmp($a['id'], $b['id']);
   }
 
   /**

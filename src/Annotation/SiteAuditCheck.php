@@ -41,6 +41,13 @@ class SiteAuditCheck extends Plugin {
   public $description;
 
   /**
+   * The weight of the check.
+   *
+   * @var int
+   */
+  public $weight = 0;
+
+  /**
    * The report for the check.
    *
    * @var \Drupal\Core\Annotation\Translation

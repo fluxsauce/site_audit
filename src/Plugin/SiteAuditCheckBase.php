@@ -53,6 +53,13 @@ abstract class SiteAuditCheckBase extends PluginBase implements SiteAuditCheckIn
   protected $registry;
 
   /**
+   * are we in a static context
+   *
+   * @var boolean
+   */
+  protected $static = TRUE;
+
+  /**
    * Constructor.
    *
    * @param array $registry
@@ -67,6 +74,7 @@ abstract class SiteAuditCheckBase extends PluginBase implements SiteAuditCheckIn
       $this->optOut = TRUE;
       $this->score = SiteAuditCheckBase::AUDIT_CHECK_SCORE_INFO;
     }
+    $static = FALSE;
   }
 
   /**

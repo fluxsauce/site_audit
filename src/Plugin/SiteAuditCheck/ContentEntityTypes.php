@@ -94,6 +94,9 @@ class ContentEntityTypes extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function calculateScore() {
+    if (!isset($this)) {
+      return SiteAuditCheckBase::AUDIT_CHECK_SCORE_INFO;
+    }
     $entity_manager = \Drupal::entityManager();
     $all_bundles = $entity_manager->getAllBundleInfo();
     // this might have already been run by Drupal\site_audit\Plugin\SiteAuditCheck\ContentEntityTypesUnused

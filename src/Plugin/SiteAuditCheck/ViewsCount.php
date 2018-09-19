@@ -15,7 +15,8 @@ use Drupal\site_audit\Plugin\SiteAuditCheckBase;
  *  id = "views_count",
  *  name = @Translation("Count"),
  *  description = @Translation("Number of enabled Views."),
- *  report = "views"
+ *  report = "views",
+ *  weight = -1,
  * )
  */
 class ViewsCount extends SiteAuditCheckBase {

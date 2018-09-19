@@ -16,7 +16,8 @@ use Drupal\site_audit\Renderer\Html;
  *  id = "content_vocabularies_unused",
  *  name = @Translation("Unused vocabularies"),
  *  description = @Translation("Check for unused vocabularies"),
- *  report = "content"
+ *  report = "content",
+ *  weight = 7,
  * )
  */
 class ContentVocabulariesUnused extends SiteAuditCheckBase {

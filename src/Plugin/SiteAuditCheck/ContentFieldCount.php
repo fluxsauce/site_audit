@@ -16,7 +16,8 @@ use Drupal\site_audit\Renderer\Html;
  *  id = "content_field_count",
  *  name = @Translation("Field counts"),
  *  description = @Translation("Total number of fields"),
- *  report = "content"
+ *  report = "content",
+ *  weight = -2,
  * )
  */
 class ContentFieldCount extends SiteAuditCheckBase {

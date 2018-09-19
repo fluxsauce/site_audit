@@ -1,26 +1,25 @@
 <?php
 /**
  * @file
- * Contains Drupal\site_audit\Plugin\SiteAuditCheck\ContentFieldEnabled
+ * Contains Drupal\site_audit\Plugin\SiteAuditCheck\WatchdogEnabled
  */
 
 namespace Drupal\site_audit\Plugin\SiteAuditCheck;
 
 use Drupal\site_audit\Plugin\SiteAuditCheckBase;
-use Drupal\site_audit\Renderer\Html;
 
 /**
- * Provides the ContentFieldEnabled Check.
+ * Provides the WatchdogEnabled Check.
  *
  * @SiteAuditCheck(
- *  id = "content_field_enabled",
- *  name = @Translation("Field status"),
- *  description = @Translation("Check to see if enabled"),
- *  report = "content",
+ *  id = "watchdog_enabled",
+ *  name = @Translation("dblog status"),
+ *  description = @Translation("Check to see if database logging is enabled."),
+ *  report = "watchdog",
  *  weight = -5,
  * )
  */
-class ContentFieldEnabled extends SiteAuditCheckBase {
+class WatchdogEnabled extends SiteAuditCheckBase {
 
   /**
    * {@inheritdoc}.
@@ -31,14 +30,14 @@ class ContentFieldEnabled extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function getResultInfo() {
-     return $this->t('Field is not enabled.');
+    return $this->t('Database logging (dblog) is not enabled; if the site is having problems, consider enabling it for debugging.');
   }
 
   /**
    * {@inheritdoc}.
    */
   public function getResultPass() {
-    return $this->t('Field is enabled.');
+    return $this->t('Database logging (dblog) is enabled.');
   }
 
   /**
@@ -55,10 +54,12 @@ class ContentFieldEnabled extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function calculateScore() {
-    if (!\Drupal::moduleHandler()->moduleExists('field')) {
+    if (!\Drupal::moduleHandler()->moduleExists('dblog')) {
+      $this->registry->watchdog_enabled = FALSE;
       $this->abort = TRUE;
       return SiteAuditCheckBase::AUDIT_CHECK_SCORE_INFO;
     }
+    $this->registry->watchdog_enabled = TRUE;
     return SiteAuditCheckBase::AUDIT_CHECK_SCORE_PASS;
   }
 

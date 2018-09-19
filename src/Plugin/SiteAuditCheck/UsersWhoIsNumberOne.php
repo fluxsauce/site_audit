@@ -16,7 +16,8 @@ use Drupal\user\Entity\User;
  *  id = "users_who_is_number_one",
  *  name = @Translation("Identify UID #1"),
  *  description = @Translation("Show username and email of UID #1."),
- *  report = "users"
+ *  report = "users",
+ *  weight = -1,
  * )
  */
 class UsersWhoIsNumberOne extends SiteAuditCheckBase {
