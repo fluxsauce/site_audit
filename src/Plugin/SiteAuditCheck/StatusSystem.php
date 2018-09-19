@@ -75,7 +75,8 @@ class StatusSystem extends SiteAuditCheckBase {
         }
         // Convert relative links to absolute.
         else {
-          $value = preg_replace("#(<\s*a\s+[^>]*href\s*=\s*[\"'])(?!http)([^\"'>]+)([\"'>]+)#", '$1' . $uri . '$2$3', $value);
+          // TODO: fix this so absolute links are properly created when part of TranslatableMarkup
+          //$value = preg_replace("#(<\s*a\s+[^>]*href\s*=\s*[\"'])(?!http)([^\"'>]+)([\"'>]+)#", '$1' . $uri . '$2$3', $value);
         }
 
         $item = array(
