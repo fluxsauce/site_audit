@@ -106,7 +106,7 @@ class ExtensionsDev extends SiteAuditCheckBase {
     }
     $this->registry->extensions_dev = array();
     $extension_info = $this->registry->extensions;
-    uasort($extension_info, '_drush_pm_sort_extensions');
+    //uasort($extension_info, '_drush_pm_sort_extensions');
     $dev_extensions = $this->getExtensions();
     foreach ($extension_info as $key => $extension) {
       $row = array();

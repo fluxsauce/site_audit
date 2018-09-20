@@ -1,14 +1,21 @@
 {
-  "name": "drupal/site_audit",
-  "type": "drupal-module",
-  "description": "Site Audit is a Drupal static site analysis platform that generates reports with actionable best practice recommendations.",
-  "keywords": ["Drupal"],
-  "license": "GPL-2.0+",
-  "homepage": "https://www.drupal.org/project/site_audit",
-  "minimum-stability": "dev",
-  "support": {
-    "issues": "http://drupal.org/project/issues/site_audit",
-    "source": "http://cgit.drupalcode.org/site_audit"
-  },
-  "require": { }
+    "name": "drupal/site_audit",
+    "description": "This extension provides Site Audit commands for Drush.",
+    "type": "drupal-drush",
+    "authors": [
+        {
+            "name": "James Glasgow",
+            "email": "james@jrglasgow.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.6.0"
+    },
+    "extra": {
+        "drush": {
+            "services": {
+                "drush.services.yml": "^9"
+            }
+        }
+    }
 }

@@ -15,7 +15,7 @@ use Drupal\site_audit\Renderer\Html;
  * @SiteAuditCheck(
  *  id = "content_field_instances",
  *  name = @Translation("Field instance counts"),
- *  description = @Translation("For each bundle, entity and instance, get the count of populated fields"),
+ *  description = @Translation("For each bundle, entity and instance, get the count of populated fields."),
  *  report = "content"
  * )
  */
