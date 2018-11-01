@@ -71,6 +71,13 @@ abstract class SiteAuditReportBase extends PluginBase implements SiteAuditReport
     return $this->getPluginDefinition()['name'];
   }
 
+   /**
+   * get the description for the report
+   */
+  public function getDescriptionl() {
+    return $this->getPluginDefinition()['description'];
+  }
+
   /**
    * get the percentage score for the report
    */
@@ -112,7 +119,7 @@ abstract class SiteAuditReportBase extends PluginBase implements SiteAuditReport
     $config = \Drupal::config('site_audit');
     foreach ($checks_to_perform as $check_id) {
       $opt_out = $config->get('opt_out.' . $this->getPluginId() . $check_id) != NULL;
-      $check = $checkManager->createInstance($check_id, array('registry' => $this->registry, 'opt_out' => $opt_out));
+      $check = $checkManager->createInstance($check_id, array('registry' => $this->registry, 'opt_out' => $opt_out, 'options' => $this->configuration));
 
       // Calculate score.
       if ($check->getScore() != SiteAuditCheckBase::AUDIT_CHECK_SCORE_INFO) {

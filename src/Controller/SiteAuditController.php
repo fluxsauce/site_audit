@@ -35,7 +35,7 @@ class SiteAuditController extends ControllerBase {
       }
     }
     else { // there are no reports selected, so run them all
-       foreach ($reportDefinitions AS $reportDefinition) {
+      foreach ($reportDefinitions AS $reportDefinition) {
         $reports[] = $reportManager->createInstance($reportDefinition['id']);
       }
     }

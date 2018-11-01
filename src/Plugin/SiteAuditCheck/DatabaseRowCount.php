@@ -32,35 +32,24 @@ class DatabaseRowCount extends SiteAuditCheckBase {
     if (empty($this->registry->rows_by_table)) {
       return $this->t('No tables with more than 1000 rows.');
     }
-    //if (drush_get_option('html')) {
-    if (TRUE) {
-      $ret_val = '<table class="table table-condensed">';
-      $ret_val .= '<thead><tr><th>'. $this->t('Table Name') . '</th><th>' . $this->t('Rows') . '</th></tr></thead>';
-      $ret_val .= '<tbody>';
-      foreach ($this->registry->rows_by_table as $table_name => $rows) {
-        $ret_val .= '<tr>';
-        $ret_val .= '<td>' . $table_name . '</td>';
-        $ret_val .= '<td>' . $rows . '</td>';
-        $ret_val .= '</tr>';
-      }
-      $ret_val .= '</tbody>';
-      $ret_val .= '</table>';
+    $table_rows = [];
+    foreach ($this->registry->rows_by_table as $table_name => $rows) {
+      $table_rows[] = [
+        $table_name,
+        $rows,
+      ];
     }
-    else {
-      $ret_val = $this->t('Table Name: Rows') . PHP_EOL;
-      if (!drush_get_option('json')) {
-        $ret_val .= str_repeat(' ', 4);
-      }
-      $ret_val .= '----------------';
-      foreach ($this->registry->rows_by_table as $table_name => $rows) {
-        $ret_val .= PHP_EOL;
-        if (!drush_get_option('json')) {
-          $ret_val .= str_repeat(' ', 4);
-        }
-        $ret_val .= "$table_name: $rows";
-      }
-    }
-    return $ret_val;
+
+    $headers = [
+      $this->t('Table Name'),
+      $this->t('Rows'),
+    ];
+    return [
+      '#theme' => 'table',
+      '#class' => 'table-condensed',
+      'headers' => $headers,
+      'rows' => $table_rows,
+    ];
   }
 
   /**

@@ -50,34 +50,38 @@ class ExtensionsDuplicate extends SiteAuditCheckBase {
       }
     }
 
-    //if (drush_get_option('html')) {
-    if (TRUE) {
-      $ret_val = '<p>' . $ret_val . '</p>';
-      $ret_val .= '<table class="table table-condensed">';
-      $ret_val .= '<thead><tr><th>' . $this->t('Name') . '</th><th>' . $this->t('Paths') . '</th></thead>';
-      $ret_val .= '<tbody>';
-      foreach ($this->registry->extensions_dupe as $name => $infos) {
-        $ret_val .= '<tr><td>' . $name . '</td>';
-        $ret_val .= '<td>' . implode('<br/>', $paths[$name]) . '</td></tr>';
-      }
-      $ret_val .= '</tbody>';
-      $ret_val .= '</table>';
-    }
-    else {
-      foreach ($this->registry->extensions_dupe as $name => $infos) {
-        $ret_val .= PHP_EOL;
-        if (!drush_get_option('json')) {
-          $ret_val .= str_repeat(' ', 6);
+    $headers = array(
+      $this->t('Name'),
+      $this->t('Paths')
+    );
+    $rows = [];
+    switch ($this->options['format']) {
+      case 'html':
+        foreach ($this->registry->extensions_dupe as $name => $infos) {
+          $rows[] = [
+            $name,
+            implode('<br/>', $paths[$name]),
+          ];
         }
-        $ret_val .= $name . PHP_EOL;
-        $extension_list = '';
-        foreach ($paths[$name] as $path) {
-          $extension_list .= str_repeat(' ', 8) . $path . PHP_EOL;
+        break;
+      case 'text':
+        foreach ($this->registry->extensions_dupe as $name => $infos) {
+          $rows[] = [
+            $name,
+            implode("\n", $paths[$name]),
+          ];
         }
-        $ret_val .= rtrim($extension_list);
-      }
+        break;
+      case 'json':
+        foreach ($this->registry->extensions_dupe as $name => $infos) {
+          $rows[] = [
+            'module' => $name,
+            'paths' => $paths[$name],
+          ];
+        }
+        break;
     }
-    return $ret_val;
+    return array('theme' => 'table', 'headers' => $headers, 'rows' => $rows);
   }
 
   /**

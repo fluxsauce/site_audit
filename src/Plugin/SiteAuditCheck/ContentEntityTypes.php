@@ -33,44 +33,33 @@ class ContentEntityTypes extends SiteAuditCheckBase {
 
     if (empty($this->registry->content_entity_type_counts)) {
       if (drush_get_option('detail')) {
-        return dt('No entities exist.');
+        return $this->t('No entities exist.');
       }
       return $ret_val;
     }
-    //if (drush_get_option('html') == TRUE) {
-    if (TRUE) {
-      $ret_val .= '<table class="table table-condensed">';
-      $ret_val .= '<thead><tr><th>' . $this->t('Content Entity') . '</th><th>' . $this->t('Bundle') . '</th><th>' . $this->t('Count') . '</th></tr></thead>';
-      foreach ($this->registry->content_entity_type_counts as $entity_type => $bundles) {
-        foreach ($bundles as $bundle => $count) {
-          $ret_val .= "<tr><td>$entity_type</td><td>$bundle</td><td>$count</td></tr>";
-        }
-      }
-      $ret_val .= '</table>';
-    }
-    else {
-      $rows = 0;
-      foreach ($this->registry->content_entity_type_counts as $entity_type => $bundles) {
-        if ($rows++ > 0) {
-          $ret_val .= PHP_EOL;
-          if (!drush_get_option('json')) {
-            $ret_val .= str_repeat(' ', 4);
-          }
-        }
-        $ret_val .= $this->t('Entity: @entity_type, total: @total', array(
-          '@entity_type' => $entity_type,
-          '@total' => $this->registry->entity_count[$entity_type],
-        ));
-        foreach ($bundles as $bundle => $count) {
-          $ret_val .= PHP_EOL;
-          if (!drush_get_option('json')) {
-            $ret_val .= str_repeat(' ', 6);
-          }
-          $ret_val .= "$bundle: $count";
-        }
+
+    $table_rows = [];
+    foreach ($this->registry->content_entity_type_counts as $entity_type => $bundles) {
+      foreach ($bundles as $bundle => $count) {
+        $table_rows[] = [
+          $entity_type,
+          $bundle,
+          $count,
+        ];
       }
     }
-    return $ret_val;
+
+    $headers = [
+      $this->t('Content Entity'),
+      $this->t('Bundle'),
+      $this->t('Count'),
+    ];
+    return [
+      '#theme' => 'table',
+      '#class' => 'table-condensed',
+      'headers' => $headers,
+      'rows' => $table_rows,
+    ];
   }
 
   /**

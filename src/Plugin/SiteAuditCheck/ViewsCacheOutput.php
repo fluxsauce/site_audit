@@ -56,28 +56,23 @@ class ViewsCacheOutput extends SiteAuditCheckBase {
   public function getAction() {
     if (!in_array($this->score, array(SiteAuditCheckBase::AUDIT_CHECK_SCORE_INFO, SiteAuditCheckBase::AUDIT_CHECK_SCORE_PASS))) {
       $ret_val = $this->t('Rendered output should be cached for as long as possible (if the query changes, the output will be refreshed).');
-      if (TRUE) { //if (drush_get_option('detail')) {
-        $steps = array(
-          $this->t('Go to /admin/structure/views/'),
-          $this->t('Edit the View in question'),
-          $this->t('Select the Display'),
-          $this->t('Click Advanced'),
-          $this->t('Next to Caching, click to edit.'),
-          $this->t('Caching: (something other than None)'),
-        );
-        if (TRUE) { //if (drush_get_option('html') == TRUE) {
-          $ret_val .= '<ol><li>' . implode('</li><li>', $steps) . '</li></ol>';
-        }
-        else {
-          foreach ($steps as $step) {
-            $ret_val .= PHP_EOL;
-            if (!drush_get_option('json')) {
-              $ret_val .= str_repeat(' ', 8);
-            }
-            $ret_val .= '- ' . $step;
-          }
-        }
-      }
+
+      $steps = array(
+        $this->t('Go to /admin/structure/views/'),
+        $this->t('Edit the View in question'),
+        $this->t('Select the Display'),
+        $this->t('Click Advanced'),
+        $this->t('Next to Caching, click to edit.'),
+        $this->t('Caching: (something other than None)'),
+      );
+      $ret_val = [
+        '#theme' => 'item_list',
+        '#title' => $this->t('Rendered output should be cached for as long as possible (if the query changes, the output will be refreshed).'),
+        //'#description' => $this->t(),
+        '#items' => $steps,
+        '#list_type' => 'ol',
+      ];
+
       return $ret_val;
     }
   }

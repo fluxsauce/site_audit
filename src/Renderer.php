@@ -15,10 +15,16 @@ abstract class Renderer {
    */
   var $report;
 
+  /**
+   * The logger we are using for output
+   */
+  var $logger;
+
   use StringTranslationTrait;
 
-  public function __construct($report) {
+  public function __construct($report, $logger) {
     $this->report = $report;
+    $this->logger = $logger;
   }
 
   abstract public function render($detail = FALSE);

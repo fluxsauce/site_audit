@@ -40,35 +40,22 @@ class DatabaseFragmentation extends SiteAuditCheckBase {
    */
   public function getResultWarn() {
     arsort($this->registry->database_fragmentation);
-    //if (drush_get_option('html')) {
-    if (TRUE) {
-      $ret_val = '<table class="table table-condensed">';
-      $ret_val .= '<thead><tr><th>' . $this->t('Table Name') . '</th><th>' . $this->t('Fragmentation Ratio') . '</th></tr></thead>';
-      $ret_val .= '<tbody>';
-      foreach ($this->registry->database_fragmentation as $name => $ratio) {
-        $ret_val .= '<tr>';
-        $ret_val .= '<td>' . $name . '</td>';
-        $ret_val .= '<td>' . $ratio . '</td>';
-        $ret_val .= '</tr>';
+    $headers = [
+      'table_name' => $this->t('Table Name'),
+      'frag_ratio' => $this->t('Fragmentation Ratio'),
+    ];
+    $rows = [];
+    foreach ($this->registry->database_fragmentation as $name => $ratio) {
+        $rows[] = [
+          'table_name' => $name,
+          'frag_ratio' => $ratio,
+        ];
       }
-      $ret_val .= '</tbody>';
-      $ret_val .= '</table>';
-    }
-    else {
-      $ret_val  = dt('Table Name: Fragmentation Ratio') . PHP_EOL;
-      if (!drush_get_option('json')) {
-        $ret_val .= str_repeat(' ', 4);
-      }
-      $ret_val .= '---------------------';
-      foreach ($this->registry['database_fragmentation'] as $name => $ratio) {
-        $ret_val .= PHP_EOL;
-        if (!drush_get_option('json')) {
-          $ret_val .= str_repeat(' ', 4);
-        }
-        $ret_val .= "$name: $ratio";
-      }
-    }
-    return $ret_val;
+    return [
+      '#theme' => 'table',
+      'headers' => $headers,
+      'rows' => $rows,
+    ];
   }
 
   /**

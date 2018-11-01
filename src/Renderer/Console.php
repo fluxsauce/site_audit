@@ -4,24 +4,35 @@ namespace Drupal\site_audit\Renderer;
 
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\site_audit\Renderer;
-use Drupal\site_audit\Check;
+use Drupal\site_audit\Plugin\SiteAuditCheckBase;
+use Drupal\site_audit\Plugin\SiteAuditReportBase;
+use Drush\Log\LogLevel;
+use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Formatter\OutputFormatterStyle;
+use Symfony\Component\Console\Helper\FormatterHelper;
+use Symfony\Component\Console\Terminal;
+use Drush\Utils\StringUtils;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 
 class Console extends Renderer {
   var $output;
+  var $formatter;
 
-  public function setOutput(DrupalStyle $output) {
+  public function __construct($report, $logger, $output = NULL) {
+    parent::__construct($report, $logger);
     $this->output = $output;
+    $this->formatter = new FormatterHelper();
   }
 
-  public function getScoreSymfonyType($score) {
+  public function getLogLevel($score) {
     switch ($score) {
-      case Check::AUDIT_CHECK_SCORE_PASS:
-        return 'OK';
+      case SiteAuditCheckBase::AUDIT_CHECK_SCORE_PASS:
+        return LogLevel::OK;
 
-      case Check::AUDIT_CHECK_SCORE_WARN:
-        return 'WARNING';
+      case SiteAuditCheckBase::AUDIT_CHECK_SCORE_WARN:
+        return LogLevel::WARNING;
 
-      case Check::AUDIT_CHECK_SCORE_INFO:
+      case SiteAuditCheckBase::AUDIT_CHECK_SCORE_INFO:
         return 'NOTE';
 
       default:
@@ -32,18 +43,13 @@ class Console extends Renderer {
 
   public function getScoreSymfonyStyle($score) {
     switch ($score) {
-      case Check::AUDIT_CHECK_SCORE_PASS:
-        return 'fg=black;bg=green';
-
-      case Check::AUDIT_CHECK_SCORE_WARN:
-        return 'fg=white;bg=red';
-
-      case Check::AUDIT_CHECK_SCORE_INFO:
-        return 'fg=yellow';
-
+      case SiteAuditCheckBase::AUDIT_CHECK_SCORE_PASS:
+        return 'score-pass';
+      case SiteAuditCheckBase::AUDIT_CHECK_SCORE_INFO:
+        return 'score-info';
+      case SiteAuditCheckBase::AUDIT_CHECK_SCORE_WARN:
       default:
-        return 'fg=white;bg=red';
-
+        return 'score-warn';
     }
   }
 
@@ -53,7 +59,7 @@ class Console extends Renderer {
    * @return string
    *   Symfony\Component\Console\Style method.
    */
-  public function getSymphonyStyleMethod($percent) {
+  public function getSymphonyStyle($percent) {
     if ($percent > 80) {
       return 'success';
     }
@@ -66,66 +72,190 @@ class Console extends Renderer {
     return 'note';
   }
 
-  public function render($detail = FALSE) {
-    $output = $this->output;
-    $percent = $this->report->getPercent();
+  /**
+   * take text and center it horizontally in the console
+   */
+  public function centerText(string $text) {
+    $width = (new Terminal())->getWidth();
+    $strlen = $this->formatter->strlenWithoutDecoration($this->output->getFormatter(), $text);
+    $spaceCount = ($width - $strlen)/2;
+    for ($i = 0; $i < $spaceCount; $i++) {
+      $text = ' ' . $text;
+    }
+    $this->output->writeln($text);
+  }
 
-    // Label.
-    if (is_null($percent)) {
-      $output->info($this->t('!label: Info', array(
-        '!label' => $this->report->getLabel(),
-      )));
+  /**
+   * create a horizontal rule across the console
+   */
+  public function horizontalRule() {
+    $width = (new Terminal())->getWidth();
+    $line = '';
+    for ($i = 0; $i < $width; $i++) {
+      $line .= '-';
     }
-    else {
-      $method = $this->getSymphonyStyleMethod($percent);
-      $output->$method($this->t('!label: @percent%', array(
-        '!label' => $this->report->getLabel(),
-        '@percent' => $this->report->getPercent(),
-      )));
-    }
+    $this->output->writeln('<info>' . $line . '</>');
+  }
+
+  /**
+   * Take Drupal\Core\StringTranslation\TranslatableMarkup and return the string
+   */
+  public function interpolate(TranslatableMarkup $message, array $context = []) {
+    return StringUtils::interpolate($message, $context);
+  }
+
+  public function render($detail = FALSE) {
+    //print('$this->report->getLabel() => ' . $this->report->getLabel() . "\n");
+    $outputStyle = new OutputFormatterStyle('black', 'white');
+    $this->output->getFormatter()->setStyle('report', $outputStyle);
+
+    $outputStyle = new OutputFormatterStyle('black', 'cyan');
+    $this->output->getFormatter()->setStyle('check', $outputStyle);
+
+    $outputStyle = new OutputFormatterStyle('cyan', 'black');
+    $this->output->getFormatter()->setStyle('action', $outputStyle);
+
+    $outputStyle = new OutputFormatterStyle('green', 'black');
+    $this->output->getFormatter()->setStyle('success', $outputStyle);
+
+    $outputStyle = new OutputFormatterStyle('red', 'black');
+    $this->output->getFormatter()->setStyle('error', $outputStyle);
+
+    $outputStyle = new OutputFormatterStyle('yellow', 'black');
+    $this->output->getFormatter()->setStyle('warning', $outputStyle);
+
+    $outputStyle = new OutputFormatterStyle('cyan', 'black');
+    $this->output->getFormatter()->setStyle('note', $outputStyle);
+
+    $outputStyle = new OutputFormatterStyle('black', 'green');
+    $this->output->getFormatter()->setStyle('score-pass', $outputStyle);
+
+    $outputStyle = new OutputFormatterStyle('white', 'red');
+    $this->output->getFormatter()->setStyle('score-warn', $outputStyle);
+
+    $outputStyle = new OutputFormatterStyle('yellow', 'black');
+    $this->output->getFormatter()->setStyle('score-info', $outputStyle);
+
+    $reportText = '';
+
+    $percent = $this->report->getPercent();
+    $style = $this->getSymphonyStyle($percent);
+
+    // add the report header
+    $this->horizontalRule();
+    $this->centerText('<info>' . $this->interpolate($this->t('Report: ')) . $this->interpolate($this->report->getLabel()) . '</> - <' . $style . '>' . $percent . '%</>');
+    $this->horizontalRule();
 
     // No action required.
     if ($percent == 100) {
-      $output->block($this->t('No action required.'), 'OK', 'fg=black;bg=green', str_repeat(' ', 2));
+      $this->centerText($this->interpolate($this->t('<success>No action required.</>')));
     }
 
     // Information or a problem.
     if ($detail || $this->report->getPercent() != 100) {
-      foreach ($this->report->getChecks() as $check) {
+      foreach ($this->report->getCheckObjects() as $check) {
+        $label = $this->report->getLabel() . ' - ' . $check->getLabel();
+        $checkText = '';
+        $formattedLine = '';
         $score = $check->getScore();
-        if (($detail && $score == Check::AUDIT_CHECK_SCORE_INFO) || ($score < Check::AUDIT_CHECK_SCORE_PASS)) {
+
+        if (($detail && $score == SiteAuditCheckBase::AUDIT_CHECK_SCORE_INFO) || ($score < SiteAuditCheckBase::AUDIT_CHECK_SCORE_PASS)) {
           // Heading.
-          if ($detail) {
-            $heading = $this->t('!label: !description', array(
-              '!label' => $check->getLabel(),
-              '!description' => $check->getDescription(),
-            ));
-          }
-          else {
-            $heading = $this->t('!label', array(
-              '!label' => $check->getLabel(),
-            ));
-          }
-          $output->block($heading, $this->getScoreSymfonyType($score), $this->getScoreSymfonyStyle($score));
+          $this->output->writeln($this->formatter->formatSection($label, $check->getDescription()));
 
           // Result.
           $result = $check->getResult();
+          $this->output->writeln($this->formatter->formatSection($label, $this->interpolate($this->t('Result:'))));
           if (is_array($result)) {
-            $output->table($result['headers'], $result['rows']);
+            if ($result['#theme'] && method_exists($this, $result['#theme'])) {
+              $this->{$result['#theme']}($result, $label);
+            }
+            else {
+              if ($result['headers'] && $result['rows']) {
+                // theme as a table
+                $table = new Table($this->output);
+                $table
+                  ->setHeaders($result['headers'])
+                  ->setRows($result['rows']);
+                $this->output->writeln($table->render());
+              }
+              else {
+                print('$result => ' . print_r($result, TRUE));
+              } 
+            }
           }
           else {
-            $output->simple($result);
+            $this->output->writeln($this->formatter->formatSection($label, $result));
           }
 
-          // Action.
+          // Action
           $action = $check->renderAction();
           if ($action) {
-            $output->info(str_repeat(' ', 2) . $this->t('!action', array(
-              '!action' => $check->renderAction(),
-            )));
+            if (is_array($action) && $action['#theme'] && method_exists($this, $action['#theme'])) {
+              $this->output->writeln($this->formatter->formatSection($label, '<action>' . $this->interpolate($this->t('Action')) . ':</> ' . $action['#title']));
+              $this->{$action['#theme']}($action, $label, 'action');
+            }
+            else {
+              $this->output->writeln($this->formatter->formatSection($label, '<action>' . $this->interpolate($this->t('Action')) . ':</> ' . $action));
+            }
           }
         }
+        $this->output->writeln('');
       }
+    }
+    $this->output->writeln('<report>' . $reportText . '</>');
+  }
+  public function success() {
+
+  }
+
+  /**
+   * theme a table
+   */
+  function table($element, $section = FALSE) {
+    if ($section) {
+      $this->output->writeln($this->formatter->formatSection($section, $element['#title']));
+    }
+    // theme as a table
+    $table = new Table($this->output);
+    $table
+      ->setHeaders($element['headers'])
+      ->setRows($element['rows']);
+
+    $this->output->writeln($table->render());
+  }
+
+  /**
+   * theme an item list
+   */
+  function item_list($element, $section = FALSE, $class = 'note') {
+    switch ($element['#list_type']) {
+      case 'ol':
+        $count = 1;
+        foreach ($element['#items'] AS $item) {
+          $text = '<' . $class . '>' . $count . ':</> ' . $item;
+          if ($section) {
+            $this->output->writeln($this->formatter->formatSection($section, $text));
+          }
+          else {
+            $this->output->writeln($text);
+          }
+          $count++;
+        }
+        break;
+      case 'ul':
+      default:
+        foreach ($element['#items'] AS $item) {
+          $text = '<' . $class . '>*</> ' . $item;
+          if ($section) {
+            $this->output->writeln($this->formatter->formatSection($section, $text));
+          }
+          else {
+            $this->output->writeln($text);
+          }
+          $count++;
+        }
+        break;
     }
   }
 }

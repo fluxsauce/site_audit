@@ -60,6 +60,13 @@ abstract class SiteAuditCheckBase extends PluginBase implements SiteAuditCheckIn
   protected $static = TRUE;
 
   /**
+   * options passed in for reports and checks
+   *
+   * @var array
+   */
+  protected $options = [];
+
+  /**
    * Constructor.
    *
    * @param array $registry
@@ -69,6 +76,7 @@ abstract class SiteAuditCheckBase extends PluginBase implements SiteAuditCheckIn
    */
   public function __construct($configuration, $plugin_id, $plugin_definition) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->options = $configuration['options'];
     $this->registry = $configuration['registry'];
     if (isset($configuration['opt_out']) && !empty($configuration['opt_out'])) {
       $this->optOut = TRUE;
@@ -99,7 +107,6 @@ abstract class SiteAuditCheckBase extends PluginBase implements SiteAuditCheckIn
 
       default:
         return $this->getResultFail();
-
     }
   }
 

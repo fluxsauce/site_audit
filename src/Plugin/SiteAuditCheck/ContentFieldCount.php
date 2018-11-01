@@ -33,41 +33,26 @@ class ContentFieldCount extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function getResultInfo() {
-     $ret_val = $this->t('There are @count total fields.', array(
-      '@count' => count($this->registry->fields),
-    ));
-    //if (drush_get_option('detail')) {
-    if (TRUE) {
-      //if (drush_get_option('html')) {
-      if (TRUE) {
-        $ret_val = '<p>' . $ret_val . '</p>';
-        $ret_val .= '<table class="table table-condensed">';
-        $ret_val .= '<tr><th>' . $this->t('Name') . '</th><th>' . $this->t('Type') . '</th></tr>';
-        foreach ($this->registry->fields as $field_name => $description) {
-          $ret_val .= "<tr><td>$field_name</td><td>$description</td></tr>";
-        }
-        $ret_val .= '</table>';
-      }
-      else {
-        $ret_val .= PHP_EOL;
-        if (!drush_get_option('json')) {
-          $ret_val .= str_repeat(' ', 4);
-        }
-        $ret_val .= dt('Name: Type') . PHP_EOL;
-        if (!drush_get_option('json')) {
-          $ret_val .= str_repeat(' ', 4);
-        }
-        $ret_val .= '----------';
-        foreach ($this->registry->fields as $field_name => $description) {
-          $ret_val .= PHP_EOL;
-          if (!drush_get_option('json')) {
-            $ret_val .= str_repeat(' ', 4);
-          }
-          $ret_val .= "$field_name: $description";
-        }
-      }
+    $table_rows = [];
+    foreach ($this->registry->fields as $field_name => $type) {
+      $table_rows[] = [
+        $field_name,
+        $type,
+      ];
     }
-    return $ret_val;
+    $headers = [
+      $this->t('Name'),
+      $this->t('Type'),
+    ];
+    return [
+      '#theme' => 'table',
+      '#class' => 'table-condensed',
+      'headers' => $headers,
+      'rows' => $table_rows,
+      '#title' => $this->t('There are @count total fields.', [
+        '@count' => count($this->registry->fields),
+      ]),
+    ];
   }
 
   /**

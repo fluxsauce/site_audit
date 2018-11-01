@@ -31,46 +31,33 @@ class ContentFieldInstances extends SiteAuditCheckBase {
    */
   public function getResultInfo() {
     $ret_val = '';
-    //if (drush_get_option('html') == TRUE) {
-    if (TRUE) {
-      $ret_val .= '<table class="table table-condensed">';
-      $ret_val .= '<tr><th>' . $this->t('Entity Type') . '</th><th>' . $this->t('Field Name') . '</th><th>' . $this->t('Bundle Name') . '</th><th>' . $this->t('Count') . '</th></tr>';
-      foreach ($this->registry->field_instance_counts as $bundle_name => $entity_types) {
-        foreach ($entity_types as $entity_type => $fields) {
-          foreach ($fields as $field_name => $count) {
-            $ret_val .= "<tr><td>$entity_type</td><td>$field_name</td><td>$bundle_name</td><td>$count</td></tr>";
-          }
-        }
-      }
-      $ret_val .= '</table>';
-    }
-    else {
-      $rows = 0;
-      foreach ($this->registry->field_instance_counts as $bundle_name => $entity_types) {
-        if ($rows++ > 0) {
-          $ret_val .= PHP_EOL;
-          if (!drush_get_option('json')) {
-            $ret_val .= str_repeat(' ', 4);
-          }
-        }
-        $ret_val .= dt('Bundle:') . $bundle_name;
-        foreach ($entity_types as $entity_type => $fields) {
-          $ret_val .= PHP_EOL;
-          if (!drush_get_option('json')) {
-            $ret_val .= str_repeat(' ', 6);
-          }
-          $ret_val .= dt('Entity Type:') . $entity_type;
-          foreach ($fields as $field_name => $count) {
-            $ret_val .= PHP_EOL;
-            if (!drush_get_option('json')) {
-              $ret_val .= str_repeat(' ', 8);
-            }
-            $ret_val .= "$field_name: $count";
-          }
+
+    $table_rows = [];
+    foreach ($this->registry->field_instance_counts as $bundle_name => $entity_types) {
+      foreach ($entity_types as $entity_type => $fields) {
+        foreach ($fields as $field_name => $count) {
+          $table_rows[] = [
+            $entity_type,
+            $field_name,
+            $bundle_name,
+            $count,
+          ];
         }
       }
     }
-    return $ret_val;
+
+    $headers = [
+      $this->t('Entity Type'),
+      $this->t('Field Name'),
+      $this->t('Bundle Name'),
+      $this->t('Count'),
+    ];
+    return [
+      '#theme' => 'table',
+      '#class' => 'table-condensed',
+      'headers' => $headers,
+      'rows' => $table_rows,
+    ];
   }
 
   /**

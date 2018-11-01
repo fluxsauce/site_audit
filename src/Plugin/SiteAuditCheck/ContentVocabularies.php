@@ -41,30 +41,25 @@ class ContentVocabularies extends SiteAuditCheckBase {
       return '';
     }
     $ret_val = '';
-    //if (drush_get_option('html') == TRUE) {
-    if (TRUE) {
-      $ret_val .= '<table class="table table-condensed">';
-      $ret_val .= '<thead><tr><th>' . $this->t('Vocabulary') . '</th><th>' . $this->t('Terms') . '</th></tr></thead>';
-      foreach ($this->registry->vocabulary_counts as $vocabulary => $count) {
-        $ret_val .= "<tr><td>$vocabulary</td><td>$count</td></tr>";
-      }
-      $ret_val .= '</table>';
+
+    $table_rows = [];
+    foreach ($this->registry->vocabulary_counts as $vocabulary => $count) {
+      $table_rows[] = [
+        $vocabulary,
+        $count,
+      ];
     }
-    else {
-      $ret_val  = $this->t('Vocabulary: Count') . PHP_EOL;
-      if (!drush_get_option('json')) {
-        $ret_val .= str_repeat(' ', 4);
-      }
-      $ret_val .= '-------------------';
-      foreach ($this->registry->vocabulary_counts as $vocabulary => $count) {
-        $ret_val .= PHP_EOL;
-        if (!drush_get_option('json')) {
-          $ret_val .= str_repeat(' ', 4);
-        }
-        $ret_val .= $vocabulary . ': ' . $count;
-      }
-    }
-    return $ret_val;
+
+    $headers = [
+      $this->t('Vocabulary'),
+      $this->t('Terms'),
+    ];
+    return [
+      '#theme' => 'table',
+      '#class' => 'table-condensed',
+      'headers' => $headers,
+      'rows' => $table_rows,
+    ];
   }
 
   /**

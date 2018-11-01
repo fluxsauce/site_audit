@@ -51,33 +51,21 @@ class ExtensionsDev extends SiteAuditCheckBase {
       $show_table = FALSE;
     }
 
-    //if (drush_get_option('detail')) {
-    if (TRUE) {
-      //if (drush_get_option('html')) {
-      if (TRUE) {
-        if ($show_table) {
-          $ret_val .= '<br/>';
-          $ret_val .= '<table class="table table-condensed">';
-          $ret_val .= '<thead><tr><th>' . $this->t('Name') . '</th><th>' . $this->t('Reason') . '</th></thead>';
-          $ret_val .= '<tbody>';
-          foreach ($this->registry->extensions_dev as $row) {
-            $ret_val .= '<tr><td>' . implode('</td><td>', $row) . '</td></tr>';
-          }
-          $ret_val .= '</tbody>';
-          $ret_val .= '</table>';
-        }
-      }
-      elseif ($show_table) {
-        foreach ($this->registry->extensions_dev as $row) {
-          $ret_val .= PHP_EOL;
-          if (!drush_get_option('json')) {
-            $ret_val .= str_repeat(' ', 6);
-          }
-          $ret_val .= '- ' . $row[0] . ': ' . $row[1];
-        }
-      }
+    $table_rows = [];
+    foreach ($this->registry->extensions_dev as $row) {
+      $table_rows[] = $row;
     }
-    return $ret_val;
+
+    $headers = [
+      $this->t('Name'),
+      $this->t('Reason'),
+    ];
+    return [
+      '#theme' => 'table',
+      '#class' => 'table-condensed',
+      'headers' => $headers,
+      'rows' => $table_rows,
+    ];
   }
 
   /**
@@ -184,7 +172,11 @@ class ExtensionsDev extends SiteAuditCheckBase {
       'devel' => $this->t('Debugging utility; degrades performance and potential security risk.'),
       'devel_node_access' => $this->t('Development utility; degrades performance and potential security risk.'),
       'devel_themer' => $this->t('Development utility; degrades performance and potential security risk.'),
-      'field_ui' => $this->t('Development user interface; allows privileged users to change site structure which can lead to data inconsistencies. Best practice is to store Content Types in code and deploy changes instead of allowing editing in live environments.'),
+      'field_ui' => $this->t(
+      'Development user interface; allows privileged users to change site 
+structure which can lead to data inconsistencies. Best practice is to 
+store Content Types in code and deploy changes instead of allowing
+editing in live environments.'),
       'fontyourface_ui' => $this->t('Development user interface; unnecessary overhead.'),
       'form_controller' => $this->t('Development utility; unnecessary overhead.'),
       'imagecache_ui' => $this->t('Development user interface; unnecessary overhead.'),
@@ -198,7 +190,11 @@ class ExtensionsDev extends SiteAuditCheckBase {
       'upgrade_status' => $this->t('Development utility for performing a major Drupal core update; should removed after use.'),
       'user_display_ui' => $this->t('Development user interface; unnecessary overhead.'),
       'util' => $this->t('Development utility; unnecessary overhead, potential security risk.'),
-      'views_ui' => $this->t('Development UI; allows privileged users to change site structure which can lead to performance problems or inconsistent behavior. Best practice is to store Views in code and deploy changes instead of allowing editing in live environments.'),
+      'views_ui' => $this->t(
+      'Development UI; allows privileged users to change site structure which
+can lead to performance problems or inconsistent behavior. Best practice 
+is to store Views in code and deploy changes instead of allowing editing 
+in live environments.'),
       'views_theme_wizard' => $this->t('Development utility; unnecessary overhead, potential security risk.'),
     );
 

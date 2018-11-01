@@ -2,40 +2,97 @@
 
 namespace Drupal\site_audit\Commands;
 
+use Drupal\site_audit\Renderer\Html;
+use Drupal\site_audit\Renderer\Markdown;
+use Drupal\site_audit\Renderer\Json;
+use Drupal\site_audit\Renderer\Console;
 use Consolidation\OutputFormatters\StructuredData\RowsOfFields;
 use Drush\Commands\DrushCommands;
+use Drush\Drush;
+use Drush\Style\DrushStyle;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
+use Psr\Log\LoggerInterface;
+use Robo\Common\ConfigAwareTrait;
+use Robo\Contract\ConfigAwareInterface;
+use Robo\Contract\IOAwareInterface;
+use Robo\Common\IO;
+use Symfony\Component\Console\Input\InputOption;
 
 /**
- * A Drush commandfile.
- *
- * In addition to this file, you need a drush.services.yml
- * in root of your module, and a composer.json file that provides the name
- * of the services file to use.
- *
- * See these files for an example of injecting Drupal services:
- *   - http://cgit.drupalcode.org/devel/tree/src/Commands/DevelCommands.php
- *   - http://cgit.drupalcode.org/devel/tree/drush.services.yml
+ * SiteAudit Drush commandfile.
  */
-class SiteAuditCommands extends DrushCommands {
+class SiteAuditCommands extends DrushCommands implements IOAwareInterface, LoggerAwareInterface, ConfigAwareInterface {
 
   /**
    * Run Site Audit report
    *
+   * @option reports
+   *   List of reports to include, comma separated.
    * @option skip
-   *   list of reports to skip+
-   * @output format
-   *   How do you want the report output? (html, text, json)
+   *   List of available reports.
+   * @option format
+   *   Format you wich the report to be in (html, text, json, markdown)
    * @usage site_audit:audit
    *   Run all Site Audit reports
    *
    * @command site_audit:audit
-   * @aliases audit-all
+   * @aliases audit
+   * @usage
+   *   audit --reports=watchdog,extensions
+   * @usage
+   *   audit --skip=block,status
    */
-  public function audit($options = ['skip' => 'none', 'output' => 'text']) {
-    $this->logger()->success(dt('Achievement unlocked.'));
+  public function audit($options = ['skip' => 'none', 'reports' => 'all', 'format' => 'text']) {
+    $output = $this->getOutput();
     $reportManager = \Drupal::service('plugin.manager.site_audit_report');
     $reportDefinitions = $reportManager->getDefinitions();
-    print_r($reportDefinitions);
+
+    $reports = [];
+    if (!empty($options['reports']) && $options['reports'] != 'all') {
+      // run the reports requested
+      foreach(explode(',', $options['reports']) AS $report_id) {
+        $report_id = trim($report_id);
+        if (isset($reportDefinitions[$report_id])) {
+          $reports[] = $reportManager->createInstance($report_id);
+        }
+      }
+    }
+    else {
+      // run all reports unless it is explicitly skipped
+      $skipped = explode(',', $options['skip']);
+      foreach ($reportDefinitions AS $report) {
+        $isSkipped = array_search($report['id'], $skipped);
+        if ($isSkipped === FALSE) {
+          $reports[] = $reportManager->createInstance($report['id'], $options);
+        }
+      }
+    }
+
+    foreach ($reports AS $report) {
+      switch ($options['format']) {
+        case 'html':
+          $renderer = new Html($reports, $output);
+          $out .= $renderer->render(TRUE);
+          break;
+        case 'json';
+          $renderer = new Json($reports, $output);
+          $out .= $renderer->render(TRUE);
+          break;
+        case 'markdown':
+          $renderer = new Markdown($report, $output);
+          $out .= $renderer->render(TRUE);
+          break;
+        case 'text':
+        default:
+          $renderer = new Console($report, $this->logger, $output);
+          $out .= $renderer->render(TRUE);
+          break;
+      }
+    }
+
+    //print_r($options);
+    return $out;
   }
 
   /**
