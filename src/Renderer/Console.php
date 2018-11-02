@@ -165,7 +165,7 @@ class Console extends Renderer {
 
           // Result.
           $result = $check->getResult();
-          $this->output->writeln($this->formatter->formatSection($label, $this->interpolate($this->t('Result:'))));
+          $this->output->writeln($this->formatter->formatSection($label, $this->interpolate($this->t('Result: <@symfony-style>@logLevel</>', ['@logLevel' => ucfirst(strtolower($this->getLogLevel($score))), '@symfony-style' => $this->getScoreSymfonyStyle($score)]))));
           if (is_array($result)) {
             if ($result['#theme'] && method_exists($this, $result['#theme'])) {
               $this->{$result['#theme']}($result, $label);
