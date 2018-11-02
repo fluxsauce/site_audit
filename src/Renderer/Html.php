@@ -50,6 +50,7 @@ class Html extends Renderer {
   }
 
   public function render($detail = FALSE) {
+    print_r($this->report);
     $ret_val = '<h2 id="' . $this->report->getPluginId() . '">' . $this->report->getLabel();
     $percent = $this->report->getPercent();
 

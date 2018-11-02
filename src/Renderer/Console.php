@@ -105,7 +105,6 @@ class Console extends Renderer {
   }
 
   public function render($detail = FALSE) {
-    //print('$this->report->getLabel() => ' . $this->report->getLabel() . "\n");
     $outputStyle = new OutputFormatterStyle('black', 'white');
     $this->output->getFormatter()->setStyle('report', $outputStyle);
 
