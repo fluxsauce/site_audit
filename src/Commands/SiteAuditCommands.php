@@ -18,17 +18,25 @@ use Robo\Contract\ConfigAwareInterface;
 use Robo\Contract\IOAwareInterface;
 use Robo\Common\IO;
 use Symfony\Component\Console\Input\InputOption;
+use Consolidation\AnnotatedCommand\Events\CustomEventAwareInterface;
+use Consolidation\AnnotatedCommand\Events\CustomEventAwareTrait;
+use Drush\Boot\AutoloaderAwareInterface;
+use Drush\Boot\AutoloaderAwareTrait;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
  * SiteAudit Drush commandfile.
  */
-class SiteAuditCommands extends DrushCommands implements IOAwareInterface, LoggerAwareInterface, ConfigAwareInterface {
+class SiteAuditCommands extends DrushCommands implements IOAwareInterface, LoggerAwareInterface, ConfigAwareInterface, CustomEventAwareInterface, AutoloaderAwareInterface {
+
+  use CustomEventAwareTrait;
+  use AutoloaderAwareTrait;
+  use StringTranslationTrait;
 
   /**
    * Run Site Audit report
    *
-   * @option reports
-   *   List of reports to include, comma separated.
+   * @param string $report The particular report to run. Omit this argument to choose from available reports.
    * @option skip
    *   List of available reports.
    * @option format
@@ -43,22 +51,15 @@ class SiteAuditCommands extends DrushCommands implements IOAwareInterface, Logge
    * @usage
    *   audit --skip=block,status
    */
-  public function audit($options = ['skip' => 'none', 'reports' => 'all', 'format' => 'text']) {
+  public function audit($report, $options = ['skip' => 'none', 'reports' => 'all', 'format' => 'text']) {
+    $boot_manager = Drush::bootstrapManager();
+
     $output = $this->getOutput();
     $reportManager = \Drupal::service('plugin.manager.site_audit_report');
     $reportDefinitions = $reportManager->getDefinitions();
 
     $reports = [];
-    if (!empty($options['reports']) && $options['reports'] != 'all') {
-      // run the reports requested
-      foreach(explode(',', $options['reports']) AS $report_id) {
-        $report_id = trim($report_id);
-        if (isset($reportDefinitions[$report_id])) {
-          $reports[] = $reportManager->createInstance($report_id);
-        }
-      }
-    }
-    else {
+    if ($report == 'all') {
       // run all reports unless it is explicitly skipped
       $skipped = explode(',', $options['skip']);
       foreach ($reportDefinitions AS $report) {
@@ -67,6 +68,9 @@ class SiteAuditCommands extends DrushCommands implements IOAwareInterface, Logge
           $reports[] = $reportManager->createInstance($report['id'], $options);
         }
       }
+    }
+    else if (!empty($report)) {
+      $reports[] = $reportManager->createInstance($report, $options);
     }
 
     foreach ($reports AS $report) {
@@ -93,6 +97,32 @@ class SiteAuditCommands extends DrushCommands implements IOAwareInterface, Logge
 
     //print_r($options);
     return $out;
+  }
+
+  /**
+   * @hook interact site_audit:audit
+   */
+  public function interactSiteAudit($input, $output) {
+    $boot_manager = Drush::bootstrapManager();
+    if (empty($input->getArgument('report'))) {
+      $reports = $this->getReports($boot_manager->hasBootstrapped(DRUSH_BOOTSTRAP_DRUPAL_FULL));
+      $choices = [
+        'all' => $this->t('All'),
+      ];
+      foreach ($reports AS $report) {
+        $choices[$report['id']] = $report['name'];
+      }
+      $choice = $this->io()->choice(dt("Choose a report to run"), $choices, 'all');
+      $input->setArgument('report', $choice);
+    }
+  }
+
+  public function getReports($include_bootstrapped_types = false) {
+    $reportManager = \Drupal::service('plugin.manager.site_audit_report');
+    $reportDefinitions = $reportManager->getDefinitions();
+    return $reportDefinitions;
+    print('$reportDefinitions => ' . print_r($reportDefinitions, TRUE));
+    //foreach ($reportDefinitions) AS $reports
   }
 
   /**
