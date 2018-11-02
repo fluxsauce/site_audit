@@ -23,6 +23,8 @@ use Consolidation\AnnotatedCommand\Events\CustomEventAwareTrait;
 use Drush\Boot\AutoloaderAwareInterface;
 use Drush\Boot\AutoloaderAwareTrait;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drush\Utils\StringUtils;
 
 /**
  * SiteAudit Drush commandfile.
@@ -100,6 +102,16 @@ class SiteAuditCommands extends DrushCommands implements IOAwareInterface, Logge
   }
 
   /**
+   * Take Drupal\Core\StringTranslation\TranslatableMarkup and return the string
+   */
+  public function interpolate($message, array $context = []) {
+    if (get_class($message) == 'Drupal\Core\StringTranslation\TranslatableMarkup') {
+      return $message->render();
+    }
+    return $message;
+  }
+
+  /**
    * @hook interact site_audit:audit
    */
   public function interactSiteAudit($input, $output) {
@@ -107,10 +119,10 @@ class SiteAuditCommands extends DrushCommands implements IOAwareInterface, Logge
     if (empty($input->getArgument('report'))) {
       $reports = $this->getReports($boot_manager->hasBootstrapped(DRUSH_BOOTSTRAP_DRUPAL_FULL));
       $choices = [
-        'all' => $this->t('All'),
+        'all' => $this->interpolate($this->t('All')),
       ];
       foreach ($reports AS $report) {
-        $choices[$report['id']] = $report['name'];
+        $choices[$report['id']] = $this->interpolate($report['name']);
       }
       $choice = $this->io()->choice(dt("Choose a report to run"), $choices, 'all');
       $input->setArgument('report', $choice);
