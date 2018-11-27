@@ -18,8 +18,8 @@ class Console extends Renderer {
   var $output;
   var $formatter;
 
-  public function __construct($report, $logger, $output = NULL) {
-    parent::__construct($report, $logger);
+  public function __construct($report, $logger, $options, $output = NULL) {
+    parent::__construct($report, $logger, $options);
     $this->output = $output;
     $this->formatter = new FormatterHelper();
   }
@@ -178,9 +178,6 @@ class Console extends Renderer {
                   ->setRows($result['rows']);
                 $this->output->writeln($table->render());
               }
-              else {
-                print('$result => ' . print_r($result, TRUE));
-              } 
             }
           }
           else {

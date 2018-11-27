@@ -56,15 +56,15 @@ class ExtensionsDev extends SiteAuditCheckBase {
       $table_rows[] = $row;
     }
 
-    $headers = [
+    $header = [
       $this->t('Name'),
       $this->t('Reason'),
     ];
     return [
       '#theme' => 'table',
       '#class' => 'table-condensed',
-      'headers' => $headers,
-      'rows' => $table_rows,
+      '#header' => $header,
+      '#rows' => $table_rows,
     ];
   }
 

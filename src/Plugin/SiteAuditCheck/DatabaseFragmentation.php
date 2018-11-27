@@ -40,7 +40,7 @@ class DatabaseFragmentation extends SiteAuditCheckBase {
    */
   public function getResultWarn() {
     arsort($this->registry->database_fragmentation);
-    $headers = [
+    $header = [
       'table_name' => $this->t('Table Name'),
       'frag_ratio' => $this->t('Fragmentation Ratio'),
     ];
@@ -53,8 +53,8 @@ class DatabaseFragmentation extends SiteAuditCheckBase {
       }
     return [
       '#theme' => 'table',
-      'headers' => $headers,
-      'rows' => $rows,
+      '#header' => $header,
+      '#rows' => $rows,
     ];
   }
 

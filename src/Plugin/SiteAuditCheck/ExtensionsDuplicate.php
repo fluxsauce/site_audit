@@ -81,7 +81,7 @@ class ExtensionsDuplicate extends SiteAuditCheckBase {
         }
         break;
     }
-    return array('theme' => 'table', 'headers' => $headers, 'rows' => $rows);
+    return array('#theme' => 'table', '#header' => $headers, '#rows' => $rows);
   }
 
   /**

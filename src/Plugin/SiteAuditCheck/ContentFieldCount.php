@@ -40,15 +40,15 @@ class ContentFieldCount extends SiteAuditCheckBase {
         $type,
       ];
     }
-    $headers = [
+    $header = [
       $this->t('Name'),
       $this->t('Type'),
     ];
     return [
       '#theme' => 'table',
       '#class' => 'table-condensed',
-      'headers' => $headers,
-      'rows' => $table_rows,
+      '#header' => $header,
+      '#rows' => $table_rows,
       '#title' => $this->t('There are @count total fields.', [
         '@count' => count($this->registry->fields),
       ]),

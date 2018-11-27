@@ -50,15 +50,15 @@ class ContentVocabularies extends SiteAuditCheckBase {
       ];
     }
 
-    $headers = [
+    $header = [
       $this->t('Vocabulary'),
       $this->t('Terms'),
     ];
     return [
       '#theme' => 'table',
       '#class' => 'table-condensed',
-      'headers' => $headers,
-      'rows' => $table_rows,
+      '#header' => $header,
+      '#rows' => $table_rows,
     ];
   }
 

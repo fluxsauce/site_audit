@@ -49,7 +49,7 @@ class ContentEntityTypes extends SiteAuditCheckBase {
       }
     }
 
-    $headers = [
+    $header = [
       $this->t('Content Entity'),
       $this->t('Bundle'),
       $this->t('Count'),
@@ -57,8 +57,8 @@ class ContentEntityTypes extends SiteAuditCheckBase {
     return [
       '#theme' => 'table',
       '#class' => 'table-condensed',
-      'headers' => $headers,
-      'rows' => $table_rows,
+      '#header' => $header,
+      '#rows' => $table_rows,
     ];
   }
 

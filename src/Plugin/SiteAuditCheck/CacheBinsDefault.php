@@ -30,11 +30,12 @@ class CacheBinsDefault extends SiteAuditCheckBase {
    */
   public function getResultInfo() {
     $ret_val = array(
-      'headers' => ['Bin', 'Class'],
+      '#header' => ['Bin', 'Class'],
+      '#theme' => 'table',
     );
 
     foreach ($this->registry->cache_default_backends as $bin => $class) {
-      $ret_val['rows'][] = [$bin, $class];
+      $ret_val['#rows'][] = [$bin, $class];
     }
 
     return $ret_val;

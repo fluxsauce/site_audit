@@ -46,7 +46,7 @@ class ContentFieldInstances extends SiteAuditCheckBase {
       }
     }
 
-    $headers = [
+    $header = [
       $this->t('Entity Type'),
       $this->t('Field Name'),
       $this->t('Bundle Name'),
@@ -55,8 +55,8 @@ class ContentFieldInstances extends SiteAuditCheckBase {
     return [
       '#theme' => 'table',
       '#class' => 'table-condensed',
-      'headers' => $headers,
-      'rows' => $table_rows,
+      '#header' => $header,
+      '#rows' => $table_rows,
     ];
   }
 

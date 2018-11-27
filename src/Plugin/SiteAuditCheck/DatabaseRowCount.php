@@ -40,15 +40,15 @@ class DatabaseRowCount extends SiteAuditCheckBase {
       ];
     }
 
-    $headers = [
+    $header = [
       $this->t('Table Name'),
       $this->t('Rows'),
     ];
     return [
       '#theme' => 'table',
       '#class' => 'table-condensed',
-      'headers' => $headers,
-      'rows' => $table_rows,
+      '#header' => $header,
+      '#rows' => $table_rows,
     ];
   }
 

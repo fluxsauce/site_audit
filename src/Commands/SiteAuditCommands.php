@@ -38,22 +38,26 @@ class SiteAuditCommands extends DrushCommands implements IOAwareInterface, Logge
   /**
    * Run Site Audit report
    *
-   * @param string $report The particular report to run. Omit this argument to choose from available reports.
+   * @param $report The particular report to run. Omit this argument to choose from available reports.
    * @option skip
    *   List of available reports.
    * @option format
-   *   Format you wich the report to be in (html, text, json, markdown)
+   *   Format you which the report is to be in (html, text, json, markdown)
+   * @option detail
+   *   Show details when no issues found for the check.
+   * @option bootstrap
+   *   Wrap the report in HTML with Bootstrap derived styles.
    * @usage site_audit:audit
    *   Run all Site Audit reports
    *
    * @command site_audit:audit
    * @aliases audit
    * @usage
-   *   audit --reports=watchdog,extensions
+   *   audit watchdog
    * @usage
    *   audit --skip=block,status
    */
-  public function audit($report, $options = ['skip' => 'none', 'reports' => 'all', 'format' => 'text']) {
+  public function audit($report, $options = ['skip' => 'none', 'format' => 'text', 'detail' => FALSE, 'bootstrap' => FALSE]) {
     $boot_manager = Drush::bootstrapManager();
 
     $output = $this->getOutput();
@@ -75,29 +79,32 @@ class SiteAuditCommands extends DrushCommands implements IOAwareInterface, Logge
       $reports[] = $reportManager->createInstance($report, $options);
     }
 
-    foreach ($reports AS $report) {
-      switch ($options['format']) {
-        case 'html':
-          $renderer = new Html($reports, $output);
+    switch ($options['format']) {
+      case 'html':
+        $renderer = new Html($reports, $this->logger, $options, $output);
+        $out .= $renderer->render(TRUE);
+        break;
+      case 'json';
+        foreach ($reports AS $report) {
+          $renderer = new Json($report, $this->logger, $options, $output);
           $out .= $renderer->render(TRUE);
-          break;
-        case 'json';
-          $renderer = new Json($reports, $output);
+        }
+        break;
+      case 'markdown':
+        foreach ($reports AS $report) {
+          $renderer = new Markdown($report, $this->logger, $options, $output);
           $out .= $renderer->render(TRUE);
-          break;
-        case 'markdown':
-          $renderer = new Markdown($report, $output);
+        }
+        break;
+      case 'text':
+      default:
+        foreach ($reports AS $report) {
+          $renderer = new Console($report, $this->logger, $options, $output);
           $out .= $renderer->render(TRUE);
-          break;
-        case 'text':
-        default:
-          $renderer = new Console($report, $this->logger, $output);
-          $out .= $renderer->render(TRUE);
-          break;
-      }
+        }
+        break;
     }
 
-    //print_r($options);
     return $out;
   }
 
@@ -133,8 +140,6 @@ class SiteAuditCommands extends DrushCommands implements IOAwareInterface, Logge
     $reportManager = \Drupal::service('plugin.manager.site_audit_report');
     $reportDefinitions = $reportManager->getDefinitions();
     return $reportDefinitions;
-    print('$reportDefinitions => ' . print_r($reportDefinitions, TRUE));
-    //foreach ($reportDefinitions) AS $reports
   }
 
   /**
