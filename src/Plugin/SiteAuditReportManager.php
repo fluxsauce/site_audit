@@ -29,4 +29,13 @@ class SiteAuditReportManager extends DefaultPluginManager {
     $this->setCacheBackend($cache_backend, 'site_audit_site_audit_report_plugins');
   }
 
+  /**
+   * @inherit
+   */
+  public function getDefinitions() {
+    $definitions = parent::getDefinitions();
+    ksort($definitions);
+    return $definitions;
+  }
+
 }
