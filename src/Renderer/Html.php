@@ -364,19 +364,8 @@ class Html extends Renderer {
    * provide the bootstrap derived styles
    */
   private function getStyles() {
-    $styles = <<<STYLES
-.panel-success .panel-heading, .btn-success, .label-success, .alert-success {color:#264926;background-color:#dff0d8;}
-.text-success {color:#264926;}
-.panel-warning .panel-heading, .btn-warning, .label-warning, .alert-warning {color:#000000;background-color:#fcf8e3;}
-.text-warning {color:#000000;}
-.panel-danger .panel-heading, .btn-danger, .label-danger, .alert-danger {color:#752e2d;background-color:#eed3d7;}
-.text-danger {color:#752e2d;}
-.panel-info .panel-heading, .btn-info, .label-info, .alert-info {color:#225066;background-color:#d9edf7;}
-.text-info {color:#225066;}
-a {color: #275c8a;}
-h1 small {color: #4c4c4c;}
-blockquote small {color: #4c4c4c;}
-STYLES;
+    $file = drupal_get_path('module', 'site_audit') . '/css/bootstrap-overrides.css';
+    $styles = "/* $file */\n" . file_get_contents($file);
     return $styles;
   }
 }

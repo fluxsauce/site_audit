@@ -3,3 +3,4 @@ bootstrap:
   css:
     theme:
       https://stackpath.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css: {}
+      css/bootstrap-overrides.css: {}

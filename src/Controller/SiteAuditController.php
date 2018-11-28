@@ -46,4 +46,13 @@ class SiteAuditController extends ControllerBase {
     return $renderer->render(TRUE);
   }
 
+  /**
+   * @inherit
+   */
+  public function getDefinitions() {
+    $definitions = parent::getDefinitions();
+    dpm($definitions, '$definitions');
+    return $definitions;
+  }
+
 }

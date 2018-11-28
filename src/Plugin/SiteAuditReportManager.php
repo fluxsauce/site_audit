@@ -11,7 +11,6 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
  */
 class SiteAuditReportManager extends DefaultPluginManager {
 
-
   /**
    * Constructs a new SiteAuditReportManager object.
    *
