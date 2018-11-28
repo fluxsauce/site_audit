@@ -55,7 +55,7 @@ class WatchdogSyslog extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function getAction() {
-    /* TODO sonfigure settings in the web interface and from the DRUSH command line
+    /* TODO configure settings in the web interface and from the DRUSH command line
     if ($this->getScore() == SiteAuditCheckBase::AUDIT_CHECK_SCORE_FAIL && drush_get_option('vendor') == 'pantheon') {
       return $this->t('On Pantheon, you can technically write to syslog, but there is no mechanism for reading it. Disable syslog and enable dblog instead.');
     }

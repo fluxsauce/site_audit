@@ -17,7 +17,7 @@ class Html extends Renderer {
   /**
    * @inherit
    */
-  public function __construct($report, $logger, $options, $output) {
+  public function __construct($report, $logger = NULL, $options = NULL, $output = NULL) {
     parent::__construct($report, $logger, $options, $output);
     $this->buildHeader();
   }
@@ -174,6 +174,9 @@ class Html extends Renderer {
         ],
       ];
     }
+    else if ($this->options['inline']) {
+      $this->build['#attached']['library'][] = 'site_audit/bootstrap';
+    }
   }
 
   /**
@@ -199,7 +202,10 @@ class Html extends Renderer {
     }
 
     $this->checkBootstrap();
-
+    if ($this->options['inline']) {
+      // this is being requested as a page, not through CLI
+      return $this->build;
+    }
     $out = \Drupal::service('renderer')->renderRoot($this->build);
     return $out;
   }
@@ -350,7 +356,7 @@ class Html extends Renderer {
     return render($element);
   }
 
-  public function escape($text) {
+  public static function escape($text) {
     return htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
   }
 

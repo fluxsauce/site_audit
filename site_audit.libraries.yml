@@ -1,0 +1,5 @@
+bootstrap:
+  version: 3.0
+  css:
+    theme:
+      https://stackpath.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css: {}

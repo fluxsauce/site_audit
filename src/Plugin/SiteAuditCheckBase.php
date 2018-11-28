@@ -134,6 +134,16 @@ abstract class SiteAuditCheckBase extends PluginBase implements SiteAuditCheckIn
   }
 
   /**
+   * Get the ID or machine name for the check.
+   *
+   * @return string
+   *   The ID or machine name for the check.
+   */
+  public function getId() {
+    return $this->getPluginDefinition()['id'];
+  }
+
+  /**
    * Get the label for the check that describes, high level what is happening.
    *
    * @return string

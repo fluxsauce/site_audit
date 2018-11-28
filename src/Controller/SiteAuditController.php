@@ -27,7 +27,7 @@ class SiteAuditController extends ControllerBase {
     $reports = [];
     // check to see if there is anything checked
     if (!empty($saved_reports) && // the array is empty, so the settings form hasn't been submitted
-        count(array_flip($saved_reports)) > 1) { // they are not all unchecked
+      count(array_flip($saved_reports)) > 1) { // they are not all unchecked
       foreach ($saved_reports as $saved_report) {
         if ($saved_report) {
           $reports[] = $reportManager->createInstance($saved_report);
@@ -42,15 +42,8 @@ class SiteAuditController extends ControllerBase {
 
     $out = '';
 
-    foreach ($reports as $report) {
-      $renderer = new Html($report);
-      $out .= $renderer->render(TRUE);
-    }
-
-    return [
-      '#type' => 'markup',
-      '#markup' => $out,
-    ];
+    $renderer = new Html($reports, NULL, ['detail' => TRUE, 'inline' => TRUE, 'uri' => \Drupal::request()->getHost()]);
+    return $renderer->render(TRUE);
   }
 
 }

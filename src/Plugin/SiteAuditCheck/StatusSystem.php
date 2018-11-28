@@ -43,11 +43,6 @@ class StatusSystem extends SiteAuditCheckBase {
         $requirement['severity'] = REQUIREMENT_INFO;
       }
 
-      // Reduce verbosity.
-      //if (!drush_get_option('detail') && $requirement['severity'] < REQUIREMENT_WARNING) {
-      //  continue;
-      //}
-
       // Title: severity - value.
       if ($requirement['severity'] == REQUIREMENT_INFO) {
         $class = 'info';
@@ -66,55 +61,24 @@ class StatusSystem extends SiteAuditCheckBase {
         $class = 'error';
       }
 
-      if (TRUE) { //if (drush_get_option('html')) {
-        $value = isset($requirement['value']) && $requirement['value'] ? $requirement['value'] : '&nbsp;';
-        $uri = \Drupal::request()->getHost();
-        // Unknown URI - strip all links, but leave formatting.
-        if ($uri == 'http://default') {
-          $value = strip_tags($value, '<em><i><b><strong><span>');
-        }
-        // Convert relative links to absolute.
-        else {
-          // TODO: fix this so absolute links are properly created when part of TranslatableMarkup
-          //$value = preg_replace("#(<\s*a\s+[^>]*href\s*=\s*[\"'])(?!http)([^\"'>]+)([\"'>]+)#", '$1' . $uri . '$2$3', $value);
-        }
-
-        $item = array(
-          'title' => $requirement['title'],
-          'severity' => $severity,
-          'value' => $value,
-          'class' => $class,
-        );
-      }
-      else {
-        $item = strip_tags($requirement['title']) . ': ' . $severity;
-        if (isset($requirement['value']) && $requirement['value']) {
-          $item .= ' - ' . dt('@value', array(
-            '@value' => strip_tags($requirement['value']),
-          ));
-        }
-      }
-      $items[] = $item;
-      if (TRUE) { //if (drush_get_option('html')) {
-        $ret_val = '<table class="table table-condensed">';
-        $ret_val .= '<thead><tr><th>' . $this->t('Title') . '</th><th>' . $this->t('Severity') . '</th><th>' . $this->t('Value') . '</th></thead>';
-        $ret_val .= '<tbody>';
-        foreach ($items as $item) {
-          $ret_val .= '<tr class="' . $item['class'] . '">';
-          $ret_val .= '<td>' . $item['title'] . '</td>';
-          $ret_val .= '<td>' . $item['severity'] . '</td>';
-          $ret_val .= '<td>' . $item['value'] . '</td>';
-          $ret_val .= '</tr>';
-        }
-        $ret_val .= '</tbody>';
-        $ret_val .= '</table>';
-      }
-      else {
-        $separator = PHP_EOL;
-        if (!drush_get_option('json')) {
-          $separator .= str_repeat(' ', 4);
-        }
-        $ret_val = implode($separator, $items);
+      $ret_val = [
+        '#theme' => 'table',
+        '#header' => [
+          $this->t('Title'),
+          $this->t('Severity'),
+          $this->t('Value'),
+        ],
+        '#rows' => [],
+      ];
+      foreach ($items as $item) {
+        $ret_val['#rows'][] = [
+          'attributes' => ['class' => $item['class']],
+          'data' => [
+             $item['title'],
+             $item['severity'],
+             $item['value'],
+          ],
+        ];
       }
     }
     return $ret_val;

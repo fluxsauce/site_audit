@@ -1,0 +1,5 @@
+services:
+  site_audit.commands:
+    class: \Drupal\site_audit\Commands\SiteAuditCommands
+    tags:
+      - { name: drush.command }

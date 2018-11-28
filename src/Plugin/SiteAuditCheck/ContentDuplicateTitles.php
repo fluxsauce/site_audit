@@ -44,41 +44,22 @@ class ContentDuplicateTitles extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function getResultWarn() {
-    /*
-    if (!drush_get_option('detail')) {
-      return dt('There are @count duplicate titles in the following types: @types', array(
-        '@count' => $this->registry['nodes_duplicate_title_count'],
-        '@types' => implode(', ', array_keys($this->registry['nodes_duplicate_titles'])),
-      ));
-    }
-    */
-
-    $ret_val = '';
-    //if (drush_get_option('html') == TRUE) {
-    if (TRUE) {
-      $ret_val .= '<table class="table table-condensed">';
-      $ret_val .= '<thead><tr><th>' . $this->t('Content Type') . '</th><th>' . $this->t('Title') . '</th><th>' . $this->t('Count') . '</th></tr></thead>';
-      foreach ($this->registry->nodes_duplicate_titles as $content_type => $title_counts) {
-        foreach ($title_counts as $title => $count) {
-          $ret_val .= "<tr><td>$content_type</td><td>$title</td><td>$count</td></tr>";
-        }
-      }
-      $ret_val .= '</table>';
-    }
-    else {
-      $ret_val  = dt('Content Type: "Title" (Count)') . PHP_EOL;
-      if (!drush_get_option('json')) {
-        $ret_val .= str_repeat(' ', 4);
-      }
-      $ret_val .= '-----------------------------';
-      foreach ($this->registry->nodes_duplicate_titles as $content_type => $title_counts) {
-        foreach ($title_counts as $title => $count) {
-          $ret_val .= PHP_EOL;
-          if (!drush_get_option('json')) {
-            $ret_val .= str_repeat(' ', 4);
-          }
-          $ret_val .= "$content_type: \"$title\" ($count)";
-        }
+    $ret_val = [
+      '#theme' => 'table',
+      '#header' => [
+        $this->t('Content Type'),
+        $this->t('Title'),
+        $this->t('Count'),
+      ],
+      '#rows' => [],
+    ];
+    foreach ($this->registry->nodes_duplicate_titles as $content_type => $title_counts) {
+      foreach ($title_counts as $title => $count) {
+        $ret_val['#rows'][] = [
+          $content_type,
+          $title,
+          $count,
+        ];
       }
     }
     return $ret_val;
@@ -99,7 +80,8 @@ class ContentDuplicateTitles extends SiteAuditCheckBase {
   public function calculateScore() {
     if (!isset($this->registry->content_entity_type_counts)) {
       /// this hasn't been checked, so check it// make sure we have entities
-      \Drupal\site_audit\Plugin\SiteAuditCheck\ContentEntityTypes::calculateScore();
+      //\Drupal\site_audit\Plugin\SiteAuditCheck\ContentEntityTypes::calculateScore();
+      $this->checkInvokeCalculateScore('content_entity_types');
     }
     if (empty($this->registry->content_entity_type_counts)) {
       return SiteAuditCheckBase::AUDIT_CHECK_SCORE_INFO;
