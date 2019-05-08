@@ -150,8 +150,10 @@ class ViewsCacheResults extends SiteAuditCheckBase {
           }
         }
         if ($all_default_displays) {
-          if ($view_data['default'] == 'none') {
-            $this->registry->views_without_results_caching[] = $view_name;
+          if (isset($view_data['default'])) {
+            if ($view_data['default'] == 'none') {
+              $this->registry->views_without_results_caching[] = $view_name;
+            }
           }
         }
         else {
