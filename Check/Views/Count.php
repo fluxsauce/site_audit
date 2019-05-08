@@ -4,6 +4,8 @@
  * Contains \SiteAudit\Check\Views\Count.
  */
 
+use Drupal\views\Views;
+
 /**
  * Class SiteAuditCheckViewsCount.
  */
@@ -66,12 +68,7 @@ class SiteAuditCheckViewsCount extends SiteAuditCheckAbstract {
    * Implements \SiteAudit\Check\Abstract\calculateScore().
    */
   public function calculateScore() {
-    $this->registry['views'] = array();
-
-    $all_views = \Drupal::entityManager()->getListBuilder('view')->load();
-    foreach ($all_views['enabled'] as $view) {
-      $this->registry['views'][] = $view;
-    }
+    $this->registry['views'] = Views::getEnabledViews();
 
     if (empty($this->registry['views'])) {
       $this->abort = TRUE;
