@@ -296,12 +296,7 @@ class Html extends Renderer {
           $checkBuild['#result'] = $check->getResult();
           if (is_array($check->getResult())) {
             $checkBuild['result'] = $check->getResult();
-            if (!isset($checkBuild['result']['#attributes'])) {
-              $checkBuild['result']['#attributes'] = [
-                'class' => '',
-              ];
-            }
-            $checkBuild[$result]['#attributes']['class'] = 'well result';
+            $checkBuild['result']['#attributes']['class'] = 'well result';
           }
           else {
             $checkBuild['detail'] = [
