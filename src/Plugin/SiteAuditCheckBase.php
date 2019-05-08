@@ -76,7 +76,9 @@ abstract class SiteAuditCheckBase extends PluginBase implements SiteAuditCheckIn
    */
   public function __construct($configuration, $plugin_id, $plugin_definition) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
-    $this->options = $configuration['options'];
+    if (isset($configuration['options'])) {
+      $this->options = $configuration['options'];
+    }
     $this->registry = $configuration['registry'];
     if (isset($configuration['opt_out']) && !empty($configuration['opt_out'])) {
       $this->optOut = TRUE;
