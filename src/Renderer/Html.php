@@ -135,7 +135,7 @@ class Html extends Renderer {
    * bootstrap derived styles is so
    */
   protected function checkBootstrap() {
-    if ($this->options['bootstrap']) {
+    if (isset($this->options['bootstrap']) && $this->options['bootstrap']) {
       $this->build = [
         '#type' => 'html_tag',
         '#tag' => 'html',
@@ -174,7 +174,7 @@ class Html extends Renderer {
         ],
       ];
     }
-    else if ($this->options['inline']) {
+    else if (isset($this->options['inline']) && $this->options['inline']) {
       $this->build['#attached']['library'][] = 'site_audit/bootstrap';
     }
   }
