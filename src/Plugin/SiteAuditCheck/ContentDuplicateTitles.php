@@ -104,7 +104,7 @@ class ContentDuplicateTitles extends SiteAuditCheckBase {
       $label = $content_types[$row['type']]['label'];
       $title = Html::escape($row['title']);
       $this->registry->nodes_duplicate_titles[$label][$title] = $row['duplicate_count'];
-      $this->registry->nodes_duplicate_title_count += $row['duplicate_coun'];
+      $this->registry->nodes_duplicate_title_count += $row['duplicate_count'];
     }
 
 
