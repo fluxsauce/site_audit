@@ -95,7 +95,7 @@ class DatabaseEngine extends SiteAuditCheckBase {
     $query->condition('ist.table_schema', $connection->getConnectionOptions()['database']);
     $result = $query->execute();
     $count = 0;
-    while ($row = $result->fetchAssoc) {
+    while ($row = $result->fetchAssoc()) {
       $count++;
       $this->registry->engine_tables[$row['name']] = $row['engine'];
     }
