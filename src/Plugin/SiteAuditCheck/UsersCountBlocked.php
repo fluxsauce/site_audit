@@ -58,7 +58,7 @@ class UsersCountBlocked extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function calculateScore() {
-    $query = db_select('users_field_data', 'ufd');
+    $query = \Drupal::database()->select('users_field_data', 'ufd');
     $query->addExpression('COUNT(*)', 'count');
     $query->condition('status', 0);
 

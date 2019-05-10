@@ -68,7 +68,7 @@ class Watchdog404 extends SiteAuditCheckBase {
     if (!$this->registry->watchdog_enabled) {
       return;
     }
-    $query = db_select('watchdog');
+    $query = \Drupal::database()->select('watchdog');
     $query->addExpression('COUNT(wid)', 'count');
     $query->condition('type', 'page not found');
     $this->registry->count_404 = $query->execute()->fetchField();

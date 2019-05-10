@@ -86,19 +86,18 @@ class ContentEntityTypes extends SiteAuditCheckBase {
     if (!isset($this)) {
       return SiteAuditCheckBase::AUDIT_CHECK_SCORE_INFO;
     }
-    $entity_manager = \Drupal::entityManager();
-    $all_bundles = $entity_manager->getAllBundleInfo();
+    $all_bundles = \Drupal::service('entity_type.bundle.info')->getAllBundleInfo();
     // this might have already been run by Drupal\site_audit\Plugin\SiteAuditCheck\ContentEntityTypesUnused
     // if so we don't need to do it again
     if (!isset($this->registry->content_entity_type_counts)) {
       $this->registry->content_types_unused = [];
       foreach ($all_bundles as $entity_type => $bundles) {
-        $bundle_column_name = $entity_manager->getDefinition($entity_type)->getKey('bundle');
-        $interfaces = class_implements($entity_manager->getDefinition($entity_type)->getClass());
+        $bundle_column_name = \Drupal::service('entity_type.manager')->getDefinition($entity_type)->getKey('bundle');
+        $interfaces = class_implements(\Drupal::service('entity_type.manager')->getDefinition($entity_type)->getClass());
         if ($bundle_column_name != FALSE && in_array("Drupal\\Core\\Entity\\ContentEntityInterface", $interfaces)) {
           $this->registry->entity_count[$entity_type] = 0;
           foreach ($bundles as $bundle => $info) {
-            if (get_class($entity_manager->getStorage($entity_type)) != 'Drupal\Core\Entity\ContentEntityNullStorage') {
+            if (get_class(\Drupal::service('entity_type.manager')->getStorage($entity_type)) != 'Drupal\Core\Entity\ContentEntityNullStorage') {
               $query = \Drupal::entityQuery($entity_type)
                 ->condition($bundle_column_name, $bundle)
                 ->count();

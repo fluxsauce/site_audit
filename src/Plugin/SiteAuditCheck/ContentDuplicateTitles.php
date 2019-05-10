@@ -87,7 +87,7 @@ class ContentDuplicateTitles extends SiteAuditCheckBase {
       return SiteAuditCheckBase::AUDIT_CHECK_SCORE_INFO;
     }
 
-    $query = db_select('node_field_data', 'nfd');
+    $query = \Drupal::database()->select('node_field_data', 'nfd');
     $query->addExpression('COUNT(nfd.title)', 'duplicate_count');
     $query->fields('nfd', array('title', 'type'));
     $query->groupBy('nfd.title');
@@ -99,7 +99,7 @@ class ContentDuplicateTitles extends SiteAuditCheckBase {
 
     $this->registry->nodes_duplicate_titles = array();
     $this->registry->nodes_duplicate_title_count = 0;
-    $content_types = $content_types = \Drupal::entityManager()->getBundleInfo("node");
+    $content_types = $content_types = \Drupal::service('entity_type.bundle.info')->getBundleInfo("node");
     while ($row = $result->fetchAssoc()) {
       $label = $content_types[$row['type']]['label'];
       $title = Html::escape($row['title']);
