@@ -76,7 +76,7 @@ class DatabaseRowCount extends SiteAuditCheckBase {
     $connection = \Drupal\Core\Database\Database::getConnection();
     $this->registry->rows_by_table = array();
     $warning = FALSE;
-    $query = db_select('information_schema.TABLES', 'ist');
+    $query = \Drupal::database()->select('information_schema.TABLES', 'ist');
     $query->fields('ist', array('TABLE_NAME', 'TABLE_ROWS'));
     $query->condition('ist.TABLE_ROWS', 1000, '>');
     $query->condition('ist.table_schema', $connection->getConnectionOptions()['database']);

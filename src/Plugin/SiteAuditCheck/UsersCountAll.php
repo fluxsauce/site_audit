@@ -54,7 +54,7 @@ class UsersCountAll extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function calculateScore() {
-    $query = db_select('users');
+    $query = \Drupal::database()->select('users');
     $query->addExpression('COUNT(*)', 'count');
     $query->condition('uid', 0, '<>');
 

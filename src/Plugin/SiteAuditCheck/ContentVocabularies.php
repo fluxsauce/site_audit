@@ -90,9 +90,9 @@ class ContentVocabularies extends SiteAuditCheckBase {
     if (!isset($this->registry->vocabulary_unused)) {
       $this->registry->vocabulary_unused = [];
 
-      $vocabularies = \Drupal::entityManager()->getBundleInfo("taxonomy_term");
+      $vocabularies = \Drupal::service('entity_type.bundle.info')->getBundleInfo("taxonomy_term");
 
-      $query = db_select('taxonomy_term_field_data');
+      $query = \Drupal::database()->select('taxonomy_term_field_data');
       $query->addExpression('COUNT(tid)', 'count');
       $query->addField('taxonomy_term_field_data', 'vid');
       $query->orderBy('count', 'DESC');

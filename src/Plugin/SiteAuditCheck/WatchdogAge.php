@@ -66,14 +66,14 @@ class WatchdogAge extends SiteAuditCheckBase {
    */
   public function calculateScore() {
     // Age of oldest entry.
-    $query = db_select('watchdog');
+    $query = \Drupal::database()->select('watchdog');
     $query->addField('watchdog', 'timestamp');
     $query->orderBy('wid', 'ASC');
     $query->range(0, 1);
     $this->ageOldest = $query->execute()->fetchField();
 
     // Age of newest entry.
-    $query = db_select('watchdog');
+    $query = \Drupal::database()->select('watchdog');
     $query->addField('watchdog', 'timestamp');
     $query->orderBy('wid', 'DESC');
     $query->range(0, 1);

@@ -71,7 +71,7 @@ class WatchdogPhp extends SiteAuditCheckBase {
     $this->registry->php_count_total = 0;
     $this->registry->percent_php = 0;
 
-    $query = db_select('watchdog');
+    $query = \Drupal::database()->select('watchdog');
     $query->addExpression('COUNT(*)', 'count');
     $query->addField('watchdog', 'severity');
     $query->groupBy('severity');

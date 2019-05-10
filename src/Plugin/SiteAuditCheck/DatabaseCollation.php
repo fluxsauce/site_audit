@@ -90,7 +90,7 @@ class DatabaseCollation extends SiteAuditCheckBase {
    */
   public function calculateScore() {
     $connection = \Drupal\Core\Database\Database::getConnection();
-    $query = db_select('information_schema.TABLES', 'ist');
+    $query = \Drupal::database()->select('information_schema.TABLES', 'ist');
     $query->addField('ist', 'TABLE_NAME', 'name');
     $query->addField('ist', 'TABLE_COLLATION', 'collation');
     $query->condition('ist.TABLE_COLLATION', array('utf8_general_ci', 'utf8_unicode_ci', 'utf8_bin', 'utf8mb4_general_ci'), 'NOT IN');

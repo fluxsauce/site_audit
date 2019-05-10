@@ -63,7 +63,7 @@ class WatchdogCount extends SiteAuditCheckBase {
     if (!$this->registry->watchdog_enabled) {
       return;
     }
-    $query = db_select('watchdog');
+    $query = \Drupal::database()->select('watchdog');
     $query->addExpression('COUNT(wid)', 'count');
 
     $this->registry->count_entries = $query->execute()->fetchField();

@@ -84,7 +84,7 @@ class ContentFieldCount extends SiteAuditCheckBase {
   public function calculateScore() {
     if (!isset($this->registry->fields)) {
       // it hasn't been calculated yet, so do it now
-      $map = \Drupal::entityManager()->getFieldMap();
+      $map = \Drupal::service('entity_field.manager')->getFieldMap();
       $this->registry->fields = array();
       $this->registry->default_fields = array(
         'body',
