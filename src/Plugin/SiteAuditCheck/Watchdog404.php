@@ -29,10 +29,10 @@ class Watchdog404 extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function getResultInfo() {
-    return $this->t('@count_404 pages not found (@percent_404%).', array(
+    return $this->t('@count_404 pages not found (@percent_404%).', [
       '@count_404' => $this->registry->count_404,
       '@percent_404' => $this->registry->percent_404,
-    ));
+    ]);
   }
 
   /**

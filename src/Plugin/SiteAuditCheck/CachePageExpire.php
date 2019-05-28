@@ -38,18 +38,18 @@ class CachePageExpire extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function getResultPass() {
-    return $this->t('Expiration of cached pages is set to @minutes min.', array(
+    return $this->t('Expiration of cached pages is set to @minutes min.', [
       '@minutes' => round(\Drupal::config('system.performance')->get('cache.page.max_age') / 60),
-    ));
+    ]);
   }
 
   /**
    * {@inheritdoc}.
    */
   public function getResultWarn() {
-    return $this->t('Expiration of cached pages only set to @minutes min.', array(
+    return $this->t('Expiration of cached pages only set to @minutes min.', [
       '@minutes' => round(\Drupal::config('system.performance')->get('cache.page.max_age') / 60),
-    ));
+    ]);
   }
 
   /**

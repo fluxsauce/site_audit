@@ -43,9 +43,9 @@ class ExtensionsDev extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function getResultWarn() {
-    $ret_val = $this->t('The following development modules(s) are currently enabled: @list', array(
+    $ret_val = $this->t('The following development modules(s) are currently enabled: @list', [
       '@list' => implode(', ', array_keys($this->registry->extensions_dev)),
-    ));
+    ]);
     $show_table = TRUE;
     if (site_audit_env_is_dev()) {
       $show_table = FALSE;
@@ -92,12 +92,12 @@ class ExtensionsDev extends SiteAuditCheckBase {
       $this->registry->extensions = $modules = system_rebuild_module_data();
       uasort($this->registry->extensions, 'system_sort_modules_by_info_name');
     }
-    $this->registry->extensions_dev = array();
+    $this->registry->extensions_dev = [];
     $extension_info = $this->registry->extensions;
     //uasort($extension_info, '_drush_pm_sort_extensions');
     $dev_extensions = $this->getExtensions();
     foreach ($extension_info as $key => $extension) {
-      $row = array();
+      $row = [];
       // Not in the list of known development modules.
       if (!array_key_exists($extension->getName(), $dev_extensions)) {
         unset($extension_info[$key]);
@@ -135,7 +135,7 @@ class ExtensionsDev extends SiteAuditCheckBase {
    *   Keyed by module machine name, value is explanation.
    */
   public function getExtensions() {
-    $developer_modules = array(
+    $developer_modules = [
       'ipsum' => $this->t('Development utility to generate fake content.'),
       'testmodule' => $this->t('Internal test module.'),
       // Examples module.
@@ -156,11 +156,11 @@ class ExtensionsDev extends SiteAuditCheckBase {
       'simpletest_example' => $this->t('Development examples.'),
       'tablesort_example' => $this->t('Development examples.'),
       'tour_example' => $this->t('Development examples.'),
-    );
+    ];
 
     // From http://drupal.org/project/admin_menu admin_menu.inc in function
     // _admin_menu_developer_modules().
-    $admin_menu_developer_modules = array(
+    $admin_menu_developer_modules = [
       'admin_devel' => $this->t('Debugging utility; degrades performance.'),
       'cache_disable' => $this->t('Development utility and performance drain; degrades performance.'),
       'coder' => $this->t('Debugging utility; potential security risk and unnecessary performance hit.'),
@@ -196,7 +196,7 @@ can lead to performance problems or inconsistent behavior. Best practice
 is to store Views in code and deploy changes instead of allowing editing 
 in live environments.'),
       'views_theme_wizard' => $this->t('Development utility; unnecessary overhead, potential security risk.'),
-    );
+    ];
 
     return array_merge($admin_menu_developer_modules, $developer_modules);
   }

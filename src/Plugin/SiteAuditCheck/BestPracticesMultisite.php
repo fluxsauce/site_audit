@@ -24,9 +24,9 @@ class BestPracticesMultisite extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function getResultFail() {
-     return $this->t('The following multi-site configuration(s) were detected: @list', array(
+     return $this->t('The following multi-site configuration(s) were detected: @list', [
       '@list' => implode(', ', $this->registry->multisites),
-    ));
+    ]);
   }
 
   /**
@@ -77,9 +77,9 @@ class BestPracticesMultisite extends SiteAuditCheckBase {
    */
   public function calculateScore() {
     $handle = opendir(DRUPAL_ROOT . '/sites/');
-    $this->registry->multisites = array();
+    $this->registry->multisites = [];
     while (FALSE !== ($entry = readdir($handle))) {
-      if (!in_array($entry, array(
+      if (!in_array($entry, [
         '.',
         '..',
         'default',
@@ -88,7 +88,7 @@ class BestPracticesMultisite extends SiteAuditCheckBase {
         'README.txt',
         '.svn',
         '.DS_Store',
-      ))
+      ])
       ) {
         if (is_dir(DRUPAL_ROOT . '/sites/' . $entry)) {
           $this->registry->multisites[] = $entry;

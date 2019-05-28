@@ -33,10 +33,10 @@ class UsersWhoIsNumberOne extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function getResultInfo() {
-    return $this->t('UID #1: @name, email: @mail', array(
+    return $this->t('UID #1: @name, email: @mail', [
       '@name' => $this->registry->uid_1->get('name')->value,
       '@mail' => $this->registry->uid_1->get('mail')->value,
-    ));
+    ]);
   }
 
   /**

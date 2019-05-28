@@ -24,9 +24,9 @@ class SecurityMenuRouter extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function getResultFail() {
-    $ret_val = $this->t('The following potentially malicious paths have been discovered: @list', array(
+    $ret_val = $this->t('The following potentially malicious paths have been discovered: @list', [
       '@list' => implode(', ', array_keys($this->registry->menu_router)),
-    ));
+    ]);
 
     if (TRUE) { //if (drush_get_option('detail')) {
       if (TRUE) { //if (drush_get_option('html')) {
@@ -66,7 +66,7 @@ class SecurityMenuRouter extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function getResultPass() {
-    return $this->t('No known potentially malicious entries were detected in the menu_router table.', array());
+    return $this->t('No known potentially malicious entries were detected in the menu_router table.', []);
   }
 
   /**
@@ -88,7 +88,7 @@ class SecurityMenuRouter extends SiteAuditCheckBase {
    */
   public function calculateScore() {
     // DRUPAL SA-CORE-2014-005 Exploits.
-    $dangerous_callbacks = array(
+    $dangerous_callbacks = [
       'php_eval' => 'executes arbitrary PHP code',
       'assert' => 'executes arbitrary PHP code',
       'exec' => 'executes external programs',
@@ -257,12 +257,12 @@ class SecurityMenuRouter extends SiteAuditCheckBase {
       'show_source' => 'reads files',
       'php_strip_whitespace' => 'reads files',
       'get_meta_tags' => 'reads files',
-    );
+    ];
     $all_routes = \Drupal::service('router.route_provider')->getAllRoutes();
-    $callback_keys = array(
+    $callback_keys = [
       '_controller',
       '_title_callback',
-    );
+    ];
     foreach ($all_routes as $route) {
       $defaults = $route->getDefaults();
       foreach ($callback_keys as $key) {
@@ -273,7 +273,7 @@ class SecurityMenuRouter extends SiteAuditCheckBase {
             return $parameter->name;
           }, $parameters);
           $passed_arguments = array_intersect($parameters, array_keys($defaults));
-          $arguments = array();
+          $arguments = [];
           foreach ($passed_arguments as $argument) {
             $arguments[] = $argument . '=' . $defaults[$argument];
           }

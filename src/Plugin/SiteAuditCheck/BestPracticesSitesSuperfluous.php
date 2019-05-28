@@ -41,9 +41,9 @@ class BestPracticesSitesSuperfluous extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function getResultWarn() {
-    return $this->t('The following extra files were detected: @list', array(
+    return $this->t('The following extra files were detected: @list', [
       '@list' => implode(', ', $this->registry->superfluous),
-    ));
+    ]);
   }
 
   /**
@@ -60,9 +60,9 @@ class BestPracticesSitesSuperfluous extends SiteAuditCheckBase {
    */
   public function calculateScore() {
     $handle = opendir(DRUPAL_ROOT . '/sites/');
-    $this->registry->superfluous = array();
+    $this->registry->superfluous = [];
     while (FALSE !== ($entry = readdir($handle))) {
-      if (!in_array($entry, array(
+      if (!in_array($entry, [
         '.',
         '..',
         'default',
@@ -72,7 +72,7 @@ class BestPracticesSitesSuperfluous extends SiteAuditCheckBase {
         'example.settings.local.php',
         'README.txt',
         '.DS_Store',
-      ))) {
+      ])) {
         if (is_file(DRUPAL_ROOT . '/sites/' . $entry)) {
           // Support multi-site directory aliasing for non-Pantheon sites.
           if ($entry != 'sites.php' || drush_get_option('vendor') == 'pantheon') {

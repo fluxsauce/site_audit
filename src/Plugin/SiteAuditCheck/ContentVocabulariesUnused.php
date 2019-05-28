@@ -43,9 +43,9 @@ class ContentVocabulariesUnused extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function getResultWarn() {
-    return $this->t('The following vocabularies are unused: @vocabularies_unused', array(
+    return $this->t('The following vocabularies are unused: @vocabularies_unused', [
       '@vocabularies_unused' => implode(', ', $this->registry->vocabulary_unused),
-    ));
+    ]);
   }
 
   /**

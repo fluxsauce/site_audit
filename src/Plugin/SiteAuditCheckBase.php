@@ -275,7 +275,7 @@ abstract class SiteAuditCheckBase extends PluginBase implements SiteAuditCheckIn
   protected function checkInvokeCalculateScore($plugin_id) {
     $checkManager = \Drupal::service('plugin.manager.site_audit_check');
     if (isset($opt_out)) {
-      $check = $checkManager->createInstance($plugin_id, array('registry' => $this->registry, 'opt_out' => $opt_out));
+      $check = $checkManager->createInstance($plugin_id, ['registry' => $this->registry, 'opt_out' => $opt_out]);
       $check->calculateScore();
     }
   }

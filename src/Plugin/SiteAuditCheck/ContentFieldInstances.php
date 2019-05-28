@@ -84,7 +84,7 @@ class ContentFieldInstances extends SiteAuditCheckBase {
       $this->checkInvokeCalculateScore('content_field_count');
     }
     $map = \Drupal::service('entity_field.manager')->getFieldMap();
-    $this->registry->field_instance_counts = array();
+    $this->registry->field_instance_counts = [];
     foreach ($map as $entity => $fields) {
       $bundle_column_name = \Drupal::service('entity_type.manager')->getDefinition($entity)->getKey('bundle');
       foreach ($fields as $field => $description) {

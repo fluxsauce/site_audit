@@ -29,7 +29,7 @@ class UsersRolesList extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function getResultInfo() {
-    $counts = array();
+    $counts = [];
     foreach ($this->registry->roles as $name => $count_users) {
       $counts[] = "$name: $count_users";
     }

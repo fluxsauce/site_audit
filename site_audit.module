@@ -31,12 +31,12 @@ function site_audit_help($route_name, RouteMatchInterface $route_match) {
 function site_audit_env_is_dev() {
   // Acquia.
   if (defined('AH_SITE_ENVIRONMENT')) {
-    return !in_array(PANTHEON_ENVIRONMENT, array('test', 'prod'));
+    return !in_array(PANTHEON_ENVIRONMENT, ['test', 'prod']);
   }
 
   // Pantheon.
   if (defined('PANTHEON_ENVIRONMENT')) {
-    return !in_array(PANTHEON_ENVIRONMENT, array('test', 'live'));
+    return !in_array(PANTHEON_ENVIRONMENT, ['test', 'live']);
   }
 
   return FALSE;

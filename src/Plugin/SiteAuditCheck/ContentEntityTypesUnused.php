@@ -41,13 +41,13 @@ class ContentEntityTypesUnused extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function getResultWarn() {
-    $report = array();
+    $report = [];
     foreach ($this->registry->content_types_unused as $entity_type => $bundle) {
       $report[] = $entity_type .= ': ' . implode(', ', $bundle);
     }
-    return $this->t('The following content entity types are unused: @content_types_unused', array(
+    return $this->t('The following content entity types are unused: @content_types_unused', [
       '@content_types_unused' => implode('; ', $report),
-    ));
+    ]);
   }
 
   /**

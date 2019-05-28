@@ -34,18 +34,18 @@ class ExtensionsCount extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function getResultPass() {
-    return $this->t('There are @extension_count extensions enabled.', array(
+    return $this->t('There are @extension_count extensions enabled.', [
       '@extension_count' => $this->registry->extension_count,
-    ));
+    ]);
   }
 
   /**
    * {@inheritdoc}.
    */
   public function getResultWarn() {
-    return $this->t('There are @extension_count extensions enabled; that\'s higher than the average.', array(
+    return $this->t('There are @extension_count extensions enabled; that\'s higher than the average.', [
       '@extension_count' => $this->registry->extension_count,
-    ));
+    ]);
   }
 
   /**
@@ -54,7 +54,7 @@ class ExtensionsCount extends SiteAuditCheckBase {
   public function getAction() {
     if ($this->score != SiteAuditCheckBase::AUDIT_CHECK_SCORE_PASS) {
       $ret_val = $this->t('Consider the following options:') . PHP_EOL;
-      $options = array();
+      $options = [];
       $options[] = $this->t('Disable unneeded or unnecessary extensions.');
       $options[] = $this->t('Consolidate functionality if possible, or custom develop a solution specific to your needs.');
       $options[] = $this->t('Avoid using modules that serve only one small purpose that is not mission critical.');

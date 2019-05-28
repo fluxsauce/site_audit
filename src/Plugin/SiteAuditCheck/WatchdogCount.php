@@ -33,9 +33,9 @@ class WatchdogCount extends SiteAuditCheckBase {
     if (!$this->registry->count_entries) {
       return $this->t('There are no dblog entries.');
     }
-    return $this->t('There are @count_entries log entries.', array(
+    return $this->t('There are @count_entries log entries.', [
       '@count_entries' => number_format($this->registry->count_entries),
-    ));
+    ]);
   }
 
   /**

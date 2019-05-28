@@ -39,9 +39,9 @@ class ViewsCount extends SiteAuditCheckBase {
     if (!$views_count) {
       return $this->t('There are no enabled views.');
     }
-    return $this->t('There are @count_views enabled views.', array(
+    return $this->t('There are @count_views enabled views.', [
       '@count_views' => count($this->registry->views),
-    ));
+    ]);
   }
 
   /**
@@ -64,7 +64,7 @@ class ViewsCount extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function calculateScore() {
-    $this->registry->views = array();
+    $this->registry->views = [];
 
     $all_views = \Drupal::service('entity_type.manager')->getListBuilder('view')->load();
     foreach ($all_views['enabled'] as $view) {

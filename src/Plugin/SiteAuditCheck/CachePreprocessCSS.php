@@ -50,7 +50,7 @@ class CachePreprocessCSS extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function getAction() {
-    if (!in_array($this->score, array(SiteAuditCheckBase::AUDIT_CHECK_SCORE_PASS))) {
+    if (!in_array($this->score, [SiteAuditCheckBase::AUDIT_CHECK_SCORE_PASS])) {
       return $this->t('Go to /admin/config/development/performance and check "Aggregate and compress CSS files".');
     }
   }

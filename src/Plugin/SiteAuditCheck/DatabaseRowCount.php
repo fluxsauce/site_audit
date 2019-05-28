@@ -74,10 +74,10 @@ class DatabaseRowCount extends SiteAuditCheckBase {
    */
   public function calculateScore() {
     $connection = \Drupal\Core\Database\Database::getConnection();
-    $this->registry->rows_by_table = array();
+    $this->registry->rows_by_table = [];
     $warning = FALSE;
     $query = \Drupal::database()->select('information_schema.TABLES', 'ist');
-    $query->fields('ist', array('TABLE_NAME', 'TABLE_ROWS'));
+    $query->fields('ist', ['TABLE_NAME', 'TABLE_ROWS']);
     $query->condition('ist.TABLE_ROWS', 1000, '>');
     $query->condition('ist.table_schema', $connection->getConnectionOptions()['database']);
     $query->orderBy('TABLE_ROWS', 'DESC');

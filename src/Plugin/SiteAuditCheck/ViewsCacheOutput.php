@@ -45,26 +45,26 @@ class ViewsCacheOutput extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function getResultWarn() {
-    return $this->t('The following Views are not caching rendered output: @views_without_output_caching', array(
+    return $this->t('The following Views are not caching rendered output: @views_without_output_caching', [
       '@views_without_output_caching' => implode(', ', $this->registry->views_without_output_caching),
-    ));
+    ]);
   }
 
   /**
    * {@inheritdoc}.
    */
   public function getAction() {
-    if (!in_array($this->score, array(SiteAuditCheckBase::AUDIT_CHECK_SCORE_INFO, SiteAuditCheckBase::AUDIT_CHECK_SCORE_PASS))) {
+    if (!in_array($this->score, [SiteAuditCheckBase::AUDIT_CHECK_SCORE_INFO, SiteAuditCheckBase::AUDIT_CHECK_SCORE_PASS])) {
       $ret_val = $this->t('Rendered output should be cached for as long as possible (if the query changes, the output will be refreshed).');
 
-      $steps = array(
+      $steps = [
         $this->t('Go to /admin/structure/views/'),
         $this->t('Edit the View in question'),
         $this->t('Select the Display'),
         $this->t('Click Advanced'),
         $this->t('Next to Caching, click to edit.'),
         $this->t('Caching: (something other than None)'),
-      );
+      ];
       $ret_val = [
         '#theme' => 'item_list',
         '#title' => $this->t('Rendered output should be cached for as long as possible (if the query changes, the output will be refreshed).'),
@@ -81,13 +81,13 @@ class ViewsCacheOutput extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function calculateScore() {
-    $this->registry->output_lifespan = array();
+    $this->registry->output_lifespan = [];
     if (empty($this->registry->views)) {
       $this->checkInvokeCalculateScore('views_count');
     }
     foreach ($this->registry->views as $view) {
       // Skip views used for administration purposes.
-      if (in_array($view->get('tag'), array('admin', 'commerce'))) {
+      if (in_array($view->get('tag'), ['admin', 'commerce'])) {
         continue;
       }
       foreach ($view->get('display') as $display_name => $display) {
@@ -136,7 +136,7 @@ class ViewsCacheOutput extends SiteAuditCheckBase {
       }
     }
 
-    $this->registry->views_without_output_caching = array();
+    $this->registry->views_without_output_caching = [];
 
     foreach ($this->registry->output_lifespan as $view_name => $view_data) {
       // Views with only master display.
@@ -162,7 +162,7 @@ class ViewsCacheOutput extends SiteAuditCheckBase {
         }
         else {
           $uncached_view_string = $view_name;
-          $uncached_view_displays = array();
+          $uncached_view_displays = [];
           foreach ($view_data['displays'] as $display_name => $display_data) {
             if ($display_data == 'none' || ($display_data == 'default' && $view_data['default'] == 'none')) {
               $uncached_view_displays[] = $display_name;

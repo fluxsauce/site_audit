@@ -7,19 +7,19 @@ use Drupal\site_audit\Renderer;
 class Json extends Renderer {
 
   public function render($detail = FALSE) {
-    $report = array(
+    $report = [
       'percent' => $this->report->getPercent(),
       'label' => $this->report->getLabel(),
-      'checks' => array(),
-    );
+      'checks' => [],
+    ];
     foreach ($this->report->getChecks() as $check) {
-      $report['checks'][get_class($check)] = array(
+      $report['checks'][get_class($check)] = [
         'label' => $check->getLabel(),
         'description' => $check->getDescription(),
         'result' => $check->getResult(),
         'action' => $check->renderAction(),
         'score' => $check->getScore(),
-      );
+      ];
     }
     return json_encode($report);
   }

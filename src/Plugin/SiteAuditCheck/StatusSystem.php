@@ -36,7 +36,7 @@ class StatusSystem extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function getResultPass() {
-    $items = array();
+    $items = [];
     foreach ($this->registry->requirements as $requirement) {
       // Default to REQUIREMENT_INFO if no severity is set.
       if (!isset($requirement['severity'])) {
@@ -106,7 +106,7 @@ class StatusSystem extends SiteAuditCheckBase {
     drupal_load_updates();
 
     // Check run-time requirements and status information.
-    $this->registry->requirements = \Drupal::moduleHandler()->invokeAll('requirements', array('runtime'));
+    $this->registry->requirements = \Drupal::moduleHandler()->invokeAll('requirements', ['runtime']);
     usort($this->registry->requirements, function($a, $b) {
       if (!isset($a['weight'])) {
         if (!isset($b['weight'])) {
@@ -118,7 +118,7 @@ class StatusSystem extends SiteAuditCheckBase {
     });
 
     $this->percentOverride = 0;
-    $requirements_with_severity = array();
+    $requirements_with_severity = [];
     foreach ($this->registry->requirements as $key => $value) {
       if (isset($value['severity'])) {
         $requirements_with_severity[$key] = $value;

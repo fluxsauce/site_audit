@@ -77,9 +77,9 @@ class DatabaseEngine extends SiteAuditCheckBase {
    */
   public function getAction() {
     if ($this->score != SiteAuditCheckBase::AUDIT_CHECK_SCORE_PASS) {
-      return $this->t('Change the Storage Engine to InnoDB. See @url for details.', array(
+      return $this->t('Change the Storage Engine to InnoDB. See @url for details.', [
         '@url' => 'http://dev.mysql.com/doc/refman/5.6/en/converting-tables-to-innodb.html',
-      ));
+      ]);
     }
   }
 

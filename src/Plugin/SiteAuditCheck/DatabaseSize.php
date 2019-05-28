@@ -32,9 +32,9 @@ class DatabaseSize extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function getResultInfo() {
-    return $this->t('Total size: @size_in_mbMB', array(
+    return $this->t('Total size: @size_in_mbMB', [
       '@size_in_mb' => number_format($this->registry->table_size / 1048576, 2),
-    ));
+    ]);
   }
 
   /**

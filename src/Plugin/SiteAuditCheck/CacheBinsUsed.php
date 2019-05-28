@@ -29,10 +29,10 @@ class CacheBinsUsed extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function getResultInfo() {
-    $ret_val = array(
+    $ret_val = [
       '#header' => ['Service', 'Bin'],
       '#theme' => 'table',
-    );
+    ];
 
     foreach ($this->registry->cache_bins_used as $bin => $class) {
       $ret_val['#rows'][] = [$bin, $class];

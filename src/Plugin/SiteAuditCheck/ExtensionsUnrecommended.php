@@ -24,9 +24,9 @@ class ExtensionsUnrecommended extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function getResultFail() {
-    $ret_val = $this->t('The following unrecommended modules(s) currently exist in your codebase: @list', array(
+    $ret_val = $this->t('The following unrecommended modules(s) currently exist in your codebase: @list', [
       '@list' => implode(', ', array_keys($this->registry->extensions_unrec)),
-    ));
+    ]);
     //if (drush_get_option('detail')) {
     if (TRUE) {
       //if (drush_get_option('html')) {
@@ -63,16 +63,16 @@ class ExtensionsUnrecommended extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function getResultPass() {
-    return $this->t('No unrecommended extensions were detected; no action required.', array());
+    return $this->t('No unrecommended extensions were detected; no action required.', []);
   }
 
   /**
    * {@inheritdoc}.
    */
   public function getResultWarn() {
-    return $this->t('There are @extension_count extensions enabled; that\'s higher than the average.', array(
+    return $this->t('There are @extension_count extensions enabled; that\'s higher than the average.', [
       '@extension_count' => $this->registry->extension_count,
-    ));
+    ]);
   }
 
   /**
@@ -88,7 +88,7 @@ class ExtensionsUnrecommended extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function calculateScore() {
-    $this->registry->extensions_unrec = array();
+    $this->registry->extensions_unrec = [];
     if (!isset($this->registry->extensions)) {
       $this->checkInvokeCalculateScore('extensions_count');
     }
@@ -97,7 +97,7 @@ class ExtensionsUnrecommended extends SiteAuditCheckBase {
     $unrecommended_extensions = $this->getExtensions();
 
     foreach ($extension_info as $extension) {
-      $row = array();
+      $row = [];
 
       $machine_name = $extension->getName();
 
@@ -127,17 +127,17 @@ class ExtensionsUnrecommended extends SiteAuditCheckBase {
    *    Keyed by module machine name, value is explanation.
    */
   public function getExtensions() {
-    $unrecommended_modules = array(
+    $unrecommended_modules = [
       'bad_judgement' => $this->t('Joke module, framework for anarchy.'),
       'php' => $this->t('Executable code should never be stored in the database.'),
-    );
+    ];
     //if (drush_get_option('vendor') == 'pantheon') { TODO
     if (FALSE) {
       // Unsupported or redundant.
-      $pantheon_unrecommended_modules = array(
+      $pantheon_unrecommended_modules = [
         'memcache' => dt('Pantheon does not provide memcache; instead, redis is provided as a service to all customers; see http://helpdesk.getpantheon.com/customer/portal/articles/401317'),
         'memcache_storage' => dt('Pantheon does not provide memcache; instead, redis is provided as a service to all customers; see http://helpdesk.getpantheon.com/customer/portal/articles/401317'),
-      );
+      ];
       $unrecommended_modules = array_merge($unrecommended_modules, $pantheon_unrecommended_modules);
     }
     return $unrecommended_modules;

@@ -34,7 +34,7 @@ class ExtensionsDuplicate extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function getResultPass() {
-    return $this->t('No duplicate extensions were detected.', array());
+    return $this->t('No duplicate extensions were detected.', []);
   }
 
   /**
@@ -43,17 +43,17 @@ class ExtensionsDuplicate extends SiteAuditCheckBase {
   public function getResultWarn() {
     $ret_val = $this->t('The following duplicate extensions were found:');
 
-    $paths = array();
+    $paths = [];
     foreach ($this->registry->extensions_dupe as $name => $instances) {
       foreach ($instances as $instance) {
         $paths[$name][] = $instance['path'];
       }
     }
 
-    $headers = array(
+    $headers = [
       $this->t('Name'),
       $this->t('Paths')
-    );
+    ];
     $rows = [];
     switch ($this->options['format']) {
       case 'html':
@@ -81,7 +81,7 @@ class ExtensionsDuplicate extends SiteAuditCheckBase {
         }
         break;
     }
-    return array('#theme' => 'table', '#header' => $headers, '#rows' => $rows);
+    return ['#theme' => 'table', '#header' => $headers, '#rows' => $rows];
   }
 
   /**
@@ -97,7 +97,7 @@ class ExtensionsDuplicate extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function calculateScore() {
-    $this->registry->extensions_dupe = array();
+    $this->registry->extensions_dupe = [];
     $drupal_root = DRUPAL_ROOT;
     $settings = \Drupal::service('settings');
     $kernel = \Drupal::service('kernel');
@@ -108,15 +108,15 @@ class ExtensionsDuplicate extends SiteAuditCheckBase {
       $path_parts = explode('/', $path);
       $name = substr(array_pop($path_parts), 0, -9);
       // Safe duplicates.
-      if (in_array($name, array(
+      if (in_array($name, [
         'drupal_system_listing_compatible_test',
         'drupal_system_listing_incompatible_test',
         'aaa_update_test',
-      ))) {
+      ])) {
         continue;
       }
       if (!isset($this->registry->extensions_dupe[$name])) {
-        $this->registry->extensions_dupe[$name] = array();
+        $this->registry->extensions_dupe[$name] = [];
       }
       $path = substr($path, strlen($drupal_root) + 1);
       $version = '';
@@ -130,10 +130,10 @@ class ExtensionsDuplicate extends SiteAuditCheckBase {
           }
         }
       }
-      $this->registry->extensions_dupe[$name][] = array(
+      $this->registry->extensions_dupe[$name][] = [
         'path' => $path,
         'version' => $version,
-      );
+      ];
     }
 
     // Review the detected extensions.

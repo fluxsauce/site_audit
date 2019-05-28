@@ -31,7 +31,7 @@ class WatchdogPhp extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function getResultInfo() {
-    $counts = array();
+    $counts = [];
     foreach ($this->registry->php_counts as $severity => $count) {
       $counts[] = $severity . ': ' . $count;
     }
@@ -67,7 +67,7 @@ class WatchdogPhp extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function calculateScore() {
-    $this->registry->php_counts = array();
+    $this->registry->php_counts = [];
     $this->registry->php_count_total = 0;
     $this->registry->percent_php = 0;
 
@@ -101,7 +101,7 @@ class WatchdogPhp extends SiteAuditCheckBase {
    * @see drush_watchdog_severity_levels()
    */
   public function watchdog_severity_levels() {
-    return array(
+    return [
       RfcLogLevel::EMERGENCY => 'emergency',
       RfcLogLevel::ALERT => 'alert',
       RfcLogLevel::CRITICAL => 'critical',
@@ -110,7 +110,7 @@ class WatchdogPhp extends SiteAuditCheckBase {
       RfcLogLevel::NOTICE => 'notice',
       RfcLogLevel::INFO => 'info',
       RfcLogLevel::DEBUG => 'debug',
-    );
+    ];
   }
 
 }

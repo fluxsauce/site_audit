@@ -42,13 +42,13 @@ class ContentFieldsUnused extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function getResultWarn() {
-    $report = array();
+    $report = [];
     foreach ($this->registry->fields_unused as $bundle_name => $fields) {
       $report[] = $bundle_name .= ': ' . implode(', ', $fields);
     }
-    return $this->t('The following fields are unused: @report', array(
+    return $this->t('The following fields are unused: @report', [
       '@report' => implode('; ', $report),
-    ));
+    ]);
   }
 
   /**
@@ -64,7 +64,7 @@ class ContentFieldsUnused extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function calculateScore() {
-    $this->registry->fields_unused = array();
+    $this->registry->fields_unused = [];
 
     foreach ($this->registry->field_instance_counts as $bundle_name => $entity_types) {
       foreach ($entity_types as $entity_type => $fields) {

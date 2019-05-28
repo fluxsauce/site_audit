@@ -64,9 +64,9 @@ class ContentFieldCount extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function getResultWarn() {
-    return $this->t('There are @count total fields, which is higher than average', array(
+    return $this->t('There are @count total fields, which is higher than average', [
       '@count' => count($this->registry->fields),
-    ));
+    ]);
   }
 
   /**
@@ -85,11 +85,11 @@ class ContentFieldCount extends SiteAuditCheckBase {
     if (!isset($this->registry->fields)) {
       // it hasn't been calculated yet, so do it now
       $map = \Drupal::service('entity_field.manager')->getFieldMap();
-      $this->registry->fields = array();
-      $this->registry->default_fields = array(
+      $this->registry->fields = [];
+      $this->registry->default_fields = [
         'body',
         'comment_body',
-      );
+      ];
       foreach ($map as $entity => $fields) {
         foreach ($fields as $field => $description) {
           if (preg_match('/^field\_/', $field) || in_array($field, $this->registry->default_fields)) {

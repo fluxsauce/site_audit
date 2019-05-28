@@ -100,7 +100,7 @@ abstract class SiteAuditReportBase extends PluginBase implements SiteAuditReport
 
     $percent_override = NULL;
 
-    $checks_to_skip = array();
+    $checks_to_skip = [];
 
     $checks_to_perform = $this->getChecksList();
 
@@ -112,13 +112,13 @@ abstract class SiteAuditReportBase extends PluginBase implements SiteAuditReport
 
     if (empty($checks_to_perform)) {
       $this_def = $this->getPluginDefinition();
-      //throw new \RuntimeException(t('No checks are available for report \'@id\'!', array('@id' => $this_def['id'])));
+      //throw new \RuntimeException(t('No checks are available for report \'@id\'!', ['@id' => $this_def['id']]));
     }
 
     $config = \Drupal::config('site_audit');
     foreach ($checks_to_perform as $check_id) {
       $opt_out = $config->get('opt_out.' . $this->getPluginId() . $check_id) != NULL;
-      $check = $checkManager->createInstance($check_id, array('registry' => $this->registry, 'opt_out' => $opt_out, 'options' => $this->configuration));
+      $check = $checkManager->createInstance($check_id, ['registry' => $this->registry, 'opt_out' => $opt_out, 'options' => $this->configuration]);
 
       // Calculate score.
       if ($check->getScore() != SiteAuditCheckBase::AUDIT_CHECK_SCORE_INFO) {
@@ -170,7 +170,7 @@ abstract class SiteAuditReportBase extends PluginBase implements SiteAuditReport
         $checksInReport[$checkDefinition['id']] = $checkDefinition;
       }
     }
-    uasort($checksInReport, array($this, 'weightKeySort'));
+    uasort($checksInReport, [$this, 'weightKeySort']);
 
     $checks = [];
     foreach ($checksInReport AS $check) {

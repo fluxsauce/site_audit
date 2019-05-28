@@ -41,9 +41,9 @@ class CronEnabled extends SiteAuditCheckBase {
       return $this->t('Drupal Cron frequency is set to never, but has been executed within the past 24 hours (either manually or using drush cron).');
     }
     // Default.
-    return $this->t('Cron is set to run every @minutes minutes.', array(
+    return $this->t('Cron is set to run every @minutes minutes.', [
       '@minutes' => round($this->registry->cron_safe_threshold / 60),
-    ));
+    ]);
   }
 
   /**

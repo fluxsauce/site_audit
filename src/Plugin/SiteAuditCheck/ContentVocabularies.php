@@ -99,7 +99,7 @@ class ContentVocabularies extends SiteAuditCheckBase {
       $query->groupBy('vid');
       $result = $query->execute();
 
-      $this->registry->vocabulary_counts = $this->registry->vocabulary_unused = array();
+      $this->registry->vocabulary_counts = $this->registry->vocabulary_unused = [];
 
       while ($row = $result->fetchAssoc()) {
         $label = $vocabularies[$row['vid']]['label'];
