@@ -12,7 +12,7 @@ class Json extends Renderer {
       'label' => $this->report->getLabel(),
       'checks' => [],
     ];
-    foreach ($this->report->getChecks() as $check) {
+    foreach ($this->report->getCheckObjects() as $check) {
       $report['checks'][get_class($check)] = [
         'label' => $check->getLabel(),
         'description' => $check->getDescription(),
