@@ -97,7 +97,7 @@ class BestPracticesMultisite extends SiteAuditCheckBase {
     }
     closedir($handle);
     if (isset($this->registry->multisite_enabled) && !empty($this->registry->multisite_enabled)) {
-      if (drush_get_option('vendor') == 'pantheon') {
+      if ($this->options['vendor'] == 'pantheon') {
         return SiteAuditCheckBase::AUDIT_CHECK_SCORE_FAIL;
       }
       if (!empty($this->registry->multisites)) {

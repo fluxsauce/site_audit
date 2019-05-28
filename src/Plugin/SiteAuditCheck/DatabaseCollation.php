@@ -29,7 +29,7 @@ class DatabaseCollation extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function getResultInfo() {
-    //if (drush_get_option('html')) {
+    //if ($this->options['html']) {
     if (TRUE) {
       $ret_val = '<table class="table table-condensed">';
       $ret_val .= '<thead><tr><th>' . $this->t('Table Name') . '</th><th>' . $this->t('Collation') . '</th></tr></thead>';
@@ -45,13 +45,13 @@ class DatabaseCollation extends SiteAuditCheckBase {
     }
     else {
       $ret_val  = dt('Table Name: Collation') . PHP_EOL;
-      if (!drush_get_option('json')) {
+      if (!$this->options['json']) {
         $ret_val .= str_repeat(' ', 4);
       }
       $ret_val .= '---------------------';
       foreach ($this->registry->collation_tables as $name => $collation) {
         $ret_val .= PHP_EOL;
-        if (!drush_get_option('json')) {
+        if (!$this->options['json']) {
           $ret_val .= str_repeat(' ', 4);
         }
         $ret_val .= "$name: $collation";

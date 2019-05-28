@@ -27,9 +27,9 @@ class ExtensionsUnrecommended extends SiteAuditCheckBase {
     $ret_val = $this->t('The following unrecommended modules(s) currently exist in your codebase: @list', [
       '@list' => implode(', ', array_keys($this->registry->extensions_unrec)),
     ]);
-    //if (drush_get_option('detail')) {
+    //if ($this->options['detail']) {
     if (TRUE) {
-      //if (drush_get_option('html')) {
+      //if ($this->options['html']) {
       if (TRUE) {
         $ret_val .= '<br/>';
         $ret_val .= '<table class="table table-condensed">';
@@ -44,7 +44,7 @@ class ExtensionsUnrecommended extends SiteAuditCheckBase {
       else {
         foreach ($this->registry->extensions_unrec as $row) {
           $ret_val .= PHP_EOL;
-          if (!drush_get_option('json')) {
+          if (!$this->options['json']) {
             $ret_val .= str_repeat(' ', 6);
           }
           $ret_val .= '- ' . $row[0] . ': ' . $row[1];
@@ -131,7 +131,7 @@ class ExtensionsUnrecommended extends SiteAuditCheckBase {
       'bad_judgement' => $this->t('Joke module, framework for anarchy.'),
       'php' => $this->t('Executable code should never be stored in the database.'),
     ];
-    //if (drush_get_option('vendor') == 'pantheon') { TODO
+    //if ($this->options['vendor'] == 'pantheon') { TODO
     if (FALSE) {
       // Unsupported or redundant.
       $pantheon_unrecommended_modules = [

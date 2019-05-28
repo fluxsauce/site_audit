@@ -35,7 +35,7 @@ class ContentVocabularies extends SiteAuditCheckBase {
       return $this->t('The taxonomy module is not enabled.');
     }
     if (empty($this->registry->vocabulary_counts)) {
-      if (drush_get_option('detail')) {
+      if ($this->options['detail']) {
         return $this->t('No vocabularies exist.');
       }
       return '';

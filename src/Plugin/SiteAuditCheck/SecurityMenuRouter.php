@@ -28,8 +28,8 @@ class SecurityMenuRouter extends SiteAuditCheckBase {
       '@list' => implode(', ', array_keys($this->registry->menu_router)),
     ]);
 
-    if (TRUE) { //if (drush_get_option('detail')) {
-      if (TRUE) { //if (drush_get_option('html')) {
+    if (TRUE) { //if ($this->options['detail']) {
+      if (TRUE) { //if ($this->options['html']) {
         $ret_val .= '<br/>';
         $ret_val .= '<table class="table table-condensed">';
         $ret_val .= '<thead><tr><th>' . $thist('Path') . '</th><th>' . $this->t('Reason') . '</th></thead>';
@@ -46,7 +46,7 @@ class SecurityMenuRouter extends SiteAuditCheckBase {
         foreach ($this->registry->menu_router as $path => $malicious_callbacks) {
           foreach ($malicious_callbacks as $malicious_callback) {
             $ret_val .= PHP_EOL;
-            if (!drush_get_option('json')) {
+            if (!$this->options['json']) {
               $ret_val .= str_repeat(' ', 6);
             }
             $ret_val .= '- ' . $path . ': ' . $malicious_callback;

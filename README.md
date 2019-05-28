@@ -202,13 +202,13 @@ function security_review_drush_command_alter(&$command) {
 
 ### Custom Checks
 
-Custom Checks should extend ````SiteAuditCheckAbstract````. If including HTML,
+Custom Checks should extend ````SiteAuditCheckBase````. If including HTML,
 be sure to check to see if the HTML option is being used. For example:
 
 ````
-if (drush_get_option('html')) {
+if ($this->options['html']) {
   $values = $this->registry['semantically_significant_name'];
-  if (drush_get_option('html')) {
+  if ($this->options['html']) {
     $ret_val .= '<ul>';
     foreach ($values as $value) {
       $ret_val .= '<li>' . $value . '</li>';

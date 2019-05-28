@@ -32,7 +32,7 @@ class ContentEntityTypes extends SiteAuditCheckBase {
     $ret_val = '';
 
     if (empty($this->registry->content_entity_type_counts)) {
-      if (drush_get_option('detail')) {
+      if ($this->options['detail']) {
         return $this->t('No entities exist.');
       }
       return $ret_val;

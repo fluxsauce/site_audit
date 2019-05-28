@@ -24,7 +24,7 @@ class DatabaseEngine extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function getResultFail() {
-    //if (drush_get_option('html')) {
+    //if ($this->options['html']) {
     if (TRUE) {
       $ret_val = '<table class="table table-condensed">';
       $ret_val .= '<thead><tr><th>' . $this->t('Table Name') . '</th><th>' . $this->t('Engine') . '</th></tr></thead>';
@@ -40,13 +40,13 @@ class DatabaseEngine extends SiteAuditCheckBase {
     }
     else {
       $ret_val  = 'Table Name: Engine' . PHP_EOL;
-      if (!drush_get_option('json')) {
+      if (!$this->options['json']) {
         $ret_val .= str_repeat(' ', 4);
       }
       $ret_val .= '---------------------';
       foreach ($this->registry->engine_tables as $name => $engine) {
         $ret_val .= PHP_EOL;
-        if (!drush_get_option('json')) {
+        if (!$this->options['json']) {
           $ret_val .= str_repeat(' ', 4);
         }
         $ret_val .= "$name: $engine";
