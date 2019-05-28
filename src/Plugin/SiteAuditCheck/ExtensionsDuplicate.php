@@ -55,7 +55,7 @@ class ExtensionsDuplicate extends SiteAuditCheckBase {
       $this->t('Paths')
     ];
     $rows = [];
-    switch ($this->options['format']) {
+    switch (isset($this->options['format']) ? $this->options['format'] : 'html') {
       case 'html':
         foreach ($this->registry->extensions_dupe as $name => $infos) {
           $rows[] = [
@@ -97,6 +97,7 @@ class ExtensionsDuplicate extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function calculateScore() {
+    $extension_list = \Drupal::service('extension.list.module');
     $this->registry->extensions_dupe = [];
     $drupal_root = DRUPAL_ROOT;
     $settings = \Drupal::service('settings');
@@ -170,11 +171,10 @@ class ExtensionsDuplicate extends SiteAuditCheckBase {
 
       // Allow versions that are greater than what's in an installation profile
       // if that version is enabled.
-      $extension_object = $this->registry->extensions[$extension];
       if ($paths_in_profile > 0 &&
           count($instances) - $paths_in_profile == 1 &&
           $moduleHandler->moduleExists($extension)  &&
-          $extension_object->info['version'] == $instances[$non_profile_index]['version'] &&
+          $extension_list->getExtensionInfo($extension)['version'] == $instances[$non_profile_index]['version'] &&
           $instances[$non_profile_index]['version'] != '') {
         $skip = TRUE;
         foreach ($instances as $index => $info) {
