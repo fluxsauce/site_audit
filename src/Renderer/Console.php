@@ -8,6 +8,7 @@ use Drupal\site_audit\Plugin\SiteAuditCheckBase;
 use Drupal\site_audit\Plugin\SiteAuditReportBase;
 use Drush\Log\LogLevel;
 use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Console\Terminal;
@@ -18,8 +19,8 @@ class Console extends Renderer {
   var $output;
   var $formatter;
 
-  public function __construct($report, $logger, $options, $output = NULL) {
-    parent::__construct($report, $logger, $options);
+  public function __construct($report, $logger, $options, $output) {
+    parent::__construct($report, $logger, $options, $output);
     $this->output = $output;
     $this->formatter = new FormatterHelper();
   }
@@ -215,8 +216,8 @@ class Console extends Renderer {
     // theme as a table
     $table = new Table($this->output);
     $table
-      ->setHeaders($element['headers'])
-      ->setRows($element['rows']);
+      ->setHeaders($element['#header'] ?: $element['headers'])
+      ->setRows($element['#rows'] ?: $element['rows']);
 
     $this->output->writeln($table->render());
   }
