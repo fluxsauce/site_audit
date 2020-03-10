@@ -1,4 +1,6 @@
-# Overview
+# Site Audit
+
+## Overview
 
 Site Audit is a Drupal static site analysis platform that generates reports with
 actionable best practice recommendations.
@@ -20,62 +22,68 @@ multiple formats, including plain text, HTML, and JSON.
 Site Audit can also be extended by other projects to add custom reports and
 checks.
 
-# Reports
+## Reports
 
 Site Audit includes a number of comprehensive reports, each consisting of one
 or more checks. Site Audit reports include:
 
 * Cache - optimal Drupal caching settings
 
-# Installation
+## Installation
 
-...
+* Install as you would normally install a contributed Drupal module.
+  Visit [Installing Drupal 8 Modules](https://www.drupal.org/node/1897420]) for further information.
 
-# Usage
+## Usage
 
-````
-drush help --filter=site_audit
-````
+```bash
+drush list --filter=site_audit
+```
 
-## Audit cache
+## Audit Report
 
-````
-drush ac
-````
+```bash
+drush site_audit:audit
+```
 
-## Produce a HTML report
+or use the alias:
 
-Create a new file or overwrite:
+```bash
+drush audit
+```
 
-````
-drush ac --html --detail > ~/Desktop/report.html
-````
+## Produce an HTML report
 
-Continue writing to a file:
+### Create a new file or overwrite
 
-````
-drush abp --html --detail >> ~/Desktop/report.html
-````
+```bash
+drush audit users --format=html > ~Desktop/report.html
+```
 
-Run every report with maximum detail, skipping Google insights and adding
-Twitter Bootstrap for styling:
+#### Continue writing to a file
 
-````
-drush aa --html --bootstrap --detail --skip=insights > ~/Desktop/report.html
-````
+```bash
+drush audit security --html --detail >> ~/Desktop/report.html
+```
 
-## Skipping reports or checks
+### Run every report with maximum detail, skipping Google insights and adding Twitter Bootstrap for styling
 
-For the Audit All command, an individual report can be skipped by name using
+```bash
+drush audit --html --bootstrap --detail --skip=insights > ~/Desktop/report.html
+```
+
+### Skipping reports or checks
+
+For the Audit command, an individual report can be skipped by name using
 the option --skip.
 
 For all commands, individual checks can be skipped by specifying the combination
 of the report name and the check name. For example, if you wanted to skip the
 System check in the Status report, use the following convention:
 
-````
+```bash
 --skip=StatusSystem
-````
+```
 
 Multiple skip values can be used, comma separated.
 
@@ -84,9 +92,9 @@ settings.php with the individual check names in the same format as the skip
 option. For example, to permanently opt-out of the PageCompression check in the
 Cache report:
 
-````
+```bash
 $conf['site_audit']['opt_out']['CachePageCompression'] = TRUE;
-````
+```
 
 ## Vendor specific options
 
@@ -95,11 +103,11 @@ produce results that are specific to a particular platform. Currently only
 supports Pantheon, but submit a patch if you have another platform that should
 have explicit support that will be helpful to other developers.
 
-````
-drush @pantheon.SITENAME.ENV --vendor=pantheon --detail ac
-````
+```bash
+drush @pantheon.SITENAME.ENV --vendor=pantheon --detail audit
+```
 
-# Adding Reports and Checks
+## Adding Reports and Checks
 
 There are two classes that you should be aware of:
 
@@ -129,7 +137,7 @@ particular use case or project. A couple steps are needed; regardless of the
 approach, a Drush command file is required for the project.
 
 There are no requirements for file structure; depending on the number of checks,
-it may be easiest to create a ````project.site_audit.inc```` file within your
+it may be easiest to create a `project.site_audit.inc` file within your
 project to consolidate the functionality. You can also define the Reports and
 Checks within the actual Drush command, but I'd recommend instead requiring the
 code only upon execution, otherwise every other drush command execution will
@@ -137,75 +145,53 @@ include all the overhead of loading custom code.
 
 ### Custom Reports
 
-In ````hook_drush_command()````, define a command with the following format:
+Custom Reports should extend `SiteAuditReportBase` and should live in the
+`YOURMODULE/src/Plugin/SiteAuditReport/` directory.
 
-````
-$items['audit_REPORT'] = array(
-  // Describe the Report.
-  'description' => dt('DESCRIPTION.'),
-  // A short alias for the command. Check site_audit.drush.inc to avoid
-  // collisions.
-  'aliases' => array('aN'),
-  // Specify the maximum bootstrap required for your Checks; if interaction with
-  // the actual Drupal site is required, use DRUSH_BOOTSTRAP_DRUPAL_FULL.
-  'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
-  // Names of the individual checks, in order of execution.
-  'checks' => array(
-    // If a Check is defined in its own file, the location can be passed to a
-    // require_once within the Report execution.
-    array(
-     'name' => 'FirstCheck',
-     'location' => __DIR__ . '/site_audit/checks/FirstCheck.php',
-    );
-    // If just the name of the check is defined, the assumption is made that the
-    // code has already been loaded.
-    'SecondCheck',
-    'ThirdCheck',
-    'LastCheck',
-  ),
-  // Options available for all site_audit commands. You can add your own options
-  // as well, but make sure to combine the arrays.
-  'options' => site_audit_common_options(),
-);
-````
+The comment for the SiteAuditReportBase class must include the
+`@SiteAuditReport` annotation, including _id_, _name_, and _description_.
 
-Define a command callback so the custom Report can be executed individually.
-
-````
+```php
 /**
- * Command callback for drush audit_NAME.
+ * A brief description of your Report.
+ *
+ * @SiteAuditReport(
+ *  id = "new_report",
+ *  name = @Translation("A New Report"),
+ *  description = @Translation("Reports something")
+ * )
  */
-function drush_PROJECT_audit_REPORT() {
-  require_once __DIR__ . '/PROJECT.site_audit.inc';
-  $report = new SiteAuditReportNAME();
-  $report->render();
-}
-````
-
-Finally, include the custom Report to audit_all. The Report name is
-case-sensitive. The location will be used for a ````require_once``` statement
-when loading the Report class.
-
-````
-/**
- * Implements hook_drush_command_alter().
- */
-function security_review_drush_command_alter(&$command) {
-  if ($command['command'] == 'audit_all') {
-    $command['reports'][] = array(
-      'name' => 'Security',
-      'location' => __DIR__ . '/PROJECT.site_audit.inc',
-    );
-  }
-}
-````
+```
 
 ### Custom Checks
 
-Custom Checks should extend ````SiteAuditCheckBase````. If including HTML,
-be sure to check to see if the HTML option is being used. For example:
+Custom Checks should extend `SiteAuditCheckBase` and should live in the `YOURMODULE/src/Plugin/SiteAuditCheck/` directory.
 
-````
+The comment for the SiteAuditCheckBase class must include the
+`@SiteAuditCheck` annotation, including _id_, _name_, _description_, and
+_report_. The _report_ should be the ID of the report in which you want to
+include your check. In the example above it would be `new_report`.
+
+```php
+/**
+ * A brief description of your Report.
+ *
+ * @SiteAuditCheck(
+ *  id = "new_check",
+ *  name = @Translation("A New Check"),
+ *  description = @Translation("Checks something"),
+ *  report="new_report"
+ * )
+ */
+```
+
+To include your check to an existing report simply use the ID of that report
+for the `report=` parameter.
+
+If including HTML, be sure to check to see if the HTML option is being used.
+For example:
+
+```php
 if ($this->options['html']) {
   $values = $this->registry['semantically_significant_name'];
   if ($this->options['html']) {
@@ -219,45 +205,16 @@ if ($this->options['html']) {
     // Text-only rendering...
   }
 }
-````
+```
 
-### Adding custom Checks to an existing Report
-
-As Check names are defined in the Report command, just alter the target
-command name.
-
-````
-/**
- * Implements hook_drush_command_alter().
- */
-function security_review_drush_command_alter(&$command) {
-  if ($command['command'] == 'audit_NAME') {
-    $command['checks'][] = array(
-      'name' => 'CheckName',
-      'location' => __DIR__ . '/PROJECT.site_audit.inc',
-    );
-  }
-}
-````
-
-# Release notes
+## Release notes
 
 Release notes are maintained at https://www.drupal.org/node/2022771/release
 
-The version of Site Audit is found in ````site_audit.info```` and can be
-displayed with the command:
+The version of Site Audit can be displayed with the command:
+`composer show drupal/site_audit`
 
-````
-drush site-audit-version
-````
-
-The response will be in the form:
-
-````
-Site Audit v#.#
-````
-
-# Credits
+## Credits
 
 Site Audit is written and maintained by Jon Peck, http://about.me/jonpeck
 
