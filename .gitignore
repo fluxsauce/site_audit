@@ -1,9 +1,8 @@
 .idea/
-vendor/
-
-#
-# Dropwhale stuff for testing.
-#
-.dropwhale
-dropwhale.settings
-docker-compose.yml
+/vendor/
+vendor
+/web/
+web
+composer.lock
+/.editorconfig
+/.gitattributes
