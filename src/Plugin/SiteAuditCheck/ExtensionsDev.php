@@ -85,7 +85,7 @@ class ExtensionsDev extends SiteAuditCheckBase {
   public function calculateScore() {
     if (!isset($this->registry->extensions) || empty($this->registry->extensions)) {
       $moduleHandler = \Drupal::service('module_handler');
-      $this->registry->extensions = $modules = system_rebuild_module_data();
+      $this->registry->extensions = $modules = \Drupal::service('extension.list.module')->getList();
       uasort($this->registry->extensions, 'system_sort_modules_by_info_name');
     }
     $this->registry->extensions_dev = [];
