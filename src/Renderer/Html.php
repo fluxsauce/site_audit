@@ -94,7 +94,7 @@ class Html extends Renderer {
           'sub_head' => [
             '#type' => 'html_tag',
             '#tag' => 'small',
-            '#value' => $this->t('Generated on @date_time', ['@date_time' => \Drupal::service('date.formatter')->format(REQUEST_TIME)]),
+            '#value' => $this->t('Generated on @date_time', ['@date_time' => \Drupal::service('date.formatter')->format(\Drupal::time()->getRequestTime())]),
           ],
         ],
       ],
