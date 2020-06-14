@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains site_audit.module..
+ * Contains hooks and functions for the site_audit.module.
  */
 
 use Drupal\Core\Routing\RouteMatchInterface;
