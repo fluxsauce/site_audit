@@ -1,13 +1,8 @@
 <?php
-/**
- * @file
- * Contains Drupal\site_audit\Plugin\SiteAuditCheck\ContentFieldEnabled
- */
 
 namespace Drupal\site_audit\Plugin\SiteAuditCheck;
 
 use Drupal\site_audit\Plugin\SiteAuditCheckBase;
-use Drupal\site_audit\Renderer\Html;
 
 /**
  * Provides the ContentFieldEnabled Check.
@@ -31,7 +26,7 @@ class ContentFieldEnabled extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function getResultInfo() {
-     return $this->t('Field is not enabled.');
+    return $this->t('Field is not enabled.');
   }
 
   /**

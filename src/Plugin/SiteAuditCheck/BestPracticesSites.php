@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains Drupal\site_audit\Plugin\SiteAuditCheck\BestPracticesSites
- */
 
 namespace Drupal\site_audit\Plugin\SiteAuditCheck;
 
@@ -62,7 +58,7 @@ class BestPracticesSites extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function calculateScore() {
-   $this->registry->multisite_enabled = file_exists(DRUPAL_ROOT . '/sites/sites.php');
+    $this->registry->multisite_enabled = file_exists(DRUPAL_ROOT . '/sites/sites.php');
     if ($this->registry->multisite_enabled && is_link(DRUPAL_ROOT . '/sites/sites.php')) {
       return SiteAuditCheckBase::AUDIT_CHECK_SCORE_WARN;
     }

@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains Drupal\site_audit\Plugin\SiteAuditCheck\ExtensionsDuplicate
- */
 
 namespace Drupal\site_audit\Plugin\SiteAuditCheck;
 
@@ -52,7 +48,7 @@ class ExtensionsDuplicate extends SiteAuditCheckBase {
 
     $headers = [
       $this->t('Name'),
-      $this->t('Paths')
+      $this->t('Paths'),
     ];
     $rows = [];
     switch (isset($this->options['format']) ? $this->options['format'] : 'html') {
@@ -64,6 +60,7 @@ class ExtensionsDuplicate extends SiteAuditCheckBase {
           ];
         }
         break;
+
       case 'text':
         foreach ($this->registry->extensions_dupe as $name => $infos) {
           $rows[] = [
@@ -72,6 +69,7 @@ class ExtensionsDuplicate extends SiteAuditCheckBase {
           ];
         }
         break;
+
       case 'json':
         foreach ($this->registry->extensions_dupe as $name => $infos) {
           $rows[] = [
@@ -201,4 +199,5 @@ class ExtensionsDuplicate extends SiteAuditCheckBase {
     }
     return SiteAuditCheckBase::AUDIT_CHECK_SCORE_PASS;
   }
+
 }

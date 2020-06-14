@@ -1,11 +1,8 @@
 <?php
-/**
- * @file
- * Contains Drupal\site_audit\Plugin\SiteAuditCheck\DatabaseEngine
- */
 
 namespace Drupal\site_audit\Plugin\SiteAuditCheck;
 
+use Drupal\Core\Database\Database;
 use Drupal\site_audit\Plugin\SiteAuditCheckBase;
 
 /**
@@ -24,7 +21,7 @@ class DatabaseEngine extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function getResultFail() {
-    //if ($this->options['html']) {
+    // If ($this->options['html']) {.
     if (TRUE) {
       $ret_val = '<table class="table table-condensed">';
       $ret_val .= '<thead><tr><th>' . $this->t('Table Name') . '</th><th>' . $this->t('Engine') . '</th></tr></thead>';
@@ -39,7 +36,7 @@ class DatabaseEngine extends SiteAuditCheckBase {
       $ret_val .= '</table>';
     }
     else {
-      $ret_val  = 'Table Name: Engine' . PHP_EOL;
+      $ret_val = 'Table Name: Engine' . PHP_EOL;
       if (!$this->options['json']) {
         $ret_val .= str_repeat(' ', 4);
       }
@@ -87,7 +84,7 @@ class DatabaseEngine extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function calculateScore() {
-    $connection = \Drupal\Core\Database\Database::getConnection();
+    $connection = Database::getConnection();
     $query = \Drupal::database()->select('information_schema.TABLES', 'ist');
     $query->addField('ist', 'TABLE_NAME', 'name');
     $query->addField('ist', 'ENGINE', 'engine');

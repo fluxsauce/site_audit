@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains Drupal\site_audit\Plugin\SiteAuditCheck\ViewsCacheOutput
- */
 
 namespace Drupal\site_audit\Plugin\SiteAuditCheck;
 
@@ -68,7 +64,7 @@ class ViewsCacheOutput extends SiteAuditCheckBase {
       $ret_val = [
         '#theme' => 'item_list',
         '#title' => $this->t('Rendered output should be cached for as long as possible (if the query changes, the output will be refreshed).'),
-        //'#description' => $this->t(),
+        // '#description' => $this->t(),
         '#items' => $steps,
         '#list_type' => 'ol',
       ];

@@ -4,8 +4,14 @@ namespace Drupal\site_audit\Renderer;
 
 use Drupal\site_audit\Renderer;
 
+/**
+ *
+ */
 class Json extends Renderer {
 
+  /**
+   *
+   */
   public function render($detail = FALSE) {
     $report = [
       'percent' => $this->report->getPercent(),
@@ -23,4 +29,5 @@ class Json extends Renderer {
     }
     return json_encode($report);
   }
+
 }

@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains Drupal\site_audit\Plugin\SiteAuditCheck\WatchdogEnabled
- */
 
 namespace Drupal\site_audit\Plugin\SiteAuditCheck;
 

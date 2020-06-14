@@ -5,7 +5,14 @@ namespace Drupal\site_audit\Renderer;
 use Drupal\site_audit\Renderer;
 use Drupal\site_audit\Check;
 
+/**
+ *
+ */
 class Markdown extends Renderer {
+
+  /**
+   *
+   */
   public function render($detail = FALSE) {
     $ret_val = '## ' . $this->report->getLabel();
 
@@ -63,4 +70,5 @@ class Markdown extends Renderer {
     $ret_val .= "\n";
     return $ret_val;
   }
+
 }

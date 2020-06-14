@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains Drupal\site_audit\Plugin\SiteAuditCheck\StatusSystem
- */
 
 namespace Drupal\site_audit\Plugin\SiteAuditCheck;
 
@@ -74,9 +70,9 @@ class StatusSystem extends SiteAuditCheckBase {
         $ret_val['#rows'][] = [
           'attributes' => ['class' => $item['class']],
           'data' => [
-             $item['title'],
-             $item['severity'],
-             $item['value'],
+            $item['title'],
+            $item['severity'],
+            $item['value'],
           ],
         ];
       }
@@ -107,7 +103,7 @@ class StatusSystem extends SiteAuditCheckBase {
 
     // Check run-time requirements and status information.
     $this->registry->requirements = \Drupal::moduleHandler()->invokeAll('requirements', ['runtime']);
-    usort($this->registry->requirements, function($a, $b) {
+    usort($this->registry->requirements, function ($a, $b) {
       if (!isset($a['weight'])) {
         if (!isset($b['weight'])) {
           return strcmp($a['title'], $b['title']);

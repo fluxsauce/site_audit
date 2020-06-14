@@ -1,13 +1,8 @@
 <?php
-/**
- * @file
- * Contains Drupal\site_audit\Plugin\SiteAuditCheck\ContentVocabulariesUnused
- */
 
 namespace Drupal\site_audit\Plugin\SiteAuditCheck;
 
 use Drupal\site_audit\Plugin\SiteAuditCheckBase;
-use Drupal\site_audit\Renderer\Html;
 
 /**
  * Provides the ContentVocabulariesUnused Check.
@@ -69,4 +64,5 @@ class ContentVocabulariesUnused extends SiteAuditCheckBase {
     }
     return SiteAuditCheckBase::AUDIT_CHECK_SCORE_WARN;
   }
+
 }

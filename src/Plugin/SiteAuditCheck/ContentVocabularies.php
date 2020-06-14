@@ -1,13 +1,8 @@
 <?php
-/**
- * @file
- * Contains Drupal\site_audit\Plugin\SiteAuditCheck\ContentVocabularies
- */
 
 namespace Drupal\site_audit\Plugin\SiteAuditCheck;
 
 use Drupal\site_audit\Plugin\SiteAuditCheckBase;
-use Drupal\site_audit\Renderer\Html;
 
 /**
  * Provides the ContentVocabularies Check.
@@ -121,4 +116,5 @@ class ContentVocabularies extends SiteAuditCheckBase {
 
     return SiteAuditCheckBase::AUDIT_CHECK_SCORE_INFO;
   }
+
 }

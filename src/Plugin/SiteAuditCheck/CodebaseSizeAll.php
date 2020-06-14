@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains Drupal\site_audit\Plugin\SiteAuditCheck\CodebaseSizeAll
- */
 
 namespace Drupal\site_audit\Plugin\SiteAuditCheck;
 
@@ -34,13 +30,13 @@ class CodebaseSizeAll extends SiteAuditCheckBase {
   public function getResultInfo() {
 
     if ($this->registry->size_all_kb < 1024) {
-      return $this->t('Total size: @size_all_kbkB', array(
+      return $this->t('Total size: @size_all_kbkB', [
         '@size_all_kb' => number_format($this->registry->size_all_kb),
-      ));
+      ]);
     }
-    return $this->t('Total size: @size_all_mbMB', array(
+    return $this->t('Total size: @size_all_mbMB', [
       '@size_all_mb' => number_format($this->registry->size_all_kb / 1024, 2),
-    ));
+    ]);
   }
 
   /**

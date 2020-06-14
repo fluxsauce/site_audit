@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains Drupal\site_audit\Plugin\SiteAuditCheck\WatchdogPhp
- */
 
 namespace Drupal\site_audit\Plugin\SiteAuditCheck;
 
@@ -81,7 +77,7 @@ class WatchdogPhp extends SiteAuditCheckBase {
     $severity_levels = $this->watchdog_severity_levels();
     while ($row = $result->fetchObject()) {
       $row->severity = $severity_levels[$row->severity];
-      //$row = watchdog_format_result($result);
+      // $row = watchdog_format_result($result);
       if (!isset($this->registry->php_counts[$row->severity])) {
         $this->registry->php_counts[$row->severity] = 0;
       }
@@ -97,7 +93,8 @@ class WatchdogPhp extends SiteAuditCheckBase {
   }
 
   /**
-   * watchdog severity levels
+   * Watchdog severity levels.
+   *
    * @see drush_watchdog_severity_levels()
    */
   public function watchdog_severity_levels() {

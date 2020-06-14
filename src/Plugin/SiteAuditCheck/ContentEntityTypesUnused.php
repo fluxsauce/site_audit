@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains Drupal\site_audit\Plugin\SiteAuditCheck\ContentEntityTypesUnused
- */
 
 namespace Drupal\site_audit\Plugin\SiteAuditCheck;
 
@@ -64,7 +60,7 @@ class ContentEntityTypesUnused extends SiteAuditCheckBase {
    */
   public function calculateScore() {
     if (!isset($this->registry->content_types_unused)) {
-      // this hasn't been checked, so check it
+      // This hasn't been checked, so check it.
       $this->checkInvokeCalculateScore('content_entity_types');
     }
     if (empty($this->registry->content_types_unused)) {

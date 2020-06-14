@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains Drupal\site_audit\Plugin\SiteAuditCheck\ContentDuplicateTitles
- */
 
 namespace Drupal\site_audit\Plugin\SiteAuditCheck;
 
@@ -79,8 +75,8 @@ class ContentDuplicateTitles extends SiteAuditCheckBase {
    */
   public function calculateScore() {
     if (!isset($this->registry->content_entity_type_counts)) {
-      /// this hasn't been checked, so check it// make sure we have entities
-      //\Drupal\site_audit\Plugin\SiteAuditCheck\ContentEntityTypes::calculateScore();
+      // This hasn't been checked, so check it// make sure we have entities
+      // \Drupal\site_audit\Plugin\SiteAuditCheck\ContentEntityTypes::calculateScore();
       $this->checkInvokeCalculateScore('content_entity_types');
     }
     if (empty($this->registry->content_entity_type_counts)) {
@@ -106,7 +102,6 @@ class ContentDuplicateTitles extends SiteAuditCheckBase {
       $this->registry->nodes_duplicate_titles[$label][$title] = $row['duplicate_count'];
       $this->registry->nodes_duplicate_title_count += $row['duplicate_count'];
     }
-
 
     if (!empty($this->registry->nodes_duplicate_titles)) {
       return SiteAuditCheckBase::AUDIT_CHECK_SCORE_WARN;

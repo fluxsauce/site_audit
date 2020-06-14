@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains Drupal\site_audit\Plugin\SiteAuditReport\BestPractices
- */
 
 namespace Drupal\site_audit\Plugin\SiteAuditReport;
 

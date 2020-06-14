@@ -11,5 +11,4 @@ interface SiteAuditReportInterface extends PluginInspectionInterface {
 
 
   // Add get/set methods for your plugin type here.
-
 }

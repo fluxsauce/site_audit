@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains Drupal\site_audit\Plugin\SiteAuditCheck\ExtensionsCount
- */
 
 namespace Drupal\site_audit\Plugin\SiteAuditCheck;
 
@@ -59,7 +55,7 @@ class ExtensionsCount extends SiteAuditCheckBase {
       $options[] = $this->t('Consolidate functionality if possible, or custom develop a solution specific to your needs.');
       $options[] = $this->t('Avoid using modules that serve only one small purpose that is not mission critical.');
 
-      //if ($this->options['html']) {
+      // If ($this->options['html']) {.
       if (TRUE) {
         $ret_val .= '<ul>';
         foreach ($options as $option) {

@@ -53,14 +53,14 @@ abstract class SiteAuditCheckBase extends PluginBase implements SiteAuditCheckIn
   protected $registry;
 
   /**
-   * are we in a static context
+   * Are we in a static context.
    *
-   * @var boolean
+   * @var bool
    */
   protected $static = TRUE;
 
   /**
-   * options passed in for reports and checks
+   * Options passed in for reports and checks.
    *
    * @var array
    */
@@ -270,7 +270,7 @@ abstract class SiteAuditCheckBase extends PluginBase implements SiteAuditCheckIn
   }
 
   /**
-   * invoke another check's calculateScore() method if it is needed
+   * Invoke another check's calculateScore() method if it is needed.
    */
   protected function checkInvokeCalculateScore($plugin_id) {
     $checkManager = \Drupal::service('plugin.manager.site_audit_check');

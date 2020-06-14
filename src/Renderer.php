@@ -14,25 +14,28 @@ abstract class Renderer {
   /**
    * The Report to be rendered.
    *
-   * @var \Drupal\site_audit\Report.
+   * @var \Drupal\site_audit\Report
    */
-  var $report;
+  public $report;
 
   /**
-   * The logger we are using for output
+   * The logger we are using for output.
    */
-  var $logger;
+  public $logger;
 
   /**
-   * Any options that have been passed in
+   * Any options that have been passed in.
    */
-  var $options;
+  public $options;
 
   /**
-   * Output interface
+   * Output interface.
    */
-  var $output;
+  public $output;
 
+  /**
+   *
+   */
   public function __construct($report, $logger, $options, $output) {
     $this->report = $report;
     $this->logger = $logger;
@@ -40,5 +43,9 @@ abstract class Renderer {
     $this->output = $output;
   }
 
+  /**
+   *
+   */
   abstract public function render($detail = FALSE);
+
 }

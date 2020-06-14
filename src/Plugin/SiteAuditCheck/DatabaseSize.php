@@ -1,11 +1,8 @@
 <?php
-/**
- * @file
- * Contains Drupal\site_audit\Plugin\SiteAuditCheck\DatabaseSize
- */
 
 namespace Drupal\site_audit\Plugin\SiteAuditCheck;
 
+use Drupal\Core\Database\Database;
 use Drupal\site_audit\Plugin\SiteAuditCheckBase;
 
 /**
@@ -56,7 +53,7 @@ class DatabaseSize extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function calculateScore() {
-    $connection = \Drupal\Core\Database\Database::getConnection();
+    $connection = Database::getConnection();
     try {
       $query = \Drupal::database()->select('information_schema.TABLES', 'ist');
       $query->addExpression('SUM(ist.data_length + ist.index_length)');

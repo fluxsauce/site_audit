@@ -2,29 +2,36 @@
 
 namespace Drupal\site_audit\Renderer;
 
-use Drupal\Console\Style\DrupalStyle;
-use Drupal\site_audit\Renderer;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\site_audit\Plugin\SiteAuditCheckBase;
-use Drupal\site_audit\Plugin\SiteAuditReportBase;
+use Drupal\site_audit\Renderer;
 use Drush\Log\LogLevel;
-use Symfony\Component\Console\Helper\Table;
-use Symfony\Component\Console\Output\OutputInterface;
+use Drush\Utils\StringUtils;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Helper\FormatterHelper;
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Terminal;
-use Drush\Utils\StringUtils;
-use Drupal\Core\StringTranslation\TranslatableMarkup;
 
+/**
+ *
+ */
 class Console extends Renderer {
-  var $output;
-  var $formatter;
 
+  public $output;
+  public $formatter;
+
+  /**
+   *
+   */
   public function __construct($report, $logger, $options, $output) {
     parent::__construct($report, $logger, $options, $output);
     $this->output = $output;
     $this->formatter = new FormatterHelper();
   }
 
+  /**
+   *
+   */
   public function getLogLevel($score) {
     switch ($score) {
       case SiteAuditCheckBase::AUDIT_CHECK_SCORE_PASS:
@@ -42,12 +49,17 @@ class Console extends Renderer {
     }
   }
 
+  /**
+   *
+   */
   public function getScoreSymfonyStyle($score) {
     switch ($score) {
       case SiteAuditCheckBase::AUDIT_CHECK_SCORE_PASS:
         return 'score-pass';
+
       case SiteAuditCheckBase::AUDIT_CHECK_SCORE_INFO:
         return 'score-info';
+
       case SiteAuditCheckBase::AUDIT_CHECK_SCORE_WARN:
       default:
         return 'score-warn';
@@ -74,12 +86,12 @@ class Console extends Renderer {
   }
 
   /**
-   * take text and center it horizontally in the console
+   * Take text and center it horizontally in the console.
    */
   public function centerText(string $text) {
     $width = (new Terminal())->getWidth();
     $strlen = $this->formatter->strlenWithoutDecoration($this->output->getFormatter(), $text);
-    $spaceCount = ($width - $strlen)/2;
+    $spaceCount = ($width - $strlen) / 2;
     for ($i = 0; $i < $spaceCount; $i++) {
       $text = ' ' . $text;
     }
@@ -87,7 +99,7 @@ class Console extends Renderer {
   }
 
   /**
-   * create a horizontal rule across the console
+   * Create a horizontal rule across the console.
    */
   public function horizontalRule() {
     $width = (new Terminal())->getWidth();
@@ -99,12 +111,15 @@ class Console extends Renderer {
   }
 
   /**
-   * Take Drupal\Core\StringTranslation\TranslatableMarkup and return the string
+   * Take Drupal\Core\StringTranslation\TranslatableMarkup and return the string.
    */
   public function interpolate(TranslatableMarkup $message, array $context = []) {
     return StringUtils::interpolate($message, $context);
   }
 
+  /**
+   *
+   */
   public function render($detail = FALSE) {
     $outputStyle = new OutputFormatterStyle('black', 'white');
     $this->output->getFormatter()->setStyle('report', $outputStyle);
@@ -141,7 +156,7 @@ class Console extends Renderer {
     $percent = $this->report->getPercent();
     $style = $this->getSymphonyStyle($percent);
 
-    // add the report header
+    // Add the report header.
     $this->horizontalRule();
     $this->centerText('<info>' . $this->interpolate($this->t('Report: ')) . $this->interpolate($this->report->getLabel()) . '</> - <' . $style . '>' . $percent . '%</>');
     $this->horizontalRule();
@@ -172,7 +187,7 @@ class Console extends Renderer {
             }
             else {
               if ($result['headers'] && $result['rows']) {
-                // theme as a table
+                // Theme as a table.
                 $table = new Table($this->output);
                 $table
                   ->setHeaders($result['headers'])
@@ -185,7 +200,7 @@ class Console extends Renderer {
             $this->output->writeln($this->formatter->formatSection($label, $result));
           }
 
-          // Action
+          // Action.
           $action = $check->renderAction();
           if ($action) {
             if (is_array($action) && $action['#theme'] && method_exists($this, $action['#theme'])) {
@@ -202,18 +217,22 @@ class Console extends Renderer {
     }
     $this->output->writeln('<report>' . $reportText . '</>');
   }
+
+  /**
+   *
+   */
   public function success() {
 
   }
 
   /**
-   * theme a table
+   * Theme a table.
    */
-  function table($element, $section = FALSE) {
+  public function table($element, $section = FALSE) {
     if ($section) {
       $this->output->writeln($this->formatter->formatSection($section, $element['#title']));
     }
-    // theme as a table
+    // Theme as a table.
     $table = new Table($this->output);
     $table
       ->setHeaders($element['#header'] ?: $element['headers'])
@@ -223,13 +242,13 @@ class Console extends Renderer {
   }
 
   /**
-   * theme an item list
+   * Theme an item list.
    */
-  function item_list($element, $section = FALSE, $class = 'note') {
+  public function item_list($element, $section = FALSE, $class = 'note') {
     switch ($element['#list_type']) {
       case 'ol':
         $count = 1;
-        foreach ($element['#items'] AS $item) {
+        foreach ($element['#items'] as $item) {
           $text = '<' . $class . '>' . $count . ':</> ' . $item;
           if ($section) {
             $this->output->writeln($this->formatter->formatSection($section, $text));
@@ -240,9 +259,10 @@ class Console extends Renderer {
           $count++;
         }
         break;
+
       case 'ul':
       default:
-        foreach ($element['#items'] AS $item) {
+        foreach ($element['#items'] as $item) {
           $text = '<' . $class . '>*</> ' . $item;
           if ($section) {
             $this->output->writeln($this->formatter->formatSection($section, $text));
@@ -255,4 +275,5 @@ class Console extends Renderer {
         break;
     }
   }
+
 }

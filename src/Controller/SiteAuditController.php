@@ -5,8 +5,6 @@ namespace Drupal\site_audit\Controller;
 use Drupal\Core\Controller\ControllerBase;
 
 use Drupal\site_audit\Renderer\Html;
-use Drupal\site_audit\Reports\Cache;
-use Drupal\site_audit\Reports\Extensions;
 
 /**
  * Class SiteAuditController.
@@ -14,6 +12,7 @@ use Drupal\site_audit\Reports\Extensions;
  * @package Drupal\site_audit\Controller
  */
 class SiteAuditController extends ControllerBase {
+
   /**
    * Audit.
    *
@@ -25,17 +24,20 @@ class SiteAuditController extends ControllerBase {
     $reportDefinitions = $reportManager->getDefinitions();
     $saved_reports = \Drupal::config('site_audit.settings')->get('reports');
     $reports = [];
-    // check to see if there is anything checked
-    if (!empty($saved_reports) && // the array is empty, so the settings form hasn't been submitted
-      count(array_flip($saved_reports)) > 1) { // they are not all unchecked
+    // Check to see if there is anything checked
+    // the array is empty, so the settings form hasn't been submitted.
+    if (!empty($saved_reports) &&
+    // They are not all unchecked.
+      count(array_flip($saved_reports)) > 1) {
       foreach ($saved_reports as $saved_report) {
         if ($saved_report) {
           $reports[] = $reportManager->createInstance($saved_report);
         }
       }
     }
-    else { // there are no reports selected, so run them all
-      foreach ($reportDefinitions AS $reportDefinition) {
+    // There are no reports selected, so run them all.
+    else {
+      foreach ($reportDefinitions as $reportDefinition) {
         $reports[] = $reportManager->createInstance($reportDefinition['id']);
       }
     }

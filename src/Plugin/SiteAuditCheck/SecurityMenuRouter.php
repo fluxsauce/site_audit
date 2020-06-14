@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains Drupal\site_audit\Plugin\SiteAuditCheck\SecurityMenuRouter
- */
 
 namespace Drupal\site_audit\Plugin\SiteAuditCheck;
 
@@ -28,8 +24,10 @@ class SecurityMenuRouter extends SiteAuditCheckBase {
       '@list' => implode(', ', array_keys($this->registry->menu_router)),
     ]);
 
-    if (TRUE) { //if ($this->options['detail']) {
-      if (TRUE) { //if ($this->options['html']) {
+    // If ($this->options['detail']) {.
+    if (TRUE) {
+      // If ($this->options['html']) {.
+      if (TRUE) {
         $ret_val .= '<br/>';
         $ret_val .= '<table class="table table-condensed">';
         $ret_val .= '<thead><tr><th>' . $thist('Path') . '</th><th>' . $this->t('Reason') . '</th></thead>';
@@ -269,7 +267,7 @@ class SecurityMenuRouter extends SiteAuditCheckBase {
         if (isset($defaults[$key]) && in_array($defaults[$key], array_keys($dangerous_callbacks))) {
           $callback = $defaults[$key];
           $parameters = (new \ReflectionFunction($callback))->getParameters();
-          $parameters = array_map(function($parameter) {
+          $parameters = array_map(function ($parameter) {
             return $parameter->name;
           }, $parameters);
           $passed_arguments = array_intersect($parameters, array_keys($defaults));
@@ -286,4 +284,5 @@ class SecurityMenuRouter extends SiteAuditCheckBase {
     }
     return SiteAuditCheckBase::AUDIT_CHECK_SCORE_FAIL;
   }
+
 }

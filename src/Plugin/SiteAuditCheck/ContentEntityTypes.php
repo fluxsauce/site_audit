@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains Drupal\site_audit\Plugin\SiteAuditCheck\ContentEntityTypes
- */
 
 namespace Drupal\site_audit\Plugin\SiteAuditCheck;
 
@@ -87,8 +83,8 @@ class ContentEntityTypes extends SiteAuditCheckBase {
       return SiteAuditCheckBase::AUDIT_CHECK_SCORE_INFO;
     }
     $all_bundles = \Drupal::service('entity_type.bundle.info')->getAllBundleInfo();
-    // this might have already been run by Drupal\site_audit\Plugin\SiteAuditCheck\ContentEntityTypesUnused
-    // if so we don't need to do it again
+    // This might have already been run by Drupal\site_audit\Plugin\SiteAuditCheck\ContentEntityTypesUnused
+    // if so we don't need to do it again.
     if (!isset($this->registry->content_entity_type_counts)) {
       $this->registry->content_types_unused = [];
       foreach ($all_bundles as $entity_type => $bundles) {

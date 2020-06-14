@@ -1,11 +1,8 @@
 <?php
-/**
- * @file
- * Contains Drupal\site_audit\Plugin\SiteAuditCheck\DatabaseFragmentation
- */
 
 namespace Drupal\site_audit\Plugin\SiteAuditCheck;
 
+use Drupal\Core\Database\Database;
 use Drupal\site_audit\Plugin\SiteAuditCheckBase;
 
 /**
@@ -46,11 +43,11 @@ class DatabaseFragmentation extends SiteAuditCheckBase {
     ];
     $rows = [];
     foreach ($this->registry->database_fragmentation as $name => $ratio) {
-        $rows[] = [
-          'table_name' => $name,
-          'frag_ratio' => $ratio,
-        ];
-      }
+      $rows[] = [
+        'table_name' => $name,
+        'frag_ratio' => $ratio,
+      ];
+    }
     return [
       '#theme' => 'table',
       '#header' => $header,
@@ -71,7 +68,7 @@ class DatabaseFragmentation extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function calculateScore() {
-    $connection = \Drupal\Core\Database\Database::getConnection();
+    $connection = Database::getConnection();
     $query = \Drupal::database()->select('information_schema.TABLES', 'ist');
     $query->fields('ist', ['TABLE_NAME']);
     $query->addExpression('ROUND(DATA_LENGTH / 1024 / 1024)', 'data_length');

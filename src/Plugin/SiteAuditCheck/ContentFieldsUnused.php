@@ -1,13 +1,8 @@
 <?php
-/**
- * @file
- * Contains Drupal\site_audit\Plugin\SiteAuditCheck\ContentFieldsUnused
- */
 
 namespace Drupal\site_audit\Plugin\SiteAuditCheck;
 
 use Drupal\site_audit\Plugin\SiteAuditCheckBase;
-use Drupal\site_audit\Renderer\Html;
 
 /**
  * Provides the ContentFieldsUnused Check.
@@ -30,7 +25,7 @@ class ContentFieldsUnused extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function getResultInfo() {
-     return $this->t('There are no unused fields.');
+    return $this->t('There are no unused fields.');
   }
 
   /**
@@ -81,4 +76,5 @@ class ContentFieldsUnused extends SiteAuditCheckBase {
     }
     return SiteAuditCheckBase::AUDIT_CHECK_SCORE_INFO;
   }
+
 }

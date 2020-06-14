@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains Drupal\site_audit\Plugin\SiteAuditCheck\UsersCountBlocked
- */
 
 namespace Drupal\site_audit\Plugin\SiteAuditCheck;
 
@@ -32,9 +28,10 @@ class UsersCountBlocked extends SiteAuditCheckBase {
     switch ($this->registry->count_users_blocked) {
       case 0:
         return $this->t('There are no blocked users.');
+
       break;
-    default:
-      return $this->formatPlural($this->registry->count_users_blocked, 'There is one blocked user.', 'There are @count blocked users.');
+      default:
+        return $this->formatPlural($this->registry->count_users_blocked, 'There is one blocked user.', 'There are @count blocked users.');
       break;
     }
   }

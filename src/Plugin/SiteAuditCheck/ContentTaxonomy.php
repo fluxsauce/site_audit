@@ -1,13 +1,8 @@
 <?php
-/**
- * @file
- * Contains Drupal\site_audit\Plugin\SiteAuditCheck\ContentTaxonomy
- */
 
 namespace Drupal\site_audit\Plugin\SiteAuditCheck;
 
 use Drupal\site_audit\Plugin\SiteAuditCheckBase;
-use Drupal\site_audit\Renderer\Html;
 
 /**
  * Provides the ContentTaxonomy Check.
@@ -31,7 +26,7 @@ class ContentTaxonomy extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function getResultInfo() {
-     return $this->t('Taxonomy module is not enabled');
+    return $this->t('Taxonomy module is not enabled');
   }
 
   /**
@@ -61,4 +56,5 @@ class ContentTaxonomy extends SiteAuditCheckBase {
     $this->abort = TRUE;
     return SiteAuditCheckBase::AUDIT_CHECK_SCORE_INFO;
   }
+
 }

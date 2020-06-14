@@ -1,13 +1,8 @@
 <?php
-/**
- * @file
- * Contains Drupal\site_audit\Plugin\SiteAuditCheck\ContentFieldInstances
- */
 
 namespace Drupal\site_audit\Plugin\SiteAuditCheck;
 
 use Drupal\site_audit\Plugin\SiteAuditCheckBase;
-use Drupal\site_audit\Renderer\Html;
 
 /**
  * Provides the ContentFieldInstances Check.
@@ -80,7 +75,7 @@ class ContentFieldInstances extends SiteAuditCheckBase {
    */
   public function calculateScore() {
     if (!isset($this->registry->fields)) {
-      // we need to calculate, so call the class that does it
+      // We need to calculate, so call the class that does it.
       $this->checkInvokeCalculateScore('content_field_count');
     }
     $map = \Drupal::service('entity_field.manager')->getFieldMap();
@@ -105,4 +100,5 @@ class ContentFieldInstances extends SiteAuditCheckBase {
     }
     return SiteAuditCheckBase::AUDIT_CHECK_SCORE_INFO;
   }
+
 }

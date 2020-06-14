@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains Drupal\site_audit\Plugin\SiteAuditCheck\BestPracticesFolderStructure
- */
 
 namespace Drupal\site_audit\Plugin\SiteAuditCheck;
 

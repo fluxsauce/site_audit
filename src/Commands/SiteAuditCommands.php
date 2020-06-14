@@ -9,22 +9,15 @@ use Drupal\site_audit\Renderer\Console;
 use Consolidation\OutputFormatters\StructuredData\RowsOfFields;
 use Drush\Commands\DrushCommands;
 use Drush\Drush;
-use Drush\Style\DrushStyle;
 use Psr\Log\LoggerAwareInterface;
-use Psr\Log\LoggerAwareTrait;
-use Psr\Log\LoggerInterface;
-use Robo\Common\ConfigAwareTrait;
 use Robo\Contract\ConfigAwareInterface;
 use Robo\Contract\IOAwareInterface;
 use Robo\Common\IO;
-use Symfony\Component\Console\Input\InputOption;
 use Consolidation\AnnotatedCommand\Events\CustomEventAwareInterface;
 use Consolidation\AnnotatedCommand\Events\CustomEventAwareTrait;
 use Drush\Boot\AutoloaderAwareInterface;
 use Drush\Boot\AutoloaderAwareTrait;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\Core\StringTranslation\TranslatableMarkup;
-use Drush\Utils\StringUtils;
 
 /**
  * SiteAudit Drush commandfile.
@@ -36,9 +29,11 @@ class SiteAuditCommands extends DrushCommands implements IOAwareInterface, Logge
   use StringTranslationTrait;
 
   /**
-   * Run Site Audit report
+   * Run Site Audit report.
    *
-   * @param $report The particular report to run. Omit this argument to choose from available reports.
+   * @param $report
+   *   The particular report to run. Omit this argument to choose from available reports.
+   *
    * @option skip
    *   List of available reports.
    * @option format
@@ -66,16 +61,16 @@ class SiteAuditCommands extends DrushCommands implements IOAwareInterface, Logge
 
     $reports = [];
     if ($report == 'all') {
-      // run all reports unless it is explicitly skipped
+      // Run all reports unless it is explicitly skipped.
       $skipped = explode(',', $options['skip']);
-      foreach ($reportDefinitions AS $report) {
+      foreach ($reportDefinitions as $report) {
         $isSkipped = array_search($report['id'], $skipped);
         if ($isSkipped === FALSE) {
           $reports[] = $reportManager->createInstance($report['id'], $options);
         }
       }
     }
-    else if (!empty($report)) {
+    elseif (!empty($report)) {
       $reports[] = $reportManager->createInstance($report, $options);
     }
 
@@ -84,21 +79,24 @@ class SiteAuditCommands extends DrushCommands implements IOAwareInterface, Logge
         $renderer = new Html($reports, $this->logger, $options, $output);
         $out .= $renderer->render(TRUE);
         break;
+
       case 'json';
-        foreach ($reports AS $report) {
+        foreach ($reports as $report) {
           $renderer = new Json($report, $this->logger, $options, $output);
           $out .= $renderer->render(TRUE);
         }
         break;
+
       case 'markdown':
-        foreach ($reports AS $report) {
+        foreach ($reports as $report) {
           $renderer = new Markdown($report, $this->logger, $options, $output);
           $out .= $renderer->render(TRUE);
         }
         break;
+
       case 'text':
       default:
-        foreach ($reports AS $report) {
+        foreach ($reports as $report) {
           $renderer = new Console($report, $this->logger, $options, $output);
           $out .= $renderer->render(TRUE);
         }
@@ -109,7 +107,7 @@ class SiteAuditCommands extends DrushCommands implements IOAwareInterface, Logge
   }
 
   /**
-   * Take Drupal\Core\StringTranslation\TranslatableMarkup and return the string
+   * Take Drupal\Core\StringTranslation\TranslatableMarkup and return the string.
    */
   public function interpolate($message, array $context = []) {
     if (get_class($message) == 'Drupal\Core\StringTranslation\TranslatableMarkup') {
@@ -128,7 +126,7 @@ class SiteAuditCommands extends DrushCommands implements IOAwareInterface, Logge
       $choices = [
         'all' => $this->interpolate($this->t('All')),
       ];
-      foreach ($reports AS $report) {
+      foreach ($reports as $report) {
         $choices[$report['id']] = $this->interpolate($report['name']);
       }
       $choice = $this->io()->choice(dt("Choose a report to run"), $choices, 'all');
@@ -136,7 +134,10 @@ class SiteAuditCommands extends DrushCommands implements IOAwareInterface, Logge
     }
   }
 
-  public function getReports($include_bootstrapped_types = false) {
+  /**
+   *
+   */
+  public function getReports($include_bootstrapped_types = FALSE) {
     $reportManager = \Drupal::service('plugin.manager.site_audit_report');
     $reportDefinitions = $reportManager->getDefinitions();
     return $reportDefinitions;
@@ -166,7 +167,7 @@ class SiteAuditCommands extends DrushCommands implements IOAwareInterface, Logge
     $checkDefinitions = $checkManager->getDefinitions();
     $rows = [];
     $report_id = '';
-    foreach ($reportDefinitions AS $report) {
+    foreach ($reportDefinitions as $report) {
       if ($report_id != $report['id'] && !empty($report_id)) {
         $rows[] = [];
       }
@@ -186,4 +187,5 @@ class SiteAuditCommands extends DrushCommands implements IOAwareInterface, Logge
     }
     return new RowsOfFields($rows);
   }
+
 }

@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains Drupal\site_audit\Plugin\SiteAuditReport\Cron
- */
 
 namespace Drupal\site_audit\Plugin\SiteAuditReport;
 

@@ -11,7 +11,6 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
  */
 class SiteAuditCheckManager extends DefaultPluginManager {
 
-
   /**
    * Constructs a new SiteAuditCheckManager object.
    *

@@ -1,11 +1,8 @@
 <?php
-/**
- * @file
- * Contains Drupal\site_audit\Plugin\SiteAuditCheck\DatabaseCollation
- */
 
 namespace Drupal\site_audit\Plugin\SiteAuditCheck;
 
+use Drupal\Core\Database\Database;
 use Drupal\site_audit\Plugin\SiteAuditCheckBase;
 
 /**
@@ -29,7 +26,7 @@ class DatabaseCollation extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function getResultInfo() {
-    //if ($this->options['html']) {
+    // If ($this->options['html']) {.
     if (TRUE) {
       $ret_val = '<table class="table table-condensed">';
       $ret_val .= '<thead><tr><th>' . $this->t('Table Name') . '</th><th>' . $this->t('Collation') . '</th></tr></thead>';
@@ -44,7 +41,7 @@ class DatabaseCollation extends SiteAuditCheckBase {
       $ret_val .= '</table>';
     }
     else {
-      $ret_val  = dt('Table Name: Collation') . PHP_EOL;
+      $ret_val = dt('Table Name: Collation') . PHP_EOL;
       if (!$this->options['json']) {
         $ret_val .= str_repeat(' ', 4);
       }
@@ -78,7 +75,7 @@ class DatabaseCollation extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function getAction() {
-     if ($this->getScore() == SiteAuditCheckBase::AUDIT_CHECK_SCORE_WARN) {
+    if ($this->getScore() == SiteAuditCheckBase::AUDIT_CHECK_SCORE_WARN) {
       return $this->t('In MySQL, use the command "!command" to convert the affected tables. Of course, test first and ensure your data will not be negatively affected.', [
         '!command' => 'ALTER TABLE table_name CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;',
       ]);
@@ -89,7 +86,7 @@ class DatabaseCollation extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function calculateScore() {
-    $connection = \Drupal\Core\Database\Database::getConnection();
+    $connection = Database::getConnection();
     $query = \Drupal::database()->select('information_schema.TABLES', 'ist');
     $query->addField('ist', 'TABLE_NAME', 'name');
     $query->addField('ist', 'TABLE_COLLATION', 'collation');

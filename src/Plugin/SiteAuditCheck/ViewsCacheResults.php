@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains Drupal\site_audit\Plugin\SiteAuditCheck\ViewsCacheResults
- */
 
 namespace Drupal\site_audit\Plugin\SiteAuditCheck;
 
@@ -67,7 +63,7 @@ class ViewsCacheResults extends SiteAuditCheckBase {
       return [
         '#theme' => 'item_list',
         '#title' => $this->t('Query results should be cached for at least 1 minute or use tag caching.'),
-        //'#description' => $this->t(),
+        // '#description' => $this->t(),
         '#items' => $steps,
         '#list_type' => 'ol',
       ];

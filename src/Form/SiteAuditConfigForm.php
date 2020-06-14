@@ -10,19 +10,22 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\site_audit\Plugin\SiteAuditReportManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ *
+ */
 class SiteAuditConfigForm extends ConfigFormBase {
 
 
   /**
-   * @var SiteAuditReportManager
+   * @var \Drupal\site_audit\Plugin\SiteAuditReportManager
    */
   protected $report_plugin_manager;
 
   /**
    * SiteAuditConfigForm constructor.
    *
-   * @param ConfigFactoryInterface $config_factory
-   * @param SiteAuditReportManager $site_audit_report_manager
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   * @param \Drupal\site_audit\Plugin\SiteAuditReportManager $site_audit_report_manager
    */
   public function __construct(ConfigFactoryInterface $config_factory, SiteAuditReportManager $site_audit_report_manager) {
     parent::__construct($config_factory);
@@ -85,4 +88,5 @@ class SiteAuditConfigForm extends ConfigFormBase {
     $this->config('site_audit.settings')->set('reports', $selected_options)->save();
     parent::submitForm($form, $form_state);
   }
+
 }

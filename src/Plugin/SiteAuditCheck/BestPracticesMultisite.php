@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains Drupal\site_audit\Plugin\SiteAuditCheck\BestPracticesMultisite
- */
 
 namespace Drupal\site_audit\Plugin\SiteAuditCheck;
 
@@ -24,7 +20,7 @@ class BestPracticesMultisite extends SiteAuditCheckBase {
    * {@inheritdoc}.
    */
   public function getResultFail() {
-     return $this->t('The following multi-site configuration(s) were detected: @list', [
+    return $this->t('The following multi-site configuration(s) were detected: @list', [
       '@list' => implode(', ', $this->registry->multisites),
     ]);
   }

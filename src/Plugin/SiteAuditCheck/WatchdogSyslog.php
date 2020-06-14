@@ -1,13 +1,8 @@
 <?php
-/**
- * @file
- * Contains Drupal\site_audit\Plugin\SiteAuditCheck\WatchdogSyslog
- */
 
 namespace Drupal\site_audit\Plugin\SiteAuditCheck;
 
 use Drupal\site_audit\Plugin\SiteAuditCheckBase;
-use Drupal\Core\Logger\RfcLogLevel;
 
 /**
  * Provides the WatchdogSyslog Check.
@@ -57,9 +52,9 @@ class WatchdogSyslog extends SiteAuditCheckBase {
   public function getAction() {
     /* TODO configure settings in the web interface and from the DRUSH command line
     if ($this->getScore() == SiteAuditCheckBase::AUDIT_CHECK_SCORE_FAIL && $this->options['vendor'] == 'pantheon') {
-      return $this->t('On Pantheon, you can technically write to syslog, but there is no mechanism for reading it. Disable syslog and enable dblog instead.');
+    return $this->t('On Pantheon, you can technically write to syslog, but there is no mechanism for reading it. Disable syslog and enable dblog instead.');
     }
-    */
+     */
   }
 
   /**
@@ -70,9 +65,9 @@ class WatchdogSyslog extends SiteAuditCheckBase {
     if ($this->registry->syslog_enabled) {
       /**
        * TODO sonfigure settings in the web interface and from the DRUSH command line
-      if ($this->options['vendor'] == 'pantheon') {
-        return SiteAuditCheckBase::AUDIT_CHECK_SCORE_FAIL;
-      }
+       * if ($this->options['vendor'] == 'pantheon') {
+       * return SiteAuditCheckBase::AUDIT_CHECK_SCORE_FAIL;
+       * }
       */
     }
     return SiteAuditCheckBase::AUDIT_CHECK_SCORE_INFO;

@@ -43,7 +43,7 @@ abstract class SiteAuditReportBase extends PluginBase implements SiteAuditReport
   /**
    * Flag to indicate whether any of the checks are a complete FAIL.
    *
-   * @var boolean
+   * @var bool
    */
   protected $hasFail = FALSE;
 
@@ -65,21 +65,21 @@ abstract class SiteAuditReportBase extends PluginBase implements SiteAuditReport
   }
 
   /**
-   * get the label(name) for the report
+   * Get the label(name) for the report.
    */
   public function getLabel() {
     return $this->getPluginDefinition()['name'];
   }
 
-   /**
-   * get the description for the report
+  /**
+   * Get the description for the report.
    */
   public function getDescription() {
     return $this->getPluginDefinition()['description'];
   }
 
   /**
-   * get the percentage score for the report
+   * Get the percentage score for the report.
    */
   public function getPercent() {
     return $this->percent ?: SiteAuditCheckBase::AUDIT_CHECK_SCORE_INFO;
@@ -112,7 +112,7 @@ abstract class SiteAuditReportBase extends PluginBase implements SiteAuditReport
 
     if (empty($checks_to_perform)) {
       $this_def = $this->getPluginDefinition();
-      //throw new \RuntimeException(t('No checks are available for report \'@id\'!', ['@id' => $this_def['id']]));
+      // Throw new \RuntimeException(t('No checks are available for report \'@id\'!', ['@id' => $this_def['id']]));.
     }
 
     $config = \Drupal::config('site_audit');
@@ -153,7 +153,7 @@ abstract class SiteAuditReportBase extends PluginBase implements SiteAuditReport
   }
 
   /**
-   * returns a list of checks for this report
+   * Returns a list of checks for this report.
    */
   public function getChecksList() {
     $this_def = $this->getPluginDefinition();
@@ -164,39 +164,40 @@ abstract class SiteAuditReportBase extends PluginBase implements SiteAuditReport
     }
 
     $checksInReport = [];
-    foreach ($checkDefinitions AS $checkDefinition) {
+    foreach ($checkDefinitions as $checkDefinition) {
       if ($checkDefinition['report'] == $this_def['id']) {
-        // this check belongs to this report
+        // This check belongs to this report.
         $checksInReport[$checkDefinition['id']] = $checkDefinition;
       }
     }
     uasort($checksInReport, [$this, 'weightKeySort']);
 
     $checks = [];
-    foreach ($checksInReport AS $check) {
+    foreach ($checksInReport as $check) {
       $checks[] = $check['id'];
     }
     return $checks;
   }
 
   /**
-   * sort by weight
+   * Sort by weight.
    */
-  function weightKeySort($a, $b) {
-   if ($a['weight'] > $b['weight']) {
-     return 1;
-   }
-   else if ($a['weight'] < $b['weight']) {
-     return -1;
-   }
-   // they have the same weight, sort by id
-   return strcmp($a['id'], $b['id']);
+  public function weightKeySort($a, $b) {
+    if ($a['weight'] > $b['weight']) {
+      return 1;
+    }
+    elseif ($a['weight'] < $b['weight']) {
+      return -1;
+    }
+    // They have the same weight, sort by id.
+    return strcmp($a['id'], $b['id']);
   }
 
   /**
-   * returns an array of check objects
+   * Returns an array of check objects.
    */
   public function getCheckObjects() {
     return $this->checks;
   }
+
 }

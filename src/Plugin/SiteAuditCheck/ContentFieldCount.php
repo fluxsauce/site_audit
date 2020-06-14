@@ -1,13 +1,8 @@
 <?php
-/**
- * @file
- * Contains Drupal\site_audit\Plugin\SiteAuditCheck\ContentFieldCount
- */
 
 namespace Drupal\site_audit\Plugin\SiteAuditCheck;
 
 use Drupal\site_audit\Plugin\SiteAuditCheckBase;
-use Drupal\site_audit\Renderer\Html;
 
 /**
  * Provides the ContentFieldCount Check.
@@ -83,7 +78,7 @@ class ContentFieldCount extends SiteAuditCheckBase {
    */
   public function calculateScore() {
     if (!isset($this->registry->fields)) {
-      // it hasn't been calculated yet, so do it now
+      // It hasn't been calculated yet, so do it now.
       $map = \Drupal::service('entity_field.manager')->getFieldMap();
       $this->registry->fields = [];
       $this->registry->default_fields = [

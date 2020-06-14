@@ -55,7 +55,7 @@ class Count extends Check {
    * {@inheritdoc}.
    */
   public function getAction() {
-    if (!in_array($this->score, array(Check::AUDIT_CHECK_SCORE_PASS))) {
+    if (!in_array($this->score, [Check::AUDIT_CHECK_SCORE_PASS])) {
       return $this->t('Consider disabling unneeded or unnecessary extensions, consolidating functionality, developing a solution specific to your needs.') . PHP_EOL;
     }
   }

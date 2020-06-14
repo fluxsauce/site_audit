@@ -2,17 +2,18 @@
 
 namespace Drupal\site_audit\Renderer;
 
-use Drupal\site_audit\Renderer;
 use Drupal\site_audit\Plugin\SiteAuditCheckBase;
-use Drupal\site_audit\Plugin\SiteAuditReportBase;
-use Drupal\Core\Render\Renderer AS CoreRenderer;
+use Drupal\site_audit\Renderer;
 
+/**
+ *
+ */
 class Html extends Renderer {
 
   /**
-   * The build array for the page
+   * The build array for the page.
    */
-  var $build;
+  public $build;
 
   /**
    * @inherit
@@ -65,16 +66,16 @@ class Html extends Renderer {
   }
 
   /**
-   * Build the header of the page
+   * Build the header of the page.
    */
   public function buildHeader() {
     $this->build = [
-      #'#type' => 'page',
+      // '#type' => 'page',.
       'container' => [
         '#type' => 'html_tag',
         '#tag' => 'div',
         '#attributes' => [
-          'class' => 'container'
+          'class' => 'container',
         ],
         'page_header' => [
           '#type' => 'html_tag',
@@ -93,13 +94,13 @@ class Html extends Renderer {
           'sub_head' => [
             '#type' => 'html_tag',
             '#tag' => 'small',
-            '#value' => $this->t('Generated on @date_time' , ['@date_time' => \Drupal::service('date.formatter')->format(REQUEST_TIME)]),
-          ]
+            '#value' => $this->t('Generated on @date_time', ['@date_time' => \Drupal::service('date.formatter')->format(REQUEST_TIME)]),
+          ],
         ],
       ],
     ];
     if (is_array($this->report)) {
-      // there are multiple reports
+      // There are multiple reports.
       $this->build['container']['summary'] = [
         '#type' => 'html_tag',
         '#tag' => 'div',
@@ -131,8 +132,8 @@ class Html extends Renderer {
   }
 
   /**
-   * check to see if the bootstrap option was selected and wrap in HTMl and add
-   * bootstrap derived styles is so
+   * Check to see if the bootstrap option was selected and wrap in HTMl and add
+   * bootstrap derived styles is so.
    */
   protected function checkBootstrap() {
     if (isset($this->options['bootstrap']) && $this->options['bootstrap']) {
@@ -164,8 +165,8 @@ class Html extends Renderer {
             '#value' => $this->getStyles(),
             '#attributes' => [
               'type' => 'text/css',
-            ]
-          ]
+            ],
+          ],
         ],
         'body' => [
           '#type' => 'html_tag',
@@ -174,26 +175,26 @@ class Html extends Renderer {
         ],
       ];
     }
-    else if (isset($this->options['inline']) && $this->options['inline']) {
+    elseif (isset($this->options['inline']) && $this->options['inline']) {
       $this->build['#attached']['library'][] = 'site_audit/bootstrap';
     }
   }
 
   /**
-   * render either one report, or multiple
+   * Render either one report, or multiple.
    */
   public function render($detail = FALSE) {
     if (is_array($this->report)) {
-      // there are multiple reports
-      foreach ($this->report AS $report) {
+      // There are multiple reports.
+      foreach ($this->report as $report) {
         $this->build['container'][$report->getPluginId()] = $this->renderReport($report);
         $this->build['container'][$report->getPluginId()]['top_link'] = [
           '#type' => 'html_tag',
           '#tag' => 'a',
           '#value' => $this->t('Back to top'),
           '#attributes' => [
-            'href' => '#summary'
-          ]
+            'href' => '#summary',
+          ],
         ];
       }
     }
@@ -203,7 +204,7 @@ class Html extends Renderer {
 
     $this->checkBootstrap();
     if ($this->options['inline']) {
-      // this is being requested as a page, not through CLI
+      // This is being requested as a page, not through CLI.
       return $this->build;
     }
     $out = \Drupal::service('renderer')->renderRoot($this->build);
@@ -211,11 +212,11 @@ class Html extends Renderer {
   }
 
   /**
-   * Render a single report
+   * Render a single report.
    */
   public function renderReport($report) {
     $build = [];
-    // the report header
+    // The report header.
     $build['report_label'] = [
       '#type' => 'html_tag',
       '#tag' => 'h2',
@@ -228,7 +229,7 @@ class Html extends Renderer {
         '#tag' => 'span',
         '#value' => $report->getPercent() . '%',
         '#attributes' => [
-          'class' => 'label label-'. $this->getPercentCssClass($report->getPercent()),
+          'class' => 'label label-' . $this->getPercentCssClass($report->getPercent()),
         ],
       ],
     ];
@@ -236,7 +237,7 @@ class Html extends Renderer {
     $percent = $report->getPercent();
 
     if ($percent != SiteAuditCheckBase::AUDIT_CHECK_SCORE_INFO) {
-      // show percent
+      // Show percent.
       $build['report_label']['percent'] = [
         '#type' => 'html_tag',
         '#tag' => 'span',
@@ -333,7 +334,7 @@ class Html extends Renderer {
         $build[$check->getPluginId()] = [
           '#type' => 'html_tag',
           '#tag' => 'div',
-          //'#value' => '<strong>' . $this->t('Well done!') . '</strong> ' . $this->t('No action required.'),
+          // '#value' => '<strong>' . $this->t('Well done!') . '</strong> ' . $this->t('No action required.'),.
           '#attributes' => [
             'class' => 'panel panel-' . $this->getScoreCssClass($check->getScore()),
           ],
@@ -345,22 +346,26 @@ class Html extends Renderer {
   }
 
   /**
-   * Render the results as a table
+   * Render the results as a table.
    */
   public function table($element) {
     return render($element);
   }
 
+  /**
+   *
+   */
   public static function escape($text) {
     return htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
   }
 
   /**
-   * provide the bootstrap derived styles
+   * Provide the bootstrap derived styles.
    */
   private function getStyles() {
     $file = drupal_get_path('module', 'site_audit') . '/css/bootstrap-overrides.css';
     $styles = "/* $file */\n" . file_get_contents($file);
     return $styles;
   }
+
 }

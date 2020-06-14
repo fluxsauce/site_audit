@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains Drupal\site_audit\Plugin\SiteAuditCheck\ExtensionsUnrecommended
- */
 
 namespace Drupal\site_audit\Plugin\SiteAuditCheck;
 
@@ -27,9 +23,9 @@ class ExtensionsUnrecommended extends SiteAuditCheckBase {
     $ret_val = $this->t('The following unrecommended modules(s) currently exist in your codebase: @list', [
       '@list' => implode(', ', array_keys($this->registry->extensions_unrec)),
     ]);
-    //if ($this->options['detail']) {
+    // If ($this->options['detail']) {.
     if (TRUE) {
-      //if ($this->options['html']) {
+      // If ($this->options['html']) {.
       if (TRUE) {
         $ret_val .= '<br/>';
         $ret_val .= '<table class="table table-condensed">';
@@ -93,7 +89,7 @@ class ExtensionsUnrecommended extends SiteAuditCheckBase {
       $this->checkInvokeCalculateScore('extensions_count');
     }
     $extension_info = $this->registry->extensions;
-    #uasort($extension_info, '_drush_pm_sort_extensions');
+    // uasort($extension_info, '_drush_pm_sort_extensions');.
     $unrecommended_extensions = $this->getExtensions();
 
     foreach ($extension_info as $extension) {
@@ -124,14 +120,14 @@ class ExtensionsUnrecommended extends SiteAuditCheckBase {
    * Get a list of unrecommended extension names and reasons.
    *
    * @return array
-   *    Keyed by module machine name, value is explanation.
+   *   Keyed by module machine name, value is explanation.
    */
   public function getExtensions() {
     $unrecommended_modules = [
       'bad_judgement' => $this->t('Joke module, framework for anarchy.'),
       'php' => $this->t('Executable code should never be stored in the database.'),
     ];
-    //if ($this->options['vendor'] == 'pantheon') { TODO
+    // If ($this->options['vendor'] == 'pantheon') { TODO.
     if (FALSE) {
       // Unsupported or redundant.
       $pantheon_unrecommended_modules = [
@@ -142,4 +138,5 @@ class ExtensionsUnrecommended extends SiteAuditCheckBase {
     }
     return $unrecommended_modules;
   }
+
 }
