@@ -67,8 +67,8 @@ class CacheBinsUsed extends SiteAuditCheckBase {
       }
     }
 
-    foreach ($container->getParameter('cache_bins') as $bin) {
-      $backend_class = get_class($container->get('cache.' . $bin)) . 'Factory';
+    foreach ($container->getParameter('cache_bins') as $service => $bin) {
+      $backend_class = get_class($container->get($service)) . 'Factory';
       $backend = array_search($backend_class, $this->registry->cache_bins_all);
       $this->registry->cache_bins_used[$bin] = $backend;
     }
