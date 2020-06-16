@@ -85,8 +85,8 @@ class SiteAuditCheckCacheUsedBackends extends SiteAuditCheckAbstract {
    */
   public function calculateScore() {
     $container = \Drupal::getContainer();
-    foreach ($container->getParameter('cache_bins') as $bin) {
-      $backend_class = get_class($container->get('cache.' . $bin)) . 'Factory';
+    foreach ($container->getParameter('cache_bins') as $service => $bin) {
+      $backend_class = get_class($container->get($service)) . 'Factory';
       $backend = array_search($backend_class, $this->registry['all_backends']);
       $this->registry['used_backends'][$bin] = $backend;
     }
