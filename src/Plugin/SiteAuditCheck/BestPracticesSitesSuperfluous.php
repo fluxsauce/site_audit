@@ -71,7 +71,7 @@ class BestPracticesSitesSuperfluous extends SiteAuditCheckBase {
       ])) {
         if (is_file(DRUPAL_ROOT . '/sites/' . $entry)) {
           // Support multi-site directory aliasing for non-Pantheon sites.
-          if ($entry != 'sites.php' || $this->opptions['vendor'] == 'pantheon') {
+          if ($entry != 'sites.php' || $this->options['vendor'] == 'pantheon') {
             $this->registry->superfluous[] = $entry;
           }
         }
