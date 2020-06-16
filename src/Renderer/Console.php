@@ -236,7 +236,7 @@ class Console extends Renderer {
     $table = new Table($this->output);
     $table
       ->setHeaders($element['#header'] ?: $element['headers'])
-      ->setRows($element['#rows'] ?: $element['rows']);
+      ->setRows($element['#rows'] ?: []);
 
     $this->output->writeln($table->render());
   }
